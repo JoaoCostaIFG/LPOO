@@ -13,6 +13,8 @@ public class Game {
     private Screen screen;
     private Arena arena;
     private TerminalResizeHandler resize_handler;
+    private final int DFLT_WIDTH = 300; // default board width
+    private final int DFLT_HEIGHT = 100; // default board height
     private final int DELAY = 17; // time between frames (in ms)
 
     enum GameState {
@@ -27,7 +29,7 @@ public class Game {
     public Game() {
         try {
             /* 300x100 should be big enough for fullscreen 1080p */
-            TerminalSize init_size = new TerminalSize(300, 100);
+            TerminalSize init_size = new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT);
             Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
             resize_handler = new TerminalResizeHandler(init_size);
             terminal.addResizeListener(resize_handler);
@@ -40,7 +42,7 @@ public class Game {
             e.printStackTrace();
         }
 
-        arena = new Arena(new TerminalSize(300, 100));
+        arena = new Arena(new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT));
     }
 
     private void processKey(KeyStroke key) {
@@ -80,7 +82,7 @@ public class Game {
 
         while (arena.getGameState() != GameState.END) {
             if (arena.getGameState() == GameState.RESTART) {
-                this.arena = new Arena(new TerminalSize(300, 100));
+                this.arena = new Arena(new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT));
             }
             new_frame();
 
