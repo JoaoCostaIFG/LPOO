@@ -5,10 +5,7 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.SimpleTerminalResizeListener;
 import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.TerminalResizeListener;
-import com.sun.org.apache.xml.internal.utils.res.XResources_zh_CN;
 
 import java.io.IOException;
 
@@ -16,6 +13,16 @@ public class Game {
     private Screen screen;
     private Arena arena;
     private TerminalResizeHandler resize_handler;
+    private final int DELAY = 17; // time between frames (in ms)
+
+    enum GameState {
+        END,
+        LOSE,
+        NORMAL,
+        RESTART,
+        WIN
+    }
+
 
     public Game() {
         try {
@@ -33,7 +40,7 @@ public class Game {
             e.printStackTrace();
         }
 
-        arena = new Arena(20, 60);
+        arena = new Arena(new TerminalSize(300, 100));
     }
 
     private void processKey(KeyStroke key) {
@@ -41,10 +48,10 @@ public class Game {
     }
 
     private void drawEndScreen() {
-        if (arena.getGameState() == 2) {   // lost
+        if (arena.getGameState() == GameState.LOSE) {   // lost
             TextGraphics gra = screen.newTextGraphics();
             gra.putString(new TerminalPosition(60, 10), "YOU DIED");
-        } else if (arena.getGameState() == 3) {   // won
+        } else if (arena.getGameState() == GameState.WIN) {   // won
             TextGraphics gra = screen.newTextGraphics();
             gra.putString(new TerminalPosition(60, 10), "YOU WON");
         }
@@ -67,15 +74,13 @@ public class Game {
 
     }
 
-    private final int DELAY = 17;
-
     public void run() {
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
 
-        while (arena.getGameState() != 0) {
-            if (arena.getGameState() == 4) {
-                this.arena = new Arena(20, 60);
+        while (arena.getGameState() != GameState.END) {
+            if (arena.getGameState() == GameState.RESTART) {
+                this.arena = new Arena(new TerminalSize(300, 100));
             }
             new_frame();
 
