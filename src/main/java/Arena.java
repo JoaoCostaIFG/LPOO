@@ -266,7 +266,7 @@ public class Arena {
     }
 
     private void moveHero(Position position) {
-        //if (canHeroMove(position)) {
+        if (canHeroMove(position)) {
             hero.setPos(position);
             retrieveCoins(position);
 
@@ -277,6 +277,6 @@ public class Arena {
 
             // check if hero is still alive and picked up coins
             checkGame();
-        //}
+        }
     }
 }
