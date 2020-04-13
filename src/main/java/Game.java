@@ -13,6 +13,7 @@ public class Game {
     private Screen screen;
     private Arena arena;
     private TerminalResizeHandler resize_handler;
+    /* (300x100 should be enough to 1080p fullscreen) */
     private final int DFLT_WIDTH = 300; // default board width
     private final int DFLT_HEIGHT = 100; // default board height
     private final int DELAY = 17; // time between frames (in ms)
@@ -28,7 +29,6 @@ public class Game {
 
     public Game() {
         try {
-            /* 300x100 should be big enough for fullscreen 1080p */
             TerminalSize init_size = new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT);
             Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
             resize_handler = new TerminalResizeHandler(init_size);
@@ -40,40 +40,35 @@ public class Game {
             screen.doResizeIfNecessary();   // resize screen if necessary
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
-        arena = new Arena(new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT));
+        arena = new Arena(resize_handler.getLastKnownSize());
     }
 
     private void processKey(KeyStroke key) {
         arena.processKey(key);
     }
 
-    private void drawEndScreen() {
-        if (arena.getGameState() == GameState.LOSE) {   // lost
-            TextGraphics gra = screen.newTextGraphics();
-            gra.putString(new TerminalPosition(60, 10), "YOU DIED");
-        } else if (arena.getGameState() == GameState.WIN) {   // won
-            TextGraphics gra = screen.newTextGraphics();
-            gra.putString(new TerminalPosition(60, 10), "YOU WON");
-        }
-    }
-
     private void draw() throws IOException {
         screen.clear();
         arena.draw(screen.newTextGraphics());
-        this.drawEndScreen(); // end screen
         screen.refresh();
     }
 
     private void new_frame() {
+        if (arena.getGameState() == GameState.RESTART)
+            this.arena = new Arena(resize_handler.getLastKnownSize());
+
+        if (resize_handler.hasResized())
+            this.arena.resizeBoard(resize_handler.getLastKnownSize());
+
         try {
             this.draw();
             this.processKey(screen.readInput());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public void run() {
@@ -81,22 +76,18 @@ public class Game {
         beforeTime = System.currentTimeMillis();
 
         while (arena.getGameState() != GameState.END) {
-            if (arena.getGameState() == GameState.RESTART) {
-                this.arena = new Arena(new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT));
-            }
             new_frame();
 
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
             if (sleep < 0)
-                sleep = 2;
+                sleep = 0;
 
             try {
                 Thread.sleep(sleep);
             } catch (InterruptedException e) {
                 System.out.println("Thread interrupted: %s" + e.getMessage());
             }
-
             beforeTime = System.currentTimeMillis();
         }
 

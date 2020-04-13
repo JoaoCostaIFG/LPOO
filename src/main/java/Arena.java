@@ -22,7 +22,7 @@ public class Arena {
         /* spawn skane at random pos (inside bounds) */
         Random random = new Random();
         this.skane = new Skane(random.nextInt(getBoardWidth() - 2) + 1,
-                random.nextInt(getBoardHeigth() - 2) + 1);
+                random.nextInt(getBoardHeight() - 2) + 1);
 
         this.walls = createWalls();
     }
@@ -31,7 +31,7 @@ public class Arena {
         return board_size.getColumns();
     }
 
-    public int getBoardHeigth() {
+    public int getBoardHeight() {
         return board_size.getRows();
     }
 
@@ -44,10 +44,10 @@ public class Arena {
 
         for (int c = 0; c < getBoardWidth(); ++c) {
             walls.add(new Wall(c, 0));
-            walls.add(new Wall(c, getBoardHeigth() - 1));
+            walls.add(new Wall(c, getBoardHeight() - 1));
         }
 
-        for (int r = 1; r < getBoardHeigth() - 1; ++r) {
+        for (int r = 1; r < getBoardHeight() - 1; ++r) {
             walls.add(new Wall(0, r));
             walls.add(new Wall(getBoardWidth() - 1, r));
         }
@@ -55,11 +55,18 @@ public class Arena {
         return walls;
     }
 
+    public void resizeBoard(TerminalSize new_board_size) {
+        this.board_size = new_board_size;
+        this.walls = createWalls();
+
+        // TODO put skane inbounds if it is not
+    }
+
     public void draw(TextGraphics gra) {
         // background
         gra.setBackgroundColor(TextColor.Factory.fromString("#313742"));
         gra.fillRectangle(new TerminalPosition(0, 0),
-                new TerminalSize(getBoardWidth(), getBoardHeigth()), ' ');
+                new TerminalSize(getBoardWidth(), getBoardHeight()), ' ');
 
         // walls
         for (Wall wall : walls)
@@ -121,6 +128,15 @@ public class Arena {
         }
     }
 
+    private void checkGame() {
+        if (skane.isAlive())  // nothing happened
+            return;
+        else {  // lose state
+            skane.setMe("");
+            this.game_state = Game.GameState.LOSE;
+        }
+    }
+
     private boolean canSkaneMove(Position position) {
         // check if alive
         if (!skane.isAlive())
@@ -134,16 +150,7 @@ public class Arena {
 
         // stay inside arena
         return (position.getX() > 0 && position.getX() < (getBoardWidth() - 1) &&
-                position.getY() > 0 && position.getY() < (getBoardHeigth() - 1));
-    }
-
-    private void checkGame() {
-        if (skane.isAlive())    // nothing happened
-            return;
-        else {  // lose state
-            skane.setMe("");
-            this.game_state = Game.GameState.LOSE;
-        }
+                position.getY() > 0 && position.getY() < (getBoardHeight() - 1));
     }
 
     private void moveSkane(Position position) {
