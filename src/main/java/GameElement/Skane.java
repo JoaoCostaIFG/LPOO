@@ -1,17 +1,16 @@
 package GameElement;
 
-import GameElement.DrawableElement;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Skane extends Element implements DrawableElement, MovableElement {
-    private int hp;
+public class Skane extends Element implements DrawableElement, MovableElement, MortalElement {
+    private Integer hp;
 
     public Skane(int x, int y) {
         super(x, y, "S");
-        this.hp = 3;
+        this.hp = DFLT_HP;
     }
 
     public void draw(TextGraphics gra) {
@@ -21,12 +20,18 @@ public class Skane extends Element implements DrawableElement, MovableElement {
         gra.disableModifiers(SGR.BOLD);
     }
 
-    public int getHp() {
+    public Integer getHp() {
         return hp;
     }
 
-    public void setHp(int hp) {
+    @Override
+    public void setHp(Integer hp) {
         this.hp = hp;
+    }
+
+    @Override
+    public Boolean damage(Integer dmg) {
+        return null;
     }
 
     public boolean isAlive() {
