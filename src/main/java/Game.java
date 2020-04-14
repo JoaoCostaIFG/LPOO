@@ -13,7 +13,7 @@ public class Game {
     /* (300x100 should be enough to 1080p fullscreen) */
     private final int DFLT_WIDTH = 300; // default board width
     private final int DFLT_HEIGHT = 100; // default board height
-    private final int DELAY = 17; // time between frames (in ms)
+    private final int DELAY = 25; // time between frames (in ms)
 
     enum GameState {
         END,
@@ -58,16 +58,27 @@ public class Game {
 
         try {
             this.draw();
-            this.arena.processKey(screen.readInput());
+            // this.arena.processKey(screen.readInput());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void run() {
+        Thread input_handler = new Thread(() -> {
+            while (true) {
+                try {
+                    arena.processKey(screen.readInput());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        input_handler.setDaemon(true);
+        input_handler.start();
+
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
-
         while (arena.getGameState() != GameState.END) {
             new_frame();
 

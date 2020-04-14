@@ -81,6 +81,10 @@ public class Arena {
                 "HP: " + Integer.toString(skane.getHp()));
     }
 
+    public void releaseKeys() {
+        this.skane_mov = new MovStop(skane);
+    }
+
     public void processKey(KeyStroke key) {
         if (key.getKeyType() == KeyType.Character) {
             switch (key.getCharacter()) {
@@ -141,6 +145,7 @@ public class Arena {
     }
 
     private boolean canSkaneMove(Position position) {
+        // TODO fix this shit if (more interfaces)
         if (position == null)
             return false;
 
@@ -154,7 +159,7 @@ public class Arena {
                 return false;
         }
 
-        // stay inside arena
+        // bound checking
         return (position.getX() > 0 && position.getX() < (getBoardWidth() - 1) &&
                 position.getY() > 0 && position.getY() < (getBoardHeight() - 1));
     }
@@ -165,5 +170,7 @@ public class Arena {
             checkGame();
         }
         checkGame();
+
+        releaseKeys();
     }
 }
