@@ -1,89 +1,34 @@
+import Creator.ArenaCreator;
+import arena.Arena;
+import arena.ArenaObserver;
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
+import gui.Gui;
 
 import java.io.IOException;
 
-public class Game {
-    private Screen screen;
+public class Game implements ArenaObserver {
     private Arena arena;
-    private TerminalResizeHandler resize_handler;
-    /* 300x100 should be enough to 1080p fullscreen */
-    private final int DFLT_WIDTH = 80; // default board width
-    private final int DFLT_HEIGHT = 40; // default board height
+    private Gui gui;
+
     private final int DELAY = 25; // time between frames (in ms)
 
-    enum GameState {
-        END,
-        LOSE,
-        NORMAL,
-        RESTART,
-        WIN
+    public static void main(String[] args) throws IOException {
+        new Game().start();
     }
 
+    private void start() throws IOException {
+        ArenaCreator creator = new ArenaCreator();
+        arena = creator.createArena(new TerminalSize(80, 40));
+        arena.addObserver(this);
 
-    public Game() {
-        try {
-            TerminalSize init_size = new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT);
-            Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
-            resize_handler = new TerminalResizeHandler(init_size);
-            terminal.addResizeListener(resize_handler);
-
-            this.screen = new TerminalScreen(terminal);
-            screen.doResizeIfNecessary();
-            screen.setCursorPosition(null); // we don't need a cursor
-            screen.startScreen();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        arena = new Arena(resize_handler.getLastKnownSize());
-    }
-
-    private void draw() throws IOException {
-        screen.clear();
-        arena.draw(screen.newTextGraphics());
-        screen.refresh();
-    }
-
-    private void new_frame() {
-        if (arena.getGameState() == GameState.RESTART)
-            this.arena = new Arena(resize_handler.getLastKnownSize());
-
-        if (resize_handler.hasResized()) {
-            screen.doResizeIfNecessary();
-            this.arena.resizeBoard(resize_handler.getLastKnownSize());
-        }
-
-        arena.update();
-        try {
-            this.draw();
-            // this.arena.processKey(screen.readInput());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void run() {
-        Thread input_handler = new Thread(() -> {
-            while (true) {
-                try {
-                    arena.processKey(screen.readInput());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        input_handler.setDaemon(true);
-        input_handler.start();
+        gui = new Gui(arena);
 
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
-        while (arena.getGameState() != GameState.END) {
-            new_frame();
+        while (!arena.isArenaFinished()) {
+            gui.getCmd().execute();
+            gui.releaseKeys();
+            gui.draw();
 
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
@@ -97,11 +42,13 @@ public class Game {
             }
             beforeTime = System.currentTimeMillis();
         }
+    }
 
-        // close game
+    @Override
+    public void arenaStateChange() {
         try {
-            screen.close();
-        } catch (IOException e) {
+            gui.draw();
+        } catch (IOException e) { // TODO failed drawing?
             e.printStackTrace();
         }
     }

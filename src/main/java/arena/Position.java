@@ -1,4 +1,4 @@
-package GameElement;
+package arena;
 
 import java.util.Objects;
 

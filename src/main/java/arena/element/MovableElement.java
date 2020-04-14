@@ -1,4 +1,6 @@
-package GameElement;
+package arena.element;
+
+import arena.Position;
 
 public interface MovableElement {
     Position moveDown();

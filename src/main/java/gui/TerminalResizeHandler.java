@@ -1,3 +1,5 @@
+package gui;
+
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalResizeListener;

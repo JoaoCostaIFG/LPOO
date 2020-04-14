@@ -1,4 +1,4 @@
-package GameElement;
+package arena.element;
 
 public interface MortalElement {
     Integer DFLT_HP = 3;

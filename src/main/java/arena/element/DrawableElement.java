@@ -1,4 +1,4 @@
-package GameElement;
+package arena.element;
 
 import com.googlecode.lanterna.graphics.TextGraphics;
 
