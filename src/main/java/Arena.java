@@ -1,3 +1,6 @@
+import GameElement.MovCommand;
+import GameElement.Position;
+import GameElement.Skane;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -13,6 +16,7 @@ public class Arena {
     private Game.GameState game_state;
     private TerminalSize board_size;
     private Skane skane;
+    private MovCommand skane_mov;
     private List<Wall> walls;
 
     public Arena(TerminalSize board_size) {
@@ -23,6 +27,7 @@ public class Arena {
         Random random = new Random();
         this.skane = new Skane(random.nextInt(getBoardWidth() - 2) + 1,
                 random.nextInt(getBoardHeight() - 2) + 1);
+        this.skane_mov = new MovStop(skane);
 
         this.walls = createWalls();
     }
@@ -62,6 +67,13 @@ public class Arena {
         // TODO put skane inbounds if it is not
     }
 
+    public void update() {
+        moveSkane();
+
+        checkGame();
+        releaseKeys();
+    }
+
     public void draw(TextGraphics gra) {
         // background
         gra.setBackgroundColor(TextColor.Factory.fromString("#313742"));
@@ -74,8 +86,12 @@ public class Arena {
 
         // skane
         skane.draw(gra);
-        gra.putString(new TerminalPosition(getBoardWidth() + 1, 1),
-                "HP: " + Integer.toString(skane.getHp()));
+        //gra.putString(new TerminalPosition(getBoardWidth() + 1, 1),
+        //       "HP: " + Integer.toString(skane.getHp()));
+    }
+
+    public void releaseKeys() {
+        this.skane_mov = new MovStop(skane);
     }
 
     public void processKey(KeyStroke key) {
@@ -83,19 +99,19 @@ public class Arena {
             switch (key.getCharacter()) {
                 case 'a':
                 case 'A':
-                    moveSkane(skane.moveLeft());
+                    this.skane_mov = new MovLeft(skane, 1);
                     break;
                 case 'd':
                 case 'D':
-                    moveSkane(skane.moveRight());
+                    this.skane_mov = new MovRight(skane, 1);
                     break;
                 case 'w':
                 case 'W':
-                    moveSkane(skane.moveUp());
+                    this.skane_mov = new MovUp(skane, 1);
                     break;
                 case 's':
                 case 'S':
-                    moveSkane(skane.moveDown());
+                    this.skane_mov = new MovDown(skane, 1);
                     break;
                 case 'r':
                 case 'R':
@@ -108,16 +124,16 @@ public class Arena {
 
         switch (key.getKeyType()) {
             case ArrowLeft:
-                moveSkane(skane.moveLeft());
+                this.skane_mov = new MovLeft(skane, 1);
                 break;
             case ArrowRight:
-                moveSkane(skane.moveRight());
+                this.skane_mov = new MovRight(skane, 1);
                 break;
             case ArrowUp:
-                moveSkane(skane.moveUp());
+                this.skane_mov = new MovUp(skane, 1);
                 break;
             case ArrowDown:
-                moveSkane(skane.moveDown());
+                this.skane_mov = new MovDown(skane, 1);
                 break;
             case Escape:
             case EOF:
@@ -129,9 +145,7 @@ public class Arena {
     }
 
     private void checkGame() {
-        if (skane.isAlive())  // nothing happened
-            return;
-        else {  // lose state
+        if (!skane.isAlive()) { // Skane died ;(
             skane.setMe("");
             this.game_state = Game.GameState.LOSE;
         }
@@ -142,21 +156,23 @@ public class Arena {
         if (!skane.isAlive())
             return false;
 
+        // skane didn't move
+        if (position.equals(skane.getPos()))
+            return false;
+
         // wall collision
         for (Wall wall : walls) {
             if (position.equals(wall.getPos()))
                 return false;
         }
 
-        // stay inside arena
+        // bound checking
         return (position.getX() > 0 && position.getX() < (getBoardWidth() - 1) &&
                 position.getY() > 0 && position.getY() < (getBoardHeight() - 1));
     }
 
-    private void moveSkane(Position position) {
-        if (canSkaneMove(position)) {
-            skane.setPos(position);
-            checkGame();
-        }
+    private void moveSkane() {
+        if (canSkaneMove(skane_mov.execute()))
+            skane.setPos(skane_mov.execute());
     }
 }

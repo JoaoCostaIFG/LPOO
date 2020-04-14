@@ -1,4 +1,4 @@
-import com.googlecode.lanterna.graphics.TextGraphics;
+package GameElement;
 
 public abstract class Element {
     private Position pos;
@@ -8,8 +8,6 @@ public abstract class Element {
         this.pos = new Position(x, y);
         this.me = me;
     }
-
-    public abstract void draw(TextGraphics gra);
 
     public String getMe() {
         return this.me;

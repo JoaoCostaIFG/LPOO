@@ -1,3 +1,5 @@
+package GameElement;
+
 import java.util.Objects;
 
 public class Position {
