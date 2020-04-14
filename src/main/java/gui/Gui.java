@@ -104,7 +104,7 @@ public class Gui {
                     break;
                 case 'r':
                 case 'R':
-                    //this.game_state = Game.GameState.RESTART;
+                    this.cmd = new RestartCommand(arena, this, screen);
                     break;
                 default:
                     break;
@@ -131,6 +131,10 @@ public class Gui {
             default:
                 break;
         }
+    }
+
+    public void setArena(Arena a) {
+        this.arena = a;
     }
 
     public Command getCmd() {

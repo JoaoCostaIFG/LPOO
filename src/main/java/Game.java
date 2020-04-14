@@ -23,6 +23,10 @@ public class Game implements ArenaObserver {
 
         gui = new Gui(arena);
 
+        // TODO fix game not being abkle to end after restart (arena reference
+        //  in this method is not updated). Should get rid of arena.done and finish
+        //  to use notifications instead.
+
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
         while (!arena.isArenaFinished()) {

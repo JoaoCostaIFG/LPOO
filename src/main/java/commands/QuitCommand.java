@@ -7,18 +7,18 @@ import java.io.IOException;
 
 public class QuitCommand extends Command {
     private final Arena a;
-    private final Screen s;
+    private final Screen scrn;
 
-    public QuitCommand(Arena a, Screen s) {
+    public QuitCommand(Arena a, Screen scrn) {
         this.a = a;
-        this.s = s;
+        this.scrn = scrn;
     }
 
     @Override
     public void execute() {
         a.finishArena();
         try {
-            s.close();
+            scrn.close();
         } catch (IOException e) { // TODO
             e.printStackTrace();
         }

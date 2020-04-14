@@ -14,7 +14,6 @@ public class Arena {
     private TerminalSize board_size;
     private List<ArenaObserver> observers;
     private Skane skane;
-    private Command skane_mov;
     private List<Wall> walls;
     private Boolean is_done;
 
@@ -24,8 +23,6 @@ public class Arena {
 
         this.walls = new ArrayList<>();
         this.observers = new ArrayList<>();
-
-        this.skane_mov = new NullCommand();
     }
 
     public int getWidth() {
@@ -68,6 +65,14 @@ public class Arena {
 
     public void addObserver(ArenaObserver obs) {
         this.observers.add(obs);
+    }
+
+    public void addObservers(List<ArenaObserver> obs) {
+        this.observers.addAll(obs);
+    }
+
+    public List<ArenaObserver> getObservers() {
+        return this.observers;
     }
 
     private boolean canSkaneMove(Position position) {
