@@ -13,6 +13,7 @@ public class Arena {
     private Game.GameState game_state;
     private TerminalSize board_size;
     private Skane skane;
+    private MovCommand skane_mov;
     private List<Wall> walls;
 
     public Arena(TerminalSize board_size) {
@@ -23,6 +24,7 @@ public class Arena {
         Random random = new Random();
         this.skane = new Skane(random.nextInt(getBoardWidth() - 2) + 1,
                 random.nextInt(getBoardHeight() - 2) + 1);
+        this.skane_mov = new MovStop(skane);
 
         this.walls = createWalls();
     }
@@ -63,6 +65,7 @@ public class Arena {
     }
 
     public void draw(TextGraphics gra) {
+        moveSkane();
         // background
         gra.setBackgroundColor(TextColor.Factory.fromString("#313742"));
         gra.fillRectangle(new TerminalPosition(0, 0),
@@ -83,19 +86,19 @@ public class Arena {
             switch (key.getCharacter()) {
                 case 'a':
                 case 'A':
-                    moveSkane(skane.moveLeft());
+                    this.skane_mov = new MovLeft(skane, 1);
                     break;
                 case 'd':
                 case 'D':
-                    moveSkane(skane.moveRight());
+                    this.skane_mov = new MovRight(skane, 1);
                     break;
                 case 'w':
                 case 'W':
-                    moveSkane(skane.moveUp());
+                    this.skane_mov = new MovUp(skane, 1);
                     break;
                 case 's':
                 case 'S':
-                    moveSkane(skane.moveDown());
+                    this.skane_mov = new MovDown(skane, 1);
                     break;
                 case 'r':
                 case 'R':
@@ -108,16 +111,16 @@ public class Arena {
 
         switch (key.getKeyType()) {
             case ArrowLeft:
-                moveSkane(skane.moveLeft());
+                this.skane_mov = new MovLeft(skane, 1);
                 break;
             case ArrowRight:
-                moveSkane(skane.moveRight());
+                this.skane_mov = new MovRight(skane, 1);
                 break;
             case ArrowUp:
-                moveSkane(skane.moveUp());
+                this.skane_mov = new MovUp(skane, 1);
                 break;
             case ArrowDown:
-                moveSkane(skane.moveDown());
+                this.skane_mov = new MovDown(skane, 1);
                 break;
             case Escape:
             case EOF:
@@ -138,6 +141,9 @@ public class Arena {
     }
 
     private boolean canSkaneMove(Position position) {
+        if (position == null)
+            return false;
+
         // check if alive
         if (!skane.isAlive())
             return false;
@@ -153,10 +159,11 @@ public class Arena {
                 position.getY() > 0 && position.getY() < (getBoardHeight() - 1));
     }
 
-    private void moveSkane(Position position) {
-        if (canSkaneMove(position)) {
-            skane.setPos(position);
+    private void moveSkane() {
+        if (canSkaneMove(skane_mov.execute())) {
+            skane.setPos(skane_mov.execute());
             checkGame();
         }
+        checkGame();
     }
 }

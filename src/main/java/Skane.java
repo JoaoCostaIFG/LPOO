@@ -3,7 +3,7 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Skane extends Element {
+public class Skane extends Element implements DrawableElement, MovableElement {
     private int hp;
 
     public Skane(int x, int y) {

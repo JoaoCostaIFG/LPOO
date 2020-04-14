@@ -1,8 +1,5 @@
-import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
@@ -35,19 +32,15 @@ public class Game {
             terminal.addResizeListener(resize_handler);
 
             this.screen = new TerminalScreen(terminal);
+            screen.doResizeIfNecessary();   // resize screen if necessary
             screen.setCursorPosition(null); // we don't need a cursor
             screen.startScreen();           // screens must be started
-            screen.doResizeIfNecessary();   // resize screen if necessary
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
 
         arena = new Arena(resize_handler.getLastKnownSize());
-    }
-
-    private void processKey(KeyStroke key) {
-        arena.processKey(key);
     }
 
     private void draw() throws IOException {
@@ -65,7 +58,7 @@ public class Game {
 
         try {
             this.draw();
-            this.processKey(screen.readInput());
+            this.arena.processKey(screen.readInput());
         } catch (IOException e) {
             e.printStackTrace();
         }
