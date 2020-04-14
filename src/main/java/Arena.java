@@ -1,4 +1,3 @@
-import GameElement.MovCommand;
 import GameElement.Position;
 import GameElement.Skane;
 import com.googlecode.lanterna.TerminalPosition;

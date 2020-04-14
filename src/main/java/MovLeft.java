@@ -1,14 +1,9 @@
-import GameElement.MovCommand;
 import GameElement.MovableElement;
 import GameElement.Position;
 
-public class MovLeft implements MovCommand {
-    private MovableElement e;
-    private Integer speed;
-
+public class MovLeft extends MovCommand {
     public MovLeft(MovableElement e, Integer speed) {
-        this.e = e;
-        this.speed = speed;
+        super(e, speed);
     }
 
     @Override

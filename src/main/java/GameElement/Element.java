@@ -1,7 +1,7 @@
 package GameElement;
 
 public abstract class Element {
-    private Position pos, wanted_pos;
+    private Position pos;
     private String me;
 
     public Element(int x, int y, String me) {

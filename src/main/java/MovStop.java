@@ -1,17 +1,14 @@
-import GameElement.MovCommand;
 import GameElement.MovableElement;
 import GameElement.Position;
 
-public class MovStop implements MovCommand {
-    private MovableElement e;
-
+public class MovStop extends MovCommand {
     public MovStop(MovableElement e) {
-        this.e = e;
+        // moving 0 is = not moving
+        super(e, 0);
     }
 
     @Override
     public Position execute() {
-        // moving 0 up is = not moving
-        return e.moveRight(0);
+        return e.moveRight(super.speed);
     }
 }
