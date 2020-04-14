@@ -1,3 +1,6 @@
+import GameElement.MovCommand;
+import GameElement.Position;
+import GameElement.Skane;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
@@ -64,8 +67,14 @@ public class Arena {
         // TODO put skane inbounds if it is not
     }
 
-    public void draw(TextGraphics gra) {
+    public void update() {
         moveSkane();
+
+        checkGame();
+        releaseKeys();
+    }
+
+    public void draw(TextGraphics gra) {
         // background
         gra.setBackgroundColor(TextColor.Factory.fromString("#313742"));
         gra.fillRectangle(new TerminalPosition(0, 0),
@@ -77,8 +86,8 @@ public class Arena {
 
         // skane
         skane.draw(gra);
-        gra.putString(new TerminalPosition(getBoardWidth() + 1, 1),
-                "HP: " + Integer.toString(skane.getHp()));
+        //gra.putString(new TerminalPosition(getBoardWidth() + 1, 1),
+        //       "HP: " + Integer.toString(skane.getHp()));
     }
 
     public void releaseKeys() {
@@ -136,21 +145,19 @@ public class Arena {
     }
 
     private void checkGame() {
-        if (skane.isAlive())  // nothing happened
-            return;
-        else {  // lose state
+        if (!skane.isAlive()) { // Skane died ;(
             skane.setMe("");
             this.game_state = Game.GameState.LOSE;
         }
     }
 
     private boolean canSkaneMove(Position position) {
-        // TODO fix this shit if (more interfaces)
-        if (position == null)
-            return false;
-
         // check if alive
         if (!skane.isAlive())
+            return false;
+
+        // skane didn't move
+        if (position.equals(skane.getPos()))
             return false;
 
         // wall collision
@@ -165,12 +172,7 @@ public class Arena {
     }
 
     private void moveSkane() {
-        if (canSkaneMove(skane_mov.execute())) {
+        if (canSkaneMove(skane_mov.execute()))
             skane.setPos(skane_mov.execute());
-            checkGame();
-        }
-        checkGame();
-
-        releaseKeys();
     }
 }

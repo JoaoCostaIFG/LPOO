@@ -1,3 +1,7 @@
+import GameElement.MovCommand;
+import GameElement.MovableElement;
+import GameElement.Position;
+
 public class MovStop implements MovCommand {
     private MovableElement e;
 
@@ -7,6 +11,7 @@ public class MovStop implements MovCommand {
 
     @Override
     public Position execute() {
-        return null;
+        // moving 0 up is = not moving
+        return e.moveRight(0);
     }
 }

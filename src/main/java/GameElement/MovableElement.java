@@ -1,3 +1,5 @@
+package GameElement;
+
 public interface MovableElement {
     Position moveDown();
 

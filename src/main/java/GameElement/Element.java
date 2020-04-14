@@ -1,3 +1,5 @@
+package GameElement;
+
 public abstract class Element {
     private Position pos;
     private String me;

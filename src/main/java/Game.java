@@ -10,9 +10,9 @@ public class Game {
     private Screen screen;
     private Arena arena;
     private TerminalResizeHandler resize_handler;
-    /* (300x100 should be enough to 1080p fullscreen) */
-    private final int DFLT_WIDTH = 300; // default board width
-    private final int DFLT_HEIGHT = 100; // default board height
+    /* 300x100 should be enough to 1080p fullscreen */
+    private final int DFLT_WIDTH = 80; // default board width
+    private final int DFLT_HEIGHT = 40; // default board height
     private final int DELAY = 25; // time between frames (in ms)
 
     enum GameState {
@@ -32,9 +32,9 @@ public class Game {
             terminal.addResizeListener(resize_handler);
 
             this.screen = new TerminalScreen(terminal);
-            screen.doResizeIfNecessary();   // resize screen if necessary
+            screen.doResizeIfNecessary();
             screen.setCursorPosition(null); // we don't need a cursor
-            screen.startScreen();           // screens must be started
+            screen.startScreen();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
@@ -53,9 +53,12 @@ public class Game {
         if (arena.getGameState() == GameState.RESTART)
             this.arena = new Arena(resize_handler.getLastKnownSize());
 
-        if (resize_handler.hasResized())
+        if (resize_handler.hasResized()) {
+            screen.doResizeIfNecessary();
             this.arena.resizeBoard(resize_handler.getLastKnownSize());
+        }
 
+        arena.update();
         try {
             this.draw();
             // this.arena.processKey(screen.readInput());

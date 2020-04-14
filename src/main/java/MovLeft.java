@@ -1,3 +1,7 @@
+import GameElement.MovCommand;
+import GameElement.MovableElement;
+import GameElement.Position;
+
 public class MovLeft implements MovCommand {
     private MovableElement e;
     private Integer speed;
