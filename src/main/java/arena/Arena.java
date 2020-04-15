@@ -75,6 +75,18 @@ public class Arena {
         return this.observers;
     }
 
+    public void skaneBreath() {
+        skane.breath();
+    }
+
+    public Boolean isSkaneBury() {
+        return skane.isBury();
+    }
+
+    public void skaneBury(Boolean go_underground) {
+        skane.bury(go_underground);
+    }
+
     private boolean canSkaneMove(Position position) {
         // check if alive
         if (!skane.isAlive())

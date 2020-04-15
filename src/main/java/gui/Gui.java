@@ -106,6 +106,8 @@ public class Gui {
                 case 'R':
                     this.cmd = new RestartCommand(arena, this, screen);
                     break;
+                case ' ':
+                    this.cmd = new BuryCommand(arena);
                 default:
                     break;
             }

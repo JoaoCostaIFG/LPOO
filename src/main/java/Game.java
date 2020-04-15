@@ -9,7 +9,6 @@ import java.io.IOException;
 public class Game implements ArenaObserver {
     private Arena arena;
     private Gui gui;
-
     private final int DELAY = 25; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
@@ -31,6 +30,7 @@ public class Game implements ArenaObserver {
         beforeTime = System.currentTimeMillis();
         while (!arena.isArenaFinished()) {
             gui.getCmd().execute();
+            arena.skaneBreath();
             gui.releaseKeys();
             gui.draw();
 
