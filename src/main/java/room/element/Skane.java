@@ -17,6 +17,8 @@ public class Skane extends EntityQueMorde {
         this.oxygen_level = max_oxy;
 
         this.body = new Vector<>();
+        for (int i = 0; i < 3; ++i)
+            this.grow();
     }
 
     public Skane(Position pos, Integer atk, Integer hp, Integer oxy) {
