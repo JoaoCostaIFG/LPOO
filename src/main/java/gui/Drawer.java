@@ -4,17 +4,27 @@ import arena.Map;
 import arena.element.Skane;
 import arena.element.SkaneBody;
 import arena.element.Wall;
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
+import static com.googlecode.lanterna.TextColor.Factory.fromString;
+
 public class Drawer implements GraphicsDrawer {
-    static final String skaChar = "S";
-    static final String skaBodyChar = "o";
-    static final String skaBuryChar = "X";
-    static final String wallChar = "#";
+    private static final TextColor bg = fromString("#313742");
+    private static final TextColor green = fromString("#76A15D");
+    private static final TextColor purple = fromString("#8558AD");
+
+    private static final TextCharacter bgChar = new TextCharacter(' ', bg, bg, SGR.BORDERED);
+    private static final TextCharacter skaChar = new TextCharacter('S', green, bg, SGR.BOLD);
+    private static final TextCharacter skaBodyChar = new TextCharacter('o', green, bg, SGR.BOLD);
+    private static final TextCharacter skaBuryChar = new TextCharacter('X', green, bg, SGR.BOLD);
+    private static final TextCharacter wallChar = new TextCharacter('#', purple, bg, SGR.BORDERED);
 
     private TextGraphics gra;
 
@@ -22,31 +32,28 @@ public class Drawer implements GraphicsDrawer {
         this.gra = gra;
     }
 
+    public void drawImage(int x, int y, List<String> image) {
+        int line_y = y;
+        for (String l : image)
+            gra.putCSIStyledString(x, line_y++, l);
+    }
+
     @Override
     public void drawSkane(Skane ska) {
-        gra.setForegroundColor(TextColor.Factory.fromString("#76A15D"));
-        gra.enableModifiers(SGR.BOLD);
-
         for (SkaneBody b : ska.getBody())
-            gra.putString(new TerminalPosition(b.getX(), b.getY()),
-                    skaBodyChar);
-        gra.putString(new TerminalPosition(ska.getX(), ska.getY()),
-                ska.isBury() ? skaBuryChar : skaChar);
-
-        gra.disableModifiers(SGR.BOLD);
+            gra.setCharacter(b.getX(), b.getY(), skaBodyChar);
+        gra.setCharacter(ska.getX(), ska.getY(), ska.isBury() ? skaBuryChar : skaChar);
     }
 
     @Override
     public void drawWall(Wall wall) {
-        gra.setForegroundColor(TextColor.Factory.fromString("#8558AD"));
-        gra.putString(new TerminalPosition(wall.getX(), wall.getY()), wallChar);
+        gra.setCharacter(wall.getX(), wall.getY(), wallChar);
     }
 
     @Override
     public void drawMap(Map map) {
-        gra.setBackgroundColor(TextColor.Factory.fromString("#313742"));
         gra.fillRectangle(new TerminalPosition(0, 0),
-                new TerminalSize(map.getWidth(), map.getHeight()), ' ');
+                new TerminalSize(map.getWidth(), map.getHeight()), bgChar);
 
         drawSkane(map.getSkane());
 

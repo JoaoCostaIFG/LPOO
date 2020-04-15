@@ -45,6 +45,7 @@ public class Gui {
             while (true) {
                 try {
                     processKey(screen.readInput());
+                    // processKey(screen.pollInput());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -60,7 +61,10 @@ public class Gui {
         this.cmd = new NullCommand();
     }
 
-    private void processKey(KeyStroke key) throws IOException {
+    private void processKey(KeyStroke key) {
+        if (key == null)
+            return;
+
         if (key.getKeyType() == KeyType.Character) {
             switch (key.getCharacter()) {
                 case 'a':
