@@ -1,4 +1,4 @@
-package arena;
+package arena.element;
 
 import java.util.Objects;
 

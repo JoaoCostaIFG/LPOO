@@ -1,7 +1,5 @@
 package arena.element;
 
-import arena.Position;
-
 public abstract class Element {
     private Position pos;
 

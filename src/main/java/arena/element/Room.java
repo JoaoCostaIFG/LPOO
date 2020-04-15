@@ -1,28 +1,19 @@
-package arena;
+package arena.element;
 
-import arena.element.Element;
-import arena.element.Skane;
-import arena.observe.Observable;
-import arena.observe.Observer;
+import observe.Observable;
+import observe.Observer;
 import com.googlecode.lanterna.TerminalSize;
-import arena.element.Wall;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Room implements Observable<Room> {
-    enum State {
-        RUNNING,
-        STOPPPED
-    }
     private TerminalSize board_size;
     private List<Observer<Room>> observers;
     private Skane skane;
     private List<Wall> walls;
-    private State game_state;
 
     public Room(TerminalSize board_size) {
-        this.game_state = State.RUNNING;
         this.board_size = board_size;
 
         this.walls = new ArrayList<>();
@@ -43,14 +34,6 @@ public class Room implements Observable<Room> {
 
     public List<Wall> getWalls() {
         return walls;
-    }
-
-    public Boolean isArenaFinished() {
-        return game_state == State.STOPPPED;
-    }
-
-    public void finishArena() {
-        this.game_state = State.STOPPPED;
     }
 
     public Skane getSkane() {

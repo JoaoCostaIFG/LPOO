@@ -2,7 +2,7 @@ package Creator;
 
 import java.util.Random;
 
-import arena.Map;
+import arena.element.Room;
 import arena.element.Skane;
 import arena.element.Wall;
 import com.googlecode.lanterna.TerminalSize;
@@ -14,8 +14,8 @@ public class ArenaCreator {
         this.random = new Random();
     }
 
-    public Map createArena(TerminalSize size) {
-        Map arena = new Map(size);
+    public Room createArena(TerminalSize size) {
+        Room arena = new Room(size);
 
         /* spawn skane at random pos (inside bounds) */
         Skane skane = new Skane(random.nextInt(size.getColumns() - 2) + 1,

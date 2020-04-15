@@ -1,11 +1,5 @@
 package arena.element;
 
-import arena.Position;
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
-
 public class Skane extends Element implements MortalElement, MovableElement{
     private Integer hp;
 

@@ -1,6 +1,6 @@
 package gui;
 
-import arena.Map;
+import arena.element.Room;
 import arena.element.Skane;
 import arena.element.Wall;
 import com.googlecode.lanterna.SGR;
@@ -8,8 +8,6 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-
-import java.io.IOException;
 
 public class Drawer implements GraphicsDrawer{
     static final String skaChar = "S";
@@ -35,7 +33,7 @@ public class Drawer implements GraphicsDrawer{
     }
 
     @Override
-    public void drawMap(Map map) {
+    public void drawMap(Room map) {
         gra.setBackgroundColor(TextColor.Factory.fromString("#313742"));
         gra.fillRectangle(new TerminalPosition(0, 0),
                 new TerminalSize(map.getWidth(), map.getHeight()), ' ');

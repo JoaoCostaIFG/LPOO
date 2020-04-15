@@ -1,7 +1,4 @@
-package arena.observe;
-
-import java.util.ArrayList;
-import java.util.List;
+package observe;
 
 public interface Observable<T> {
     public void addObserver(Observer<T> observer);
