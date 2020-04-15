@@ -19,7 +19,7 @@ public class ArenaCreator {
 
         /* spawn skane at random pos (inside bounds) */
         Skane skane = new Skane(random.nextInt(size.getColumns() - 2) + 1,
-                random.nextInt(size.getRows() - 2) + 1, 100, 200);
+                random.nextInt(size.getRows() - 2) + 1, 10, 100, 200);
         arena.addElement(skane);
 
         for (int c = 0; c < size.getColumns(); ++c) {

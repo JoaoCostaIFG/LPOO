@@ -2,6 +2,7 @@ package gui;
 
 import arena.Map;
 import arena.element.Skane;
+import arena.element.SkaneBody;
 import arena.element.Wall;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
@@ -11,6 +12,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 public class Drawer implements GraphicsDrawer {
     static final String skaChar = "S";
+    static final String skaBodyChar = "o";
     static final String skaBuryChar = "X";
     static final String wallChar = "#";
 
@@ -24,8 +26,13 @@ public class Drawer implements GraphicsDrawer {
     public void drawSkane(Skane ska) {
         gra.setForegroundColor(TextColor.Factory.fromString("#76A15D"));
         gra.enableModifiers(SGR.BOLD);
+
+        for (SkaneBody b : ska.getBody())
+            gra.putString(new TerminalPosition(b.getX(), b.getY()),
+                    skaBodyChar);
         gra.putString(new TerminalPosition(ska.getX(), ska.getY()),
                 ska.isBury() ? skaBuryChar : skaChar);
+
         gra.disableModifiers(SGR.BOLD);
     }
 

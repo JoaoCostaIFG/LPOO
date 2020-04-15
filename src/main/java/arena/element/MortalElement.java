@@ -5,7 +5,7 @@ public interface MortalElement {
 
     void setHp(Integer hp);
 
-    void damage(Integer dmg);
+    void takeDamage(Integer dmg);
 
     boolean isAlive();
 }

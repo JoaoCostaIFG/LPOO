@@ -1,30 +1,32 @@
 package arena.element;
 
+import java.util.Vector;
+
 import arena.Position;
 
-public class Skane extends Entity implements MovableElement {
-    private Integer oxygen_level;
+
+public class Skane extends EntityQueMorde {
+    private Vector<SkaneBody> body;
     private Boolean is_bury;
     private Integer max_oxy;
+    private Integer oxygen_level;
 
-    public Skane(Integer x, Integer y, Integer hp, Integer oxy) {
-        super(x, y, hp);
+    public Skane(Integer x, Integer y, Integer atk, Integer hp, Integer oxy) {
+        super(x, y, hp, atk);
         this.is_bury = false;
-        this.oxygen_level = oxy;
         this.max_oxy = oxy;
+        this.oxygen_level = max_oxy;
+
+        this.body = new Vector<>();
     }
 
-    @Override
-    public void damage(Integer dmg) {
-        if (getHp() - dmg <= 0)
-            setHp(0);
-        else
-            setHp(getHp() - dmg);
-    }
+    public Skane(Position pos, Integer atk, Integer hp, Integer oxy) {
+        super(pos, hp, atk);
+        this.is_bury = false;
+        this.max_oxy = oxy;
+        this.oxygen_level = max_oxy;
 
-    @Override
-    public boolean isAlive() {
-        return getHp() > 0;
+        this.body = new Vector<>();
     }
 
     public Boolean isBury() {
@@ -55,44 +57,25 @@ public class Skane extends Entity implements MovableElement {
         }
     }
 
-    /* movement */
-    @Override
-    public Position moveUp() {
-        return new Position(getX(), getY() - 1);
+    public Vector<SkaneBody> getBody() {
+        return this.body;
+    }
+
+    public void grow() {
+        body.insertElementAt(new SkaneBody(getPos()), 0);
+    }
+
+    public void shrink() {
+        body.removeElementAt(0);
     }
 
     @Override
-    public Position moveUp(int y) {
-        return new Position(getX(), getY() - y);
-    }
+    public void setPos(Position new_pos) {
+        for (int i = 0; i < body.size() - 1; ++i)
+            body.elementAt(i).setPos(body.elementAt(i + 1).getPos());
+        if (body.size() > 0)
+            body.lastElement().setPos(this.getPos());
 
-    @Override
-    public Position moveDown() {
-        return new Position(getX(), getY() + 1);
-    }
-
-    @Override
-    public Position moveDown(int y) {
-        return new Position(getX(), getY() + y);
-    }
-
-    @Override
-    public Position moveLeft() {
-        return new Position(getX() - 1, getY());
-    }
-
-    @Override
-    public Position moveLeft(int x) {
-        return new Position(getX() - x, getY());
-    }
-
-    @Override
-    public Position moveRight() {
-        return new Position(getX() + 1, getY());
-    }
-
-    @Override
-    public Position moveRight(int x) {
-        return new Position(getX() + x, getY());
+        super.setPos(new_pos);
     }
 }
