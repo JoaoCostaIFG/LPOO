@@ -6,19 +6,12 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Skane extends Element implements DrawableElement, MortalElement, MovableElement{
+public class Skane extends Element implements MortalElement, MovableElement{
     private Integer hp;
 
     public Skane(int x, int y) {
-        super(x, y, "S");
+        super(x, y);
         this.hp = DFLT_HP;
-    }
-
-    public void draw(TextGraphics gra) {
-        gra.setForegroundColor(TextColor.Factory.fromString("#76A15D"));
-        gra.enableModifiers(SGR.BOLD);
-        gra.putString(new TerminalPosition(super.getX(), super.getY()), super.getMe());
-        gra.disableModifiers(SGR.BOLD);
     }
 
     public Integer getHp() {

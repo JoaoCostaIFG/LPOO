@@ -4,19 +4,9 @@ import arena.Position;
 
 public abstract class Element {
     private Position pos;
-    private String me;
 
-    public Element(int x, int y, String me) {
+    public Element(int x, int y) {
         this.pos = new Position(x, y);
-        this.me = me;
-    }
-
-    public String getMe() {
-        return this.me;
-    }
-
-    public void setMe(String me) {
-        this.me = me;
     }
 
     public int getX() {

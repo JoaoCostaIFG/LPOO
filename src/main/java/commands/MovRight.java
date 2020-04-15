@@ -1,13 +1,13 @@
 package commands;
 
-import arena.Arena;
+import arena.Map;
 
 public class MovRight extends MovCommand {
-    public MovRight(Arena a) {
+    public MovRight(Map a) {
         super(a, 1);
     }
 
-    public MovRight(Arena a, Integer s) {
+    public MovRight(Map a, Integer s) {
         super(a, s);
     }
 

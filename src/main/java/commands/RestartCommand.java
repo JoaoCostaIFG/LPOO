@@ -1,16 +1,16 @@
 package commands;
 
 import Creator.ArenaCreator;
-import arena.Arena;
+import arena.Map;
 import com.googlecode.lanterna.screen.Screen;
 import gui.Gui;
 
 public class RestartCommand extends Command {
-    private Arena a;
+    private Map a;
     private Gui g;
     private final Screen scrn;
 
-    public RestartCommand(Arena a, Gui g, Screen scrn) {
+    public RestartCommand(Map a, Gui g, Screen scrn) {
         this.a = a;
         this.g = g;
         this.scrn = scrn;
@@ -19,9 +19,9 @@ public class RestartCommand extends Command {
     @Override
     public void execute() {
         ArenaCreator creator = new ArenaCreator();
-        Arena new_arena = creator.createArena(scrn.getTerminalSize());
+        Map new_arena = creator.createArena(scrn.getTerminalSize());
         new_arena.addObservers(this.a.getObservers());
 
-        this.g.setArena(new_arena);
+        this.g.setMap(new_arena);
     }
 }

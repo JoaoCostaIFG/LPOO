@@ -1,15 +1,15 @@
 package commands;
 
-import arena.Arena;
+import arena.Map;
 import com.googlecode.lanterna.screen.Screen;
 
 import java.io.IOException;
 
 public class QuitCommand extends Command {
-    private final Arena a;
+    private final Map a;
     private final Screen scrn;
 
-    public QuitCommand(Arena a, Screen scrn) {
+    public QuitCommand(Map a, Screen scrn) {
         this.a = a;
         this.scrn = scrn;
     }
