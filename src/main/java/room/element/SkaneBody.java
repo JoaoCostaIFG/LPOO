@@ -1,6 +1,6 @@
-package arena.element;
+package room.element;
 
-import arena.Position;
+import room.Position;
 
 public class SkaneBody extends Element {
     public SkaneBody(Position pos) {

@@ -1,6 +1,6 @@
-package arena.element;
+package room.element;
 
-import arena.Position;
+import room.Position;
 
 public class EntityQueMorde extends Entity implements AgressiveElement {
     private Integer atk;

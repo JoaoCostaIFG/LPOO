@@ -1,6 +1,6 @@
-package arena.element;
+package room.element;
 
-import arena.Position;
+import room.Position;
 
 public abstract class Entity extends Element implements MortalElement, MovableElement {
     private Integer hp;

@@ -1,17 +1,13 @@
 package gui;
 
-import arena.Map;
-import arena.element.Skane;
-import arena.element.SkaneBody;
-import arena.element.Wall;
+import room.Room;
+import room.element.Skane;
+import room.element.SkaneBody;
+import room.element.Wall;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
 
@@ -51,7 +47,7 @@ public class Drawer implements GraphicsDrawer {
     }
 
     @Override
-    public void drawMap(Map map) {
+    public void drawMap(Room map) {
         gra.fillRectangle(new TerminalPosition(0, 0),
                 new TerminalSize(map.getWidth(), map.getHeight()), bgChar);
 

@@ -1,9 +1,8 @@
-package arena.element;
+package room.element;
+
+import room.Position;
 
 import java.util.Vector;
-
-import arena.Position;
-
 
 public class Skane extends EntityQueMorde {
     private Vector<SkaneBody> body;
@@ -44,7 +43,7 @@ public class Skane extends EntityQueMorde {
             this.is_bury = false;
     }
 
-    public void breath() {
+    public void inhale() {
         if (oxygen_level == 0)
             is_bury = false;
 

@@ -1,6 +1,6 @@
-package arena.element;
+package room.element;
 
-import arena.Position;
+import room.Position;
 
 public abstract class Element {
     private Position pos;

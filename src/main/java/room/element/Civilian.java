@@ -1,4 +1,4 @@
-package arena.element;
+package room.element;
 
 public class Civilian extends Entity {
     public Civilian(Integer x, Integer y, Integer hp) {

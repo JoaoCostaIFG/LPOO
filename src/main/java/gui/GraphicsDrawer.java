@@ -1,8 +1,8 @@
 package gui;
 
-import arena.Map;
-import arena.element.Skane;
-import arena.element.Wall;
+import room.Room;
+import room.element.Skane;
+import room.element.Wall;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,8 +14,6 @@ public interface GraphicsDrawer {
     void drawSkane(Skane ska);
 
     void drawWall(Wall wall);
-
-    void drawMap(Map map);
 
     void drawImage(int x, int y, List<String> image);
 
@@ -34,4 +32,6 @@ public interface GraphicsDrawer {
 
         return image;
     }
+
+    void drawMap(Room map);
 }
