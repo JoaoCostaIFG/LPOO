@@ -1,23 +1,21 @@
 package arena;
 
-import arena.element.DrawableElement;
 import arena.element.Element;
 import arena.element.Skane;
 import com.googlecode.lanterna.TerminalSize;
 import arena.element.Wall;
-import commands.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Arena {
+public class Map {
     private TerminalSize board_size;
     private List<ArenaObserver> observers;
     private Skane skane;
     private List<Wall> walls;
     private Boolean is_done;
 
-    public Arena(TerminalSize board_size) {
+    public Map(TerminalSize board_size) {
         this.is_done = false;
         this.board_size = board_size;
 
@@ -49,14 +47,14 @@ public class Arena {
         return this.skane;
     }
 
-    public List<DrawableElement> getAllDrawable() {
-        List<DrawableElement> d = new ArrayList<>();
-
-        d.add(skane);
-        d.addAll(walls);
-
-        return d;
-    }
+//    public List<DrawableElement> getAllDrawable() {
+//        List<DrawableElement> d = new ArrayList<>();
+//
+//        d.add(skane);
+//        d.addAll(walls);
+//
+//        return d;
+//    }
 
     public void addElement(Element e) {
         if (e instanceof Skane) skane = (Skane) e;
@@ -111,4 +109,9 @@ public class Arena {
         if (canSkaneMove(new_p))
             skane.setPos(new_p);
     }
+
+    public List<Wall> getWalls() {
+        return walls;
+    }
+
 }

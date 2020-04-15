@@ -1,13 +1,13 @@
 package commands;
 
-import arena.Arena;
+import arena.Map;
 
 public abstract class MovCommand extends Command {
-    protected final Arena a;
+    protected final Map m;
     protected final Integer s;
 
-    public MovCommand(Arena a, Integer s) {
-        this.a = a;
+    public MovCommand(Map m, Integer s) {
+        this.m = m;
         this.s = s;
     }
 }

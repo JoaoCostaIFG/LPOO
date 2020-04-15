@@ -1,20 +1,18 @@
 package commands;
 
-import arena.Arena;
-import arena.element.MovableElement;
-import arena.Position;
+import arena.Map;
 
 public class MovUp extends MovCommand {
-    public MovUp(Arena a) {
-        super(a, 1);
+    public MovUp(Map m) {
+        super(m, 1);
     }
 
-    public MovUp(Arena a, Integer s) {
-        super(a, s);
+    public MovUp(Map m, Integer s) {
+        super(m, s);
     }
 
     @Override
     public void execute() {
-        a.moveSkane(a.getSkane().moveUp(s));
+        m.moveSkane(m.getSkane().moveUp(s));
     }
 }

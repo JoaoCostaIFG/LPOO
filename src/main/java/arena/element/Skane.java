@@ -1,31 +1,17 @@
 package arena.element;
 
 import arena.Position;
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.TextGraphics;
 
-public class Skane extends Element implements DrawableElement, MortalElement, MovableElement {
+public class Skane extends Element implements MortalElement, MovableElement {
     private Integer hp, oxygen_level;
     private Boolean is_bury;
-    private String bury_me;
     private final Integer DFLT_OXY = 200;
 
     public Skane(int x, int y) {
-        super(x, y, "S");
+        super(x, y);
         this.hp = DFLT_HP;
-        this.bury_me = "X";
         this.is_bury = false;
         this.oxygen_level = DFLT_OXY;
-    }
-
-    public void draw(TextGraphics gra) {
-        gra.setForegroundColor(TextColor.Factory.fromString("#76A15D"));
-        gra.enableModifiers(SGR.BOLD);
-        String me = is_bury ? bury_me : super.getMe();
-        gra.putString(new TerminalPosition(super.getX(), super.getY()), me);
-        gra.disableModifiers(SGR.BOLD);
     }
 
     public Integer getHp() {

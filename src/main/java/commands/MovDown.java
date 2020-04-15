@@ -1,18 +1,18 @@
 package commands;
 
-import arena.Arena;
+import arena.Map;
 
 public class MovDown extends MovCommand {
-    public MovDown(Arena a) {
-        super(a, 1);
+    public MovDown(Map m) {
+        super(m, 1);
     }
 
-    public MovDown(Arena a, Integer s) {
-        super(a, s);
+    public MovDown(Map m, Integer s) {
+        super(m, s);
     }
 
     @Override
     public void execute() {
-        a.moveSkane(a.getSkane().moveDown(s));
+        m.moveSkane(m.getSkane().moveDown(s));
     }
 }

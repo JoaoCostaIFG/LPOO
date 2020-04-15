@@ -1,18 +1,18 @@
 package commands;
 
-import arena.Arena;
+import arena.Map;
 
 public class MovRight extends MovCommand {
-    public MovRight(Arena a) {
-        super(a, 1);
+    public MovRight(Map m) {
+        super(m, 1);
     }
 
-    public MovRight(Arena a, Integer s) {
-        super(a, s);
+    public MovRight(Map m, Integer s) {
+        super(m, s);
     }
 
     @Override
     public void execute() {
-        a.moveSkane(a.getSkane().moveRight(s));
+        m.moveSkane(m.getSkane().moveRight(s));
     }
 }

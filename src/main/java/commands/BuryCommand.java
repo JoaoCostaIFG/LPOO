@@ -1,16 +1,16 @@
 package commands;
 
-import arena.Arena;
+import arena.Map;
 
 public class BuryCommand extends Command {
-    private final Arena a;
+    private final Map m;
 
-    public BuryCommand(Arena a) {
-        this.a = a;
+    public BuryCommand(Map m) {
+        this.m = m;
     }
 
     @Override
     public void execute() {
-        a.skaneBury(!a.isSkaneBury());
+        m.skaneBury(!m.isSkaneBury());
     }
 }

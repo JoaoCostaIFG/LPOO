@@ -1,5 +1,5 @@
 import Creator.ArenaCreator;
-import arena.Arena;
+import arena.Map;
 import arena.ArenaObserver;
 import com.googlecode.lanterna.TerminalSize;
 import gui.Gui;
@@ -7,7 +7,7 @@ import gui.Gui;
 import java.io.IOException;
 
 public class Game implements ArenaObserver {
-    private Arena arena;
+    private Map arena;
     private Gui gui;
     private final int DELAY = 25; // time between frames (in ms)
 
