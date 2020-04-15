@@ -9,8 +9,6 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-import java.io.IOException;
-
 public class Drawer implements GraphicsDrawer {
     static final String skaChar = "S";
     static final String skaBuryChar = "X";
