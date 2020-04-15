@@ -62,6 +62,10 @@ public class Skane extends EntityQueMorde {
         return this.body;
     }
 
+    public Integer getSize() {
+        return this.body.size();
+    }
+
     public void grow() {
         body.insertElementAt(new SkaneBody(getPos()), 0);
     }
