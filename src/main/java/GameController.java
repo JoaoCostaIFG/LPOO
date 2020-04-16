@@ -1,38 +1,29 @@
-import Creator.ArenaCreator;
+import Creator.RoomCreator;
 import room.Position;
 import com.googlecode.lanterna.TerminalSize;
 import gui.Gui;
-import gui.Gui.Event;
+import gui.Event;
 import room.Room;
 
 import java.io.IOException;
 
-public class Game {
-    enum State {
-        RUNNING,
-        STOPPPED,
-        RESTART
-    }
-
+public class GameController {
     private Room room;
     private Gui gui;
-    private State state;
+    private GameState state;
+    private SkaneController skaneController;
     private CollisionHandler colHandler;
     private final int DELAY = 25; // time between frames (in ms)
 
-    public Room getRoom() {
-        return room;
-    }
-
     public static void main(String[] args) throws IOException {
-        new Game().start();
+        new GameController().start();
     }
 
     private void handleEvent(Event event) {
         if (event == Event.NullEvent) return;
-        else if (event == Event.QuitGame) this.state = State.STOPPPED;
-        else if (event == Event.RestartGame) this.state = State.RESTART;
-        else if (event == Event.Bury) room.skaneBury(!room.isSkaneBury());
+        else if (event == Event.QuitGame) this.state = GameState.STOPPPED;
+        else if (event == Event.RestartGame) this.state = GameState.RESTART;
+        else if (event == Event.Bury) skaneController.toggleBury();
         else { // Movement Event
             Position new_pos = room.getSkane().getPos();
             switch (event) {
@@ -55,17 +46,18 @@ public class Game {
     }
 
     private void start() throws IOException {
-        ArenaCreator creator = new ArenaCreator();
-        room = creator.createArena(new TerminalSize(80, 40));
+        RoomCreator creator = new RoomCreator();
+        room = creator.createRoom(new TerminalSize(80, 40));
+        skaneController = new SkaneController(room.getSkane(), 200);
         gui = new Gui(room);
-        state = State.RUNNING;
+        state = GameState.RUNNING;
         colHandler = new CollisionHandler(this);
 
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
-        while (state == State.RUNNING) { // TODO make run method
+        while (state == GameState.RUNNING) { // TODO make run method
             handleEvent(gui.getEvent());
-            room.skaneBreath();
+            skaneController.inhale();
             gui.releaseKeys();
             gui.draw();
 
@@ -83,5 +75,9 @@ public class Game {
         }
 
         gui.close();
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }

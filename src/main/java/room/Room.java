@@ -43,18 +43,6 @@ public class Room implements Observable<Room> {
         return this.skane;
     }
 
-    public void skaneBreath() {
-        skane.inhale();
-    }
-
-    public Boolean isSkaneBury() {
-        return skane.isBury();
-    }
-
-    public void skaneBury(Boolean go_underground) {
-        skane.bury(go_underground);
-    }
-
     public void moveSkane(Position new_p) {
         this.skane.setPos(new_p);
     }

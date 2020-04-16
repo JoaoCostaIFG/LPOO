@@ -3,13 +3,13 @@ import room.element.Skane;
 import room.element.Wall;
 
 public class CollisionHandler {
-    private Game game;
-    CollisionHandler(Game game) {
-        this.game = game;
+    private GameController game_controller;
+    CollisionHandler(GameController game_controller) {
+        this.game_controller = game_controller;
     }
 
     public boolean canSkaneMove(Position position) {
-        Skane skane = game.getRoom().getSkane();
+        Skane skane = game_controller.getRoom().getSkane();
 
         // check if alive
         if (!skane.isAlive())
@@ -20,13 +20,13 @@ public class CollisionHandler {
             return false;
 
         // wall collision
-        for (Wall wall : game.getRoom().getWalls()) {
+        for (Wall wall : game_controller.getRoom().getWalls()) {
             if (position.equals(wall.getPos()))
                 return false;
         }
 
         // bound checking
-        return (position.getX() > 0 && position.getX() < (game.getRoom().getWidth() - 1) &&
-                position.getY() > 0 && position.getY() < (game.getRoom().getHeight() - 1));
+        return (position.getX() > 0 && position.getX() < (game_controller.getRoom().getWidth() - 1) &&
+                position.getY() > 0 && position.getY() < (game_controller.getRoom().getHeight() - 1));
     }
 }

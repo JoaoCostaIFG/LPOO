@@ -2,7 +2,7 @@ package room.element;
 
 import room.Position;
 
-public class EntityQueMorde extends Entity implements AgressiveElement {
+public abstract class EntityQueMorde extends Entity implements AgressiveElement {
     private Integer atk;
 
     public EntityQueMorde(Integer x, Integer y, Integer hp, Integer atk) {

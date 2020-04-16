@@ -7,14 +7,12 @@ import java.util.Vector;
 public class Skane extends EntityQueMorde {
     private Vector<SkaneBody> body;
     private Boolean is_bury;
-    private Integer max_oxy;
     private Integer oxygen_level;
 
     public Skane(Integer x, Integer y, Integer atk, Integer hp, Integer oxy) {
         super(x, y, hp, atk);
         this.is_bury = false;
-        this.max_oxy = oxy;
-        this.oxygen_level = max_oxy;
+        this.oxygen_level = oxy;
 
         this.body = new Vector<>();
         for (int i = 0; i < 3; ++i)
@@ -24,10 +22,19 @@ public class Skane extends EntityQueMorde {
     public Skane(Position pos, Integer atk, Integer hp, Integer oxy) {
         super(pos, hp, atk);
         this.is_bury = false;
-        this.max_oxy = oxy;
-        this.oxygen_level = max_oxy;
+        this.oxygen_level = oxy;
 
         this.body = new Vector<>();
+        for (int i = 0; i < 3; ++i)
+            this.grow();
+    }
+
+    public Integer getOxygenLevel() {
+        return this.oxygen_level;
+    }
+
+    public void setOxygenLevel(Integer oxygen_level) {
+        this.oxygen_level = oxygen_level;
     }
 
     public Boolean isBury() {
@@ -35,27 +42,7 @@ public class Skane extends EntityQueMorde {
     }
 
     public void bury(Boolean go_underground) {
-        if (go_underground == this.is_bury) // no state change
-            return;
-
-        if (go_underground) {
-            if (this.oxygen_level.equals(max_oxy))
-                this.is_bury = true;
-        } else
-            this.is_bury = false;
-    }
-
-    public void inhale() {
-        if (oxygen_level == 0)
-            is_bury = false;
-
-        if (is_bury) {
-            --oxygen_level;
-        } else if (oxygen_level < max_oxy) {
-            oxygen_level += max_oxy / 50;
-            if (oxygen_level > max_oxy)
-                oxygen_level = max_oxy;
-        }
+        this.is_bury = go_underground;
     }
 
     public Vector<SkaneBody> getBody() {

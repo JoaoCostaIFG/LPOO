@@ -7,14 +7,14 @@ import room.element.Skane;
 import room.element.Wall;
 import com.googlecode.lanterna.TerminalSize;
 
-public class ArenaCreator {
+public class RoomCreator {
     private final Random random;
 
-    public ArenaCreator() {
+    public RoomCreator() {
         this.random = new Random();
     }
 
-    public Room createArena(TerminalSize size) {
+    public Room createRoom(TerminalSize size) {
         Room arena = new Room(size);
 
         /* spawn skane at random pos (inside bounds) */
