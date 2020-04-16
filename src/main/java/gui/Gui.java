@@ -12,18 +12,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Gui {
-    public enum Event {
-        Bury,
-        MoveLeft,
-        MoveRight,
-        MoveUp,
-        MoveDown,
-        MoveStop,
-        NullEvent,
-        QuitGame,
-        RestartGame
-    };
-
     private Room room;
     private Screen screen;
     private GraphicsDrawer drawer;
