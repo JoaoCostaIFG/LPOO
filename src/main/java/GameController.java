@@ -45,25 +45,28 @@ public class GameController {
         }
     }
 
-    public GameController(Room room, Gui gui) {
+    public GameController(Room room, Gui gui, SkaneController skactr) {
         this.room = room;
         this.gui = gui;
         this.state = GAMEST.RUNNING;
-        this.colHandler = new CollisionHandler(this);
-        this.skaneController = new SkaneController(room.getSkane(), 200);
+        this.colHandler = new CollisionHandler(this.room);
+        this.skaneController = skactr;
     }
 
     public GameController(Room room) throws IOException {
-        this(room, new Gui(room));
+        this(room, new Gui(room),
+                new SkaneController(room.getSkane(), 200));
     }
 
     public GameController() throws IOException {
         this(new RoomCreator().createRoom(80, 40));
     }
 
-    private void start() throws IOException {
+    public void start() throws IOException {
+        this.state = GAMEST.RUNNING;
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
+        gui.startInputHandler();
         while (state == GAMEST.RUNNING) { // TODO make run method
             handleEvent(gui.getEvent());
             skaneController.inhale();
@@ -84,6 +87,10 @@ public class GameController {
         }
 
         gui.close();
+    }
+
+    public void end() {
+        this.state = GAMEST.STOPPPED;
     }
 
     public Room getRoom() {
