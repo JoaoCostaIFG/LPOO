@@ -3,7 +3,6 @@ import room.Position;
 import gui.Gui;
 import gui.EVENT;
 import room.Room;
-import room.element.skane.Skane;
 
 import java.io.IOException;
 
@@ -45,19 +44,31 @@ public class GameController {
         }
     }
 
-    private void start() throws IOException {
-        RoomCreator creator = new RoomCreator();
-        room = creator.createRoom(80, 40);
-        skaneController = new SkaneController(room.getSkane(), 200);
-        gui = new Gui(room);
-        state = GAMEST.RUNNING;
-        colHandler = new CollisionHandler(this);
+    public GameController(Room room, Gui gui, SkaneController skactr) {
+        this.room = room;
+        this.gui = gui;
+        this.state = GAMEST.RUNNING;
+        this.colHandler = new CollisionHandler(this.room);
+        this.skaneController = skactr;
+    }
 
+    public GameController(Room room) throws IOException {
+        this(room, new Gui(room),
+                new SkaneController(room.getSkane(), 200));
+    }
+
+    public GameController() throws IOException {
+        this(new RoomCreator().createRoom(80, 40));
+    }
+
+    public void start() throws IOException {
+        this.state = GAMEST.RUNNING;
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
+        gui.startInputHandler();
         while (state == GAMEST.RUNNING) { // TODO make run method
             handleEvent(gui.getEvent());
-            skaneController.skaneFrame(); // TODO pass move cmd
+            skaneController.inhale(); // TODO pass move cmd
             gui.releaseKeys();
             gui.draw();
 
@@ -75,6 +86,10 @@ public class GameController {
         }
 
         gui.close();
+    }
+
+    public void end() {
+        this.state = GAMEST.STOPPPED;
     }
 
     public Room getRoom() {

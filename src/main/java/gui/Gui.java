@@ -36,10 +36,9 @@ public class Gui {
         this.drawer = new Drawer(screen.newTextGraphics());
 
         this.event = EVENT.NullEvent;
-        startInputHandler();
     }
 
-    private void startInputHandler() {
+    public void startInputHandler() {
         Thread input_handler = new Thread(() -> {
             while (true) {
                 try {

@@ -1,4 +1,3 @@
-import room.element.skane.Scent;
 import room.element.skane.Skane;
 
 public class SkaneController {
@@ -13,12 +12,14 @@ public class SkaneController {
     }
 
     public void takeDamage(int dmg) {
+        if (dmg < 0) return;
         ska.takeDamage(dmg);
         for (int i = 0; i < dmg; ++i)
             ska.shrink();
     }
 
     public void nom(int nourishment) {
+        if (nourishment < 0) return;
         ska.setHp(ska.getHp() + nourishment);
         for (int i = 0; i < nourishment; ++i)
             ska.grow();
@@ -44,9 +45,5 @@ public class SkaneController {
             else
                 ska.setOxygenLevel(oxy_lvl + max_oxy / 50);
         }
-    }
-
-    public void skaneFrame() {
-        inhale();
     }
 }
