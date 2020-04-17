@@ -1,6 +1,7 @@
 package gui;
 
 import room.Room;
+import room.element.Civilian;
 import room.element.Skane;
 import room.element.Wall;
 
@@ -14,6 +15,8 @@ public interface GraphicsDrawer {
     void drawSkane(Skane ska);
 
     void drawWall(Wall wall);
+
+    void drawCivie(Civilian civie);
 
     void drawImage(int x, int y, List<String> image);
 
@@ -33,5 +36,5 @@ public interface GraphicsDrawer {
         return image;
     }
 
-    void drawMap(Room map);
+    void drawRoom(Room map);
 }

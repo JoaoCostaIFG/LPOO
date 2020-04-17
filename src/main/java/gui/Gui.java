@@ -138,7 +138,7 @@ public class Gui {
         }
 
         screen.clear();
-        this.drawer.drawMap(room);
+        this.drawer.drawRoom(room);
         screen.refresh();
     }
 }

@@ -1,9 +1,6 @@
 package room;
 
-import room.element.Element;
-import room.element.Entity;
-import room.element.Skane;
-import room.element.Wall;
+import room.element.*;
 import observe.Observable;
 import observe.Observer;
 import com.googlecode.lanterna.TerminalSize;
@@ -18,12 +15,14 @@ public class Room implements Observable<Room> {
     private List<Observer<Room>> observers;
     private Skane skane;
     private List<Wall> walls;
+    private List<Civilian> civies;
 
     public Room(int width, int height) {
         this.width = width;
         this.height = height;
-        this.walls = new ArrayList<>();
         this.observers = new ArrayList<>();
+        this.walls = new ArrayList<>();
+        this.civies = new ArrayList<>();
     }
 
     public Room(TerminalSize board_size) {
@@ -51,6 +50,10 @@ public class Room implements Observable<Room> {
         return walls;
     }
 
+    public List<Civilian> getCivies() {
+        return civies;
+    }
+
     public Skane getSkane() {
         return this.skane;
     }
@@ -74,7 +77,8 @@ public class Room implements Observable<Room> {
 
     public void addElement(Element e) {
         if (e instanceof Skane) skane = (Skane) e;
-        if (e instanceof Wall) walls.add((Wall) e);
+        else if (e instanceof Wall) walls.add((Wall) e);
+        else if (e instanceof Civilian) civies.add((Civilian) e);
     }
 
     @Override
