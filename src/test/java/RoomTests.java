@@ -18,7 +18,7 @@ public class RoomTests {
 
     @Test
     public void addElement() {
-        Skane skane = new Skane(1, 5, 10, 5, 5, 3);
+        Skane skane = new Skane(1, 5, 10, 5, 5, 3, 10);
         room.addElement(skane);
         assertEquals(room.getSkane(), skane);
         assertEquals(room.getSkane().getPos(), skane.getPos());
