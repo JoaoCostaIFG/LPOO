@@ -32,6 +32,10 @@ public class Position {
         this.y = y;
     }
 
+    public double dist(Position p) {
+        return Math.sqrt(Math.pow(x - p.getX(), 2) + Math.pow(y - p.getY(), 2));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

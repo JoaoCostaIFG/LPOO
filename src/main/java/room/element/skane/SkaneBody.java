@@ -1,6 +1,7 @@
-package room.element;
+package room.element.skane;
 
 import room.Position;
+import room.element.Element;
 
 public class SkaneBody extends Element {
     public SkaneBody(Position pos) {

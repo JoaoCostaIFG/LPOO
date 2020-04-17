@@ -1,11 +1,14 @@
-package room.element;
+package room.element.skane;
 
 import room.Position;
+import room.element.EntityQueMorde;
 
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class Skane extends EntityQueMorde {
-    private Vector<SkaneBody> body;
+    private List<SkaneBody> body;
     private Boolean is_bury;
     private int oxygen_level;
 
@@ -14,7 +17,7 @@ public class Skane extends EntityQueMorde {
         this.is_bury = false;
         this.oxygen_level = oxy;
 
-        this.body = new Vector<>();
+        this.body = new LinkedList<>();
         for (int i = 0; i < size; ++i)
             this.grow();
     }
@@ -39,7 +42,7 @@ public class Skane extends EntityQueMorde {
         this.is_bury = go_underground;
     }
 
-    public Vector<SkaneBody> getBody() {
+    public List<SkaneBody> getBody() {
         return this.body;
     }
 
@@ -48,19 +51,23 @@ public class Skane extends EntityQueMorde {
     }
 
     public void grow() {
-        body.insertElementAt(new SkaneBody(getPos()), 0);
+        body.add(0, new SkaneBody(getPos()));
     }
 
     public void shrink() {
-        body.removeElementAt(0);
+        body.remove(0);
     }
 
     @Override
     public void setPos(Position new_pos) {
-        for (int i = 0; i < body.size() - 1; ++i)
-            body.elementAt(i).setPos(body.elementAt(i + 1).getPos());
-        if (body.size() > 0)
-            body.lastElement().setPos(this.getPos());
+        int body_size = body.size();
+
+        if (body_size > 0) {
+            for (int i = 0; i < body_size - 1; ++i)
+                body.get(i).setPos(body.get(i + 1).getPos());
+
+            body.get(body_size - 1).setPos(this.getPos());
+        }
 
         super.setPos(new_pos);
     }

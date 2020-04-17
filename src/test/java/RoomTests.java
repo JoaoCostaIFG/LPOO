@@ -1,6 +1,6 @@
 import org.junit.Test;
 import room.Room;
-import room.element.Skane;
+import room.element.skane.Skane;
 import room.element.Wall;
 
 import static org.junit.Assert.assertEquals;

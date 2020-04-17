@@ -2,13 +2,12 @@ package gui;
 
 import room.Room;
 import room.element.Civilian;
-import room.element.Skane;
-import room.element.SkaneBody;
+import room.element.skane.Skane;
+import room.element.skane.SkaneBody;
 import room.element.Wall;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;

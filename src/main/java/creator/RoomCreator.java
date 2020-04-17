@@ -6,7 +6,7 @@ import java.util.Random;
 import room.Position;
 import room.Room;
 import room.element.Civilian;
-import room.element.Skane;
+import room.element.skane.Skane;
 import room.element.Wall;
 
 public class RoomCreator {

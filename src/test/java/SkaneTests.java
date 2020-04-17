@@ -1,19 +1,18 @@
 import org.junit.Before;
 import org.junit.Test;
 import room.Position;
-import room.element.Skane;
-import room.element.SkaneBody;
+import room.element.skane.Skane;
+import room.element.skane.SkaneBody;
 
-import java.util.Vector;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class SkaneTests {
     private final int initx = 50;
     private final int inity = 50;
     private Skane ska;
-    Vector<SkaneBody> body;
+    List<SkaneBody> body;
 
     @Before
     public void setUp() {

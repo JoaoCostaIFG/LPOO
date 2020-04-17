@@ -1,5 +1,5 @@
 import room.Position;
-import room.element.Skane;
+import room.element.skane.Skane;
 import room.element.Wall;
 
 public class CollisionHandler {

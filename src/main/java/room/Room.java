@@ -3,11 +3,9 @@ package room;
 import room.element.*;
 import observe.Observable;
 import observe.Observer;
-import com.googlecode.lanterna.TerminalSize;
-import sun.awt.image.ImageWatched;
+import room.element.skane.Skane;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Room implements Observable<Room> {
@@ -25,7 +23,7 @@ public class Room implements Observable<Room> {
         this.civies = new ArrayList<>();
     }
 
-    public Room(TerminalSize board_size) {
+    public Room(TerminalSizeInterface board_size) {
         this(board_size.getColumns(), board_size.getRows());
     }
 
@@ -42,7 +40,7 @@ public class Room implements Observable<Room> {
         this.height = height;
     }
 
-    public void setSize(TerminalSize new_size) {
+    public void setSize(TerminalSizeInterface new_size) {
         this.setSize(new_size.getColumns(), new_size.getRows());
     }
 
@@ -59,7 +57,7 @@ public class Room implements Observable<Room> {
     }
 
     public List<Element> getSamePos(Position pos) {
-        List<Element> elems = new LinkedList<>();
+        List<Element> elems = new ArrayList<>();
 
         if (skane.getPos().equals(pos))
             elems.add(skane);
@@ -79,6 +77,11 @@ public class Room implements Observable<Room> {
         if (e instanceof Skane) skane = (Skane) e;
         else if (e instanceof Wall) walls.add((Wall) e);
         else if (e instanceof Civilian) civies.add((Civilian) e);
+    }
+
+    public void addElements(List<Element> elems) {
+        for (Element e : elems)
+            addElement(e);
     }
 
     @Override

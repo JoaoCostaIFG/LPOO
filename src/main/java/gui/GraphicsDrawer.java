@@ -2,12 +2,12 @@ package gui;
 
 import room.Room;
 import room.element.Civilian;
-import room.element.Skane;
+import room.element.skane.Skane;
 import room.element.Wall;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,7 +21,7 @@ public interface GraphicsDrawer {
     void drawImage(int x, int y, List<String> image);
 
     static List<String> importAnsiImage(String file_name) {
-        List<String> image = new LinkedList<>();
+        List<String> image = new ArrayList<>();
 
         try {
             File image_file = new File(file_name);

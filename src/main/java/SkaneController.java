@@ -1,4 +1,4 @@
-import room.element.Skane;
+import room.element.skane.Skane;
 
 public class SkaneController {
     private Skane ska;
