@@ -1,6 +1,6 @@
 package gui;
 
-public enum Event {
+public enum EVENT {
     Bury,
     MoveLeft,
     MoveRight,
@@ -11,6 +11,6 @@ public enum Event {
     QuitGame,
     RestartGame;
 
-    private Event() {
+    private EVENT() {
     }
 }

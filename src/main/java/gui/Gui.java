@@ -16,7 +16,7 @@ public class Gui {
     private Screen screen;
     private GraphicsDrawer drawer;
     private TerminalResizeHandler resize_handler;
-    private Event event;
+    private EVENT event;
 
     private final int DFLT_WIDTH = 80; // default board width
     private final int DFLT_HEIGHT = 40; // default board height
@@ -35,7 +35,7 @@ public class Gui {
         this.room = map;
         this.drawer = new Drawer(screen.newTextGraphics());
 
-        this.event = Event.NullEvent;
+        this.event = EVENT.NullEvent;
         startInputHandler();
     }
 
@@ -57,7 +57,7 @@ public class Gui {
 
 
     public void releaseKeys() {
-        this.event = Event.NullEvent;
+        this.event = EVENT.NullEvent;
     }
 
     private void processKey(KeyStroke key) {
@@ -68,30 +68,30 @@ public class Gui {
             switch (key.getCharacter()) {
                 case 'a':
                 case 'A':
-                    this.event = Event.MoveLeft;
+                    this.event = EVENT.MoveLeft;
                     break;
                 case 'd':
                 case 'D':
-                    this.event = Event.MoveRight;
+                    this.event = EVENT.MoveRight;
                     break;
                 case 'w':
                 case 'W':
-                    this.event = Event.MoveUp;
+                    this.event = EVENT.MoveUp;
                     break;
                 case 's':
                 case 'S':
-                    this.event = Event.MoveDown;
+                    this.event = EVENT.MoveDown;
                     break;
                 case 'r':
                 case 'R':
-                    this.event = Event.RestartGame;
+                    this.event = EVENT.RestartGame;
                     break;
                 case 'q':
                 case 'Q':
-                    this.event = Event.QuitGame;
+                    this.event = EVENT.QuitGame;
                     break;
                 case ' ':
-                    this.event = Event.Bury;
+                    this.event = EVENT.Bury;
                 default:
                     break;
             }
@@ -99,20 +99,20 @@ public class Gui {
 
         switch (key.getKeyType()) {
             case ArrowLeft:
-                this.event = Event.MoveLeft;
+                this.event = EVENT.MoveLeft;
                 break;
             case ArrowRight:
-                this.event = Event.MoveRight;
+                this.event = EVENT.MoveRight;
                 break;
             case ArrowUp:
-                this.event = Event.MoveUp;
+                this.event = EVENT.MoveUp;
                 break;
             case ArrowDown:
-                this.event = Event.MoveDown;
+                this.event = EVENT.MoveDown;
                 break;
             case Escape:
             case EOF:
-                this.event = Event.QuitGame;
+                this.event = EVENT.QuitGame;
                 break;
             default:
                 break;
@@ -123,7 +123,7 @@ public class Gui {
         this.room = a;
     }
 
-    public Event getEvent() {
+    public EVENT getEvent() {
         return this.event;
     }
 

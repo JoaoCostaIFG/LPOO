@@ -3,24 +3,23 @@ package room.element;
 import room.Position;
 
 public abstract class EntityQueMorde extends Entity implements AgressiveElement {
-    private Integer atk;
+    private int atk;
 
-    public EntityQueMorde(Integer x, Integer y, Integer hp, Integer atk) {
-        super(x, y, hp);
-        this.atk = atk;
-    }
-
-    public EntityQueMorde(Position pos, Integer hp, Integer atk) {
+    public EntityQueMorde(Position pos, int hp, int atk) {
         super(pos, hp);
         this.atk = atk;
     }
 
+    public EntityQueMorde(int x, int y, int hp, int atk) {
+        this(new Position(x, y), hp, atk);
+    }
+
     /* attack */
-    public Integer getAtk() {
+    public int getAtk() {
         return atk;
     }
 
-    public void setAtk(Integer atk) {
+    public void setAtk(int atk) {
         this.atk = atk;
     }
 }

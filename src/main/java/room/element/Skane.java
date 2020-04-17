@@ -7,33 +7,27 @@ import java.util.Vector;
 public class Skane extends EntityQueMorde {
     private Vector<SkaneBody> body;
     private Boolean is_bury;
-    private Integer oxygen_level;
+    private int oxygen_level;
 
-    public Skane(Integer x, Integer y, Integer atk, Integer hp, Integer oxy) {
-        super(x, y, hp, atk);
-        this.is_bury = false;
-        this.oxygen_level = oxy;
-
-        this.body = new Vector<>();
-        for (int i = 0; i < 3; ++i)
-            this.grow();
-    }
-
-    public Skane(Position pos, Integer atk, Integer hp, Integer oxy) {
+    public Skane(Position pos, int atk, int hp, int oxy, int size) {
         super(pos, hp, atk);
         this.is_bury = false;
         this.oxygen_level = oxy;
 
         this.body = new Vector<>();
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < size; ++i)
             this.grow();
     }
 
-    public Integer getOxygenLevel() {
+    public Skane(int x, int y, int atk, int hp, int oxy, int size) {
+        this(new Position(x, y), atk, hp, oxy, size);
+    }
+
+    public int getOxygenLevel() {
         return this.oxygen_level;
     }
 
-    public void setOxygenLevel(Integer oxygen_level) {
+    public void setOxygenLevel(int oxygen_level) {
         this.oxygen_level = oxygen_level;
     }
 
@@ -49,7 +43,7 @@ public class Skane extends EntityQueMorde {
         return this.body;
     }
 
-    public Integer getSize() {
+    public int getSize() {
         return this.body.size();
     }
 

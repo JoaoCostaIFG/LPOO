@@ -6,7 +6,7 @@ import com.googlecode.lanterna.terminal.TerminalResizeListener;
 
 public class TerminalResizeHandler implements TerminalResizeListener {
     private TerminalSize tsize;
-    private Boolean has_resized;
+    private boolean has_resized;
 
     public TerminalResizeHandler(TerminalSize current_size) {
         this.has_resized = false;

@@ -1,7 +1,7 @@
 package room.element;
 
 public interface AgressiveElement {
-    Integer getAtk();
+    int getAtk();
 
-    void setAtk(Integer atk);
+    void setAtk(int atk);
 }

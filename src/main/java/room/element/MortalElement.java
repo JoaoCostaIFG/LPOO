@@ -1,11 +1,11 @@
 package room.element;
 
 public interface MortalElement {
-    Integer getHp();
+    int getHp();
 
-    void setHp(Integer hp);
+    void setHp(int hp);
 
-    void takeDamage(Integer dmg);
+    void takeDamage(int dmg);
 
     boolean isAlive();
 }

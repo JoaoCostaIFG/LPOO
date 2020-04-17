@@ -6,21 +6,26 @@ import room.element.Wall;
 import static org.junit.Assert.assertEquals;
 
 public class RoomTests {
-    private Room room = new Room(60, 30);
+    private Room room = new Room(300, 100);
 
     @Test
     public void creation() {
         assertEquals(1, 1);
-        assertEquals(room.getWidth(), 60);
-        assertEquals(room.getHeight(), 30);
+        assertEquals(room.getWidth(), 300);
+        assertEquals(room.getHeight(), 100);
+
+    }
+
+    @Test
+    public void addElement() {
+        Skane skane = new Skane(1, 5, 10, 5, 5, 3);
+        room.addElement(skane);
+        assertEquals(room.getSkane(), skane);
+        assertEquals(room.getSkane().getPos(), skane.getPos());
 
         Wall wall = new Wall(2, 3);
-        Skane skane = new Skane(1, 5, 10, 5, 5, 3);
-
         room.addElement(wall);
-        room.addElement(skane);
-
         assertEquals(room.getWalls().size(), 1);
-        assertEquals(room.getSkane(), skane);
+        assertEquals(room.getWalls().get(0).getPos(), wall.getPos());
     }
 }

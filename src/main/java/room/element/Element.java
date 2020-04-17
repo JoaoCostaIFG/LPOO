@@ -5,12 +5,12 @@ import room.Position;
 public abstract class Element {
     private Position pos;
 
-    public Element(int x, int y) {
-        this.pos = new Position(x, y);
-    }
-
     public Element(Position pos) {
         this.pos = pos;
+    }
+
+    public Element(int x, int y) {
+        this(new Position(x, y));
     }
 
     public int getX() {

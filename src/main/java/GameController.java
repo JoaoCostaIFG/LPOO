@@ -1,8 +1,7 @@
-import Creator.RoomCreator;
+import creator.RoomCreator;
 import room.Position;
-import com.googlecode.lanterna.TerminalSize;
 import gui.Gui;
-import gui.Event;
+import gui.EVENT;
 import room.Room;
 
 import java.io.IOException;
@@ -10,7 +9,7 @@ import java.io.IOException;
 public class GameController {
     private Room room;
     private Gui gui;
-    private GameState state;
+    private GAMEST state;
     private SkaneController skaneController;
     private CollisionHandler colHandler;
     private final int DELAY = 25; // time between frames (in ms)
@@ -19,11 +18,11 @@ public class GameController {
         new GameController().start();
     }
 
-    private void handleEvent(Event event) {
-        if (event == Event.NullEvent) return;
-        else if (event == Event.QuitGame) this.state = GameState.STOPPPED;
-        else if (event == Event.RestartGame) this.state = GameState.RESTART;
-        else if (event == Event.Bury) skaneController.toggleBury();
+    private void handleEvent(EVENT event) {
+        if (event == EVENT.NullEvent) return;
+        else if (event == EVENT.QuitGame) this.state = GAMEST.STOPPPED;
+        else if (event == EVENT.RestartGame) this.state = GAMEST.RESTART;
+        else if (event == EVENT.Bury) skaneController.toggleBury();
         else { // Movement Event
             Position new_pos = room.getSkane().getPos();
             switch (event) {
@@ -47,15 +46,15 @@ public class GameController {
 
     private void start() throws IOException {
         RoomCreator creator = new RoomCreator();
-        room = creator.createRoom(new TerminalSize(80, 40));
+        room = creator.createRoom(80, 40);
         skaneController = new SkaneController(room.getSkane(), 200);
         gui = new Gui(room);
-        state = GameState.RUNNING;
+        state = GAMEST.RUNNING;
         colHandler = new CollisionHandler(this);
 
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
-        while (state == GameState.RUNNING) { // TODO make run method
+        while (state == GAMEST.RUNNING) { // TODO make run method
             handleEvent(gui.getEvent());
             skaneController.inhale();
             gui.releaseKeys();

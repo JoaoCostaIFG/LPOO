@@ -1,38 +1,50 @@
 package room;
 
 import room.element.Element;
+import room.element.Entity;
 import room.element.Skane;
 import room.element.Wall;
 import observe.Observable;
 import observe.Observer;
 import com.googlecode.lanterna.TerminalSize;
+import sun.awt.image.ImageWatched;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Room implements Observable<Room> {
-    private TerminalSize board_size;
+    private int width, height;
     private List<Observer<Room>> observers;
     private Skane skane;
     private List<Wall> walls;
 
-    public Room(TerminalSize board_size) {
-        this.board_size = board_size;
-
+    public Room(int width, int height) {
+        this.width = width;
+        this.height = height;
         this.walls = new ArrayList<>();
         this.observers = new ArrayList<>();
     }
 
+    public Room(TerminalSize board_size) {
+        this(board_size.getColumns(), board_size.getRows());
+    }
+
     public int getWidth() {
-        return board_size.getColumns();
+        return width;
     }
 
     public int getHeight() {
-        return board_size.getRows();
+        return height;
+    }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public void setSize(TerminalSize new_size) {
-        this.board_size = new_size;
+        this.setSize(new_size.getColumns(), new_size.getRows());
     }
 
     public List<Wall> getWalls() {
@@ -41,6 +53,19 @@ public class Room implements Observable<Room> {
 
     public Skane getSkane() {
         return this.skane;
+    }
+
+    public List<Element> getSamePos(Position pos) {
+        List<Element> elems = new LinkedList<>();
+
+        if (skane.getPos().equals(pos))
+            elems.add(skane);
+
+        for (Wall w : walls)
+            if (w.getPos().equals(pos))
+                elems.add(w);
+
+        return elems;
     }
 
     public void moveSkane(Position new_p) {
@@ -67,5 +92,4 @@ public class Room implements Observable<Room> {
         for (Observer<Room> observer : this.observers)
             observer.changed(this);
     }
-
 }

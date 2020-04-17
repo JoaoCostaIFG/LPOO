@@ -3,28 +3,27 @@ package room.element;
 import room.Position;
 
 public abstract class Entity extends Element implements MortalElement, MovableElement {
-    private Integer hp;
+    private int hp;
 
-    public Entity(Integer x, Integer y, Integer hp) {
-        super(x, y);
-        this.hp = hp;
-    }
-
-    public Entity(Position pos, Integer hp) {
+    public Entity(Position pos, int hp) {
         super(pos);
         this.hp = hp;
     }
 
+    public Entity(int x, int y, int hp) {
+        this(new Position(x, y), hp);
+    }
+
     /* health */
-    public Integer getHp() {
+    public int getHp() {
         return hp;
     }
 
-    public void setHp(Integer hp) {
+    public void setHp(int hp) {
         this.hp = hp;
     }
 
-    public void takeDamage(Integer dmg) {
+    public void takeDamage(int dmg) {
         if (hp - dmg <= 0)
             setHp(0);
         else
