@@ -7,6 +7,7 @@ import room.element.SkaneBody;
 import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class SkaneTests {
     private final int initx = 50;
@@ -121,5 +122,16 @@ public class SkaneTests {
         assertEquals(ska.getPos(), new Position(x, y - 9));
         assertEquals(body.get(1).getPos(), new Position(x, y + 11));
         assertEquals(body.get(0).getPos(), new Position(x, y + 1));
+    }
+
+    @Test
+    public void growAndShrink() {
+        ska.grow();
+        assertEquals(ska.getSize(), 3);
+        assertEquals(ska.getBody().get(0).getPos(), ska.getPos());
+
+
+        ska.shrink();
+        assertEquals(ska.getSize(), 2);
     }
 }
