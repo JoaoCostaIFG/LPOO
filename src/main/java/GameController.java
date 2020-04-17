@@ -5,6 +5,7 @@ import gui.EVENT;
 import room.Room;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 
 public class GameController {
     private Room room;
@@ -44,14 +45,23 @@ public class GameController {
         }
     }
 
-    private void start() throws IOException {
-        RoomCreator creator = new RoomCreator();
-        room = creator.createRoom(80, 40);
-        skaneController = new SkaneController(room.getSkane(), 200);
-        gui = new Gui(room);
-        state = GAMEST.RUNNING;
-        colHandler = new CollisionHandler(this);
+    public GameController(Room room, Gui gui) {
+        this.room = room;
+        this.gui = gui;
+        this.state = GAMEST.RUNNING;
+        this.colHandler = new CollisionHandler(this);
+        this.skaneController = new SkaneController(room.getSkane(), 200);
+    }
 
+    public GameController(Room room) throws IOException {
+        this(room, new Gui(room));
+    }
+
+    public GameController() throws IOException {
+        this(new RoomCreator().createRoom(80, 40));
+    }
+
+    private void start() throws IOException {
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
         while (state == GAMEST.RUNNING) { // TODO make run method
