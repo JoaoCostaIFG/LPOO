@@ -7,6 +7,7 @@ import room.element.skane.SkaneBody;
 import room.element.Wall;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import sun.awt.image.ImageWatched;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Drawer implements GraphicsDrawer {
         this.gra = gra;
     }
 
-    public void drawImage(int x, int y, List<String> image) {
+    public void drawImage(List<String> image, int x, int y) {
         int line_y = y;
         for (String l : image)
             gra.putCSIStyledString(x, line_y++, l);

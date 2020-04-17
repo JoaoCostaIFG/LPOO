@@ -18,7 +18,7 @@ public interface GraphicsDrawer {
 
     void drawCivie(Civilian civie);
 
-    void drawImage(int x, int y, List<String> image);
+    void drawImage(List<String> image, int x, int y);
 
     static List<String> importAnsiImage(String file_name) {
         List<String> image = new ArrayList<>();

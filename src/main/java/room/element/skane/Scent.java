@@ -1,5 +1,6 @@
 package room.element.skane;
 
+import observe.Observer;
 import room.Position;
 import room.element.Element;
 
@@ -23,6 +24,10 @@ public class Scent extends Element {
 
     public void setDuration(int new_duration) {
         this.duration = new_duration;
+    }
+
+    public void tick() {
+        --duration;
     }
 
     @Override

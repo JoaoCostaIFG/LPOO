@@ -3,6 +3,7 @@ import room.Position;
 import gui.Gui;
 import gui.EVENT;
 import room.Room;
+import room.element.skane.Skane;
 
 import java.io.IOException;
 
@@ -56,7 +57,7 @@ public class GameController {
         beforeTime = System.currentTimeMillis();
         while (state == GAMEST.RUNNING) { // TODO make run method
             handleEvent(gui.getEvent());
-            skaneController.inhale();
+            skaneController.skaneFrame(); // TODO pass move cmd
             gui.releaseKeys();
             gui.draw();
 

@@ -1,34 +1,33 @@
 package room.element.skane;
 
+import observe.Observable;
+import observe.Observer;
 import room.Position;
 import room.element.EntityQueMorde;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Skane extends EntityQueMorde {
     private Boolean is_bury;
     private int oxygen_level;
     private List<SkaneBody> body;
     private int scent_dur;
-    private HashSet<Scent> scent_trail;
+    private LinkedHashSet<Scent> scent_trail;
 
-    public Skane(Position pos, int atk, int hp, int oxy, int size, int scent) {
+    public Skane(Position pos, int atk, int hp, int oxy, int size, int scent_dur) {
         super(pos, hp, atk);
         this.is_bury = false;
         this.oxygen_level = oxy;
-        this.scent_dur = scent;
+        this.scent_dur = scent_dur;
         this.scent_trail = new LinkedHashSet<>();
 
-        this.body = new LinkedList<>();
+        this.body = new ArrayList<>();
         for (int i = 0; i < size; ++i)
             this.grow();
     }
 
-    public Skane(int x, int y, int atk, int hp, int oxy, int size, int scent) {
-        this(new Position(x, y), atk, hp, oxy, size, scent);
+    public Skane(int x, int y, int atk, int hp, int oxy, int size, int scent_dur) {
+        this(new Position(x, y), atk, hp, oxy, size,scent_dur);
     }
 
     public Skane(SkaneOpts opts) {
@@ -37,7 +36,8 @@ public class Skane extends EntityQueMorde {
                 opts.hp,
                 opts.oxygen_lvl,
                 opts.size,
-                opts.scent_duration);
+                opts.scent_dur
+        );
     }
 
     public int getOxygenLevel() {
@@ -72,10 +72,31 @@ public class Skane extends EntityQueMorde {
         body.remove(0);
     }
 
+    public Position getTailPos() {
+        return body.get(body.size() - 1).getPos();
+    }
+
+    public LinkedHashSet<Scent> getScentTrail() {
+        return this.scent_trail;
+    }
+
+    public void dropScent(){
+        scent_trail.add(new Scent(getTailPos(), scent_dur));
+    }
+
+    public void tickScentTrail() {
+        for (Scent s : scent_trail)
+            s.tick();
+
+        dropScent();
+        scent_trail.removeIf(s -> s.getDuration() == 0);
+    }
+
     @Override
     public void setPos(Position new_pos) {
-        int body_size = body.size();
+        tickScentTrail();
 
+        int body_size = body.size();
         if (body_size > 0) {
             for (int i = 0; i < body_size - 1; ++i)
                 body.get(i).setPos(body.get(i + 1).getPos());
@@ -84,9 +105,5 @@ public class Skane extends EntityQueMorde {
         }
 
         super.setPos(new_pos);
-    }
-
-    public void dropScent() {
-        scent_trail.add(new Scent(getPos(), scent_dur));
     }
 }

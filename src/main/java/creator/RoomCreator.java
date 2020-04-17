@@ -52,7 +52,6 @@ public class RoomCreator {
         skane_opts.hp = 3;
         skane_opts.oxygen_lvl = 200;
         skane_opts.size = 3;
-        skane_opts.scent_duration = 10;
 
         Skane skane = new Skane(skane_opts);
         room.addElement(skane);
