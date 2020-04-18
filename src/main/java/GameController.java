@@ -1,3 +1,4 @@
+import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
 import room.Position;
 import gui.Gui;
@@ -12,7 +13,7 @@ public class GameController {
     private GAMEST state;
     private SkaneController skaneController;
     private CollisionHandler colHandler;
-    private final int DELAY = 25; // time between frames (in ms)
+    private final int DELAY = 60; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
         new GameController().start();
@@ -61,14 +62,15 @@ public class GameController {
         this(new RoomCreator().createRoom(80, 40));
     }
 
-    public void start() throws IOException {
-        this.state = GAMEST.RUNNING;
+    private void run() throws IOException {
         long beforeTime, timeDiff, sleep;
         beforeTime = System.currentTimeMillis();
+
         gui.startInputHandler();
-        while (state == GAMEST.RUNNING) { // TODO make run method
+        while (state == GAMEST.RUNNING) {
             handleEvent(gui.getEvent());
-            skaneController.inhale(); // TODO pass move cmd
+            skaneController.inhale();
+            room.moveCivilians();
             gui.releaseKeys();
             gui.draw();
 
@@ -84,8 +86,24 @@ public class GameController {
             }
             beforeTime = System.currentTimeMillis();
         }
+    }
 
+    public void start() throws IOException {
+        while (this.state != GAMEST.STOPPPED) {
+            this.run();
+            if (this.state == GAMEST.RESTART)
+                this.restart();
+        }
         gui.close();
+    }
+
+    public void restart() {
+        TerminalSize ts = gui.getTermSize();
+        this.room = new RoomCreator().createRoom(ts.getColumns(), ts.getRows());
+        this.gui.stopInputHandler();
+        this.gui.setRoom(this.room);
+        this.colHandler = new CollisionHandler(this.room);
+        this.skaneController = new SkaneController(room.getSkane(), 200);
     }
 
     public void end() {

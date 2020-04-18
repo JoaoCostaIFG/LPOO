@@ -71,7 +71,7 @@ public class RoomCreator {
 
     private void createEnemies(Room room, int width, int height) {
         Position civie_pos;
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < 1; ++i) {
             civie_pos = getRdmPosRoom(width, height);
             room.addElement(new Civilian(civie_pos, 1));
         }

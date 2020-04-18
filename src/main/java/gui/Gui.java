@@ -12,11 +12,31 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Gui {
+    private class Control {
+        public volatile boolean flag = false;
+    }
+
+    private class InputHandler implements Runnable {
+        @Override
+        public void run() {
+            while (ctrl.flag) {
+                try {
+                    processKey(screen.readInput());
+                    // processKey(screen.pollInput());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private final Control ctrl = new Control();
     private Room room;
     private Screen screen;
     private GraphicsDrawer drawer;
     private TerminalResizeHandler resize_handler;
     private EVENT event;
+    private Thread input_handler;
 
     private final int DFLT_WIDTH = 80; // default board width
     private final int DFLT_HEIGHT = 40; // default board height
@@ -38,22 +58,16 @@ public class Gui {
         this.event = EVENT.NullEvent;
     }
 
-    public void startInputHandler() {
-        Thread input_handler = new Thread(() -> {
-            while (true) {
-                try {
-                    processKey(screen.readInput());
-                    // processKey(screen.pollInput());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public void stopInputHandler() {
+        ctrl.flag = false;
+    }
 
+    public void startInputHandler() {
+        ctrl.flag = true;
+        input_handler = new Thread (new InputHandler());
         input_handler.setDaemon(true);
         input_handler.start();
     }
-
 
     public void releaseKeys() {
         this.event = EVENT.NullEvent;
@@ -118,12 +132,16 @@ public class Gui {
         }
     }
 
-    public void setRoom(Room a) {
-        this.room = a;
+    public void setRoom(Room r) {
+        this.room = r;
     }
 
     public EVENT getEvent() {
         return this.event;
+    }
+
+    public TerminalSize getTermSize() {
+        return this.resize_handler.getLastKnownSize();
     }
 
     public void close() throws IOException {
