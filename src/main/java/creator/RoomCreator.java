@@ -67,6 +67,10 @@ public class RoomCreator {
             room.addElement(new Wall(0, r));
             room.addElement(new Wall(width - 1, r));
         }
+
+        for (int m = height / 3; m < 2 * height / 3; ++m) {
+            room.addElement(new Wall(width / 2, m));
+        }
     }
 
     private void createEnemies(Room room, int width, int height) {
@@ -80,8 +84,9 @@ public class RoomCreator {
     public Room createRoom(int width, int height) {
         Room room = new Room(width, height);
 
-        createSkane(room, width, height);
         createWalls(room, width, height);
+
+        createSkane(room, width, height);
         createEnemies(room, width, height);
 
         return room;

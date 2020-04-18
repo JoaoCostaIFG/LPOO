@@ -69,7 +69,8 @@ public class Drawer implements GraphicsDrawer {
 
         drawSkane(room.getSkane());
 
+        TextCharacter scentChar = new TextCharacter('i', fromString("#Fc9866"), bg);
         for (Scent s: room.getsss())
-            gra.setCharacter(s.getX(), s.getY(), wallChar);
+            gra.setCharacter(s.getX(), s.getY(), scentChar);
     }
 }
