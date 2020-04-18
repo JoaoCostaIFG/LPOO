@@ -22,7 +22,8 @@ to time;
 - some stronger enemies (e.g.: tanks) can yield some extra rewards, like movement
 speed upgrades, upon death;
 
-Project developed by João Costa e João Martins (up201806436@fe.up.pt) // TODO put your email here
+Project developed by João de Jesus Costa (up201806560@fe.up.pt) e
+João Lucas Silva Martins (up201806436@fe.up.pt)
 
 # Features
 
