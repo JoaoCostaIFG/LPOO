@@ -13,7 +13,7 @@ public class GameController {
     private GAMEST state;
     private SkaneController skaneController;
     private CollisionHandler colHandler;
-    private final int DELAY = 60; // time between frames (in ms)
+    private final int DELAY = 40; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
         new GameController().start();
@@ -98,9 +98,10 @@ public class GameController {
     }
 
     public void restart() {
+        this.state = GAMEST.RUNNING;
         TerminalSize ts = gui.getTermSize();
         this.room = new RoomCreator().createRoom(ts.getColumns(), ts.getRows());
-        this.gui.stopInputHandler();
+        //this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
         this.colHandler = new CollisionHandler(this.room);
         this.skaneController = new SkaneController(room.getSkane(), 200);

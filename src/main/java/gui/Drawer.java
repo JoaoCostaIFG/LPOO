@@ -18,9 +18,11 @@ public class Drawer implements GraphicsDrawer {
     private static final TextColor blue = fromString("#0E91E7");
     private static final TextColor green = fromString("#76A15D");
     private static final TextColor purple = fromString("#8558AD");
+    private static final TextColor red = fromString("#844F4E");
 
     private static final TextCharacter bgChar = new TextCharacter(' ', bg, bg);
     private static final TextCharacter civieChar = new TextCharacter('C', blue, bg);
+    private static final TextCharacter meleeChar = new TextCharacter('M', red, bg);
     private static final TextCharacter skaChar = new TextCharacter('S', green, bg, SGR.BOLD);
     private static final TextCharacter skaBuryChar = new TextCharacter('X', green, bg, SGR.BOLD);
     private static final TextCharacter skaBodyChar = new TextCharacter('o', green, bg);
@@ -68,9 +70,5 @@ public class Drawer implements GraphicsDrawer {
             drawCivie(civie);
 
         drawSkane(room.getSkane());
-
-        TextCharacter scentChar = new TextCharacter('i', fromString("#Fc9866"), bg);
-        for (Scent s: room.getsss())
-            gra.setCharacter(s.getX(), s.getY(), scentChar);
     }
 }

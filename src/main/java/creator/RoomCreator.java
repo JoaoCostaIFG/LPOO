@@ -51,7 +51,7 @@ public class RoomCreator {
         skane_opts.attack_dmg = 10;
         skane_opts.hp = 3;
         skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 3;
+        skane_opts.size = 30;
 
         Skane skane = new Skane(skane_opts);
         room.addElement(skane);
@@ -75,7 +75,7 @@ public class RoomCreator {
 
     private void createEnemies(Room room, int width, int height) {
         Position civie_pos;
-        for (int i = 0; i < 1; ++i) {
+        for (int i = 0; i < 100; ++i) {
             civie_pos = getRdmPosRoom(width, height);
             room.addElement(new Civilian(civie_pos, 1));
         }

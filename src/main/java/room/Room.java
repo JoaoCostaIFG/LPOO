@@ -145,8 +145,6 @@ public class Room implements Observable<Room> {
             // advance the X coordinate to next pixel
             x += xDirection;
             elems = getSamePos(new Position(x, y));
-
-            sss.add(new Scent(new Position(x, y), 1));
         }
 
         return elems;
@@ -185,8 +183,6 @@ public class Room implements Observable<Room> {
             // advance the Y coordinate to next pixel
             y += yDirection;
             elems = getSamePos(new Position(x, y));
-
-            sss.add(new Scent(new Position(x, y), 1));
         }
 
         return elems;
@@ -249,18 +245,14 @@ public class Room implements Observable<Room> {
     }
 
     public boolean isSkanePos(Position p) {
-        for (Element e : getSamePos(p))
-            if (e instanceof Skane || e instanceof SkaneBody)
+        if (p.equals(skane.getPos()))
+            return true;
+
+        for (SkaneBody b : skane.getBody())
+            if (p.equals(b.getPos()))
                 return true;
 
         return false;
-    }
-
-
-    private List<Scent> sss = new ArrayList<>();
-
-    public List<Scent> getsss() {
-        return sss;
     }
 
     private int i = 0;
@@ -285,12 +277,12 @@ public class Room implements Observable<Room> {
             if (isSkanePos(civie_pos)) // don't go anywhere if already on skane
                 continue;
 
-            sss.clear();
-            p = civie_pos;
-            ray = raycast(civie_pos, skane.getPos());
-
             dist = -1;
             got_one = false;
+            p = civie_pos;
+
+            // ray cast skane head
+            ray = raycast(civie_pos, skane.getPos());
             if (ray.size() > 0) {
                 p = ray.get(0).getPos();
                 if (isSkanePos(p)) {
@@ -299,17 +291,16 @@ public class Room implements Observable<Room> {
                 }
             }
 
+            // ray cast skane body
             for (SkaneBody sb : skane.getBody()) {
-                ray = raycast(civie_pos, sb.getPos());
+                p = sb.getPos();
+                ray = raycast(civie_pos, p);
 
-                if (ray.size() > 0) {
-                    p = ray.get(0).getPos();
-                    if (isSkanePos(p)) {
-                        dist_tmp = civie_pos.dist(p);
-                        if (!got_one || dist_tmp < dist) {
-                            got_one = true;
-                            dist = dist_tmp;
-                        }
+                if (ray.size() > 0 && p.equals(ray.get(0).getPos())) {
+                    dist_tmp = civie_pos.dist(p);
+                    if (!got_one || dist_tmp < dist) {
+                        got_one = true;
+                        dist = dist_tmp;
                     }
                 }
             }
@@ -343,6 +334,17 @@ public class Room implements Observable<Room> {
                         civie.setPos(dest_vert);
                     else if (getSamePos(dest_hori).size() == 0)
                         civie.setPos(dest_hori);
+                }
+            } else { // can't see skane, try to fins scent
+                int freshest = 0;
+                for (Scent sc : skane.getScentTrail()) {
+                    p = sc.getPos();
+                    ray = raycast(civie_pos, p);
+
+                    if (ray.size() > 0 && p.equals(ray.get(0).getPos()) &&
+                            sc.getDuration() > freshest) {
+                        freshest = sc.getDuration();
+                    }
                 }
             }
         }
