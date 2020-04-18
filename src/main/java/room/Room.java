@@ -72,6 +72,10 @@ public class Room implements Observable<Room> {
             if (w.getPos().equals(pos))
                 elems.add(w);
 
+        for (Civilian c : civies)
+            if (c.getPos().equals(pos))
+                elems.add(c);
+
         return elems;
     }
 
@@ -106,31 +110,110 @@ public class Room implements Observable<Room> {
             observer.changed(this);
     }
 
-    private List<Scent> sss = new ArrayList<>();
+    private List<Element> octant03Ray(int x0, int y0, int deltaX, int deltaY, int xDirection) {
+        System.out.println("oct 03");
+        /*
+         * Draws a line in octant 0 or 3 ( |deltaX| >= deltaY ).
+         * x0, y0: coordinates of start of the line
+         * deltaX, deltaY: length of the line (both > 0)
+         * xDirection: 1 if line is drawn left to right, -1 if drawn right to left
+         */
+        List<Element> elems = new ArrayList<>();
 
-    public List<Scent> getsss() {
-        return sss;
+        // Set up initial error term and values used inside drawing loop
+        int deltaYx2 = deltaY * 2;
+        int deltaYx2MinusDeltaXx2 = deltaYx2 - deltaX * 2;
+        int errorTerm = deltaYx2 - deltaX;
+
+        while (elems.size() == 0 && (x0 > 0 && x0 < width)) {
+            /* See if it's time to advance the Y coordinate */
+            if (errorTerm >= 0) {
+                // Advance the Y coordinate & adjust the error term back down
+                ++y0;
+                errorTerm += deltaYx2MinusDeltaXx2;
+            } else {
+                // Add to the error term
+                errorTerm += deltaYx2;
+            }
+
+            // advance the X coordinate to next pixel
+            x0 += xDirection;
+            elems = getSamePos(new Position(x0, y0));
+
+            sss.add(new Scent(new Position(x0, y0), 1));
+        }
+
+        return elems;
+    }
+
+    private List<Element> octant12Ray(int x0, int y0, int deltaX, int deltaY, int xDirection) {
+        System.out.println("oct 12");
+        /*
+         * Draws a line in octant 1 or 2 ( |deltaX| < deltaY ).
+         * x0, y0: coordinates of start of the line
+         * deltaX, deltaY: length of the line (both > 0)
+         * xDirection: 1 if line is drawn left to right, -1 if drawn right to left
+         */
+        List<Element> elems = new ArrayList<>();
+
+        // Set up initial error term and values used inside drawing loop
+        int deltaXx2 = deltaX * 2;
+        int deltaXx2MinusDeltaYx2 = deltaXx2 - (int) (deltaY * 2);
+        int errorTerm = deltaXx2 - (int) deltaY;
+
+        while (elems.size() == 0 && (y0 > 0 && y0 < height)) {
+            /* See if it's time to advance the X coordinate */
+            if (errorTerm >= 0) {
+                // Advance the X coordinate & adjust the error term back down
+                x0 += xDirection;
+                errorTerm += deltaXx2MinusDeltaYx2;
+            } else {
+                // Add to the error term
+                errorTerm += deltaXx2;
+            }
+
+            // advance the Y coordinate to next pixel
+            y0++;
+            elems = getSamePos(new Position(x0, y0));
+
+            sss.add(new Scent(new Position(x0, y0), 1));
+        }
+
+        return elems;
     }
 
     public List<Element> raycast(Position s, Position t) {
-        float x = s.getX();
-        float y = s.getY();
-        float dirX = t.getX() - x;
-        float dirY = t.getY() - y;
-        float norm = (float) Math.sqrt(Math.pow(dirX, 2) + Math.pow(dirY, 2));
-        List<Element> elems = new ArrayList<>();
-        Position p;
+        /*
+         * Fast bresenham's line-drawing algorithm adapted for
+         * collision detetion ray-casting.
+         */
+        List<Element> elems;
 
-        dirX /= norm;
-        dirY /= norm;
+        /* source and target coords */
+        int x0 = s.getX(), x1 = t.getX(), y0 = s.getY(), y1 = t.getY();
+        int tmp;
+        if (y0 > y1) { // swap source and target
+            tmp = y0;
+            y0 = y1;
+            y1 = tmp;
+            tmp = x0;
+            x0 = x1;
+            x1 = tmp;
+        }
 
-        while (elems.size() == 0) {
-            x += dirX;
-            y += dirY;
-            p = new Position(Math.round(x), Math.round(y));
-            elems = getSamePos(p);
-
-            sss.add(new Scent(p, 1));
+        int deltaX = x1 - x0;
+        int deltaY = y1 - y0;
+        if (deltaX > 0) {
+            if (deltaX > deltaY)
+                elems = octant03Ray(x0, y0, deltaX, deltaY, 1);
+            else
+                elems = octant12Ray(x0, y0, deltaX, deltaY, 1);
+        } else {
+            deltaX = -deltaX; // absolute value of deltaX
+            if (deltaX > deltaY)
+                elems = octant03Ray(x0, y0, deltaX, deltaY, -1);
+            else
+                elems = octant12Ray(x0, y0, deltaX, deltaY, -1);
         }
 
         return elems;
@@ -144,8 +227,14 @@ public class Room implements Observable<Room> {
         return false;
     }
 
-    // TODO strategy pattern
+
+    private List<Scent> sss = new ArrayList<>();
+
+    public List<Scent> getsss() {
+        return sss;
+    }
     public void moveCivilians() {
+        // TODO strategy pattern
         List<Element> ray;
         Position civie_pos, p;
         double dist, dist_tmp;
@@ -167,6 +256,7 @@ public class Room implements Observable<Room> {
                 dist = civie_pos.dist(p);
             }
 
+            /*
             for (SkaneBody sb : skane.getBody()) {
                 ray = raycast(civie_pos, sb.getPos());
 
@@ -179,6 +269,7 @@ public class Room implements Observable<Room> {
                     }
                 }
             }
+             */
         }
     }
 }
