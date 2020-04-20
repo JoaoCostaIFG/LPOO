@@ -1,3 +1,4 @@
+import Controller.CollisionHandler;
 import org.junit.Before;
 import org.junit.Test;
 import room.Position;

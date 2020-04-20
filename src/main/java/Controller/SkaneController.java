@@ -1,3 +1,5 @@
+package Controller;
+
 import room.element.skane.Skane;
 
 public class SkaneController {

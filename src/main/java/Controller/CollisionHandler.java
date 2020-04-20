@@ -1,3 +1,5 @@
+package Controller;
+
 import room.Position;
 import room.element.skane.Skane;
 import room.Room;

@@ -1,11 +1,15 @@
+package Controller;
+
 import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
 import room.Position;
 import gui.Gui;
 import gui.EVENT;
 import room.Room;
+import room.element.Civilian;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GameController {
     private Room room;
@@ -70,6 +74,17 @@ public class GameController {
         while (state == GAMEST.RUNNING) {
             handleEvent(gui.getEvent());
             skaneController.inhale();
+
+            for (Civilian c : room.getCivies()) {
+                List<Position> ps = c.executeStrategy();
+                for (Position p : ps) {
+                    if (colHandler.canSkaneMove(p)) {
+                        c.setPos(p);
+                        break;
+                    }
+                }
+            }
+
             gui.releaseKeys();
             gui.draw();
 
