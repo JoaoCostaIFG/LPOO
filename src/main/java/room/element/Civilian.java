@@ -7,7 +7,7 @@ public class Civilian extends Entity {
         super(pos, hp);
     }
 
-    public Civilian(Integer x, Integer y, Integer hp) {
+    public Civilian(int x, int y, int hp) {
         this(new Position(x, y), hp);
     }
 }

@@ -59,6 +59,7 @@ public class Gui {
     }
 
     public void stopInputHandler() {
+        // TODO dunno if it works
         ctrl.flag = false;
     }
 

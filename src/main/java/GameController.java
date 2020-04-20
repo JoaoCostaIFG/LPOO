@@ -21,7 +21,7 @@ public class GameController {
 
     private void handleEvent(EVENT event) {
         if (event == EVENT.NullEvent) return;
-        else if (event == EVENT.QuitGame) this.state = GAMEST.STOPPPED;
+        else if (event == EVENT.QuitGame) this.end();
         else if (event == EVENT.RestartGame) this.state = GAMEST.RESTART;
         else if (event == EVENT.Bury) skaneController.toggleBury();
         else { // Movement Event
@@ -70,7 +70,6 @@ public class GameController {
         while (state == GAMEST.RUNNING) {
             handleEvent(gui.getEvent());
             skaneController.inhale();
-            room.moveCivilians();
             gui.releaseKeys();
             gui.draw();
 
@@ -89,7 +88,7 @@ public class GameController {
     }
 
     public void start() throws IOException {
-        while (this.state != GAMEST.STOPPPED) {
+        while (this.state != GAMEST.STOPPED) {
             this.run();
             if (this.state == GAMEST.RESTART)
                 this.restart();
@@ -108,7 +107,7 @@ public class GameController {
     }
 
     public void end() {
-        this.state = GAMEST.STOPPPED;
+        this.state = GAMEST.STOPPED;
     }
 
     public Room getRoom() {

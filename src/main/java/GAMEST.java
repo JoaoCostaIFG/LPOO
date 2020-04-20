@@ -1,6 +1,6 @@
 public enum GAMEST {
     RUNNING,
-    STOPPPED,
+    STOPPED,
     RESTART;
 
     private GAMEST() {
