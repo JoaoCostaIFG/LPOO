@@ -1,31 +1,16 @@
-# LPOO project group 73 (g73)
-
-LPOO FEUP MIEIC.
-
-## Project details
-
-**Name**: Skane dweller.  
-**Brief description**: You control a giant snake that must kill to grow and survive.
-Dodge and retaliate against the human armies, and destroy everything in your path.
-Don't forget to hide yourself underground, where you'll be safe in times of need.
-**Some of planned functionalities**:
+# Features
 
 - the player controls a giant snake called Skane;
 - the snake can bury itself underground to move unnoticed and safe from enemy fire;
 - there are civilian running from you and soldiers trying to kill you using
-their guns, cars and helicopters;
+  their guns, cars and helicopters;
 - the snake needs air the breath so it needs to come to the surface from time
-to time;
+  to time;
 - the more you eat, the more health you have and the bigger you become;
 - enemy damage makes lose health and, consequently, shrink;
 - if you shrink too much, you die;
 - some stronger enemies (e.g.: tanks) can yield some extra rewards, like movement
-speed upgrades, upon death;
-
-Project developed by João de Jesus Costa (up201806560@fe.up.pt) e
-João Lucas Silva Martins (up201806436@fe.up.pt)
-
-# Features
+  speed upgrades, upon death;
 
 ## Planned Features
 
@@ -47,14 +32,14 @@ redefined.
 
 The following classes were made/adapted/used to implement this pattern:
 
-- *TerminalResizeListener* - An interface from lanterna that specifies a
-listener's functionalities.
-- *TerminalResizeHandler* - Our implementation of the previous interface.
-- *Terminal* - Lanterna's class. It takes the role of the observable and
-notifies *TerminalResizeHandler* each time it resizes.
-- Gui - Instantiates both *Terminal* and *TerminalResizeHandler*. Adds
-*TerminalResizeHandler* as a resize listener to *Terminal*. Changes
-the room for each time *TerminalResizeHandler* has resized.
+- _TerminalResizeListener_ - An interface from lanterna that specifies a
+  listener's functionalities.
+- _TerminalResizeHandler_ - Our implementation of the previous interface.
+- _Terminal_ - Lanterna's class. It takes the role of the observable and
+  notifies _TerminalResizeHandler_ each time it resizes.
+- Gui - Instantiates both _Terminal_ and _TerminalResizeHandler_. Adds
+  _TerminalResizeHandler_ as a resize listener to _Terminal_. Changes
+  the room for each time _TerminalResizeHandler_ has resized.
 
 The presented design removes the need for the Gui Class to manage the
 terminal directly, thus avoiding the SRP. TODO add siglas no inicio
