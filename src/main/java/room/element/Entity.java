@@ -1,12 +1,17 @@
 package room.element;
-
 import room.Position;
+import room.colliders.Collider;
 
 public abstract class Entity extends Element implements MortalElement, MovableElement {
     private int hp;
 
     public Entity(Position pos, int hp) {
         super(pos);
+        this.hp = hp;
+    }
+
+    public Entity(Position pos, int hp, Collider col) {
+        super(pos, col);
         this.hp = hp;
     }
 

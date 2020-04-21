@@ -1,3 +1,4 @@
+import collisions.CollisionHandler;
 import org.junit.Before;
 import org.junit.Test;
 import room.Position;
@@ -8,7 +9,7 @@ import room.element.skane.Skane;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,25 +53,25 @@ public class CollisionTests {
         Position pos = new Position(5, 5);
         /* Dead Skane */
         when(ska.isAlive()).thenReturn(false);
-        assertEquals(false, colhandler.canSkaneMove(pos));
+        assertFalse(colhandler.canSkaneMove(pos));
         pos = new Position(5, 6);
-        assertEquals(false, colhandler.canSkaneMove(pos));
+        assertFalse(colhandler.canSkaneMove(pos));
 
         when(ska.isAlive()).thenReturn(true);
         pos = new Position(5, 5); // Don't Move
-        assertEquals(false, colhandler.canSkaneMove(pos));
+        assertFalse(colhandler.canSkaneMove(pos));
 
         pos = new Position(11, 6); // Out of Bounds
-        assertEquals(false, colhandler.canSkaneMove(pos));
+        assertFalse(colhandler.canSkaneMove(pos));
 
         // Into Walls
         pos = new Position(7, 5);
-        assertEquals(false, colhandler.canSkaneMove(pos));
+        assertFalse(colhandler.canSkaneMove(pos));
         pos = new Position(5, 4);
-        assertEquals(false, colhandler.canSkaneMove(pos));
+        assertFalse(colhandler.canSkaneMove(pos));
 
         // Move South Normally
         pos = new Position(5, 6);
-        assertEquals(true, colhandler.canSkaneMove(pos));
+        assertTrue(colhandler.canSkaneMove(pos));
     }
 }

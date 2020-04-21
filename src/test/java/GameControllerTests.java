@@ -65,6 +65,9 @@ public class GameControllerTests {
                 .thenReturn(EVENT.MoveLeft)
                 .thenReturn(EVENT.Bury)
                 .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.NullEvent)
                 .thenReturn(EVENT.Bury)
                 .thenReturn(EVENT.QuitGame);
         game.start();

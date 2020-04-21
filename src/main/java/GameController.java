@@ -1,3 +1,4 @@
+import collisions.CollisionHandler;
 import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
 import room.Position;

@@ -3,6 +3,8 @@ package room.element.skane;
 import observe.Observable;
 import observe.Observer;
 import room.Position;
+import room.colliders.CompositeCollider;
+import room.colliders.RectangleCollider;
 import room.element.EntityQueMorde;
 
 import java.util.*;
@@ -15,11 +17,14 @@ public class Skane extends EntityQueMorde {
     private LinkedHashSet<Scent> scent_trail;
 
     public Skane(Position pos, int atk, int hp, int oxy, int size, int scent_dur) {
-        super(pos, hp, atk);
+        super(pos, hp, atk, new CompositeCollider());
         this.is_bury = false;
         this.oxygen_level = oxy;
         this.scent_dur = scent_dur;
         this.scent_trail = new LinkedHashSet<>();
+
+        RectangleCollider ska_head_col = new RectangleCollider(pos, 1, 1);
+        this.getCollider().addCollider(ska_head_col);
 
         this.body = new ArrayList<>();
         for (int i = 0; i < size; ++i)
@@ -65,11 +70,15 @@ public class Skane extends EntityQueMorde {
     }
 
     public void grow() {
-        body.add(0, new SkaneBody(getPos()));
+        SkaneBody n_body = new SkaneBody(getPos());
+        body.add(0, n_body);
+        this.getCollider().addCollider(n_body.getCollider());
     }
 
     public void shrink() {
-        body.remove(0);
+        SkaneBody s_body = body.get(0);
+        body.remove(s_body);
+        this.getCollider().removeCollider(s_body.getCollider());
     }
 
     public Position getTailPos() {
@@ -105,5 +114,10 @@ public class Skane extends EntityQueMorde {
         }
 
         super.setPos(new_pos);
+    }
+
+    @Override
+    public CompositeCollider getCollider() {
+        return (CompositeCollider) super.getCollider();
     }
 }
