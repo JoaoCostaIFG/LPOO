@@ -3,6 +3,7 @@ package gui;
 import room.Room;
 import room.element.Civilian;
 import room.element.MeleeGuy;
+import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 import room.element.Wall;
@@ -67,6 +68,12 @@ public class Drawer implements GraphicsDrawer {
     public void drawRoom(Room room) {
         gra.fillRectangle(new TerminalPosition(0, 0),
                 new TerminalSize(room.getWidth(), room.getHeight()), bgChar);
+
+        // TODO remove this
+        /*
+        for (Scent s : room.getSkane().getScentTrail())
+            gra.setCharacter(s.getX(), s.getY(), civieChar);
+         */
 
         for (Wall wall : room.getWalls())
             drawWall(wall);

@@ -5,6 +5,8 @@ import room.Room;
 import room.element.Element;
 import room.element.Entity;
 import room.element.MoveStrategy;
+import room.element.Wall;
+import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
@@ -47,11 +49,14 @@ public class MeleeMoveStrat implements MoveStrategy {
             a /= c;
             b /= c;
 
-            // NOTE: removeing abs allows diagonal movement
-            if (Math.abs(a) > Math.abs(b))
-                posList.add(new Position(p.getX() + (int) Math.round(a), p.getY()));
-            else if (Math.abs(a) < Math.abs(b))
-                posList.add(new Position(p.getX(), p.getY() + (int) Math.round(b)));
+            // TODO check if second position puts u further away from target
+            if (Math.abs(a) > Math.abs(b)) {
+                posList.add(new Position(p.getX() + (a > 0 ? 1 : -1), p.getY()));
+                posList.add(new Position(p.getX(), p.getY() + (b > 0 ? 1 : -1)));
+            } else {
+                posList.add(new Position(p.getX(), p.getY() + (b > 0 ? 1 : -1)));
+                posList.add(new Position(p.getX() + (a > 0 ? 1 : -1), p.getY()));
+            }
         }
 
         return posList;
@@ -65,6 +70,14 @@ public class MeleeMoveStrat implements MoveStrategy {
         }
     }
 
+    private boolean checkRayScent(Position sourcePos, Position scentPos) {
+        List<Element> rayResult = room.raycast(sourcePos, scentPos);
+
+        if (rayResult.size() == 0)
+            return true;
+        return false;
+    }
+
     private Room room;
 
     public MeleeMoveStrat(Room room) {
@@ -76,7 +89,7 @@ public class MeleeMoveStrat implements MoveStrategy {
     @Override
     public List<Position> execute(Entity e) {
         ++i;
-        if (i < 6) {
+        if (i < 5) { // TODO
             return new ArrayList<>();
         }
         i = 0;
@@ -97,11 +110,18 @@ public class MeleeMoveStrat implements MoveStrategy {
 
         // Body
         for (SkaneBody sb : ska.getBody())
-            addRayPos(listPos, ePos, sb.getPos());
+           addRayPos(listPos, ePos, sb.getPos());
 
         // Scent
-        if (listPos.size() == 0) { // Can't see skane
-            // TODO
+        if (listPos.size() == 0) { // If can't see skane
+            Scent freshestScent = null;
+            for (Scent s : ska.getScentTrail()) {
+                if (checkRayScent(ePos, s.getPos()))
+                    freshestScent = s;
+            }
+
+            if (freshestScent != null)
+                listPos.add(new PosDist(freshestScent.getPos(), ePos.dist(freshestScent.getPos())));
         }
 
         return convertToSortPosList(listPos, ePos);

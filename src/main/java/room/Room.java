@@ -3,6 +3,7 @@ package room;
 import room.element.*;
 import observe.Observable;
 import observe.Observer;
+import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
@@ -82,6 +83,12 @@ public class Room implements Observable<Room> {
             if (sb.getPos().equals(pos))
                 elems.add(sb);
 
+        /* Uncommenting this breaks raycasting (scents shouldn't stop rays)
+        for (Scent s : skane.getScentTrail())
+            if (s.getPos().equals(pos))
+                elems.add(s);
+        */
+
         for (Wall w : walls)
             if (w.getPos().equals(pos))
                 elems.add(w);
@@ -135,7 +142,7 @@ public class Room implements Observable<Room> {
      * xDirection: 1 if line is drawn left to right, -1 if drawn right to left.
      * yDirection: 1 if line is drawn top to bottom, -1 if drawn bottom to top.
      */
-    private List<Element> octant03Ray(int x0, int y0, int deltaX, int deltaY, int xDirection, int yDirection) {
+    private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
         /*
          * Draws a line in octant 0 or 3 ( |deltaX| >= |deltaY| )
          * => x is the dominant dimension.
@@ -147,8 +154,9 @@ public class Room implements Observable<Room> {
         int deltaYx2MinusDeltaXx2 = deltaYx2 - deltaX * 2;
         int errorTerm = deltaYx2 - deltaX;
 
-        int x = x0, y = y0;
-        while (elems.size() == 0 && (x > 0 && x < width)) {
+        int x = s.getX(), y = s.getY();
+        int x1 = t.getX(), y1 = t.getY();
+        while (elems.size() == 0 && (x != x1 || y != y1)) {
             /* See if it's time to advance the Y coordinate */
             if (errorTerm >= 0) {
                 // Advance the Y coordinate & adjust the error term back down
@@ -173,7 +181,7 @@ public class Room implements Observable<Room> {
      * xDirection: 1 if line is drawn left to right, -1 if drawn right to left.
      * yDirection: 1 if line is drawn top to bottom, -1 if drawn bottom to top.
      */
-    private List<Element> octant12Ray(int x0, int y0, int deltaX, int deltaY, int xDirection, int yDirection) {
+    private List<Element> octant12Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
         /*
          * Draws a line in octant 1 or 2 ( |deltaX| <= |deltaY| )
          * => y is the dominant dimension.
@@ -185,8 +193,9 @@ public class Room implements Observable<Room> {
         int deltaXx2MinusDeltaYx2 = deltaXx2 - deltaY * 2;
         int errorTerm = deltaXx2 - deltaY;
 
-        int x = x0, y = y0;
-        while (elems.size() == 0 && (y > 0 && y < height)) {
+        int x = s.getX(), y = s.getY();
+        int x1 = t.getX(), y1 = t.getY();
+        while (elems.size() == 0 && (x != x1 || y != y1)) {
             /* See if it's time to advance the X coordinate */
             if (errorTerm >= 0) {
                 // Advance the X coordinate & adjust the error term back down
@@ -236,9 +245,9 @@ public class Room implements Observable<Room> {
         }
 
         if (deltaX > deltaY)
-            elems = octant03Ray(x0, y0, deltaX, deltaY, xDirection, yDirection);
+            elems = octant03Ray(s, t, deltaX, deltaY, xDirection, yDirection);
         else
-            elems = octant12Ray(x0, y0, deltaX, deltaY, xDirection, yDirection);
+            elems = octant12Ray(s, t, deltaX, deltaY, xDirection, yDirection);
 
         return elems;
     }

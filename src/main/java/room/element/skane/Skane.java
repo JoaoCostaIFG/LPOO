@@ -1,7 +1,5 @@
 package room.element.skane;
 
-import observe.Observable;
-import observe.Observer;
 import room.Position;
 import room.element.EntityQueMorde;
 
