@@ -3,13 +3,10 @@ package room;
 import room.element.*;
 import observe.Observable;
 import observe.Observer;
-import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 public class Room implements Observable<Room> {
@@ -19,12 +16,15 @@ public class Room implements Observable<Room> {
     private List<Wall> walls;
     private List<Civilian> civies;
 
+    private List<MeleeGuy> meleeGuys;
+
     public Room(int width, int height) {
         this.width = width;
         this.height = height;
         this.observers = new ArrayList<>();
         this.walls = new ArrayList<>();
         this.civies = new ArrayList<>();
+        this.meleeGuys = new ArrayList<>();
     }
 
     public Room(TerminalSizeInterface board_size) {
@@ -56,8 +56,20 @@ public class Room implements Observable<Room> {
         return civies;
     }
 
+    public List<MeleeGuy> getMeleeGuys() {
+        return meleeGuys;
+    }
+
     public Skane getSkane() {
         return this.skane;
+    }
+
+    public Position getSkanePos() {
+        return this.skane.getPos();
+    }
+
+    public boolean isSkaneBury() {
+        return this.skane.isBury();
     }
 
     public List<Element> getSamePos(Position pos) {
@@ -78,6 +90,10 @@ public class Room implements Observable<Room> {
             if (c.getPos().equals(pos))
                 elems.add(c);
 
+        for (MeleeGuy m : meleeGuys)
+            if (m.getPos().equals(pos))
+                elems.add(m);
+
         return elems;
     }
 
@@ -89,6 +105,7 @@ public class Room implements Observable<Room> {
         if (e instanceof Skane) skane = (Skane) e;
         else if (e instanceof Wall) walls.add((Wall) e);
         else if (e instanceof Civilian) civies.add((Civilian) e);
+        else if (e instanceof MeleeGuy) meleeGuys.add((MeleeGuy) e);
     }
 
     public void addElements(List<Element> elems) {
@@ -194,28 +211,12 @@ public class Room implements Observable<Room> {
          * collision detetion ray-casting. Using an integer arithmetic
          * only version.
          * More info about the original algorithm can be found on the book:
-         * "Black Book - Special edition", by Michael Abrash's
+         * "Black Book - Special edition", by Michael Abrash's.
          */
         List<Element> elems;
 
         /* source and target coords */
         int x0 = s.getX(), x1 = t.getX(), y0 = s.getY(), y1 = t.getY();
-
-        /*
-        // Swapping source and target when source's y > target's y, allows us
-        // to get rid of yDirection. This wasn't done in this case because the
-        // ray cast would be inverted in those cases => useful for line-drawing
-        // bad for collision detection.
-        int swap;
-        if (y0 > y1) { // swap source and target
-            swap = y0;
-            y0 = y1;
-            y1 = swap;
-            swap = x0;
-            x0 = x1;
-            x1 = swap;
-        }
-        */
 
         int deltaX = x1 - x0;
         int xDirection;
@@ -234,8 +235,6 @@ public class Room implements Observable<Room> {
             deltaY = -deltaY; // abs
         }
 
-        // deltaX and deltaY are enough to know the target location
-        // (given the source location and the x/yDirection).
         if (deltaX > deltaY)
             elems = octant03Ray(x0, y0, deltaX, deltaY, xDirection, yDirection);
         else
@@ -253,100 +252,5 @@ public class Room implements Observable<Room> {
                 return true;
 
         return false;
-    }
-
-    private int i = 0;
-
-    public void moveCivilians() {
-        // TODO strategy pattern
-        List<Element> ray;
-        Position civie_pos, p;
-        double dist, dist_tmp;
-        boolean got_one;
-
-        if (i >= 5)
-            i = 0;
-        else if (i >= 1) {
-            ++i;
-            return;
-        }
-        ++i;
-
-        for (Civilian civie : civies) {
-            civie_pos = civie.getPos();
-            if (isSkanePos(civie_pos)) // don't go anywhere if already on skane
-                continue;
-
-            dist = -1;
-            got_one = false;
-            p = civie_pos;
-
-            // ray cast skane head
-            ray = raycast(civie_pos, skane.getPos());
-            if (ray.size() > 0) {
-                p = ray.get(0).getPos();
-                if (isSkanePos(p)) {
-                    got_one = true;
-                    dist = civie_pos.dist(p);
-                }
-            }
-
-            // ray cast skane body
-            for (SkaneBody sb : skane.getBody()) {
-                p = sb.getPos();
-                ray = raycast(civie_pos, p);
-
-                if (ray.size() > 0 && p.equals(ray.get(0).getPos())) {
-                    dist_tmp = civie_pos.dist(p);
-                    if (!got_one || dist_tmp < dist) {
-                        got_one = true;
-                        dist = dist_tmp;
-                    }
-                }
-            }
-
-            if (got_one) {
-                int dx = p.getX() - civie_pos.getX();
-                int dy = p.getY() - civie_pos.getY();
-
-                Position dest_hori, dest_vert;
-                if (dx > 0)
-                    dest_hori = civie.moveRight();
-                else
-                    dest_hori = civie.moveLeft();
-                if (dy > 0)
-                    dest_vert = civie.moveDown();
-                else
-                    dest_vert = civie.moveUp();
-
-                boolean moved = false;
-                boolean mainX = (Math.abs(dx) > Math.abs(dy));
-                if (mainX && getSamePos(dest_hori).size() == 0) {
-                    moved = true;
-                    civie.setPos(dest_hori);
-                } else if (getSamePos(dest_vert).size() == 0) {
-                    moved = true;
-                    civie.setPos(dest_vert);
-                }
-
-                if (!moved) {
-                    if (mainX && getSamePos(dest_vert).size() == 0)
-                        civie.setPos(dest_vert);
-                    else if (getSamePos(dest_hori).size() == 0)
-                        civie.setPos(dest_hori);
-                }
-            } else { // can't see skane, try to fins scent
-                int freshest = 0;
-                for (Scent sc : skane.getScentTrail()) {
-                    p = sc.getPos();
-                    ray = raycast(civie_pos, p);
-
-                    if (ray.size() > 0 && p.equals(ray.get(0).getPos()) &&
-                            sc.getDuration() > freshest) {
-                        freshest = sc.getDuration();
-                    }
-                }
-            }
-        }
     }
 }

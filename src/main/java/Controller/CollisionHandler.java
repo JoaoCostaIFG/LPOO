@@ -1,4 +1,4 @@
-package collisions;
+package Controller;
 
 import room.Position;
 import room.colliders.RectangleCollider;

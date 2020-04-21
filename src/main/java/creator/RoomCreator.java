@@ -3,9 +3,11 @@ package creator;
 import java.util.HashSet;
 import java.util.Random;
 
+import Controller.Strategy.ScaredMoveStrat;
 import room.Position;
 import room.Room;
 import room.element.Civilian;
+import room.element.MeleeGuy;
 import room.element.skane.Skane;
 import room.element.Wall;
 import room.element.skane.SkaneOpts;
@@ -74,10 +76,20 @@ public class RoomCreator {
     }
 
     private void createEnemies(Room room, int width, int height) {
-        Position civie_pos;
-        for (int i = 0; i < 100; ++i) {
-            civie_pos = getRdmPosRoom(width, height);
-            room.addElement(new Civilian(civie_pos, 1));
+        Position enemy_pos;
+
+        ScaredMoveStrat scared_strat = new ScaredMoveStrat(room);
+        Civilian c;
+        for (int i = 0; i < 1; ++i) {
+            enemy_pos = getRdmPosRoom(width, height);
+            c = new Civilian(enemy_pos, 1);
+            c.setStrategy(scared_strat);
+            room.addElement(c);
+        }
+
+        for (int i = 0; i < 0; ++i) {
+            enemy_pos = getRdmPosRoom(width, height);
+            room.addElement(new MeleeGuy(enemy_pos, 1, 1));
         }
     }
 

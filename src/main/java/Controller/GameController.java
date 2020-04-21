@@ -1,4 +1,5 @@
-import collisions.CollisionHandler;
+package Controller;
+
 import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
 import room.Position;
@@ -12,6 +13,7 @@ public class GameController {
     private Room room;
     private Gui gui;
     private GAMEST state;
+    private EnemyController enemyController;
     private SkaneController skaneController;
     private CollisionHandler colHandler;
     private final int DELAY = 40; // time between frames (in ms)
@@ -22,7 +24,7 @@ public class GameController {
 
     private void handleEvent(EVENT event) {
         if (event == EVENT.NullEvent) return;
-        else if (event == EVENT.QuitGame) this.state = GAMEST.STOPPPED;
+        else if (event == EVENT.QuitGame) this.end();
         else if (event == EVENT.RestartGame) this.state = GAMEST.RESTART;
         else if (event == EVENT.Bury) skaneController.toggleBury();
         else { // Movement Event
@@ -51,6 +53,7 @@ public class GameController {
         this.gui = gui;
         this.state = GAMEST.RUNNING;
         this.colHandler = new CollisionHandler(this.room);
+        this.enemyController = new EnemyController(this.room, this.colHandler);
         this.skaneController = skactr;
     }
 
@@ -69,19 +72,17 @@ public class GameController {
 
         gui.startInputHandler();
         while (state == GAMEST.RUNNING) {
-            handleEvent(gui.getEvent());
-            skaneController.inhale();
-            room.moveCivilians();
-            gui.releaseKeys();
             gui.draw();
+            handleEvent(gui.getEvent());
+            gui.releaseKeys();
+
+            skaneController.inhale();
+            enemyController.MoveEnemies();
 
             timeDiff = System.currentTimeMillis() - beforeTime;
-            sleep = DELAY - timeDiff;
-            if (sleep < 0)
-                sleep = 0;
-
             try {
-                Thread.sleep(sleep);
+                if (DELAY - timeDiff > 0)
+                    Thread.sleep(DELAY - timeDiff);
             } catch (InterruptedException e) {
                 System.out.println("Thread interrupted: %s" + e.getMessage());
             }
@@ -90,7 +91,7 @@ public class GameController {
     }
 
     public void start() throws IOException {
-        while (this.state != GAMEST.STOPPPED) {
+        while (this.state != GAMEST.STOPPED) {
             this.run();
             if (this.state == GAMEST.RESTART)
                 this.restart();
@@ -109,7 +110,7 @@ public class GameController {
     }
 
     public void end() {
-        this.state = GAMEST.STOPPPED;
+        this.state = GAMEST.STOPPED;
     }
 
     public Room getRoom() {

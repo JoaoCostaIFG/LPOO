@@ -1,6 +1,5 @@
 package room.element.skane;
 
-import observe.Observer;
 import room.Position;
 import room.element.Element;
 
