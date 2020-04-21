@@ -20,7 +20,7 @@ public class EnemyController {
         for (Civilian c : room.getCivies()) {
             posList = c.executeStrategy();
             for (Position p : posList){
-                if (colHandler.canSkaneMove(p)) {
+                if (colHandler.canSkaneMove(p)) { // TODO
                     c.setPos(p);
                     break;
                 }

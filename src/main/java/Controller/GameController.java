@@ -80,12 +80,9 @@ public class GameController {
             enemyController.MoveEnemies();
 
             timeDiff = System.currentTimeMillis() - beforeTime;
-            sleep = DELAY - timeDiff;
-            if (sleep < 0)
-                sleep = 0;
-
             try {
-                Thread.sleep(sleep);
+                if (DELAY - timeDiff > 0)
+                    Thread.sleep(DELAY - timeDiff);
             } catch (InterruptedException e) {
                 System.out.println("Thread interrupted: %s" + e.getMessage());
             }
