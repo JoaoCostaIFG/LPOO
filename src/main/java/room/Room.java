@@ -68,6 +68,10 @@ public class Room implements Observable<Room> {
         return this.skane.getPos();
     }
 
+    public boolean isSkaneBury() {
+        return this.skane.isBury();
+    }
+
     public List<Element> getSamePos(Position pos) {
         List<Element> elems = new ArrayList<>();
 

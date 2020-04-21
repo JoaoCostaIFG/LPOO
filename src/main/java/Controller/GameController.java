@@ -6,15 +6,14 @@ import room.Position;
 import gui.Gui;
 import gui.EVENT;
 import room.Room;
-import room.element.Civilian;
 
 import java.io.IOException;
-import java.util.List;
 
 public class GameController {
     private Room room;
     private Gui gui;
     private GAMEST state;
+    private EnemyController enemyController;
     private SkaneController skaneController;
     private CollisionHandler colHandler;
     private final int DELAY = 40; // time between frames (in ms)
@@ -54,6 +53,7 @@ public class GameController {
         this.gui = gui;
         this.state = GAMEST.RUNNING;
         this.colHandler = new CollisionHandler(this.room);
+        this.enemyController = new EnemyController(this.room, this.colHandler);
         this.skaneController = skactr;
     }
 
@@ -72,21 +72,12 @@ public class GameController {
 
         gui.startInputHandler();
         while (state == GAMEST.RUNNING) {
-            handleEvent(gui.getEvent());
-            skaneController.inhale();
-
-            for (Civilian c : room.getCivies()) {
-                List<Position> ps = c.executeStrategy();
-                for (Position p : ps) {
-                    if (colHandler.canSkaneMove(p)) {
-                        c.setPos(p);
-                        break;
-                    }
-                }
-            }
-
-            gui.releaseKeys();
             gui.draw();
+            handleEvent(gui.getEvent());
+            gui.releaseKeys();
+
+            skaneController.inhale();
+            enemyController.MoveEnemies();
 
             timeDiff = System.currentTimeMillis() - beforeTime;
             sleep = DELAY - timeDiff;
