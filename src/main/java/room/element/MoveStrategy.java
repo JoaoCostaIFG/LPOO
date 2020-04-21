@@ -5,5 +5,5 @@ import room.Position;
 import java.util.List;
 
 public interface MoveStrategy {
-    List<Position> execute(MovableElement e);
+    List<Position> execute(Entity e);
 }

@@ -2,6 +2,7 @@ package Controller.Strategy;
 
 import room.Position;
 import room.Room;
+import room.element.Entity;
 import room.element.MovableElement;
 import room.element.MoveStrategy;
 
@@ -32,14 +33,14 @@ public class ScaredMoveStrat implements MoveStrategy {
     }
 
     @Override
-    public List<Position> execute(MovableElement e) {
+    public List<Position> execute(Entity e) {
         /*
          * Attempts to get as far away from the skane's mouth
          * as possible
          */
-        List<Position> final_pos = new ArrayList<>();
+        List<Position> finalPos = new ArrayList<>();
         if (room.isSkaneBury())
-            return final_pos;
+            return finalPos;
 
         Position ska_pos = room.getSkanePos();
         Position a, b;
@@ -50,20 +51,20 @@ public class ScaredMoveStrat implements MoveStrategy {
         distA = a.dist(ska_pos);
         distB = b.dist(ska_pos);
         if (distA >= distB)
-            final_pos.add(a);
+            finalPos.add(a);
         if (distA <= distB)
-            final_pos.add(b);
+            finalPos.add(b);
 
         a = e.moveLeft();
         b = e.moveRight();
         distA = a.dist(ska_pos);
         distB = b.dist(ska_pos);
         if (distA >= distB)
-            final_pos.add(a);
+            finalPos.add(a);
         if (distA <= distB)
-            final_pos.add(b);
+            finalPos.add(b);
 
-        sortListBySize(final_pos, ska_pos);
-        return final_pos;
+        sortListBySize(finalPos, ska_pos);
+        return finalPos;
     }
 }
