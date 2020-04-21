@@ -8,7 +8,7 @@ import room.element.Wall;
 public class CollisionHandler {
     private Room room;
 
-    CollisionHandler(Room room) {
+    public CollisionHandler(Room room) {
         this.room = room;
     }
 

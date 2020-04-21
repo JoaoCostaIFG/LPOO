@@ -3,6 +3,7 @@ package Controller;
 import room.Position;
 import room.Room;
 import room.element.Civilian;
+import room.element.MeleeGuy;
 
 import java.util.List;
 
@@ -19,9 +20,19 @@ public class EnemyController {
         List<Position> posList;
         for (Civilian c : room.getCivies()) {
             posList = c.executeStrategy();
-            for (Position p : posList){
+            for (Position p : posList) {
                 if (colHandler.canSkaneMove(p)) { // TODO
                     c.setPos(p);
+                    break;
+                }
+            }
+        }
+
+        for (MeleeGuy m : room.getMeleeGuys()) {
+            posList = m.executeStrategy();
+            for (Position p : posList) {
+                if (colHandler.canSkaneMove(p)) { // TODO
+                    m.setPos(p);
                     break;
                 }
             }

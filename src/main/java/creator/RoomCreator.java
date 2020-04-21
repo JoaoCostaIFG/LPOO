@@ -3,6 +3,7 @@ package creator;
 import java.util.HashSet;
 import java.util.Random;
 
+import Controller.Strategy.MeleeMoveStrat;
 import Controller.Strategy.ScaredMoveStrat;
 import room.Position;
 import room.Room;
@@ -53,7 +54,7 @@ public class RoomCreator {
         skane_opts.attack_dmg = 10;
         skane_opts.hp = 3;
         skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 30;
+        skane_opts.size = 3;
 
         Skane skane = new Skane(skane_opts);
         room.addElement(skane);
@@ -87,9 +88,13 @@ public class RoomCreator {
             room.addElement(c);
         }
 
-        for (int i = 0; i < 0; ++i) {
+        MeleeMoveStrat meleeStrat = new MeleeMoveStrat(room);
+        MeleeGuy m;
+        for (int i = 0; i < 1; ++i) {
             enemy_pos = getRdmPosRoom(width, height);
-            room.addElement(new MeleeGuy(enemy_pos, 1, 1));
+            m =new MeleeGuy(enemy_pos, 1, 1);
+            m.setStrategy(meleeStrat);
+            room.addElement(m);
         }
     }
 

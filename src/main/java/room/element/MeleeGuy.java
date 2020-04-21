@@ -2,6 +2,8 @@ package room.element;
 
 import room.Position;
 
+import java.util.List;
+
 public class MeleeGuy extends EntityQueMorde {
     MoveStrategy strategy;
 
@@ -13,7 +15,11 @@ public class MeleeGuy extends EntityQueMorde {
         this(new Position(x, y), hp, atk);
     }
 
-    void setStrategy(MoveStrategy strat) {
+    public void setStrategy(MoveStrategy strat) {
         this.strategy = strat;
+    }
+
+    public List<Position> executeStrategy() {
+        return strategy.execute(this);
     }
 }
