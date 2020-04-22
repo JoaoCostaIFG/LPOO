@@ -1,7 +1,9 @@
 import org.junit.Test;
 import room.Position;
 import room.Room;
+import room.element.Civilian;
 import room.element.Element;
+import room.element.MeleeGuy;
 import room.element.skane.Skane;
 import room.element.Wall;
 
@@ -23,16 +25,26 @@ public class RoomTests {
         Skane skane = new Skane(1, 5, 10, 5, 5, 3);
         room.addElement(skane);
         assertEquals(room.getSkane(), skane);
-        assertEquals(room.getSkane().getPos(), skane.getPos());
+        assertEquals(room.getSkane(), skane);
 
         Wall wall = new Wall(2, 3);
         room.addElement(wall);
         assertEquals(room.getWalls().size(), 1);
-        assertEquals(room.getWalls().get(0).getPos(), wall.getPos());
+        assertEquals(room.getWalls().get(0), wall);
+
+        Civilian civie = new Civilian(3,7, 3);
+        room.addElement(civie);
+        assertEquals(room.getEnemies().size(), 1);
+        assertEquals(room.getEnemies().get(0), civie);
+
+        MeleeGuy melee = new MeleeGuy(55,67, 3, 10);
+        room.addElement(melee);
+        assertEquals(room.getEnemies().size(), 2);
+        assertEquals(room.getEnemies().get(1), melee);
     }
 
     @Test
-    public void unobstructedRayCast() {
+    public void unobstructedRayCastOct03() {
         Position p1 = new Position(2, 3);
         Position p2 = new Position(232, 57);
 
@@ -51,7 +63,26 @@ public class RoomTests {
     }
 
     @Test
-    public void obstructedRayCast() {
+    public void unobstructedRayCastOct12() {
+        Position p1 = new Position(200, 5);
+        Position p2 = new Position(1, 280);
+
+        Wall w1 = new Wall(p1);
+        Wall w2 = new Wall(p2);
+
+        room.addElement(w1);
+        room.addElement(w1);
+        room.addElement(w2);
+
+        // Unobstructed view
+        List<Element> unobstructedElemList = room.raycast(p1, p2);
+        assertEquals(unobstructedElemList.size(), 1);
+        for (Element e : unobstructedElemList)
+            assertEquals(e, w2);
+    }
+
+    @Test
+    public void obstructedRayCast03() {
         Position p1 = new Position(2, 3);
         Position p2 = new Position(232, 57);
         Position p3 = new Position(233, 57);
@@ -68,6 +99,27 @@ public class RoomTests {
         List<Element> obstructedElemList = room.raycast(p1, p3);
         assertEquals(obstructedElemList.size(), 1);
         for (Element e : obstructedElemList)
-            assertEquals(e.getPos(), p2);
+            assertEquals(e, w2);
+    }
+
+    @Test
+    public void obstructedRayCastOct12() {
+        Position p1 = new Position(200, 5);
+        Position p2 = new Position(2, 279);
+        Position p3 = new Position(1, 280);
+
+        Wall w1 = new Wall(p1);
+        Wall w2 = new Wall(p2);
+        Wall w3 = new Wall(p3);
+
+        room.addElement(w1);
+        room.addElement(w2);
+        room.addElement(w3);
+
+        // Unobstructed view
+        List<Element> obstructedElemList = room.raycast(p1, p3);
+        assertEquals(obstructedElemList.size(), 1);
+        for (Element e : obstructedElemList)
+            assertEquals(e, w2);
     }
 }

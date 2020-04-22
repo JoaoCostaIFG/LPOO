@@ -14,6 +14,11 @@ public class CreatorUtilities {
         this.filled_pos = new HashSet<>(100);
     }
 
+    public CreatorUtilities(Random random) {
+        this.random = random;
+        this.filled_pos = new HashSet<>(100);
+    }
+
     public Position getRandomPos(int startx, int endx, int starty, int endy) {
         /* we generate random postions until we find one that hasn't been taken yet */
         boolean repeated;
