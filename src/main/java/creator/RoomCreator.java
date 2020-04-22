@@ -12,7 +12,6 @@ import room.element.Element;
 import room.element.MeleeGuy;
 import room.element.skane.Skane;
 import room.element.Wall;
-import room.element.skane.SkaneOpts;
 
 public class RoomCreator {
     private final Random random;
@@ -74,7 +73,7 @@ public class RoomCreator {
     }
 
     private void createSkane(Room room, int width, int height) {
-        SkaneOpts skane_opts = new SkaneOpts();
+        Skane.SkaneOpts skane_opts = new Skane.SkaneOpts();
         skane_opts.pos = getRdmPosRoom(width, height);
         skane_opts.attack_dmg = 10;
         skane_opts.hp = 3;

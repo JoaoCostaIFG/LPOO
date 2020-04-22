@@ -6,6 +6,11 @@ import room.element.EntityQueMorde;
 import java.util.*;
 
 public class Skane extends EntityQueMorde {
+    public static class SkaneOpts {
+        public int attack_dmg, hp, oxygen_lvl, size, scent_dur;
+        public Position pos = null;
+    }
+
     private Boolean is_bury;
     private int oxygen_level;
     private List<SkaneBody> body;
@@ -25,7 +30,7 @@ public class Skane extends EntityQueMorde {
     }
 
     public Skane(int x, int y, int atk, int hp, int oxy, int size, int scent_dur) {
-        this(new Position(x, y), atk, hp, oxy, size,scent_dur);
+        this(new Position(x, y), atk, hp, oxy, size, scent_dur);
     }
 
     public Skane(SkaneOpts opts) {
@@ -78,7 +83,7 @@ public class Skane extends EntityQueMorde {
         return this.scent_trail;
     }
 
-    public void dropScent(){
+    public void dropScent() {
         scent_trail.add(new Scent(getTailPos(), scent_dur));
     }
 
