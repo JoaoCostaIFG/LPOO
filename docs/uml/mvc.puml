@@ -1,0 +1,43 @@
+@startuml
+
+skinparam defaultFontSize 17
+skinparam classFontSize 14
+skinparam classAttributeFontSize 14
+hide empty members
+
+interface AgressiveElement {}
+interface MortalElement {}
+interface MovableElement {}
+interface MoveStrategy {}
+
+abstract class Element {}
+abstract class Entity {}
+abstract class EntityQueMorde {}
+
+class Civilian {}
+class MeleeGuy {}
+class Wall {}
+
+class Scent {}
+class Skane {}
+class SkaneBody {}
+
+Entity <|- Element
+Entity ^.up. MovableElement
+Entity ^.up. MortalElement
+
+EntityQueMorde <|- Entity
+EntityQueMorde ^.up. AgressiveElement
+
+Element <|-- SkaneBody
+Element <|-- Wall
+Element <|-- Scent
+Entity <|-- Civilian
+EntityQueMorde <|-- MeleeGuy
+EntityQueMorde <|-- Skane
+
+Skane <-up- SkaneBody
+Skane <-up- Scent
+
+@enduml
+
