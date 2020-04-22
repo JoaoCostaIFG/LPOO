@@ -12,7 +12,7 @@ import java.util.List;
 public class Room implements Observable<Room> {
     private int width, height;
     private List<Observer<Room>> observers;
-    private Skane skane;
+    private Skane skane = null;
     private List<Wall> walls;
     private List<Entity> enemies;
 
@@ -80,11 +80,13 @@ public class Room implements Observable<Room> {
         List<Element> elems = new ArrayList<>();
 
         /* skane */
-        if (skane.getPos().equals(pos))
-            elems.add(skane);
-        for (SkaneBody sb : skane.getBody())
-            if (sb.getPos().equals(pos))
-                elems.add(sb);
+        if (skane != null) {
+            if (skane.getPos().equals(pos))
+                elems.add(skane);
+            for (SkaneBody sb : skane.getBody())
+                if (sb.getPos().equals(pos))
+                    elems.add(sb);
+        }
 
         /* other */
         for (Wall w : walls)
