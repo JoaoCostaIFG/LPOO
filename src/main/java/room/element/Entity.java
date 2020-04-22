@@ -2,8 +2,9 @@ package room.element;
 import room.Position;
 import room.colliders.Collider;
 
-public abstract class Entity extends Element implements MortalElement, MovableElement {
+public abstract class Entity extends Element implements MortalElement, MovableElement, CollidableElement {
     private int hp;
+    private Collider collider;
 
     public Entity(Position pos, int hp) {
         super(pos);
@@ -11,8 +12,8 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
     }
 
     public Entity(Position pos, int hp, Collider col) {
-        super(pos, col);
-        this.hp = hp;
+        this(pos, hp);
+        this.collider = col;
     }
 
     public Entity(int x, int y, int hp) {
@@ -38,6 +39,12 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
     public boolean isAlive() {
         return hp > 0;
     }
+
+    public boolean collidesWith(CollidableElement element) {
+        return this.collider.collidesWith(element.getCollider());
+    }
+
+    public Collider getCollider() { return this.collider; }
 
     /* movement */
     public Position moveUp() {

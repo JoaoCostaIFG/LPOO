@@ -1,5 +1,6 @@
 package room;
 
+import room.colliders.Collider;
 import room.element.*;
 import observe.Observable;
 import observe.Observer;
@@ -72,27 +73,50 @@ public class Room implements Observable<Room> {
         return this.skane.isBury();
     }
 
+    public List<Element> getElements() {
+        List<Element> elems = new ArrayList<>();
+        elems.add(skane);
+
+        for (SkaneBody sb : this.skane.getBody())
+            elems.add(sb);
+
+        for (Wall w : walls)
+            elems.add(w);
+
+        for (Civilian c : civies)
+            elems.add(c);
+
+        for (MeleeGuy m : meleeGuys)
+            elems.add(m);
+
+        return elems;
+    }
+
+    public List<CollidableElement> getCollElements() { // Equal to enemies, all are collidable // Equal to enemies, all are collidable
+        List<CollidableElement> elems = new ArrayList<>();
+        elems.add(skane);
+
+        for (SkaneBody sb : this.skane.getBody())
+            elems.add(sb);
+
+        for (Wall w : walls)
+            elems.add(w);
+
+        for (Civilian c : civies)
+            elems.add(c);
+
+        for (MeleeGuy m : meleeGuys)
+            elems.add(m);
+
+        return elems;
+    }
+
     public List<Element> getSamePos(Position pos) {
         List<Element> elems = new ArrayList<>();
 
-        if (skane.getPos().equals(pos))
-            elems.add(skane);
-
-        for (SkaneBody sb : skane.getBody())
-            if (sb.getPos().equals(pos))
-                elems.add(sb);
-
-        for (Wall w : walls)
-            if (w.getPos().equals(pos))
-                elems.add(w);
-
-        for (Civilian c : civies)
-            if (c.getPos().equals(pos))
-                elems.add(c);
-
-        for (MeleeGuy m : meleeGuys)
-            if (m.getPos().equals(pos))
-                elems.add(m);
+        for(Element e: getElements())
+            if(e.getPos().equals(pos))
+                elems.add(e);
 
         return elems;
     }
@@ -111,6 +135,15 @@ public class Room implements Observable<Room> {
     public void addElements(List<Element> elems) {
         for (Element e : elems)
             addElement(e);
+    }
+
+    // TODO Can be optimized (Divide by octants) or use Listenable
+    public List<CollidableElement> getCollidingElems(CollidableElement ent) {
+        List<CollidableElement> res = new ArrayList<>();
+        for(CollidableElement e: getCollElements())
+            if (e.collidesWith(ent))
+                res.add(e);
+        return res;
     }
 
     @Override
