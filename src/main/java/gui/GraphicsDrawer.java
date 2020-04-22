@@ -1,8 +1,7 @@
 package gui;
 
 import room.Room;
-import room.element.Civilian;
-import room.element.MeleeGuy;
+import room.element.Entity;
 import room.element.skane.Skane;
 import room.element.Wall;
 
@@ -17,9 +16,9 @@ public interface GraphicsDrawer {
 
     void drawWall(Wall wall);
 
-    void drawCivie(Civilian civie);
+    void drawCivie(Entity civie);
 
-    void drawMelee(MeleeGuy melee);
+    void drawMelee(Entity melee);
 
     void drawImage(List<String> image, int x, int y);
 

@@ -3,7 +3,6 @@ package room;
 import room.element.*;
 import observe.Observable;
 import observe.Observer;
-import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
@@ -15,17 +14,14 @@ public class Room implements Observable<Room> {
     private List<Observer<Room>> observers;
     private Skane skane;
     private List<Wall> walls;
-    private List<Civilian> civies;
-
-    private List<MeleeGuy> meleeGuys;
+    private List<Entity> enemies;
 
     public Room(int width, int height) {
         this.width = width;
         this.height = height;
         this.observers = new ArrayList<>();
         this.walls = new ArrayList<>();
-        this.civies = new ArrayList<>();
-        this.meleeGuys = new ArrayList<>();
+        this.enemies = new ArrayList<>();
     }
 
     public Room(TerminalSizeInterface board_size) {
@@ -53,12 +49,8 @@ public class Room implements Observable<Room> {
         return walls;
     }
 
-    public List<Civilian> getCivies() {
-        return civies;
-    }
-
-    public List<MeleeGuy> getMeleeGuys() {
-        return meleeGuys;
+    public List<Entity> getEnemies() {
+        return enemies;
     }
 
     public Skane getSkane() {
@@ -73,33 +65,35 @@ public class Room implements Observable<Room> {
         return this.skane.isBury();
     }
 
+    public boolean isSkanePos(Position p) {
+        if (p.equals(skane.getPos()))
+            return true;
+
+        for (SkaneBody b : skane.getBody())
+            if (p.equals(b.getPos()))
+                return true;
+
+        return false;
+    }
+
     public List<Element> getSamePos(Position pos) {
         List<Element> elems = new ArrayList<>();
 
+        /* skane */
         if (skane.getPos().equals(pos))
             elems.add(skane);
-
         for (SkaneBody sb : skane.getBody())
             if (sb.getPos().equals(pos))
                 elems.add(sb);
 
-        /* Uncommenting this breaks raycasting (scents shouldn't stop rays)
-        for (Scent s : skane.getScentTrail())
-            if (s.getPos().equals(pos))
-                elems.add(s);
-        */
-
+        /* other */
         for (Wall w : walls)
             if (w.getPos().equals(pos))
                 elems.add(w);
 
-        for (Civilian c : civies)
-            if (c.getPos().equals(pos))
-                elems.add(c);
-
-        for (MeleeGuy m : meleeGuys)
-            if (m.getPos().equals(pos))
-                elems.add(m);
+        for (Entity e : enemies)
+            if (e.getPos().equals(pos))
+                elems.add(e);
 
         return elems;
     }
@@ -111,8 +105,8 @@ public class Room implements Observable<Room> {
     public void addElement(Element e) {
         if (e instanceof Skane) skane = (Skane) e;
         else if (e instanceof Wall) walls.add((Wall) e);
-        else if (e instanceof Civilian) civies.add((Civilian) e);
-        else if (e instanceof MeleeGuy) meleeGuys.add((MeleeGuy) e);
+        else if (e instanceof Civilian) enemies.add((Civilian) e);
+        else if (e instanceof MeleeGuy) enemies.add((MeleeGuy) e);
     }
 
     public void addElements(List<Element> elems) {
@@ -136,12 +130,6 @@ public class Room implements Observable<Room> {
             observer.changed(this);
     }
 
-    /*
-     * x0, y0: coordinates of start of the line.
-     * deltaX, deltaY: length of the line (length => abs => > 0).
-     * xDirection: 1 if line is drawn left to right, -1 if drawn right to left.
-     * yDirection: 1 if line is drawn top to bottom, -1 if drawn bottom to top.
-     */
     private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
         /*
          * Draws a line in octant 0 or 3 ( |deltaX| >= |deltaY| )
@@ -175,12 +163,6 @@ public class Room implements Observable<Room> {
         return elems;
     }
 
-    /*
-     * x0, y0: coordinates of start of the line.
-     * deltaX, deltaY: length of the line (length => abs => > 0).
-     * xDirection: 1 if line is drawn left to right, -1 if drawn right to left.
-     * yDirection: 1 if line is drawn top to bottom, -1 if drawn bottom to top.
-     */
     private List<Element> octant12Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
         /*
          * Draws a line in octant 1 or 2 ( |deltaX| <= |deltaY| )
@@ -244,22 +226,17 @@ public class Room implements Observable<Room> {
             deltaY = -deltaY; // abs
         }
 
+        /*
+         * x0, y0: coordinates of start of the line.
+         * deltaX, deltaY: length of the line (length => abs => > 0).
+         * xDirection: 1 if line is drawn left to right, -1 if drawn right to left.
+         * yDirection: 1 if line is drawn top to bottom, -1 if drawn bottom to top.
+         */
         if (deltaX > deltaY)
             elems = octant03Ray(s, t, deltaX, deltaY, xDirection, yDirection);
         else
             elems = octant12Ray(s, t, deltaX, deltaY, xDirection, yDirection);
 
         return elems;
-    }
-
-    public boolean isSkanePos(Position p) {
-        if (p.equals(skane.getPos()))
-            return true;
-
-        for (SkaneBody b : skane.getBody())
-            if (p.equals(b.getPos()))
-                return true;
-
-        return false;
     }
 }

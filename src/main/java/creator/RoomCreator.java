@@ -8,6 +8,7 @@ import Controller.Strategy.ScaredMoveStrat;
 import room.Position;
 import room.Room;
 import room.element.Civilian;
+import room.element.Element;
 import room.element.MeleeGuy;
 import room.element.skane.Skane;
 import room.element.Wall;
@@ -39,13 +40,37 @@ public class RoomCreator {
             }
         } while (repeated);
 
-        filled_pos.add(position);
         return position;
     }
 
     private Position getRdmPosRoom(int width, int heigth) {
         /* get random inbound postion */
         return getRandomPos(1, width - 1, 1, heigth - 1);
+    }
+
+    private void regPos(Position p) {
+        filled_pos.add(p);
+    }
+
+    private void addRoomElement(Room room, Element e) {
+        regPos(e.getPos());
+        room.addElement(e);
+    }
+
+    private void createWalls(Room room, int width, int height) {
+        for (int c = 0; c < width; ++c) {
+            addRoomElement(room, new Wall(c, 0));
+            addRoomElement(room, new Wall(c, height - 1));
+        }
+
+        for (int r = 1; r < height - 1; ++r) {
+            addRoomElement(room, new Wall(0, r));
+            addRoomElement(room, new Wall(width - 1, r));
+        }
+
+        for (int m = height / 3; m < 2 * height / 3; ++m) {
+            addRoomElement(room, new Wall(width / 2, m));
+        }
     }
 
     private void createSkane(Room room, int width, int height) {
@@ -57,45 +82,24 @@ public class RoomCreator {
         skane_opts.size = 3;
         skane_opts.scent_dur = 50;
 
-        Skane skane = new Skane(skane_opts);
-        room.addElement(skane);
-    }
-
-    private void createWalls(Room room, int width, int height) {
-        for (int c = 0; c < width; ++c) {
-            room.addElement(new Wall(c, 0));
-            room.addElement(new Wall(c, height - 1));
-        }
-
-        for (int r = 1; r < height - 1; ++r) {
-            room.addElement(new Wall(0, r));
-            room.addElement(new Wall(width - 1, r));
-        }
-
-        for (int m = height / 3; m < 2 * height / 3; ++m) {
-            room.addElement(new Wall(width / 2, m));
-        }
+        addRoomElement(room, new Skane(skane_opts));
     }
 
     private void createEnemies(Room room, int width, int height) {
-        Position enemy_pos;
-
-        ScaredMoveStrat scared_strat = new ScaredMoveStrat(room);
+        ScaredMoveStrat scared_strat = new ScaredMoveStrat();
         Civilian c;
         for (int i = 0; i < 1; ++i) {
-            enemy_pos = getRdmPosRoom(width, height);
-            c = new Civilian(enemy_pos, 1);
+            c = new Civilian(getRdmPosRoom(width, height), 1);
             c.setStrategy(scared_strat);
-            room.addElement(c);
+            addRoomElement(room, c);
         }
 
-        MeleeMoveStrat meleeStrat = new MeleeMoveStrat(room);
+        MeleeMoveStrat meleeStrat = new MeleeMoveStrat();
         MeleeGuy m;
         for (int i = 0; i < 1; ++i) {
-            enemy_pos = getRdmPosRoom(width, height);
-            m =new MeleeGuy(enemy_pos, 1, 1);
+            m = new MeleeGuy(getRdmPosRoom(width, height), 1, 1);
             m.setStrategy(meleeStrat);
-            room.addElement(m);
+            addRoomElement(room, m);
         }
     }
 
@@ -103,7 +107,6 @@ public class RoomCreator {
         Room room = new Room(width, height);
 
         createWalls(room, width, height);
-
         createSkane(room, width, height);
         createEnemies(room, width, height);
 

@@ -67,7 +67,7 @@ public class GameController {
     }
 
     private void run() throws IOException {
-        long beforeTime, timeDiff, sleep;
+        long beforeTime, timeDiff;
         beforeTime = System.currentTimeMillis();
 
         gui.startInputHandler();
@@ -96,6 +96,7 @@ public class GameController {
             if (this.state == GAMEST.RESTART)
                 this.restart();
         }
+
         gui.close();
     }
 

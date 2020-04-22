@@ -5,18 +5,16 @@ import room.Room;
 import room.element.Element;
 import room.element.Entity;
 import room.element.MoveStrategy;
-import room.element.Wall;
 import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class MeleeMoveStrat implements MoveStrategy {
-    private class PosDist {
+    private static class PosDist {
         public Position p;
         public double dist;
 
@@ -27,18 +25,7 @@ public class MeleeMoveStrat implements MoveStrategy {
     }
 
     private List<Position> convertToSortPosList(List<PosDist> pdList, Position p) {
-        Collections.sort(pdList, new Comparator<PosDist>() {
-            @Override
-            public int compare(PosDist lhs, PosDist rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                if (rhs.dist > lhs.dist)
-                    return -1;
-                else if (rhs.dist < lhs.dist)
-                    return 1;
-                else
-                    return 0;
-            }
-        });
+        pdList.sort(Comparator.comparingDouble(lhs -> lhs.dist));
 
         double a, b, c;
         List<Position> posList = new ArrayList<>();
@@ -62,7 +49,7 @@ public class MeleeMoveStrat implements MoveStrategy {
         return posList;
     }
 
-    private void addRayPos(List<PosDist> posDistList, Position s, Position t) {
+    private void addRayPos(Room room, List<PosDist> posDistList, Position s, Position t) {
         List<Element> rayResult = room.raycast(s, t);
         if (rayResult.size() > 0) {
             if (room.isSkanePos(rayResult.get(0).getPos()))
@@ -70,24 +57,16 @@ public class MeleeMoveStrat implements MoveStrategy {
         }
     }
 
-    private boolean checkRayScent(Position sourcePos, Position scentPos) {
+    private boolean checkRayScent(Room room, Position sourcePos, Position scentPos) {
         List<Element> rayResult = room.raycast(sourcePos, scentPos);
 
-        if (rayResult.size() == 0)
-            return true;
-        return false;
-    }
-
-    private Room room;
-
-    public MeleeMoveStrat(Room room) {
-        this.room = room;
+        return rayResult.size() == 0;
     }
 
     private int i = 0;
 
     @Override
-    public List<Position> execute(Entity e) {
+    public List<Position> execute(Room room, Entity e) {
         ++i;
         if (i < 5) { // TODO
             return new ArrayList<>();
@@ -100,23 +79,22 @@ public class MeleeMoveStrat implements MoveStrategy {
         if (room.isSkaneBury())
             return new ArrayList<>();
 
-        Position p;
         Position ePos = e.getPos();
         Skane ska = room.getSkane();
         List<PosDist> listPos = new ArrayList<>();
 
         // Head
-        addRayPos(listPos, ePos, ska.getPos());
+        addRayPos(room, listPos, ePos, ska.getPos());
 
         // Body
         for (SkaneBody sb : ska.getBody())
-           addRayPos(listPos, ePos, sb.getPos());
+            addRayPos(room, listPos, ePos, sb.getPos());
 
         // Scent
         if (listPos.size() == 0) { // If can't see skane
             Scent freshestScent = null;
             for (Scent s : ska.getScentTrail()) {
-                if (checkRayScent(ePos, s.getPos()))
+                if (checkRayScent(room, ePos, s.getPos()))
                     freshestScent = s;
             }
 

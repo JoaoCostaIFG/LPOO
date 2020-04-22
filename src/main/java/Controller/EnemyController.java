@@ -2,8 +2,7 @@ package Controller;
 
 import room.Position;
 import room.Room;
-import room.element.Civilian;
-import room.element.MeleeGuy;
+import room.element.Entity;
 
 import java.util.List;
 
@@ -16,23 +15,18 @@ public class EnemyController {
         this.colHandler = colHandler;
     }
 
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
     public void MoveEnemies() {
         List<Position> posList;
-        for (Civilian c : room.getCivies()) {
-            posList = c.executeStrategy();
-            for (Position p : posList) {
-                if (colHandler.canSkaneMove(p)) { // TODO
-                    c.setPos(p);
-                    break;
-                }
-            }
-        }
+        for (Entity e : room.getEnemies()) {
+            posList = e.executeStrategy(room);
 
-        for (MeleeGuy m : room.getMeleeGuys()) {
-            posList = m.executeStrategy();
             for (Position p : posList) {
                 if (colHandler.canSkaneMove(p)) { // TODO
-                    m.setPos(p);
+                    e.setPos(p);
                     break;
                 }
             }

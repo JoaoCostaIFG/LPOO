@@ -2,6 +2,7 @@ package gui;
 
 import room.Room;
 import room.element.Civilian;
+import room.element.Entity;
 import room.element.MeleeGuy;
 import room.element.skane.Scent;
 import room.element.skane.Skane;
@@ -55,12 +56,12 @@ public class Drawer implements GraphicsDrawer {
     }
 
     @Override
-    public void drawCivie(Civilian civie) {
+    public void drawCivie(Entity civie) {
         gra.setCharacter(civie.getX(), civie.getY(), civieChar);
     }
 
     @Override
-    public void drawMelee(MeleeGuy melee) {
+    public void drawMelee(Entity melee) {
         gra.setCharacter(melee.getX(), melee.getY(), meleeChar);
     }
 
@@ -69,20 +70,13 @@ public class Drawer implements GraphicsDrawer {
         gra.fillRectangle(new TerminalPosition(0, 0),
                 new TerminalSize(room.getWidth(), room.getHeight()), bgChar);
 
-        // TODO remove this
-        /*
-        for (Scent s : room.getSkane().getScentTrail())
-            gra.setCharacter(s.getX(), s.getY(), civieChar);
-         */
-
         for (Wall wall : room.getWalls())
             drawWall(wall);
 
-        for (Civilian civie : room.getCivies())
-            drawCivie(civie);
-
-        for (MeleeGuy melee : room.getMeleeGuys())
-            drawMelee(melee);
+        for (Entity e : room.getEnemies()) {
+            if (e instanceof Civilian) drawCivie(e);
+            else if (e instanceof MeleeGuy) drawMelee(e);
+        }
 
         drawSkane(room.getSkane());
     }

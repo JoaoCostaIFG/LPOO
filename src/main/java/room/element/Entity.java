@@ -1,9 +1,14 @@
 package room.element;
 
 import room.Position;
+import room.Room;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Entity extends Element implements MortalElement, MovableElement {
     private int hp;
+    private MoveStrategy strategy = null;
 
     public Entity(Position pos, int hp) {
         super(pos);
@@ -24,10 +29,7 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
     }
 
     public void takeDamage(int dmg) {
-        if (hp - dmg <= 0)
-            setHp(0);
-        else
-            setHp(hp - dmg);
+        setHp(Math.max(hp - dmg, 0));
     }
 
     public boolean isAlive() {
@@ -65,5 +67,16 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
 
     public Position moveRight(int x) {
         return new Position(getX() + x, getY());
+    }
+
+    public void setStrategy(MoveStrategy strat) {
+        this.strategy = strat;
+    }
+
+    public List<Position> executeStrategy(Room r) {
+        if (strategy == null)
+            return new ArrayList<>();
+
+        return strategy.execute(r, this);
     }
 }

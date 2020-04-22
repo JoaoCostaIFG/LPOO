@@ -31,11 +31,12 @@ public class GameControllerTests {
 
     @Test
     public void ExitInputs() throws IOException {
-        Mockito.when(gui.getEvent()).thenReturn(EVENT.NullEvent)
-            .thenReturn(EVENT.NullEvent)
-            .thenReturn(EVENT.NullEvent)
-            .thenReturn(EVENT.NullEvent)
-            .thenReturn(EVENT.QuitGame);
+        Mockito.when(gui.getEvent())
+                .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.QuitGame);
         game.start();
 
         // Passes when closed is called within 50ms
@@ -60,7 +61,8 @@ public class GameControllerTests {
         game.start();
         // Mockito.verify(ska_ctr); // TODO Move Movement down to skane controller
 
-        Mockito.reset(gui); Mockito.reset(ska_ctr);
+        Mockito.reset(gui);
+        Mockito.reset(ska_ctr);
         Mockito.when(gui.getEvent())
                 .thenReturn(EVENT.MoveLeft)
                 .thenReturn(EVENT.MoveLeft)

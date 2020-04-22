@@ -12,14 +12,10 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Gui {
-    private class Control {
-        public volatile boolean flag = false;
-    }
-
     private class InputHandler implements Runnable {
         @Override
         public void run() {
-            while (ctrl.flag) {
+            while (!Thread.interrupted()) {
                 try {
                     processKey(screen.readInput());
                     // processKey(screen.pollInput());
@@ -30,7 +26,6 @@ public class Gui {
         }
     }
 
-    private final Control ctrl = new Control();
     private Room room;
     private Screen screen;
     private GraphicsDrawer drawer;
@@ -60,11 +55,10 @@ public class Gui {
 
     public void stopInputHandler() {
         // TODO dunno if it works
-        ctrl.flag = false;
+        input_handler.interrupt();
     }
 
     public void startInputHandler() {
-        ctrl.flag = true;
         input_handler = new Thread (new InputHandler());
         input_handler.setDaemon(true);
         input_handler.start();
