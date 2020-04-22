@@ -204,20 +204,16 @@ public class Room implements Observable<Room> {
          * More info about the original algorithm can be found on the book:
          * "Black Book - Special edition", by Michael Abrash's.
          */
-        List<Element> elems;
-
-        /* source and target coords */
-        int x0 = s.getX(), x1 = t.getX(), y0 = s.getY(), y1 = t.getY();
-
-        int deltaX = x1 - x0;
+        int deltaX = t.getX() - s.getX();
         int xDirection;
+
         if (deltaX >= 0) {
             xDirection = 1;
         } else {
             xDirection = -1;
             deltaX = -deltaX; // abs
         }
-        int deltaY = y1 - y0;
+        int deltaY = t.getY() - s.getY();
         int yDirection;
         if (deltaY >= 0) {
             yDirection = 1;
@@ -233,10 +229,7 @@ public class Room implements Observable<Room> {
          * yDirection: 1 if line is drawn top to bottom, -1 if drawn bottom to top.
          */
         if (deltaX > deltaY)
-            elems = octant03Ray(s, t, deltaX, deltaY, xDirection, yDirection);
-        else
-            elems = octant12Ray(s, t, deltaX, deltaY, xDirection, yDirection);
-
-        return elems;
+            return octant03Ray(s, t, deltaX, deltaY, xDirection, yDirection);
+        return octant12Ray(s, t, deltaX, deltaY, xDirection, yDirection);
     }
 }

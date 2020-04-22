@@ -12,20 +12,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 
 public class Gui {
-    private class InputHandler implements Runnable {
-        @Override
-        public void run() {
-            while (!Thread.interrupted()) {
-                try {
-                    processKey(screen.readInput());
-                    // processKey(screen.pollInput());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     private Room room;
     private Screen screen;
     private GraphicsDrawer drawer;
@@ -59,7 +45,20 @@ public class Gui {
     }
 
     public void startInputHandler() {
-        input_handler = new Thread (new InputHandler());
+        input_handler = new Thread() {
+            @Override
+            public void run() {
+                while (!isInterrupted()) {
+                    try {
+                        processKey(screen.readInput());
+                        // processKey(screen.pollInput());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
         input_handler.setDaemon(true);
         input_handler.start();
     }

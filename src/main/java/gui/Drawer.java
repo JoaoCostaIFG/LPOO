@@ -70,6 +70,9 @@ public class Drawer implements GraphicsDrawer {
         gra.fillRectangle(new TerminalPosition(0, 0),
                 new TerminalSize(room.getWidth(), room.getHeight()), bgChar);
 
+        for (Scent s : room.getSkane().getScentTrail())
+            gra.setCharacter(s.getX(), s.getY(), civieChar);
+
         for (Wall wall : room.getWalls())
             drawWall(wall);
 

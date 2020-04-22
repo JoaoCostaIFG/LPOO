@@ -24,7 +24,7 @@ public class GameControllerTests {
         gui = Mockito.mock(Gui.class);
         ska_ctr = Mockito.mock(SkaneController.class);
 
-        Mockito.when(room.getSkane()).thenReturn(new Skane(1, 1, 1, 1, 1, 1, 1));
+        Mockito.when(room.getSkane()).thenReturn(new Skane(1, 1, 1, 1, 1, 1));
 
         this.game = new GameController(room, gui, ska_ctr);
     }

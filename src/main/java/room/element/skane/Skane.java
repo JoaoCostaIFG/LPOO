@@ -3,25 +3,25 @@ package room.element.skane;
 import room.Position;
 import room.element.EntityQueMorde;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 public class Skane extends EntityQueMorde {
     public static class SkaneOpts {
-        public int attack_dmg, hp, oxygen_lvl, size, scent_dur;
+        public int attack_dmg, hp, oxygen_lvl, size, scentDur;
         public Position pos = null;
     }
 
     private Boolean is_bury;
     private int oxygen_level;
     private List<SkaneBody> body;
-    private int scent_dur;
     private LinkedHashSet<Scent> scent_trail;
 
-    public Skane(Position pos, int atk, int hp, int oxy, int size, int scent_dur) {
+    public Skane(Position pos, int atk, int hp, int oxy, int size) {
         super(pos, hp, atk);
         this.is_bury = false;
         this.oxygen_level = oxy;
-        this.scent_dur = scent_dur;
         this.scent_trail = new LinkedHashSet<>();
 
         this.body = new ArrayList<>();
@@ -29,8 +29,8 @@ public class Skane extends EntityQueMorde {
             this.grow();
     }
 
-    public Skane(int x, int y, int atk, int hp, int oxy, int size, int scent_dur) {
-        this(new Position(x, y), atk, hp, oxy, size, scent_dur);
+    public Skane(int x, int y, int atk, int hp, int oxy, int size) {
+        this(new Position(x, y), atk, hp, oxy, size);
     }
 
     public Skane(SkaneOpts opts) {
@@ -38,8 +38,7 @@ public class Skane extends EntityQueMorde {
                 opts.attack_dmg,
                 opts.hp,
                 opts.oxygen_lvl,
-                opts.size,
-                opts.scent_dur
+                opts.size
         );
     }
 
@@ -83,22 +82,19 @@ public class Skane extends EntityQueMorde {
         return this.scent_trail;
     }
 
-    public void dropScent() {
-        scent_trail.add(new Scent(getTailPos(), scent_dur));
+    public void dropScent(int scentDur) {
+        scent_trail.add(new Scent(getTailPos(), scentDur));
     }
 
     public void tickScentTrail() {
         for (Scent s : scent_trail)
             s.tick();
 
-        dropScent();
         scent_trail.removeIf(s -> s.getDuration() == 0);
     }
 
     @Override
     public void setPos(Position new_pos) {
-        tickScentTrail();
-
         int body_size = body.size();
         if (body_size > 0) {
             for (int i = 0; i < body_size - 1; ++i)

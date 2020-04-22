@@ -63,15 +63,8 @@ public class MeleeMoveStrat implements MoveStrategy {
         return rayResult.size() == 0;
     }
 
-    private int i = 0;
-
     @Override
     public List<Position> execute(Room room, Entity e) {
-        ++i;
-        if (i < 5) { // TODO
-            return new ArrayList<>();
-        }
-        i = 0;
         /*
          * Attempts to get to the first part of the skane it sees
          * or follow some scent.

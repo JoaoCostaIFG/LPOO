@@ -16,7 +16,7 @@ public class SkaneTests {
 
     @Before
     public void setUp() {
-        ska = new Skane(initx, inity, 100, 5, 5, 2, 5);
+        ska = new Skane(initx, inity, 100, 5, 5, 2);
         body = ska.getBody();
     }
 
