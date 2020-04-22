@@ -5,39 +5,33 @@ skinparam classFontSize 14
 skinparam classAttributeFontSize 14
 hide empty members
 
-interface AgressiveElement {}
-interface MortalElement {}
-interface MovableElement {}
-interface MoveStrategy {}
+class Room {}
 
-abstract class Element {}
-abstract class Entity {}
-abstract class EntityQueMorde {}
+interface GraphicsDrawer {}
+class Drawer {}
+class Gui {}
 
-class Civilian {}
-class MeleeGuy {}
-class Wall {}
+class CollisionHandler {}
+class EnemyController {}
+class GameController {}
+class SkaneController {}
 
-class Scent {}
-class Skane {}
-class SkaneBody {}
+GraphicsDrawer <-up- Gui
+GraphicsDrawer ^.left. Drawer
 
-Entity <|- Element
-Entity ^.up. MovableElement
-Entity ^.up. MortalElement
+GameController --> CollisionHandler
+GameController --> EnemyController
+GameController --> SkaneController
 
-EntityQueMorde <|- Entity
-EntityQueMorde ^.up. AgressiveElement
+GameController <-down- Gui
+GameController -down-> Gui
 
-Element <|-- SkaneBody
-Element <|-- Wall
-Element <|-- Scent
-Entity <|-- Civilian
-EntityQueMorde <|-- MeleeGuy
-EntityQueMorde <|-- Skane
+Room <-left- Gui
+Room <-- GameController
 
-Skane <-up- SkaneBody
-Skane <-up- Scent
+Room <-- CollisionHandler
+Room <-- EnemyController
+Room <-- SkaneController
 
 @enduml
 
