@@ -104,10 +104,12 @@ public class GameController {
         this.state = GAMEST.RUNNING;
         TerminalSize ts = gui.getTermSize();
         this.room = new RoomCreator().createRoom(ts.getColumns(), ts.getRows());
+
         //this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
         this.colHandler = new CollisionHandler(this.room);
         this.skaneController = new SkaneController(room.getSkane(), 200);
+        this.enemyController = new EnemyController(this.room, this.colHandler);
     }
 
     public void end() {

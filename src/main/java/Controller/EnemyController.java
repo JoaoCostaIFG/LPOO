@@ -15,10 +15,6 @@ public class EnemyController {
         this.colHandler = colHandler;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
     public void MoveEnemies() {
         List<Position> posList;
         for (Entity e : room.getEnemies()) {
