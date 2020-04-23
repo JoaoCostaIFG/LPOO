@@ -133,31 +133,22 @@ public class Room implements Observable<Room> {
     }
 
     private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-        /*
-         * Draws a line in octant 0 or 3 ( |deltaX| >= |deltaY| )
-         * => x is the dominant dimension.
-         */
+        // Line in octant 0 or 3 (|deltaX| >= |deltaY|).
         List<Element> elems = new ArrayList<>();
 
-        // Set up initial error term and values used inside drawing loop
-        int deltaYx2 = deltaY * 2;
-        int deltaYx2MinusDeltaXx2 = deltaYx2 - deltaX * 2;
-        int errorTerm = deltaYx2 - deltaX;
+        int errorUp = deltaY * 2;
+        int errorDown = deltaX * 2 - errorUp;
+        int errorTerm = errorUp - deltaX;
 
         int x = s.getX(), y = s.getY();
-        int x1 = t.getX(), y1 = t.getY();
-        while (elems.size() == 0 && (x != x1 || y != y1)) {
-            /* See if it's time to advance the Y coordinate */
+        while (elems.size() == 0 && (x != t.getX() || y != t.getY())) {
             if (errorTerm >= 0) {
-                // Advance the Y coordinate & adjust the error term back down
                 y += yDirection;
-                errorTerm += deltaYx2MinusDeltaXx2;
+                errorTerm -= errorDown; // error goes down
             } else {
-                // Add to the error term
-                errorTerm += deltaYx2;
+                errorTerm += errorUp;
             }
 
-            // advance the X coordinate to next pixel
             x += xDirection;
             elems = getSamePos(new Position(x, y));
         }
@@ -166,31 +157,22 @@ public class Room implements Observable<Room> {
     }
 
     private List<Element> octant12Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-        /*
-         * Draws a line in octant 1 or 2 ( |deltaX| <= |deltaY| )
-         * => y is the dominant dimension.
-         */
+        // Line in octant 1 or 2 (|deltaX| <= |deltaY|).
         List<Element> elems = new ArrayList<>();
 
-        // Set up initial error term and values used inside drawing loop
-        int deltaXx2 = deltaX * 2;
-        int deltaXx2MinusDeltaYx2 = deltaXx2 - deltaY * 2;
-        int errorTerm = deltaXx2 - deltaY;
+        int errorUp = deltaX * 2;
+        int errorDown = deltaY * 2 - errorUp;
+        int errorTerm = errorUp - deltaY;
 
         int x = s.getX(), y = s.getY();
-        int x1 = t.getX(), y1 = t.getY();
-        while (elems.size() == 0 && (x != x1 || y != y1)) {
-            /* See if it's time to advance the X coordinate */
+        while (elems.size() == 0 && (x != t.getX() || y != t.getY())) {
             if (errorTerm >= 0) {
-                // Advance the X coordinate & adjust the error term back down
                 x += xDirection;
-                errorTerm += deltaXx2MinusDeltaYx2;
+                errorTerm -= errorDown; // error goes down
             } else {
-                // Add to the error term
-                errorTerm += deltaXx2;
+                errorTerm += errorUp;
             }
 
-            // advance the Y coordinate to next pixel
             y += yDirection;
             elems = getSamePos(new Position(x, y));
         }
@@ -199,23 +181,20 @@ public class Room implements Observable<Room> {
     }
 
     public List<Element> raycast(Position s, Position t) {
-        /*
-         * Fast bresenham's line-drawing algorithm adapted for
-         * collision detetion ray-casting. Using an integer arithmetic
-         * only version.
-         * More info about the original algorithm can be found on the book:
-         * "Black Book - Special edition", by Michael Abrash's.
+        /* Bresenham's line-drawing algorithm adapted for collision detetion
+         * ray-casting. Integer arithmetic only version.
+         * Idea from: "Black Book - Special edition", by Michael Abrash's.
          */
-        int deltaX = t.getX() - s.getX();
+        int deltaX = t.getX() - s.getX(); // 'length' of the line
         int xDirection;
-
         if (deltaX >= 0) {
             xDirection = 1;
         } else {
             xDirection = -1;
             deltaX = -deltaX; // abs
         }
-        int deltaY = t.getY() - s.getY();
+
+        int deltaY = t.getY() - s.getY(); // 'height' of the line
         int yDirection;
         if (deltaY >= 0) {
             yDirection = 1;
@@ -224,12 +203,6 @@ public class Room implements Observable<Room> {
             deltaY = -deltaY; // abs
         }
 
-        /*
-         * x0, y0: coordinates of start of the line.
-         * deltaX, deltaY: length of the line (length => abs => > 0).
-         * xDirection: 1 if line is drawn left to right, -1 if drawn right to left.
-         * yDirection: 1 if line is drawn top to bottom, -1 if drawn bottom to top.
-         */
         if (deltaX > deltaY)
             return octant03Ray(s, t, deltaX, deltaY, xDirection, yDirection);
         return octant12Ray(s, t, deltaX, deltaY, xDirection, yDirection);
