@@ -16,6 +16,8 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
   and safe from enemies.
 - **Breathing** - the **Snake** needs air the breath so it needs to come to the
   surface from time to time.
+- **Oxygen level indicator** - the **Skane** progressively changes color, so the
+  player knows if it can go underground/how high are the oxygen levels.
 - **Civilians** - there are civilians all over the map running from you (because
   they are scared).
 - **Military** - there are foot soldiers trying to stop you using their knifes.
@@ -30,11 +32,9 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 - **Damaging/Killing enemies** - for now, all enemies are invulnerable.
 - **Enemy spawning** - enemies should spawn over time during the game.
 - **Corpse spawning** - dead enemies should leave their corpse on the ground.
-- **Oxygen level indicator** - there should be a way to indicate the oxygen level
-  of the **Skane** (so the player knows if it can go underground).
 - **Stronger military** - the soldiers should be able to use guns, cars, and maybe
   even helicopters.
-- **Enemy alertness state** - indicators for whether or not and enemy is aware of
+- **Enemy alertness state** - indicators for whether and enemy is aware of
   your presence.
 - **Perk/upgrade like rewards** - killing stronger enemies (e.g.: tanks) should
   yield special extra rewards, like movement speed upgrades.
