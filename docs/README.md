@@ -34,6 +34,8 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
   of the **Skane** (so the player knows if it can go underground).
 - **Stronger military** - the soldiers should be able to use guns, cars, and maybe
   even helicopters.
+- **Enemy alertness state** - indicators for whether or not and enemy is aware of
+  your presence.
 - **Perk/upgrade like rewards** - killing stronger enemies (e.g.: tanks) should
   yield special extra rewards, like movement speed upgrades.
 
