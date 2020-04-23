@@ -7,11 +7,16 @@ import java.util.Random;
 
 public class CreatorUtilities {
     private final Random random;
-    private HashSet<Position> filled_pos;
+    private HashSet<Position> filledPos;
 
     public CreatorUtilities() {
         this.random = new Random();
-        this.filled_pos = new HashSet<>(100);
+        this.filledPos = new HashSet<>(100);
+    }
+
+    public CreatorUtilities(Random random) {
+        this.random = random;
+        this.filledPos = new HashSet<>(100);
     }
 
     public Position getRandomPos(int startx, int endx, int starty, int endy) {
@@ -23,7 +28,7 @@ public class CreatorUtilities {
                     random.nextInt(endy - 1) + starty);
 
             repeated = false;
-            for (Position p : filled_pos) {
+            for (Position p : filledPos) {
                 if (p.equals(position)) {
                     repeated = true;
                     break;
@@ -40,6 +45,10 @@ public class CreatorUtilities {
     }
 
     public void regPos(Position p) {
-        filled_pos.add(p);
+        filledPos.add(p);
+    }
+
+    public HashSet<Position> getFilledPos() {
+        return filledPos;
     }
 }

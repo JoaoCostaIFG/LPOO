@@ -16,6 +16,10 @@ public class RoomCreator {
         this.creatorUtls = new CreatorUtilities();
     }
 
+    public RoomCreator(CreatorUtilities creatorUtls) {
+        this.creatorUtls = creatorUtls;
+    }
+
     private void addRoomElement(Room room, Element e) {
         creatorUtls.regPos(e.getPos());
         room.addElement(e);
