@@ -101,7 +101,7 @@ Strategy pattern here.
 
 ### Bloaters
 
-The [_Room class_](src/main/java/room/Room.java) is Bloater (_Large class_). This
+The [_Room class_](/src/main/java/room/Room.java) is Bloater (_Large class_). This
 is problematic because finding specific code segments to work on inside the class
 can prove cumbersome and the class as a `tendecy' to violate the
 Single-responsibility principle.
@@ -111,7 +111,7 @@ classes.
 
 ### Dispensables
 
-The ray-casting related code inside the [_Room class_](src/main/java/room/Room.java)
+The ray-casting related code inside the [_Room class_](/src/main/java/room/Room.java)
 has comments that seem uneeded and the code for the two private helper functions
 (TODO relative link) looks almost duplicated.
 
@@ -120,9 +120,9 @@ the two helper functions into one, adjusting whatever logic might need to be aju
 
 ### Couplers
 
-The [_SkaneController class_](src/main/java/Controller/SkaneController.java) is an
+The [_SkaneController class_](/src/main/java/Controller/SkaneController.java) is an
 example of a class that uses the data of another class more that its own. In this
-case, the data of the [_Skane_ class](src/main/java/room/element/skane/Skane.java).
+case, the data of the [_Skane_ class](/src/main/java/room/element/skane/Skane.java).
 
 We don't think this code smell represents and actual problem in this case.
 
