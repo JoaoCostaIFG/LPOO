@@ -111,6 +111,9 @@ Single-responsibility principle.
 We could improve the code by dividing the Room class into smaller, more specific,
 classes.
 
+There's also the ray-casting helper (private) functions that take 6 arguments,
+which are bloaters, but we believe all alternatives are inferior design-wise.
+
 ### Dispensables
 
 The ray-casting related code inside the [_Room class_](/src/main/java/room/Room.java)
