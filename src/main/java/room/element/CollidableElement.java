@@ -1,9 +1,12 @@
 package room.element;
 
+import observe.Observable;
+import observe.Observer;
+import room.Position;
 import room.colliders.Collider;
 
-public interface CollidableElement {
-    public Collider getCollider();
+public interface CollidableElement extends Observable<Position>, Cloneable {
+    Collider getCollider();
 
-    public abstract boolean collidesWith(CollidableElement element);
+    boolean collidesWith(CollidableElement element);
 }

@@ -1,8 +1,8 @@
 package room.element.skane;
 
 import room.Position;
-import room.colliders.CompositeCollider;
 import room.colliders.RectangleCollider;
+import room.element.Entity;
 import room.element.EntityQueMorde;
 
 import java.util.*;
@@ -15,14 +15,12 @@ public class Skane extends EntityQueMorde {
     private LinkedHashSet<Scent> scent_trail;
 
     public Skane(Position pos, int atk, int hp, int oxy, int size, int scent_dur) {
-        super(pos, hp, atk, new CompositeCollider());
+        super(pos, hp, atk, new RectangleCollider(pos, 1, 1));
         this.is_bury = false;
         this.oxygen_level = oxy;
         this.scent_dur = scent_dur;
         this.scent_trail = new LinkedHashSet<>();
-
-        RectangleCollider ska_head_col = new RectangleCollider(pos, 1, 1);
-        this.getCollider().addCollider(ska_head_col);
+        this.addObserver(this.getCollider());
 
         this.body = new ArrayList<>();
         for (int i = 0; i < size; ++i)
@@ -68,15 +66,12 @@ public class Skane extends EntityQueMorde {
     }
 
     public void grow() {
-        SkaneBody n_body = new SkaneBody(getPos());
-        body.add(0, n_body);
-        this.getCollider().addCollider(n_body.getCollider());
+        body.add(0, new SkaneBody(this.getPos()));
     }
 
     public void shrink() {
         SkaneBody s_body = body.get(0);
         body.remove(s_body);
-        this.getCollider().removeCollider(s_body.getCollider());
     }
 
     public Position getTailPos() {
@@ -111,11 +106,21 @@ public class Skane extends EntityQueMorde {
             body.get(body_size - 1).setPos(this.getPos());
         }
 
+        super.notifyObservers(new_pos);
         super.setPos(new_pos);
     }
 
     @Override
-    public CompositeCollider getCollider() {
-        return (CompositeCollider) super.getCollider();
+    public Entity clone() throws CloneNotSupportedException {
+        //FIXME
+        Skane ska = new Skane(getPos(), getAtk(), getHp(), oxygen_level, 0, scent_dur);
+        ska.body = new LinkedList<>();
+//        System.out.println(ska.getCollider().getX() + " " + ska.getCollider().getY() + " ");
+        for (SkaneBody b: this.body) {
+            ska.body.add(new SkaneBody(b.getPos()));
+//            System.out.println(b.getCollider().getX() + " " + ska.getCollider().getY());
+        }
+//        System.out.println("\n");
+        return ska;
     }
 }

@@ -34,7 +34,7 @@ public class ColliderTests {
 
     @Test
     public void composite() {
-        CompositeCollider c1 = new CompositeCollider();
+        CompositeCollider c1 = new CompositeCollider(1, 1);
         RectangleCollider r1 = new RectangleCollider(1, 1, 1, 1);
         RectangleCollider r2 = new RectangleCollider(2, 1, 1, 1);
         RectangleCollider r3 = new RectangleCollider(10, 2, 1, 1);

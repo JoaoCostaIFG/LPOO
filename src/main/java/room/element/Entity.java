@@ -1,19 +1,21 @@
 package room.element;
+import observe.Observer;
 import room.Position;
 import room.colliders.Collider;
+import room.colliders.RectangleCollider;
 
 public abstract class Entity extends Element implements MortalElement, MovableElement, CollidableElement {
     private int hp;
     private Collider collider;
 
-    public Entity(Position pos, int hp) {
+    public Entity(Position pos, int hp, Collider col) {
         super(pos);
         this.hp = hp;
+        this.addObserver(col);
     }
 
-    public Entity(Position pos, int hp, Collider col) {
-        this(pos, hp);
-        this.collider = col;
+    public Entity(Position pos, int hp) {
+        this(pos, hp, new RectangleCollider(pos, 1, 1));
     }
 
     public Entity(int x, int y, int hp) {
@@ -45,6 +47,33 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
     }
 
     public Collider getCollider() { return this.collider; }
+
+    @Override
+    public Entity clone() throws CloneNotSupportedException {
+        return (Entity) super.clone();
+    }
+
+    /* Collision Observer */
+    @Override
+    public void setPos(Position pos) {
+        super.setPos(pos);
+        notifyObservers(pos);
+    }
+
+    @Override
+    public void addObserver(Observer<Position> observer) {
+        this.collider = (Collider) observer;
+    }
+
+    @Override
+    public void removeObserver(Observer<Position> observer) {
+        this.collider = null;
+    }
+
+    @Override
+    public void notifyObservers(Position subject) {
+        this.collider.changed(this.getPos());
+    }
 
     /* movement */
     public Position moveUp() {

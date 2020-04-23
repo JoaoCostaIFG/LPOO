@@ -92,7 +92,7 @@ public class Room implements Observable<Room> {
         return elems;
     }
 
-    public List<CollidableElement> getCollElements() { // Equal to enemies, all are collidable // Equal to enemies, all are collidable
+    public List<CollidableElement> getCollElements() { // Equal to enemies, all are collidable
         List<CollidableElement> elems = new ArrayList<>();
         elems.add(skane);
 
@@ -141,7 +141,7 @@ public class Room implements Observable<Room> {
     public List<CollidableElement> getCollidingElems(CollidableElement ent) {
         List<CollidableElement> res = new ArrayList<>();
         for(CollidableElement e: getCollElements())
-            if (e.collidesWith(ent))
+            if (e.collidesWith(ent) && !e.equals(ent))
                 res.add(e);
         return res;
     }
@@ -160,6 +160,19 @@ public class Room implements Observable<Room> {
     public void notifyObservers(Room subject) {
         for (Observer<Room> observer : this.observers)
             observer.changed(this);
+    }
+
+    public List<CollidableElement> getCollidingElemsInPos(Entity entity, Position pos) {
+        // What elems does it collide if we move ent to the pos position?
+        List<CollidableElement> res = new ArrayList<>();
+        try {
+            Entity cloneEnt = entity.clone();
+            cloneEnt.setPos(pos);
+            res = this.getCollidingElems(cloneEnt);
+        } catch (CloneNotSupportedException e) {
+            return res;
+        }
+        return res;
     }
 
     /*

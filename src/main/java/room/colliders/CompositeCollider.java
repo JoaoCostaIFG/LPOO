@@ -5,17 +5,35 @@ import room.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompositeCollider implements Collider {
+public class CompositeCollider extends Collider {
     private List<Collider> colliders;
 
-    public CompositeCollider() { colliders = new ArrayList<>(); };
+    public CompositeCollider(Position pos, List<Collider> colliders) {
+        super(pos);
+        this.colliders = colliders;
+    }
 
-    public List<Collider> getColliders() {
-        return colliders;
+    public CompositeCollider(int x, int y, List<Collider> colliders) {
+        this(new Position(x, y), colliders);
+    }
+
+    public CompositeCollider(Position pos) {
+        this(pos, new ArrayList<Collider>());
+    }
+
+    public CompositeCollider(int x, int y) {
+        this(new Position(x, y));
     }
 
     public void addCollider(Collider col) {
+        int relativeX = col.getX() - this.getX();
+        int relativeY = col.getY() - this.getY();
+        col.setPos(new Position(relativeX, relativeY));
         colliders.add(col);
+    }
+
+    public List<Collider> getColliders() {
+        return colliders;
     }
 
     public void removeCollider(Collider col) {
@@ -24,9 +42,17 @@ public class CompositeCollider implements Collider {
 
     @Override
     public boolean collidesWith(Collider col) {
+        Position oldPos = col.getPos();
+        int relativeX = col.getX() - this.getX();
+        int relativeY = col.getY() - this.getY();
+        col.setPos(new Position(relativeX, relativeY));
+
         for (Collider c: this.colliders)
-            if (c.collidesWith(col))
+            if (c.collidesWith(col)) {
+                col.setPos(oldPos);
                 return true;
+            }
+        col.setPos(oldPos);
         return false;
     }
 }

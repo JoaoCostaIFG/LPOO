@@ -53,7 +53,7 @@ public class RoomCreator {
         skane_opts.attack_dmg = 10;
         skane_opts.hp = 3;
         skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 30;
+        skane_opts.size = 5;
 
         Skane skane = new Skane(skane_opts);
         room.addElement(skane);

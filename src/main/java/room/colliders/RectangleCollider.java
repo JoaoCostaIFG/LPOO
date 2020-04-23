@@ -2,28 +2,17 @@ package room.colliders;
 
 import room.Position;
 
-public class RectangleCollider implements Collider {
-    private Position pos;
+public class RectangleCollider extends Collider {
     private int width, height;
 
     public RectangleCollider(Position pos, int width, int height) {
-        this.pos = pos;
+        super(pos);
         this.width = width;
         this.height = height;
     }
 
     public RectangleCollider(int x, int y, int width, int height) {
-        this.pos = new Position(x, y);
-        this.width = width;
-        this.height = height;
-    }
-
-    public Position getPos() {
-        return pos;
-    }
-
-    public void setPos(Position pos) {
-        this.pos = pos;
+        this(new Position(x, y), width, height);
     }
 
     public int getWidth() {
@@ -43,10 +32,10 @@ public class RectangleCollider implements Collider {
     }
 
     private boolean collidesWith(RectangleCollider rect2) {
-        int rect1X = this.pos.getX();
-        int rect2X = rect2.getPos().getX();
-        int rect1Y = this.pos.getY();
-        int rect2Y = rect2.getPos().getY();
+        int rect1X = super.getX();
+        int rect2X = rect2.getX();
+        int rect1Y = super.getY();
+        int rect2Y = rect2.getY();
         return  (rect1X < rect2X + rect2.getWidth()&&
                 rect1X + this.width > rect2X &&
                 rect1Y < rect2Y + rect2.getHeight() &&
