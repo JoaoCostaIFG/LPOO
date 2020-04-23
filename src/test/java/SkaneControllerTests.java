@@ -47,7 +47,7 @@ public class SkaneControllerTests {
         ska.bury(false);
         skaCtr.inhale();
         skaCtr.inhale();
-        assertEquals(200 - n + 4, ska.getOxygenLevel());
+        assertEquals(200 - n + 2 * 2, ska.getOxygenLevel());
         for (int i = 0; i < n; ++i)
             skaCtr.inhale();
         assertEquals(200, ska.getOxygenLevel());
