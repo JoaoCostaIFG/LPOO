@@ -73,7 +73,7 @@ The following classes were adapted/developed/used to implement this pattern:
 - _TerminalResizeListener_ - An interface from **lanterna** for terminal resize
   event observers.
 - _TerminalResizeHandler_ - Our implementation of the previous interface.
-- _Terminal_ - Lanterna's class. It takes the role of the observable and
+- _Terminal_ - **Lanterna's** class. It takes the role of the observable and
   notifies all subscribed _TerminalResizeListener_ each time it resizes.
 - _Gui_ - Instantiates both _Terminal_ and _TerminalResizeHandler_. It also
   subscribes a _TerminalResizeHandler_, as a resize listener, to its _Terminal_
@@ -99,4 +99,33 @@ Strategy pattern here.
 
 ## Known Code Smells and Refactoring Suggestions
 
+### Bloaters
+
+The [_Room class_](src/main/java/room/Room.java) is Bloater (_Large class_). This
+is problematic because finding specific code segments to work on inside the class
+can prove cumbersome and the class as a `tendecy' to violate the
+Single-responsibility principle.
+
+We could improve the code by dividing the Room class into smaller, more specific,
+classes.
+
+### Dispensables
+
+The ray-casting related code inside the [_Room class_](src/main/java/room/Room.java)
+has comments that seem uneeded and the code for the two private helper functions
+(TODO relative link) looks almost duplicated.
+
+This could be fixed by analysing the comments and removing the uneeded ones and joining
+the two helper functions into one, adjusting whatever logic might need to be ajusted.
+
+### Couplers
+
+The [_SkaneController class_](src/main/java/Controller/SkaneController.java) is an
+example of a class that uses the data of another class more that its own. In this
+case, the data of the [_Skane_ class](src/main/java/room/element/skane/Skane.java).
+
+We don't think this code smell represents and actual problem in this case.
+
 ## Self-Evaluation
+
+fifty fifty [padner](https://westofloathing.gamepedia.com/Pardner).
