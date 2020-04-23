@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import room.Position;
 import room.Room;
@@ -18,6 +18,11 @@ public class EnemyController {
     public void MoveEnemies() {
         List<Position> posList;
         for (Entity e : room.getEnemies()) {
+            if (e.getMovCounter() > 0) {
+                e.tickMovCounter();
+                continue;
+            }
+
             posList = e.executeStrategy(room);
 
             for (Position p : posList) {

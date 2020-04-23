@@ -1,5 +1,5 @@
-import Controller.GameController;
-import Controller.SkaneController;
+import controller.GameController;
+import controller.SkaneController;
 import gui.EVENT;
 import gui.Gui;
 import org.junit.Before;

@@ -1,7 +1,8 @@
-package Controller.Strategy;
+package controller.strategy;
 
 import room.Position;
 import room.Room;
+import room.element.Element;
 import room.element.Entity;
 import room.element.MoveStrategy;
 
@@ -10,14 +11,30 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ScaredMoveStrat implements MoveStrategy {
+    /*
+     * Attempts to get as far away from the skane's mouth as possible.
+     * Only runs away if it can see the Skane.
+     */
+    private int ticksBetweenMoves;
+
+    public ScaredMoveStrat(int ticksBetweenMoves) {
+        this.ticksBetweenMoves = ticksBetweenMoves;
+    }
+
+    private boolean canSeeSkane(Room room, Position s) {
+        List<Element> skaHeadRay = room.raycast(s, room.getSkanePos());
+        if (skaHeadRay.size() == 0 || !room.isSkanePos(skaHeadRay.get(0).getPos()))
+            return false;
+
+        return true;
+    }
+
     @Override
     public List<Position> execute(Room room, Entity e) {
-        /*
-         * Attempts to get as far away from the skane's mouth
-         * as possible.
-         */
         List<Position> finalPos = new ArrayList<>();
-        if (room.isSkaneBury())
+
+        e.setMovCounter(ticksBetweenMoves);
+        if (room.isSkaneBury() || !canSeeSkane(room, e.getPos()))
             return finalPos;
 
         Position ska_pos = room.getSkanePos();

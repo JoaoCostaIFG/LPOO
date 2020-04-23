@@ -1,7 +1,7 @@
 package creator;
 
-import Controller.Strategy.MeleeMoveStrat;
-import Controller.Strategy.ScaredMoveStrat;
+import controller.strategy.MeleeMoveStrat;
+import controller.strategy.ScaredMoveStrat;
 import room.Room;
 import room.element.Civilian;
 import room.element.Element;
@@ -49,7 +49,7 @@ public class RoomCreator {
     }
 
     private void createEnemies(Room room, int width, int height) {
-        ScaredMoveStrat scared_strat = new ScaredMoveStrat();
+        ScaredMoveStrat scared_strat = new ScaredMoveStrat(12);
         Civilian c;
         for (int i = 0; i < 1; ++i) {
             c = new Civilian(creatorUtls.getRdmPosRoom(width, height), 1);
@@ -57,7 +57,7 @@ public class RoomCreator {
             addRoomElement(room, c);
         }
 
-        MeleeMoveStrat meleeStrat = new MeleeMoveStrat();
+        MeleeMoveStrat meleeStrat = new MeleeMoveStrat(6);
         MeleeGuy m;
         for (int i = 0; i < 1; ++i) {
             m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1);

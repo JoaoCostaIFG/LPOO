@@ -18,4 +18,10 @@ public interface MovableElement {
     Position moveUp();
 
     Position moveUp(int y);
+
+    int getMovCounter();
+
+    void setMovCounter(int numTicks);
+
+    void tickMovCounter();
 }

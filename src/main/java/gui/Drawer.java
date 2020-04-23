@@ -25,11 +25,12 @@ public class Drawer implements GraphicsDrawer {
     private static final TextCharacter bgChar = new TextCharacter(' ', bg, bg);
     private static final TextCharacter civieChar = new TextCharacter('C', blue, bg);
     private static final TextCharacter meleeChar = new TextCharacter('M', red, bg);
+    private static final TextCharacter wallChar = new TextCharacter('#', purple, bg);
+
     private static final TextCharacter skaChar = new TextCharacter('S', green, bg, SGR.BOLD);
     private static final TextCharacter skaBuryChar = new TextCharacter('X', green, bg, SGR.BOLD);
     private static final TextCharacter skaBodyChar = new TextCharacter('o', green, bg);
     private static final TextCharacter skaBodyBuryChar = new TextCharacter('x', green, bg);
-    private static final TextCharacter wallChar = new TextCharacter('#', purple, bg);
 
     private TextGraphics gra;
 
@@ -70,8 +71,10 @@ public class Drawer implements GraphicsDrawer {
         gra.fillRectangle(new TerminalPosition(0, 0),
                 new TerminalSize(room.getWidth(), room.getHeight()), bgChar);
 
+        /*
         for (Scent s : room.getSkane().getScentTrail())
             gra.setCharacter(s.getX(), s.getY(), civieChar);
+         */
 
         for (Wall wall : room.getWalls())
             drawWall(wall);

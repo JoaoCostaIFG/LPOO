@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Entity extends Element implements MortalElement, MovableElement {
+    private int movCounter = 0;
     private int hp;
     private MoveStrategy strategy = null;
 
@@ -78,5 +79,17 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
             return new ArrayList<>();
 
         return strategy.execute(r, this);
+    }
+
+    public int getMovCounter() {
+        return this.movCounter;
+    }
+
+    public void setMovCounter(int numTicks) {
+        this.movCounter = numTicks;
+    }
+
+    public void tickMovCounter() {
+        --this.movCounter;
     }
 }
