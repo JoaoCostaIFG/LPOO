@@ -5,13 +5,15 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import room.Position;
 import room.Room;
+import room.element.Element;
 import room.element.skane.SkaneBody;
 
+import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class CreatorTests {
     // TODO inject random into CreatorUtilities to check the generated positions
@@ -118,15 +120,16 @@ public class CreatorTests {
         Mockito.verifyNoMoreInteractions(rdm);
 
         // nothing generated on top of anything else (except skane)
-        /* TODO can't find something similar to Mockito's atMost() for JUnit so I need
-            to think of a nice solution.
+        List<Element> elemList;
         for (int i = 0; i < width; ++i) {
             for (int j = 0; j < heigth; ++j) {
                 if (!room.isSkanePos(new Position(i, j))) {
-                    assertEquals(room.getSamePos(new Position(i, j)).size(), atMost(1));
+                    elemList = room.getSamePos(new Position(i, j));
+                    // TODO is this bad practice
+                    if (elemList.size() > 1)
+                        fail();
                 }
             }
         }
-         */
     }
 }

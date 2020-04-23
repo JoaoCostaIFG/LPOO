@@ -52,7 +52,7 @@ public class Drawer implements GraphicsDrawer {
         gra.setBackgroundColor(bg);
 
         double oxyPerc = (double) (ska.getMaxOxygenLevel() - ska.getOxygenLevel()) / ska.getMaxOxygenLevel();
-        long numSpotsToFill = Math.round(ska.getSize() * oxyPerc);
+        long numSpotsToFill = Math.round((ska.getSize() + 1) * oxyPerc);
         long numSpots = 0;
 
         gra.setForegroundColor(orange);
@@ -62,6 +62,8 @@ public class Drawer implements GraphicsDrawer {
 
             gra.setCharacter(b.getX(), b.getY(), ska.isBury() ? skaBodyBuryChar : skaBodyChar);
         }
+        if (numSpots == numSpotsToFill)
+            gra.setForegroundColor(green);
         gra.setCharacter(ska.getX(), ska.getY(), ska.isBury() ? skaBuryChar : skaChar);
 
 
