@@ -1,4 +1,4 @@
-import Controller.CollisionHandler;
+import controller.CollisionHandler;
 import org.junit.Before;
 import org.junit.Test;
 import room.Position;

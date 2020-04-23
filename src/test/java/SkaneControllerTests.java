@@ -1,4 +1,4 @@
-import Controller.SkaneController;
+import controller.SkaneController;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -13,13 +13,13 @@ public class SkaneControllerTests {
 
     @Before
     public void setUp() {
-        ska = new Skane(1, 1, 1, 1, 200, 1, 1);
-        skaCtr = new SkaneController(ska, 200);
+        ska = new Skane(1, 1, 1, 1, 200, 1);
+        skaCtr = new SkaneController(ska, 3);
     }
 
     public void setUpMock() {
         ska = Mockito.mock(Skane.class);
-        skaCtr = new SkaneController(ska, 200);
+        skaCtr = new SkaneController(ska, 3);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class SkaneControllerTests {
         ska.bury(false);
         skaCtr.inhale();
         skaCtr.inhale();
-        assertEquals(n + (200 / 50) * 2, ska.getOxygenLevel());
+        assertEquals(200 - n + 2 * 2, ska.getOxygenLevel());
         for (int i = 0; i < n; ++i)
             skaCtr.inhale();
         assertEquals(200, ska.getOxygenLevel());

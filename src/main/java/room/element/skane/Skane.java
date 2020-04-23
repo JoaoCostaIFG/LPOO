@@ -3,29 +3,35 @@ package room.element.skane;
 import room.Position;
 import room.element.EntityQueMorde;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 public class Skane extends EntityQueMorde {
-    private Boolean is_bury;
-    private int oxygen_level;
-    private List<SkaneBody> body;
-    private int scent_dur;
-    private LinkedHashSet<Scent> scent_trail;
+    public static class SkaneOpts {
+        public int attack_dmg, hp, oxygen_lvl, size;
+        public Position pos = null;
+    }
 
-    public Skane(Position pos, int atk, int hp, int oxy, int size, int scent_dur) {
+    private Boolean isBury;
+    private int oxyLvl, maxOxy;
+    private List<SkaneBody> body;
+    private LinkedHashSet<Scent> scentTrail;
+
+    public Skane(Position pos, int atk, int hp, int oxy, int size) {
         super(pos, hp, atk);
-        this.is_bury = false;
-        this.oxygen_level = oxy;
-        this.scent_dur = scent_dur;
-        this.scent_trail = new LinkedHashSet<>();
+        this.isBury = false;
+        this.oxyLvl = oxy;
+        this.maxOxy = this.oxyLvl;
+        this.scentTrail = new LinkedHashSet<>();
 
         this.body = new ArrayList<>();
         for (int i = 0; i < size; ++i)
             this.grow();
     }
 
-    public Skane(int x, int y, int atk, int hp, int oxy, int size, int scent_dur) {
-        this(new Position(x, y), atk, hp, oxy, size,scent_dur);
+    public Skane(int x, int y, int atk, int hp, int oxy, int size) {
+        this(new Position(x, y), atk, hp, oxy, size);
     }
 
     public Skane(SkaneOpts opts) {
@@ -33,25 +39,28 @@ public class Skane extends EntityQueMorde {
                 opts.attack_dmg,
                 opts.hp,
                 opts.oxygen_lvl,
-                opts.size,
-                opts.scent_dur
+                opts.size
         );
     }
 
-    public int getOxygenLevel() {
-        return this.oxygen_level;
+    public int getMaxOxygenLevel () {
+        return this.maxOxy;
     }
 
-    public void setOxygenLevel(int oxygen_level) {
-        this.oxygen_level = oxygen_level;
+    public int getOxygenLevel() {
+        return this.oxyLvl;
+    }
+
+    public void setOxygenLevel(int oxyLvl) {
+        this.oxyLvl = oxyLvl;
     }
 
     public Boolean isBury() {
-        return this.is_bury;
+        return this.isBury;
     }
 
     public void bury(Boolean go_underground) {
-        this.is_bury = go_underground;
+        this.isBury = go_underground;
     }
 
     public int getSize() {
@@ -75,25 +84,22 @@ public class Skane extends EntityQueMorde {
     }
 
     public LinkedHashSet<Scent> getScentTrail() {
-        return this.scent_trail;
+        return this.scentTrail;
     }
 
-    public void dropScent(){
-        scent_trail.add(new Scent(getTailPos(), scent_dur));
+    public void dropScent(int scentDur) {
+        scentTrail.add(new Scent(getTailPos(), scentDur));
     }
 
     public void tickScentTrail() {
-        for (Scent s : scent_trail)
+        for (Scent s : scentTrail)
             s.tick();
 
-        dropScent();
-        scent_trail.removeIf(s -> s.getDuration() == 0);
+        scentTrail.removeIf(s -> s.getDuration() == 0);
     }
 
     @Override
     public void setPos(Position new_pos) {
-        tickScentTrail();
-
         int body_size = body.size();
         if (body_size > 0) {
             for (int i = 0; i < body_size - 1; ++i)

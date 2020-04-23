@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
@@ -16,7 +16,7 @@ public class GameController {
     private EnemyController enemyController;
     private SkaneController skaneController;
     private CollisionHandler colHandler;
-    private final int DELAY = 40; // time between frames (in ms)
+    private final int DELAY = 30; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
         new GameController().start();
@@ -43,6 +43,7 @@ public class GameController {
                     new_pos = room.getSkane().moveDown();
                     break;
             }
+            skaneController.tickScentTrail(); // TODO
             if (colHandler.canSkaneMove(new_pos))
                 room.moveSkane(new_pos);
         }
@@ -59,7 +60,7 @@ public class GameController {
 
     public GameController(Room room) throws IOException {
         this(room, new Gui(room),
-                new SkaneController(room.getSkane(), 200));
+                new SkaneController(room.getSkane(), 50));
     }
 
     public GameController() throws IOException {
@@ -91,6 +92,8 @@ public class GameController {
     }
 
     public void start() throws IOException {
+        this.state = GAMEST.RUNNING;
+
         while (this.state != GAMEST.STOPPED) {
             this.run();
             if (this.state == GAMEST.RESTART)
@@ -108,7 +111,7 @@ public class GameController {
         //this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
         this.colHandler = new CollisionHandler(this.room);
-        this.skaneController = new SkaneController(room.getSkane(), 200);
+        this.skaneController = new SkaneController(room.getSkane(), 50);
         this.enemyController = new EnemyController(this.room, this.colHandler);
     }
 

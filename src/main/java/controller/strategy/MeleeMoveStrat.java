@@ -1,4 +1,4 @@
-package Controller.Strategy;
+package controller.strategy;
 
 import room.Position;
 import room.Room;
@@ -14,6 +14,16 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MeleeMoveStrat implements MoveStrategy {
+    /*
+     * Attempts to get to the closest part of the skane it can see. Otherwise,
+     * follows the 'freshest' scent (from the 'Skanes' scent trail) it can see.
+     */
+    private int ticksBetweenMoves;
+
+    public MeleeMoveStrat(int ticksBetweenMoves) {
+        this.ticksBetweenMoves = ticksBetweenMoves;
+    }
+
     private static class PosDist {
         public Position p;
         public double dist;
@@ -63,19 +73,9 @@ public class MeleeMoveStrat implements MoveStrategy {
         return rayResult.size() == 0;
     }
 
-    private int i = 0;
-
     @Override
     public List<Position> execute(Room room, Entity e) {
-        ++i;
-        if (i < 5) { // TODO
-            return new ArrayList<>();
-        }
-        i = 0;
-        /*
-         * Attempts to get to the first part of the skane it sees
-         * or follow some scent.
-         */
+        e.setMovCounter(ticksBetweenMoves);
         if (room.isSkaneBury())
             return new ArrayList<>();
 

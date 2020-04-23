@@ -1,16 +1,16 @@
-package Controller;
+package controller;
 
 import room.element.skane.Skane;
 
 public class SkaneController {
     private Skane ska;
-    private int max_oxy;
-    private int scent_dur;
+    private int maxOxy;
+    private int scentDur;
 
-    public SkaneController(Skane ska, int max_oxygen) {
+    public SkaneController(Skane ska, int scentDur) {
         this.ska = ska;
-        this.max_oxy = max_oxygen;
-        this.scent_dur = 3; // TODO
+        this.maxOxy = ska.getMaxOxygenLevel();
+        this.scentDur = scentDur;
     }
 
     public void takeDamage(int dmg) {
@@ -30,7 +30,7 @@ public class SkaneController {
     public void toggleBury() {
         if (ska.isBury())
             ska.bury(false);
-        else if (ska.getOxygenLevel() == max_oxy)
+        else if (ska.getOxygenLevel() == maxOxy)
             ska.bury(true);
     }
 
@@ -39,13 +39,14 @@ public class SkaneController {
         if (oxy_lvl == 0)
             ska.bury(false);
 
-        if (ska.isBury()) {
+        if (ska.isBury())
             ska.setOxygenLevel(oxy_lvl - 1);
-        } else if (oxy_lvl < max_oxy) {
-            if (oxy_lvl + max_oxy / 50 > max_oxy)
-                ska.setOxygenLevel(max_oxy);
-            else
-                ska.setOxygenLevel(oxy_lvl + max_oxy / 50);
-        }
+        else if (oxy_lvl < maxOxy)
+            ska.setOxygenLevel(Math.min(oxy_lvl + 2, maxOxy));
+    }
+
+    public void tickScentTrail() {
+        ska.tickScentTrail();
+        ska.dropScent(scentDur);
     }
 }
