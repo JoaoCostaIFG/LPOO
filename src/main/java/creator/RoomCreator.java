@@ -47,7 +47,7 @@ public class RoomCreator {
         skane_opts.attack_dmg = 10;
         skane_opts.hp = 3;
         skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 3;
+        skane_opts.size = 30;
 
         addRoomElement(room, new Skane(skane_opts));
     }
@@ -61,7 +61,7 @@ public class RoomCreator {
             addRoomElement(room, c);
         }
 
-        MeleeMoveStrat meleeStrat = new MeleeMoveStrat(6);
+        MeleeMoveStrat meleeStrat = new MeleeMoveStrat(4);
         MeleeGuy m;
         for (int i = 0; i < 1; ++i) {
             m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1);

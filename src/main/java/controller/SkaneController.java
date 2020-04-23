@@ -7,9 +7,9 @@ public class SkaneController {
     private int maxOxy;
     private int scentDur;
 
-    public SkaneController(Skane ska, int maxOxygen, int scentDur) {
+    public SkaneController(Skane ska, int scentDur) {
         this.ska = ska;
-        this.maxOxy = maxOxygen;
+        this.maxOxy = ska.getMaxOxygenLevel();
         this.scentDur = scentDur;
     }
 
@@ -39,14 +39,10 @@ public class SkaneController {
         if (oxy_lvl == 0)
             ska.bury(false);
 
-        if (ska.isBury()) {
+        if (ska.isBury())
             ska.setOxygenLevel(oxy_lvl - 1);
-        } else if (oxy_lvl < maxOxy) {
-            if (oxy_lvl + maxOxy / 50 > maxOxy)
-                ska.setOxygenLevel(maxOxy);
-            else
-                ska.setOxygenLevel(oxy_lvl + maxOxy / 50);
-        }
+        else if (oxy_lvl < maxOxy)
+            ska.setOxygenLevel(Math.min(oxy_lvl + 2, maxOxy));
     }
 
     public void tickScentTrail() {

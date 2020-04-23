@@ -16,7 +16,7 @@ public class GameController {
     private EnemyController enemyController;
     private SkaneController skaneController;
     private CollisionHandler colHandler;
-    private final int DELAY = 40; // time between frames (in ms)
+    private final int DELAY = 30; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
         new GameController().start();
@@ -60,7 +60,7 @@ public class GameController {
 
     public GameController(Room room) throws IOException {
         this(room, new Gui(room),
-                new SkaneController(room.getSkane(), 200, 50));
+                new SkaneController(room.getSkane(), 50));
     }
 
     public GameController() throws IOException {
@@ -111,7 +111,7 @@ public class GameController {
         //this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
         this.colHandler = new CollisionHandler(this.room);
-        this.skaneController = new SkaneController(room.getSkane(), 200, 50);
+        this.skaneController = new SkaneController(room.getSkane(), 50);
         this.enemyController = new EnemyController(this.room, this.colHandler);
     }
 

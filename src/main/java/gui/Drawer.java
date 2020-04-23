@@ -11,6 +11,7 @@ import room.element.Wall;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
@@ -19,6 +20,7 @@ public class Drawer implements GraphicsDrawer {
     private static final TextColor bg = fromString("#313742");
     private static final TextColor blue = fromString("#0E91E7");
     private static final TextColor green = fromString("#76A15D");
+    private static final TextColor orange = fromString("#D68445");
     private static final TextColor purple = fromString("#8558AD");
     private static final TextColor red = fromString("#844F4E");
 
@@ -27,10 +29,10 @@ public class Drawer implements GraphicsDrawer {
     private static final TextCharacter meleeChar = new TextCharacter('M', red, bg);
     private static final TextCharacter wallChar = new TextCharacter('#', purple, bg);
 
-    private static final TextCharacter skaChar = new TextCharacter('S', green, bg, SGR.BOLD);
-    private static final TextCharacter skaBuryChar = new TextCharacter('X', green, bg, SGR.BOLD);
-    private static final TextCharacter skaBodyChar = new TextCharacter('o', green, bg);
-    private static final TextCharacter skaBodyBuryChar = new TextCharacter('x', green, bg);
+    private static final char skaChar = 'S';
+    private static final char skaBuryChar = 'X';
+    private static final char skaBodyChar = 'o';
+    private static final char skaBodyBuryChar = 'x';
 
     private TextGraphics gra;
 
@@ -46,9 +48,24 @@ public class Drawer implements GraphicsDrawer {
 
     @Override
     public void drawSkane(Skane ska) {
-        for (SkaneBody b : ska.getBody())
+        gra.enableModifiers(SGR.BOLD);
+        gra.setBackgroundColor(bg);
+
+        double oxyPerc = (double) (ska.getMaxOxygenLevel() - ska.getOxygenLevel()) / ska.getMaxOxygenLevel();
+        long numSpotsToFill = Math.round(ska.getSize() * oxyPerc);
+        long numSpots = 0;
+
+        gra.setForegroundColor(orange);
+        for (SkaneBody b : ska.getBody()) {
+            if (numSpots++ == numSpotsToFill)
+                gra.setForegroundColor(green);
+
             gra.setCharacter(b.getX(), b.getY(), ska.isBury() ? skaBodyBuryChar : skaBodyChar);
+        }
         gra.setCharacter(ska.getX(), ska.getY(), ska.isBury() ? skaBuryChar : skaChar);
+
+
+        gra.disableModifiers(SGR.BOLD);
     }
 
     @Override

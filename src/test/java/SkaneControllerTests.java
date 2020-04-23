@@ -14,12 +14,12 @@ public class SkaneControllerTests {
     @Before
     public void setUp() {
         ska = new Skane(1, 1, 1, 1, 200, 1);
-        skaCtr = new SkaneController(ska, 200, 3);
+        skaCtr = new SkaneController(ska, 3);
     }
 
     public void setUpMock() {
         ska = Mockito.mock(Skane.class);
-        skaCtr = new SkaneController(ska, 200, 3);
+        skaCtr = new SkaneController(ska, 3);
     }
 
     @Test
