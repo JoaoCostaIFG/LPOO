@@ -37,8 +37,8 @@ public class MeleeMoveStrat implements MoveStrategy {
     private List<Position> convertToSortPosList(List<PosDist> pdList, Position p) {
         pdList.sort(Comparator.comparingDouble(lhs -> lhs.dist));
 
-        double a, b, c;
         List<Position> posList = new ArrayList<>();
+        double a, b, c;
         for (PosDist pd : pdList) {
             a = pd.p.getX() - p.getX();
             b = pd.p.getY() - p.getY();
