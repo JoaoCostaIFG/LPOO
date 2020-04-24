@@ -2,20 +2,20 @@ package controller;
 
 import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
-import room.Position;
 import gui.Gui;
 import gui.EVENT;
 import room.Room;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GameController {
+public class GameController implements Controller {
     private Room room;
     private Gui gui;
     private GAMEST state;
-    private EnemyController enemyController;
-    private SkaneController skaneController;
-    private CollisionHandler colHandler;
+    private List<Controller> controllers;
+    private PlayerController playerController;
     private final int DELAY = 30; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
@@ -26,36 +26,17 @@ public class GameController {
         if (event == EVENT.NullEvent) return;
         else if (event == EVENT.QuitGame) this.end();
         else if (event == EVENT.RestartGame) this.state = GAMEST.RESTART;
-        else if (event == EVENT.Bury) skaneController.toggleBury();
-        else { // Movement Event
-            Position new_pos = room.getSkane().getPos();
-            switch (event) {
-                case MoveLeft:
-                    new_pos = room.getSkane().moveLeft();
-                    break;
-                case MoveRight:
-                    new_pos = room.getSkane().moveRight();
-                    break;
-                case MoveUp:
-                    new_pos = room.getSkane().moveUp();
-                    break;
-                case MoveDown:
-                    new_pos = room.getSkane().moveDown();
-                    break;
-            }
-            skaneController.tickScentTrail(); // TODO
-            if (colHandler.canSkaneMove(new_pos))
-                room.moveSkane(new_pos);
-        }
+        else playerController.setEvent(event); // Player Event
     }
 
-    public GameController(Room room, Gui gui, SkaneController skactr) {
+    public GameController(Room room, Gui gui, SkaneController skaCtr) {
         this.room = room;
         this.gui = gui;
         this.state = GAMEST.RUNNING;
-        this.colHandler = new CollisionHandler(this.room);
-        this.enemyController = new EnemyController(this.room, this.colHandler);
-        this.skaneController = skactr;
+        this.controllers = new ArrayList<Controller>();
+        controllers.add(new EnemyController());
+        controllers.add(skaCtr);
+        this.playerController = skaCtr;
     }
 
     public GameController(Room room) throws IOException {
@@ -67,6 +48,14 @@ public class GameController {
         this(new RoomCreator().createRoom(80, 40));
     }
 
+    @Override
+    public void update(Room room) {
+        handleEvent(gui.getEvent());
+        gui.releaseKeys();
+        for (Controller c: this.controllers)
+            c.update(room);
+    }
+
     private void run() throws IOException {
         long beforeTime, timeDiff;
         beforeTime = System.currentTimeMillis();
@@ -74,11 +63,7 @@ public class GameController {
         gui.startInputHandler();
         while (state == GAMEST.RUNNING) {
             gui.draw();
-            handleEvent(gui.getEvent());
-            gui.releaseKeys();
-
-            skaneController.inhale();
-            enemyController.MoveEnemies();
+            update(room);
 
             timeDiff = System.currentTimeMillis() - beforeTime;
             try {
@@ -110,9 +95,7 @@ public class GameController {
 
         //this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
-        this.colHandler = new CollisionHandler(this.room);
-        this.skaneController = new SkaneController(room.getSkane(), 50);
-        this.enemyController = new EnemyController(this.room, this.colHandler);
+        this.playerController = new SkaneController(room.getSkane(), 200);
     }
 
     public void end() {

@@ -4,14 +4,12 @@ import room.Room;
 import room.element.Civilian;
 import room.element.Entity;
 import room.element.MeleeGuy;
-import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 import room.element.Wall;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
@@ -76,12 +74,12 @@ public class Drawer implements GraphicsDrawer {
     }
 
     @Override
-    public void drawCivie(Entity civie) {
+    public void drawCivie(Civilian civie) {
         gra.setCharacter(civie.getX(), civie.getY(), civieChar);
     }
 
     @Override
-    public void drawMelee(Entity melee) {
+    public void drawMelee(MeleeGuy melee) {
         gra.setCharacter(melee.getX(), melee.getY(), meleeChar);
     }
 
@@ -99,8 +97,8 @@ public class Drawer implements GraphicsDrawer {
             drawWall(wall);
 
         for (Entity e : room.getEnemies()) {
-            if (e instanceof Civilian) drawCivie(e);
-            else if (e instanceof MeleeGuy) drawMelee(e);
+            if (e instanceof Civilian) drawCivie((Civilian) e);
+            else if (e instanceof MeleeGuy) drawMelee((MeleeGuy) e);
         }
 
         drawSkane(room.getSkane());
