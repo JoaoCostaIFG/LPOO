@@ -34,6 +34,7 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
         this.ska = ska;
         this.maxOxy = ska.getMaxOxygenLevel();
         this.scentDur = scentDur;
+        this.currEvent = EVENT.NullEvent;
     }
 
     public void takeDamage(int dmg) {
