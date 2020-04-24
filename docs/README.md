@@ -58,7 +58,7 @@ it made creating new movement strategies and selecting the correct strategies
 for each enemy type difficult. It also violated the Single-responsibility
 principle.
 
-![Old moment strategy code](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/room/Room.java#L268-L349)
+![Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/room/Room.java#L268-L349)
 
 #### The Pattern
 
@@ -110,7 +110,7 @@ It is also worth noting that resizing the terminal windows during _gameplay_,
 shouldn't change the size of the playing area, since that would benefit users
 with larger screens.
 
-https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/a74d85d6ec5bedb9570d0330f90c673ca46fd327/src/main/java/Game.java#L28
+[How the game room size was selected at compile time and never updated after that.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/a74d85d6ec5bedb9570d0330f90c673ca46fd327/src/main/java/Game.java#L28)
 
 //TODO falar das solucoes alternativas pensadas
 
