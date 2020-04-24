@@ -1,8 +1,8 @@
 package controller;
 
-import controller.collisionStrategy.BlockCollision;
-import controller.collisionStrategy.CollisionStrategy;
-import controller.collisionStrategy.NullCollision;
+import controller.collision_strategy.BlockCollision;
+import controller.collision_strategy.CollisionStrategy;
+import controller.collision_strategy.NullCollision;
 import room.Position;
 import room.Room;
 import room.element.Entity;

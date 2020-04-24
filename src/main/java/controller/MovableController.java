@@ -1,6 +1,6 @@
 package controller;
 
-import controller.collisionStrategy.CollisionStrategy;
+import controller.collision_strategy.CollisionStrategy;
 import room.Position;
 import room.Room;
 import room.element.*;

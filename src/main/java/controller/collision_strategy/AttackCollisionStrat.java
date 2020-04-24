@@ -1,4 +1,4 @@
-package controller.collisionStrategy;
+package controller.collision_strategy;
 
 import room.element.*;
 

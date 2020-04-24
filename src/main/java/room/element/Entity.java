@@ -56,7 +56,7 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
         return (Entity) super.clone();
     }
 
-    /* Collision Observer */
+    /* collision observer */
     @Override
     public void setPos(Position pos) {
         super.setPos(pos);
@@ -111,6 +111,7 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
         return new Position(getX() + x, getY());
     }
 
+    /* movement strategy */
     public void setStrategy(MoveStrategy strat) {
         this.strategy = strat;
     }
@@ -118,7 +119,6 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
     public List<Position> executeStrategy(Room r) {
         if (strategy == null)
             return new ArrayList<>();
-
         return strategy.execute(r, this);
     }
 
