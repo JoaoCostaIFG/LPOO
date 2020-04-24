@@ -80,10 +80,7 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
     }
 
     @Override
-    public void update(Room room) {
-        tickScentTrail();
-        inhale();
-
+    public void handleEvent(EVENT event, Room room) {
         if (currEvent == EVENT.NullEvent) return;
         else if (currEvent == EVENT.Bury) toggleBury();
         else { // Movement Event
@@ -111,6 +108,13 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
         }
 
         currEvent = EVENT.NullEvent;
+    }
+
+    @Override
+    public void update(Room room) {
+        tickScentTrail();
+        inhale();
+        handleEvent(this.currEvent, room);
     }
 
     @Override
