@@ -1,0 +1,32 @@
+@startuml
+
+hide empty members
+
+interface MoveStrategy {
++ execute(Room, Entity)
+}
+
+interface MovableElement {
+
+}
+
+abstract class Element {
+
+}
+
+abstract class Entity {
+- moveStrategy
++ executeStrategy(Room)
+}
+
+class MeleeMoveStrat {}
+class ScaredMoveStrat {}
+
+Element ^-down- Entity
+MovableElement ^.up. Entity
+MoveStrategy <-right- Entity
+
+MoveStrategy ^.. MeleeMoveStrat
+MoveStrategy ^.. ScaredMoveStrat
+
+@enduml
