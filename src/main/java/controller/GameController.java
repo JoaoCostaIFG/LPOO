@@ -95,7 +95,9 @@ public class GameController implements Controller {
 
         //this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
+        controllers.remove(playerController);
         this.playerController = new SkaneController(room.getSkane(), 200);
+        controllers.add(playerController);
     }
 
     public void end() {
