@@ -28,6 +28,10 @@ public class EnemyController extends MovableController<Civilian> {
         super(colHandlerMap);
     }
 
+    public EnemyController(CollisionHandler colHandler) {
+        super(colHandler);
+    }
+
     private void MoveEnemies(Room room) {
         List<Position> posList;
         for (Entity e : room.getEnemies()) {
@@ -35,7 +39,6 @@ public class EnemyController extends MovableController<Civilian> {
                 e.tickMovCounter();
                 continue;
             }
-
             posList = e.executeStrategy(room);
             for (Position p : posList) {
                 if (canMove(p, e, room)) {

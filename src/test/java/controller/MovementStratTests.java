@@ -1,3 +1,5 @@
+package controller;
+
 import controller.strategy.MeleeMoveStrat;
 import controller.strategy.ScaredMoveStrat;
 import org.junit.After;

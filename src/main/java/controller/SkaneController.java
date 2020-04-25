@@ -108,7 +108,6 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
                 tickScentTrail();
             }
         }
-
         currEvent = EVENT.NullEvent;
     }
 
