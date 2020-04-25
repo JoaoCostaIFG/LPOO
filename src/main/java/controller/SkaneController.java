@@ -106,7 +106,6 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
             if (canMove(newPos, ska, room))
                 move(ska, newPos);
         }
-
         currEvent = EVENT.NullEvent;
     }
 
