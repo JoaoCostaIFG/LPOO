@@ -1,6 +1,7 @@
 package room.element.skane;
 
 import room.Position;
+import room.element.Entity;
 import room.element.EntityQueMorde;
 
 import java.util.ArrayList;
@@ -72,11 +73,12 @@ public class Skane extends EntityQueMorde {
     }
 
     public void grow() {
-        body.add(0, new SkaneBody(getPos()));
+        body.add(0, new SkaneBody(this.getPos()));
     }
 
     public void shrink() {
-        body.remove(0);
+        SkaneBody s_body = body.get(0);
+        body.remove(s_body);
     }
 
     public Position getTailPos() {
@@ -108,6 +110,21 @@ public class Skane extends EntityQueMorde {
             body.get(body_size - 1).setPos(this.getPos());
         }
 
+        super.notifyObservers(new_pos);
         super.setPos(new_pos);
+    }
+
+    @Override
+    public Entity clone() {
+        //FIXME
+        Skane ska = new Skane(getPos(), getAtk(), getHp(), oxyLvl, 0);
+        ska.body = new ArrayList<>();
+//        System.out.println(ska.getCollider().getX() + " " + ska.getCollider().getY() + " ");
+        for (SkaneBody b: this.body) {
+            ska.body.add(new SkaneBody(b.getPos()));
+//            System.out.println(b.getCollider().getX() + " " + ska.getCollider().getY());
+        }
+//        System.out.println("\n");
+        return ska;
     }
 }

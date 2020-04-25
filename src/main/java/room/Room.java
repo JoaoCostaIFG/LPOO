@@ -76,25 +76,48 @@ public class Room implements Observable<Room> {
         return false;
     }
 
-    public List<Element> getSamePos(Position pos) {
+    public List<Element> getElements() {
         List<Element> elems = new ArrayList<>();
 
-        /* skane */
+        for (Wall w : walls)
+            elems.add(w);
+
+        for (Element e : enemies)
+            elems.add(e);
+
         if (skane != null) {
-            if (skane.getPos().equals(pos))
-                elems.add(skane);
-            for (SkaneBody sb : skane.getBody())
-                if (sb.getPos().equals(pos))
-                    elems.add(sb);
+            elems.add(skane);
+            for (SkaneBody sb : this.skane.getBody())
+                elems.add(sb);
         }
+
+        return elems;
+    }
+
+    public List<CollidableElement> getCollElements() { // Equal to enemies, all are collidable
+        List<CollidableElement> elems = new ArrayList<>();
 
         /* other */
         for (Wall w : walls)
-            if (w.getPos().equals(pos))
-                elems.add(w);
+            elems.add(w);
 
-        for (Entity e : enemies)
-            if (e.getPos().equals(pos))
+        for (Element e : enemies)
+            elems.add((CollidableElement) e);
+
+        if (skane != null) {
+            elems.add(skane);
+            for (SkaneBody sb : this.skane.getBody())
+                elems.add(sb);
+        }
+
+        return elems;
+    }
+
+    public List<Element> getSamePos(Position pos) {
+        List<Element> elems = new ArrayList<>();
+
+        for(Element e: getElements())
+            if(e.getPos().equals(pos))
                 elems.add(e);
 
         return elems;
@@ -116,6 +139,15 @@ public class Room implements Observable<Room> {
             addElement(e);
     }
 
+    // TODO Can be optimized (Divide by octants) or use Listenable
+    public List<CollidableElement> getCollidingElems(CollidableElement ent) {
+        List<CollidableElement> res = new ArrayList<>();
+        for(CollidableElement e: getCollElements())
+            if (e.collidesWith(ent) && !e.equals(ent))
+                res.add(e);
+        return res;
+    }
+
     @Override
     public void addObserver(Observer<Room> obs) {
         this.observers.add(obs);
@@ -132,8 +164,21 @@ public class Room implements Observable<Room> {
             observer.changed(this);
     }
 
+    public List<CollidableElement> getCollidingElemsInPos(Entity entity, Position pos) {
+        // What elems does it collide if we move ent to the pos position?
+        List<CollidableElement> res = new ArrayList<>();
+        try {
+            Entity cloneEnt = entity.clone();
+            cloneEnt.setPos(pos);
+            res = this.getCollidingElems(cloneEnt);
+        } catch (CloneNotSupportedException e) {
+            return res;
+        }
+        return res;
+    }
+
     private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-        // Line in octant 0 or 3 (|deltaX| >= |deltaY|).
+            // Line in octant 0 or 3 (|deltaX| >= |deltaY|).
         List<Element> elems = new ArrayList<>();
 
         int errorUp = deltaY * 2;

@@ -1,6 +1,8 @@
 package room.element;
 
 import room.Position;
+import room.colliders.Collider;
+import room.colliders.RectangleCollider;
 
 public abstract class Element {
     private Position pos;
