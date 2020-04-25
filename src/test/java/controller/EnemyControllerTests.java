@@ -5,10 +5,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import room.Position;
 import room.Room;
-import room.element.Civilian;
 import room.element.Entity;
 import room.element.MeleeGuy;
-import room.element.Wall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +31,7 @@ public class EnemyControllerTests {
         Mockito.when(enemy1.getMovCounter()).thenReturn(5);
         Mockito.when(enemy2.getMovCounter()).thenReturn(0);
         List<Position> retPositions = new ArrayList<>(); retPositions.add(new Position(1, 1));
-        Mockito.when(enemy2.executeStrategy(this.room)).thenReturn(retPositions);
+        Mockito.when(enemy2.genMoves(this.room)).thenReturn(retPositions);
         List<Entity> list = new ArrayList<>();
         list.add(enemy1); list.add(enemy2);
 
@@ -45,8 +43,8 @@ public class EnemyControllerTests {
     public void moveEnemies() {
         controller.update(room);
         Mockito.verify(room).getEnemies();
-        Mockito.verify(enemy1, Mockito.never()).executeStrategy(room);
-        Mockito.verify(enemy2).executeStrategy(room);
+        Mockito.verify(enemy1, Mockito.never()).genMoves(room);
+        Mockito.verify(enemy2).genMoves(room);
 
         Mockito.verify(enemy1, Mockito.never()).setPos(Mockito.any(Position.class));
         Mockito.verify(enemy2).setPos(Mockito.eq(new Position(1, 1)));

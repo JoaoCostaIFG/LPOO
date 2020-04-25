@@ -16,6 +16,7 @@ import static com.googlecode.lanterna.TextColor.Factory.fromString;
 
 public class Drawer implements GraphicsDrawer {
     private static final TextColor bg = fromString("#313742");
+    private static final TextColor bgDark = fromString("#212833");
     private static final TextColor blue = fromString("#0E91E7");
     private static final TextColor green = fromString("#76A15D");
     private static final TextColor orange = fromString("#D68445");

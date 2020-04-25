@@ -1,4 +1,4 @@
-package controller.strategy;
+package controller.movement_strategy;
 
 import room.Position;
 import room.Room;
@@ -74,7 +74,7 @@ public class MeleeMoveStrat implements MoveStrategy {
     }
 
     @Override
-    public List<Position> execute(Room room, Entity e) {
+    public List<Position> genMoves(Room room, Entity e) {
         e.setMovCounter(ticksBetweenMoves);
         if (room.isSkaneBury())
             return new ArrayList<>();

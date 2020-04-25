@@ -39,7 +39,7 @@ public class EnemyController extends MovableController<Entity> {
                 e.tickMovCounter();
                 continue;
             }
-            posList = e.executeStrategy(room);
+            posList = e.genMoves(room);
             for (Position p : posList) {
                 if (canMove(p, e, room)) {
                     e.setPos(p);

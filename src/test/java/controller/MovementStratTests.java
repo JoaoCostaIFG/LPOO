@@ -1,7 +1,7 @@
 package controller;
 
-import controller.strategy.MeleeMoveStrat;
-import controller.strategy.ScaredMoveStrat;
+import controller.movement_strategy.MeleeMoveStrat;
+import controller.movement_strategy.ScaredMoveStrat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -89,8 +89,8 @@ public class MovementStratTests {
         Mockito.when(room.isSkaneBury())
                 .thenReturn(true);
 
-        this.civie.setStrategy(new ScaredMoveStrat(moveTicks));
-        List<Position> posList = civie.executeStrategy(room);
+        this.civie.setMoveStrat(new ScaredMoveStrat(moveTicks));
+        List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 0);
 
         Mockito.verify(room, times(0)).raycast(any(), any());
@@ -101,8 +101,8 @@ public class MovementStratTests {
         Room room = Mockito.mock(Room.class);
         makeSkaneVisible(room, civie);
 
-        this.civie.setStrategy(new ScaredMoveStrat(moveTicks));
-        List<Position> posList = civie.executeStrategy(room);
+        this.civie.setMoveStrat(new ScaredMoveStrat(moveTicks));
+        List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 2);
 
         assertEquals(posList.get(0), civie.moveDown());
@@ -118,8 +118,8 @@ public class MovementStratTests {
 
         makeSkaneObstructed(room, civie);
 
-        this.civie.setStrategy(new ScaredMoveStrat(moveTicks));
-        List<Position> posList = civie.executeStrategy(room);
+        this.civie.setMoveStrat(new ScaredMoveStrat(moveTicks));
+        List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 0);
 
         Mockito.verify(room, times(1)).raycast(any(), any());
@@ -132,8 +132,8 @@ public class MovementStratTests {
         Mockito.when(room.isSkaneBury())
                 .thenReturn(true);
 
-        this.civie.setStrategy(new MeleeMoveStrat(moveTicks));
-        List<Position> posList = civie.executeStrategy(room);
+        this.civie.setMoveStrat(new MeleeMoveStrat(moveTicks));
+        List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 0);
 
         Mockito.verify(room, times(0)).raycast(any(), any());
@@ -144,8 +144,8 @@ public class MovementStratTests {
         Room room = Mockito.mock(Room.class);
         makeSkaneVisible(room, civie);
 
-        this.civie.setStrategy(new MeleeMoveStrat(moveTicks));
-        List<Position> posList = civie.executeStrategy(room);
+        this.civie.setMoveStrat(new MeleeMoveStrat(moveTicks));
+        List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 4); // can see 2 skane parts
 
         assertEquals(posList.get(0), civie.moveRight());
@@ -164,8 +164,8 @@ public class MovementStratTests {
         ska.dropScent(1);
         Mockito.when(room.raycast(any(), any())).thenReturn(new ArrayList<>());
 
-        this.civie.setStrategy(new MeleeMoveStrat(moveTicks));
-        List<Position> posList = civie.executeStrategy(room);
+        this.civie.setMoveStrat(new MeleeMoveStrat(moveTicks));
+        List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 2); // can see scent
 
         assertEquals(posList.get(0), civie.moveRight());

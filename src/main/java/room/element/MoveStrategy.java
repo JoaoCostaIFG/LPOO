@@ -6,5 +6,5 @@ import room.Room;
 import java.util.List;
 
 public interface MoveStrategy {
-    List<Position> execute(Room r, Entity e);
+    List<Position> genMoves(Room r, Entity e);
 }

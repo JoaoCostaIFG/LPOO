@@ -1,7 +1,7 @@
 package creator;
 
-import controller.strategy.MeleeMoveStrat;
-import controller.strategy.ScaredMoveStrat;
+import controller.movement_strategy.MeleeMoveStrat;
+import controller.movement_strategy.ScaredMoveStrat;
 import room.Room;
 import room.element.Civilian;
 import room.element.Element;
@@ -57,7 +57,7 @@ public class RoomCreator {
         Civilian c;
         for (int i = 0; i < 1; ++i) {
             c = new Civilian(creatorUtls.getRdmPosRoom(width, height), 1);
-            c.setStrategy(scared_strat);
+            c.setMoveStrat(scared_strat);
             addRoomElement(room, c);
         }
 
@@ -65,7 +65,7 @@ public class RoomCreator {
         MeleeGuy m;
         for (int i = 0; i < 1; ++i) {
             m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1);
-            m.setStrategy(meleeStrat);
+            m.setMoveStrat(meleeStrat);
             addRoomElement(room, m);
         }
     }

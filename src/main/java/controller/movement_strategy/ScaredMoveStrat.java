@@ -1,4 +1,4 @@
-package controller.strategy;
+package controller.movement_strategy;
 
 import room.Position;
 import room.Room;
@@ -30,7 +30,7 @@ public class ScaredMoveStrat implements MoveStrategy {
     }
 
     @Override
-    public List<Position> execute(Room room, Entity e) {
+    public List<Position> genMoves(Room room, Entity e) {
         List<Position> finalPos = new ArrayList<>();
 
         e.setMovCounter(ticksBetweenMoves);

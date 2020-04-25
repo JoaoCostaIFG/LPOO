@@ -112,14 +112,14 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
     }
 
     /* movement strategy */
-    public void setStrategy(MoveStrategy strat) {
+    public void setMoveStrat(MoveStrategy strat) {
         this.strategy = strat;
     }
 
-    public List<Position> executeStrategy(Room r) {
+    public List<Position> genMoves(Room r) {
         if (strategy == null)
             return new ArrayList<>();
-        return strategy.execute(r, this);
+        return strategy.genMoves(r, this);
     }
 
     public int getMovCounter() {
