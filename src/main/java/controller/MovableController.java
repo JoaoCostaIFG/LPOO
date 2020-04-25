@@ -3,7 +3,8 @@ package controller;
 import controller.collision_strategy.CollisionStrategy;
 import room.Position;
 import room.Room;
-import room.element.*;
+import room.element.CollidableElement;
+import room.element.Entity;
 
 import java.util.Map;
 
@@ -15,17 +16,17 @@ public abstract class MovableController<T> implements Controller {
     }
 
     public boolean handleCollision(Entity entity, CollidableElement element) {
-        CollisionStrategy<MovableElement, CollidableElement> strat =
-                this.colHandlerMap.get(element.getClass());
+        CollisionStrategy strat = this.colHandlerMap.get(element.getClass());
 
         return strat.handle(entity, element);
     }
 
     public boolean canMove(Position newPos, Entity entity, Room room) {
-        for (CollidableElement c: room.getCollidingElemsInPos(entity, newPos)) {
+        for (CollidableElement c : room.getCollidingElemsInPos(entity, newPos)) {
             if (!handleCollision(entity, c))
                 return false;
         }
+
         return true;
     }
 

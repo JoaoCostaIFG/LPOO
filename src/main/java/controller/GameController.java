@@ -52,7 +52,7 @@ public class GameController implements Controller {
     public void update(Room room) {
         handleEvent(gui.getEvent());
         gui.releaseKeys();
-        for (Controller c: this.controllers)
+        for (Controller c : this.controllers)
             c.update(room);
     }
 

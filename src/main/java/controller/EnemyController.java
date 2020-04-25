@@ -14,11 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EnemyController extends MovableController<Civilian> {
+public class EnemyController extends MovableController<Entity> {
     protected static final Map<Class<? extends CollidableElement>, CollisionStrategy> colHandlerMap =
             new HashMap<Class<? extends CollidableElement>, CollisionStrategy>() {{
-                put(Skane.class, new NullCollision());
-                put(SkaneBody.class, new NullCollision());
+                put(Skane.class, new BlockCollision());
+                put(SkaneBody.class, new BlockCollision());
                 put(Wall.class, new BlockCollision());
                 put(MeleeGuy.class, new NullCollision());
                 put(Civilian.class, new NullCollision());
@@ -52,7 +52,7 @@ public class EnemyController extends MovableController<Civilian> {
     }
 
     @Override
-    public void move(Civilian civ, Position pos) {
-        civ.setPos(pos);
+    public void move(Entity e, Position pos) {
+        e.setPos(pos);
     }
 }
