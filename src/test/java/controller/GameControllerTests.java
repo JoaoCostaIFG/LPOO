@@ -1,5 +1,6 @@
-import controller.GameController;
-import controller.SkaneController;
+package controller;
+
+import com.googlecode.lanterna.TerminalSize;
 import gui.EVENT;
 import gui.Gui;
 import org.junit.Before;
@@ -19,12 +20,14 @@ public class GameControllerTests {
     private SkaneController ska_ctr;
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() {
         room = Mockito.mock(Room.class);
         gui = Mockito.mock(Gui.class);
         ska_ctr = Mockito.mock(SkaneController.class);
 
+
         Mockito.when(room.getSkane()).thenReturn(new Skane(1, 1, 1, 1, 1, 1));
+        Mockito.when(gui.getTermSize()).thenReturn(new TerminalSize(10, 10));
 
         this.game = new GameController(room, gui, ska_ctr);
     }
@@ -40,11 +43,17 @@ public class GameControllerTests {
         game.start();
 
         // Passes when closed is called within 50ms
-//        Mockito.verify(ska_ctr, timeout(50).atLeastOnce()).inhale();
+        Mockito.verify(ska_ctr, timeout(50).atLeastOnce()).update(eq(this.room));
         Mockito.verify(gui, timeout(100)).close();
+    }
 
-//        Mockito.when(gui.getEvent()).thenReturn(EVENT.RestartGame);
-//          Mockito.verify(game).restart(); TODO Verify restart
+    @Test
+    public void restartGame() throws IOException {
+        Mockito.when(gui.getEvent())
+                .thenReturn(EVENT.RestartGame)
+                .thenReturn(EVENT.QuitGame);
+        game.start();
+        Mockito.verify(gui).setRoom(any(Room.class)); // TODO Verify restart
     }
 
     @Test
@@ -54,28 +63,17 @@ public class GameControllerTests {
                 .thenReturn(EVENT.MoveDown)
                 .thenReturn(EVENT.MoveDown)
                 .thenReturn(EVENT.NullEvent)
+                .thenReturn(EVENT.Bury)
                 .thenReturn(EVENT.NullEvent)
                 .thenReturn(EVENT.MoveLeft)
                 .thenReturn(EVENT.NullEvent)
                 .thenReturn(EVENT.QuitGame);
         game.start();
-//        Mockito.verify(ska_ctr, atLeastOnce()).inhale();
-        // Mockito.verify(ska_ctr); // TODO Move Movement down to skane controller
-
-        Mockito.reset(gui);
-        Mockito.reset(ska_ctr);
-        Mockito.when(gui.getEvent())
-                .thenReturn(EVENT.MoveLeft)
-                .thenReturn(EVENT.MoveLeft)
-                .thenReturn(EVENT.Bury)
-                .thenReturn(EVENT.NullEvent)
-                .thenReturn(EVENT.NullEvent)
-                .thenReturn(EVENT.NullEvent)
-                .thenReturn(EVENT.NullEvent)
-                .thenReturn(EVENT.Bury)
-                .thenReturn(EVENT.QuitGame);
-        game.start();
-//        Mockito.verify(ska_ctr, atLeastOnce()).inhale();
-//        Mockito.verify(ska_ctr, times(2)).toggleBury();
+        Mockito.verify(ska_ctr, atLeast(9)).update(this.room);
+        Mockito.verify(ska_ctr, times(2)).
+                setEvent(EVENT.MoveDown);
+        Mockito.verify(ska_ctr, times(1)).
+                setEvent(EVENT.Bury);
+        Mockito.verify(ska_ctr, never()).setEvent(EVENT.QuitGame);
     }
 }

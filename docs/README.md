@@ -46,9 +46,92 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 
 ## Design
 
+```
+### Problem
+#### Problem in context
+The description of the design context and the concrete problem that motivated
+the instantiation of the pattern. Someone else other than the original developer
+should be able to read and understand all the motivations for the decisions made.
+When refering to the implementation before the pattern was applied, don’t forget
+to link to the relevant lines of code in the appropriate version.
+#### The pattern
+Identify the design pattern to be applied, why it was selected and how it is a
+good fit considering the existing design context and the problem at hand.
+#### Implementation
+Show how the pattern roles, operations and associations were mapped to the concrete
+design classes. Illustrate it with a UML class diagram, and refer to the
+corresponding source code with links to the relevant lines (these should be
+relative links. When doing this, always point to the latest version of the code.
+#### Consequences
+Benefits and liabilities of the design after the pattern instantiation, eventually
+comparing these consequences with those of alternative solutions
+```
+
+### Structuring the project
+
+#### Problem in context
+
+We wanted to ensure a good base architecture for the code so the development
+could be as smooth and as fast as possible. In the beginning of the development,
+we tried to structure everything in a way that made sense and looked organized
+at first glance, but that quickly proved to be ineffective. Many parts of the
+code were starting to violate the Single-responsibility principle and depend
+on each other.
+
+At this time, [the _Skane class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/16340561419573bc865d04db468446f9d8738aa9/src/main/java/Skane.java#L9-L19)
+depended intimately on **lanterna** and the way the objects are draw on screen.
+This meant that the _Skane class_ needed to be changed when the Skane changed
+and when the way the Skane/game is drawn changes, which violates the
+Single-responsibility and the Dependency inversion principles. It also meant
+we needed to change all the game elements if we changed the way the game
+is drawn.
+
+#### The pattern
+
+To solve these problems, we implemented the MVC (Model-View-Controller)
+architectural pattern. Its early adoption during the development made the
+implementation easy and “straight forward”.
+
+This pattern allowed us to separate the game objects (model), the rules of
+the game (controller) and the user input/gui (view), which is perfect for
+the type of project (game) we were developing.
+
+#### Implementation
+
+The following picture illustrates how the pattern's roles were mapped to the
+game's classes.
+
+![Movel view controller pattern.](/docs/uml/mvc.png)
+
+These classes can be found in the following files:
+
+- [Drawer](/src/main/java/gui/Drawer.java)
+- [Controller](/src/main/java/controller/Controller.java)
+- [EnemyController](/src/main/java/controller/EnemyController.java)
+- [GameController](/src/main/java/controller/GameController.java)
+- [GraphicsDrawer](/src/main/java/gui/GraphicsDrawer.java)
+- [Gui](/src/main/java/gui/Gui.java)
+- [MovableController](/src/main/java/controller/MovableController.java)
+- [PlayerController](/src/main/java/controller/PlayerController.java)
+- [Room](/src/main/java/room/Room.java)
+- [SkaneController](/src/main/java/controller/SkaneController.java)
+
+#### Consequences
+
+Implementing the **MVC** makes the design denser than it really needed to
+be in some instances. For example, the _SkaneController class_ has some
+methods that could be part of the _Skane class_ if we didn't want to
+separate the game behavior from the model. This also makes code navigation
+harder.
+
+These negative consequences were counteracted by how easy it became to
+develop different parts of the game at the same time (simultaneous development)
+and modify single parts without worrying about the effects on others. This
+evident code separation also helped with testing.
+
 ### Enemy movement
 
-#### Problem in Context
+#### Problem in context
 
 In this game, enemies need to be able to move. The problem was: different enemies
 might move in different ways. During the early development of enemy movement,
@@ -60,7 +143,7 @@ principle.
 
 ![Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/room/Room.java#L268-L349)
 
-#### The Pattern
+#### The pattern
 
 We fixed this issue using the [Strategy design pattern](https://refactoring.guru/design-patterns/strategy).
 This pattern was a good fit for the problem at hand since it allowed us to
@@ -100,7 +183,7 @@ our design:
 
 ### Terminal size
 
-#### Problem in Context
+#### Problem in context
 
 Since both members of the group use a tilling window manager, we noticed from
 the very start of the project that resizing the terminal window caused problems
@@ -114,7 +197,7 @@ with larger screens.
 
 //TODO falar das solucoes alternativas pensadas
 
-#### The Pattern
+#### The pattern
 
 In order to fix this we used the observer pattern. When the terminal window
 resizes, a resize handler is notified. After being notified, it updates its

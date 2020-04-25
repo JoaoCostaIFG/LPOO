@@ -1,7 +1,11 @@
-import controller.SkaneController;
+package controller;
+
+import gui.EVENT;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import room.Position;
+import room.Room;
 import room.element.skane.Skane;
 
 import static org.junit.Assert.assertEquals;
@@ -10,11 +14,13 @@ import static org.mockito.Mockito.*;
 public class SkaneControllerTests {
     SkaneController skaCtr;
     Skane ska;
+    Room room;
 
     @Before
     public void setUp() {
         ska = new Skane(1, 1, 1, 1, 200, 1);
         skaCtr = new SkaneController(ska, 3);
+        room = Mockito.mock(Room.class);
     }
 
     public void setUpMock() {
@@ -25,14 +31,14 @@ public class SkaneControllerTests {
     @Test
     public void bury() {
         assertEquals(false, ska.isBury());
-        skaCtr.toggleBury();
+        skaCtr.setEvent(EVENT.Bury); skaCtr.update(this.room);
         assertEquals(true, ska.isBury());
-        skaCtr.toggleBury();
+        skaCtr.setEvent(EVENT.Bury); skaCtr.update(this.room);
         assertEquals(false, ska.isBury());
 
         ska.setOxygenLevel(150);
         assertEquals(false, ska.isBury());
-        skaCtr.toggleBury();
+        skaCtr.setEvent(EVENT.Bury); skaCtr.update(this.room);
         assertEquals(false, ska.isBury());
     }
 
@@ -41,15 +47,15 @@ public class SkaneControllerTests {
         ska.bury(true);
         int n = 100;
         for (int i = 0; i < n; ++i)
-            skaCtr.inhale();
+            skaCtr.update(room);
         assertEquals(200 - n, ska.getOxygenLevel());
 
         ska.bury(false);
-        skaCtr.inhale();
-        skaCtr.inhale();
+        skaCtr.update(room);
+        skaCtr.update(room);
         assertEquals(200 - n + 2 * 2, ska.getOxygenLevel());
         for (int i = 0; i < n; ++i)
-            skaCtr.inhale();
+            skaCtr.update(room);
         assertEquals(200, ska.getOxygenLevel());
     }
 
@@ -78,5 +84,15 @@ public class SkaneControllerTests {
         skaCtr.nom(-10);
         verify(ska, never()).setHp(any(Integer.class));
         verify(ska, never()).grow();
+    }
+
+    @Test
+    public void update() {
+        setUpMock();
+        Mockito.when(ska.moveDown()).thenReturn(new Position(1, 1));
+        skaCtr.setEvent(EVENT.MoveDown);
+        skaCtr.update(room);
+        Mockito.verify(ska).setPos(eq(new Position(1, 1)));
+
     }
 }

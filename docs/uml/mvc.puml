@@ -1,8 +1,5 @@
 @startuml
 
-skinparam defaultFontSize 17
-skinparam classFontSize 14
-skinparam classAttributeFontSize 14
 hide empty members
 
 class Room {}
@@ -11,27 +8,26 @@ interface GraphicsDrawer {}
 class Drawer {}
 class Gui {}
 
-class CollisionHandler {}
-class EnemyController {}
+interface Controller {}
+interface PlayerController {}
+abstract class MovableController {}
 class GameController {}
+class EnemyController {}
 class SkaneController {}
 
-GraphicsDrawer <-up- Gui
-GraphicsDrawer ^.left. Drawer
+PlayerController -up-^ Controller
+GameController .up.^ Controller
+MovableController .up.^ Controller
 
-GameController --> CollisionHandler
-GameController --> EnemyController
-GameController --> SkaneController
+EnemyController -up-^ MovableController
+SkaneController -up-^ MovableController 
+SkaneController .up.^ PlayerController
 
-GameController <-down- Gui
-GameController -down-> Gui
+Gui -up-> GraphicsDrawer
+Drawer ..^ GraphicsDrawer 
 
-Room <-left- Gui
-Room <-- GameController
-
-Room <-- CollisionHandler
-Room <-- EnemyController
-Room <-- SkaneController
+Controller --> Room
+Gui --> Room
 
 @enduml
 
