@@ -103,8 +103,10 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
                     newPos = ska.getPos();
                     break;
             }
-            if (canMove(newPos, ska, room))
+            if (canMove(newPos, ska, room)) {
                 move(ska, newPos);
+                tickScentTrail();
+            }
         }
 
         currEvent = EVENT.NullEvent;
@@ -112,7 +114,6 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
 
     @Override
     public void update(Room room) {
-        tickScentTrail();
         inhale();
         handleEvent(this.currEvent, room);
     }

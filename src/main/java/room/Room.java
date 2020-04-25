@@ -79,16 +79,14 @@ public class Room implements Observable<Room> {
     public List<Element> getElements() {
         List<Element> elems = new ArrayList<>();
 
-        for (Wall w : walls)
-            elems.add(w);
+        /* other */
+        elems.addAll(walls);
+        elems.addAll(enemies);
 
-        for (Element e : enemies)
-            elems.add(e);
-
+        /* skane */
         if (skane != null) {
             elems.add(skane);
-            for (SkaneBody sb : this.skane.getBody())
-                elems.add(sb);
+            elems.addAll(skane.getBody());
         }
 
         return elems;
@@ -98,16 +96,13 @@ public class Room implements Observable<Room> {
         List<CollidableElement> elems = new ArrayList<>();
 
         /* other */
-        for (Wall w : walls)
-            elems.add(w);
+        elems.addAll(walls);
+        elems.addAll(enemies);
 
-        for (Element e : enemies)
-            elems.add((CollidableElement) e);
-
+        /* skane */
         if (skane != null) {
             elems.add(skane);
-            for (SkaneBody sb : this.skane.getBody())
-                elems.add(sb);
+            elems.addAll(skane.getBody());
         }
 
         return elems;
