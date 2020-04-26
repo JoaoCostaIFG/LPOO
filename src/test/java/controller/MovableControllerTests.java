@@ -15,7 +15,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 
 public class MovableControllerTests {
-    MovableController<Civilian> controller;
+    MovableController<Entity> controller;
     Entity ent;
     Room room;
     CollidableElement ele;
