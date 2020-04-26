@@ -38,7 +38,7 @@ public class SkaneBody extends Element implements CollidableElement {
 
     @Override
     public void notifyObservers(Position subject) {
-        this.collider.changed(this.getPos());
+        this.collider.changed(subject);
     }
 
     @Override
@@ -49,5 +49,11 @@ public class SkaneBody extends Element implements CollidableElement {
     @Override
     public boolean collidesWith(CollidableElement element) {
         return this.collider.collidesWith(element.getCollider());
+    }
+
+    @Override
+    public Position shadowStep(Position pos) {
+        notifyObservers(pos);
+        return this.getPos();
     }
 }

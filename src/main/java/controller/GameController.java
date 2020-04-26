@@ -91,7 +91,6 @@ public class GameController implements Controller {
     public void restart() {
         this.state = GAMEST.RUNNING;
         TerminalSize ts = gui.getTermSize();
-        System.out.println(ts.getColumns());
         this.room = new RoomCreator().createRoom(ts.getColumns(), ts.getRows());
 
         //this.gui.stopInputHandler();

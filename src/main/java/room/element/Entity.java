@@ -1,4 +1,5 @@
 package room.element;
+
 import observe.Observer;
 import room.Position;
 import room.Room;
@@ -46,14 +47,24 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
     }
 
     public boolean collidesWith(CollidableElement element) {
-        return this.collider.collidesWith(element.getCollider());
+        return collider.collidesWith(element.getCollider());
     }
 
-    public Collider getCollider() { return this.collider; }
+    public Position shadowStep(Position pos) {
+        // FIXME code repated on SkaneBody and Wall
+        /*
+        Position currPos = this.getPos();
+        super.setPos(pos);
+        notifyObservers(pos);
 
-    @Override
-    public Entity clone() throws CloneNotSupportedException {
-        return (Entity) super.clone();
+        return currPos;
+         */
+        notifyObservers(pos);
+        return this.getPos();
+    }
+
+    public Collider getCollider() {
+        return this.collider;
     }
 
     /* collision observer */
@@ -75,7 +86,30 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
 
     @Override
     public void notifyObservers(Position subject) {
-        this.collider.changed(this.getPos());
+        this.collider.changed(subject);
+    }
+
+    /* movement strategy */
+    public void setMoveStrat(MoveStrategy strat) {
+        this.strategy = strat;
+    }
+
+    public List<Position> genMoves(Room r) {
+        if (strategy == null)
+            return new ArrayList<>();
+        return strategy.genMoves(r, this);
+    }
+
+    public int getMovCounter() {
+        return this.movCounter;
+    }
+
+    public void setMovCounter(int numTicks) {
+        this.movCounter = numTicks;
+    }
+
+    public void tickMovCounter() {
+        --this.movCounter;
     }
 
     /* movement */
@@ -109,28 +143,5 @@ public abstract class Entity extends Element implements MortalElement, MovableEl
 
     public Position moveRight(int x) {
         return new Position(getX() + x, getY());
-    }
-
-    /* movement strategy */
-    public void setMoveStrat(MoveStrategy strat) {
-        this.strategy = strat;
-    }
-
-    public List<Position> genMoves(Room r) {
-        if (strategy == null)
-            return new ArrayList<>();
-        return strategy.genMoves(r, this);
-    }
-
-    public int getMovCounter() {
-        return this.movCounter;
-    }
-
-    public void setMovCounter(int numTicks) {
-        this.movCounter = numTicks;
-    }
-
-    public void tickMovCounter() {
-        --this.movCounter;
     }
 }

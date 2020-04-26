@@ -113,18 +113,4 @@ public class Skane extends EntityQueMorde {
         super.notifyObservers(new_pos);
         super.setPos(new_pos);
     }
-
-    @Override
-    public Entity clone() {
-        //FIXME
-        Skane ska = new Skane(getPos(), getAtk(), getHp(), oxyLvl, 0);
-        ska.body = new ArrayList<>();
-//        System.out.println(ska.getCollider().getX() + " " + ska.getCollider().getY() + " ");
-        for (SkaneBody b: this.body) {
-            ska.body.add(new SkaneBody(b.getPos()));
-//            System.out.println(b.getCollider().getX() + " " + ska.getCollider().getY());
-        }
-//        System.out.println("\n");
-        return ska;
-    }
 }

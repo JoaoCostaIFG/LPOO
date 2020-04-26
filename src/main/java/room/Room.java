@@ -24,10 +24,6 @@ public class Room implements Observable<Room> {
         this.enemies = new ArrayList<>();
     }
 
-    public Room(TerminalSizeInterface board_size) {
-        this(board_size.getColumns(), board_size.getRows());
-    }
-
     public int getWidth() {
         return width;
     }
@@ -39,10 +35,6 @@ public class Room implements Observable<Room> {
     public void setSize(int width, int height) {
         this.width = width;
         this.height = height;
-    }
-
-    public void setSize(TerminalSizeInterface new_size) {
-        this.setSize(new_size.getColumns(), new_size.getRows());
     }
 
     public List<Wall> getWalls() {
@@ -92,32 +84,6 @@ public class Room implements Observable<Room> {
         return elems;
     }
 
-    public List<CollidableElement> getCollElements() { // Equal to enemies, all are collidable
-        List<CollidableElement> elems = new ArrayList<>();
-
-        /* other */
-        elems.addAll(walls);
-        elems.addAll(enemies);
-
-        /* skane */
-        if (skane != null) {
-            elems.add(skane);
-            elems.addAll(skane.getBody());
-        }
-
-        return elems;
-    }
-
-    public List<Element> getSamePos(Position pos) {
-        List<Element> elems = new ArrayList<>();
-
-        for(Element e: getElements())
-            if(e.getPos().equals(pos))
-                elems.add(e);
-
-        return elems;
-    }
-
     public void moveSkane(Position new_p) {
         this.skane.setPos(new_p);
     }
@@ -134,12 +100,49 @@ public class Room implements Observable<Room> {
             addElement(e);
     }
 
-    // TODO Can be optimized (Divide by octants) or use Listenable
-    public List<CollidableElement> getCollidingElems(CollidableElement ent) {
+    public List<Element> getSamePos(Position pos) {
+        List<Element> elems = new ArrayList<>();
+
+        for (Element e : getElements())
+            if (e.getPos().equals(pos))
+                elems.add(e);
+
+        return elems;
+    }
+
+    public List<CollidableElement> getCollidableElems() {
+        // Equal to enemies, all are collidable
+        List<CollidableElement> elems = new ArrayList<>();
+
+        /* other */
+        elems.addAll(walls);
+        elems.addAll(enemies);
+
+        /* skane */
+        if (skane != null) {
+            elems.add(skane);
+            elems.addAll(skane.getBody());
+        }
+
+        return elems;
+    }
+
+    public List<CollidableElement> getColliding(CollidableElement ent) {
+        // TODO Can be optimized (Divide by octants) or use Listenable
         List<CollidableElement> res = new ArrayList<>();
-        for(CollidableElement e: getCollElements())
+        for (CollidableElement e : getCollidableElems()) {
             if (e.collidesWith(ent) && !e.equals(ent))
                 res.add(e);
+        }
+
+        return res;
+    }
+
+    public List<CollidableElement> getCollidingElemsInPos(Entity entity, Position pos) {
+        // What elems does it collide if we move ent to the pos position?
+        Position oldPos = entity.shadowStep(pos);
+        List<CollidableElement> res = getColliding(entity);
+        entity.shadowStep(oldPos);
         return res;
     }
 
@@ -159,21 +162,8 @@ public class Room implements Observable<Room> {
             observer.changed(this);
     }
 
-    public List<CollidableElement> getCollidingElemsInPos(Entity entity, Position pos) {
-        // What elems does it collide if we move ent to the pos position?
-        List<CollidableElement> res = new ArrayList<>();
-        try {
-            Entity cloneEnt = entity.clone();
-            cloneEnt.setPos(pos);
-            res = this.getCollidingElems(cloneEnt);
-        } catch (CloneNotSupportedException e) {
-            return res;
-        }
-        return res;
-    }
-
     private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-            // Line in octant 0 or 3 (|deltaX| >= |deltaY|).
+        // Line in octant 0 or 3 (|deltaX| >= |deltaY|).
         List<Element> elems = new ArrayList<>();
 
         int errorUp = deltaY * 2;

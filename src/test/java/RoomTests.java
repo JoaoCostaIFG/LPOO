@@ -133,12 +133,12 @@ public class RoomTests {
         room.addElement(new Wall(20, 1));
         room.addElement(new Wall(20, 1));
 
-        List<CollidableElement> list = room.getCollidingElems(civ);
+        List<CollidableElement> list = room.getColliding(civ);
         assertEquals(1, list.size());
         list = room.getCollidingElemsInPos(civ, new Position(20, 1));
         assertEquals(2, list.size()); // Collides with clone copy, what do?
 
-        list = room.getCollidingElems(ska);
+        list = room.getColliding(ska);
         assertEquals(0, list.size());
 
         list = room.getCollidingElemsInPos(civ, new Position(1, 1));
