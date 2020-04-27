@@ -7,7 +7,7 @@ import room.colliders.Collider;
 public interface Collidable extends Observable<Position> {
     Collider getCollider();
 
-    boolean collidesWith(Collidable element);
+    boolean collidesWith(Collidable colidee);
 
     Position shadowStep(Position pos);
 }

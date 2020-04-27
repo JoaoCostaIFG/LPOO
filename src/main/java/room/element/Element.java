@@ -128,8 +128,8 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
     }
 
     @Override
-    public boolean collidesWith(Collidable element) {
-        return collidableBehaviour.collidesWith(element);
+    public boolean collidesWith(Collidable colidee) {
+        return collidableBehaviour.collidesWith(colidee);
     }
 
     @Override

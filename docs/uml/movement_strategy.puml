@@ -1,6 +1,7 @@
 @startuml
 
 hide empty members
+skinparam classAttributeIconSize 0
 
 interface MoveStrategy {
 + execute(Room, Entity)
