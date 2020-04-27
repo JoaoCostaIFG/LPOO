@@ -240,22 +240,19 @@ It consisted in, when an object wanted to move to a position,
 verifying if the position was already occupied. When the latter was true, we
 handled the collision and moved to position afterwards.
 
-Code-wise however, this had a plethera of code smells.
-Firstly, the code associated
-with handling the collision was kept in the _Room_ class, part of the **Model**,
-thus
-violating the **MVC** and the **SRP**.
+Code-wise however, this had a plethera of code smells. Firstly, the code associated
+with handling the collision was kept in the _Room_ class, part of the **Model**, 
+thus violating the **MVC** and the **SRP**. Secondly, the _Room_ class mantained
+a different move method for each _MovableElement_ [(Example with the old Monster Class)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L203-L211).
 
-Secondly, the _Room_ class mantained a
-different move method for each _MovableElement_ [(Example with the old Monster Class)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L203-L211).
-Each method would manage each respective collisions and handled them accordingly.
+Each method would manage each respective collisions and handle them accordingly.
 This causes two issues:
 
 - there are tons of repeated code between each definition of the move method - obvious
 code smell;
-- If one were to add a new _MovableElement_ to the game, the creation of a method
-and adding new handlers to the existing move methods would be required, violating
-the OPC.
+- If one were to add a new _MovableElement_ to the game, the creation of a move method
+and adding new collision handlers to the existing move methods would be required,
+violating the OPC.
 
 #### The pattern
 
@@ -266,6 +263,7 @@ which assigns them to a specific _Element_ type.
 #### Implementation
 
 TODO Remove links
+
 We started by creating the [_MovableController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/94375fc9ee8894725b95c7dc4e1e9cf29a710e09/src/main/java/Controller/MovableController.java#L11-L33)
 abstract class. All controllers that move their controlled elements inherit it.
 Afterwards, we moved all of the collision related methods to each respective controller,
