@@ -3,8 +3,7 @@ package controller.movement_strategy;
 import room.Position;
 import room.Room;
 import room.element.Element;
-import room.element.Entity;
-import room.element.MoveStrategy;
+import room.element.element_behaviours.MoveStrategy;
 import room.element.skane.Scent;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
@@ -74,7 +73,7 @@ public class MeleeMoveStrat implements MoveStrategy {
     }
 
     @Override
-    public List<Position> genMoves(Room room, Entity e) {
+    public List<Position> genMoves(Room room, Element e) {
         e.setMovCounter(ticksBetweenMoves);
         if (room.isSkaneBury())
             return new ArrayList<>();

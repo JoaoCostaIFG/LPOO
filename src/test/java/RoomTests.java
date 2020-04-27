@@ -3,6 +3,7 @@ import room.Position;
 import room.Room;
 
 import room.element.*;
+import room.element.element_behaviours.Collidable;
 import room.element.skane.Skane;
 
 import java.util.List;
@@ -133,7 +134,7 @@ public class RoomTests {
         room.addElement(new Wall(20, 1));
         room.addElement(new Wall(20, 1));
 
-        List<CollidableElement> list = room.getColliding(civ);
+        List<Collidable> list = room.getColliding(civ);
         assertEquals(1, list.size());
         list = room.getCollidingElemsInPos(civ, new Position(20, 1));
         assertEquals(2, list.size()); // Collides with clone copy, what do?

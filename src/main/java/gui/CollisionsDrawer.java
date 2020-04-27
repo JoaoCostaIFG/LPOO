@@ -8,7 +8,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import room.Room;
 import room.colliders.RectangleCollider;
 import room.element.Civilian;
-import room.element.Entity;
+import room.element.Element;
 import room.element.MeleeGuy;
 import room.element.Wall;
 import room.element.skane.Skane;
@@ -45,13 +45,13 @@ public class CollisionsDrawer implements GraphicsDrawer {
     @Override
     public void drawSkane(Skane ska) {
         drawRectangleCollider((RectangleCollider) ska.getCollider());
-        for (SkaneBody c : ska.getBody())
-            drawRectangleCollider(c.getCollider());
+        for (Element c : ska.getBody())
+            drawRectangleCollider((RectangleCollider) c.getCollider());
     }
 
     @Override
     public void drawWall(Wall wall) {
-        drawRectangleCollider(wall.getCollider());
+        drawRectangleCollider((RectangleCollider) wall.getCollider());
     }
 
     @Override
@@ -77,7 +77,7 @@ public class CollisionsDrawer implements GraphicsDrawer {
         for (Wall wall : room.getWalls())
             drawWall(wall);
 
-        for (Entity e : room.getEnemies()) {
+        for (Element e : room.getEnemies()) {
             if (e instanceof Civilian) drawCivie((Civilian) e);
             else if (e instanceof MeleeGuy) drawMelee((MeleeGuy) e);
         }

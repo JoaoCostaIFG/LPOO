@@ -3,8 +3,7 @@ package controller.movement_strategy;
 import room.Position;
 import room.Room;
 import room.element.Element;
-import room.element.Entity;
-import room.element.MoveStrategy;
+import room.element.element_behaviours.MoveStrategy;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,7 +29,7 @@ public class ScaredMoveStrat implements MoveStrategy {
     }
 
     @Override
-    public List<Position> genMoves(Room room, Entity e) {
+    public List<Position> genMoves(Room room, Element e) {
         List<Position> finalPos = new ArrayList<>();
 
         e.setMovCounter(ticksBetweenMoves);

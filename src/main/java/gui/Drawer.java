@@ -125,7 +125,7 @@ public class Drawer implements GraphicsDrawer {
                 drawWall(wall);
         }
 
-        for (Entity e : room.getEnemies()) {
+        for (Element e : room.getEnemies()) {
             if (isOutsideSkaFov(e, skaPos, isSkaBury))
                 continue;
 

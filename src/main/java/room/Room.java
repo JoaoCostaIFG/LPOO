@@ -3,6 +3,7 @@ package room;
 import room.element.*;
 import observe.Observable;
 import observe.Observer;
+import room.element.element_behaviours.Collidable;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
@@ -14,7 +15,7 @@ public class Room implements Observable<Room> {
     private List<Observer<Room>> observers;
     private Skane skane = null;
     private List<Wall> walls;
-    private List<Entity> enemies;
+    private List<Element> enemies;
 
     public Room(int width, int height) {
         this.width = width;
@@ -41,7 +42,7 @@ public class Room implements Observable<Room> {
         return walls;
     }
 
-    public List<Entity> getEnemies() {
+    public List<Element> getEnemies() {
         return enemies;
     }
 
@@ -110,9 +111,9 @@ public class Room implements Observable<Room> {
         return elems;
     }
 
-    public List<CollidableElement> getCollidableElems() {
+    public List<Collidable> getCollidableElems() {
         // Equal to enemies, all are collidable
-        List<CollidableElement> elems = new ArrayList<>();
+        List<Collidable> elems = new ArrayList<>();
 
         /* other */
         elems.addAll(walls);
@@ -127,10 +128,10 @@ public class Room implements Observable<Room> {
         return elems;
     }
 
-    public List<CollidableElement> getColliding(CollidableElement ent) {
+    public List<Collidable> getColliding(Collidable ent) {
         // TODO Can be optimized (Divide by octants) or use Listenable
-        List<CollidableElement> res = new ArrayList<>();
-        for (CollidableElement e : getCollidableElems()) {
+        List<Collidable> res = new ArrayList<>();
+        for (Collidable e : getCollidableElems()) {
             if (e.collidesWith(ent) && !e.equals(ent))
                 res.add(e);
         }
@@ -138,11 +139,11 @@ public class Room implements Observable<Room> {
         return res;
     }
 
-    public List<CollidableElement> getCollidingElemsInPos(Entity entity, Position pos) {
+    public List<Collidable> getCollidingElemsInPos(Element element, Position pos) {
         // What elems does it collide if we move ent to the pos position?
-        Position oldPos = entity.shadowStep(pos);
-        List<CollidableElement> res = getColliding(entity);
-        entity.shadowStep(oldPos);
+        Position oldPos = element.shadowStep(pos);
+        List<Collidable> res = getColliding(element);
+        element.shadowStep(oldPos);
         return res;
     }
 

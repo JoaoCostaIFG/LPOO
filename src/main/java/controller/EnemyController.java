@@ -5,8 +5,8 @@ import controller.collision_strategy.CollisionStrategy;
 import controller.collision_strategy.NullCollision;
 import room.Position;
 import room.Room;
-import room.element.Entity;
 import room.element.*;
+import room.element.element_behaviours.Collidable;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EnemyController extends MovableController<Entity> {
-    protected static final Map<Class<? extends CollidableElement>, CollisionStrategy> colHandlerMap =
-            new HashMap<Class<? extends CollidableElement>, CollisionStrategy>() {{
+public class EnemyController extends MovableController<Element> {
+    protected static final Map<Class<? extends Collidable>, CollisionStrategy> colHandlerMap =
+            new HashMap<Class<? extends Collidable>, CollisionStrategy>() {{
                 put(Skane.class, new BlockCollision());
                 put(SkaneBody.class, new BlockCollision());
                 put(Wall.class, new BlockCollision());
@@ -34,7 +34,7 @@ public class EnemyController extends MovableController<Entity> {
 
     private void MoveEnemies(Room room) {
         List<Position> posList;
-        for (Entity e : room.getEnemies()) {
+        for (Element e : room.getEnemies()) {
             if (e.getMovCounter() > 0) {
                 e.tickMovCounter();
                 continue;
@@ -55,7 +55,7 @@ public class EnemyController extends MovableController<Entity> {
     }
 
     @Override
-    public void move(Entity e, Position pos) {
+    public void move(Element e, Position pos) {
         e.setPos(pos);
     }
 }

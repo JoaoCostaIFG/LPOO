@@ -1,6 +1,6 @@
-package room.element;
+package room.element.element_behaviours;
 
-public interface MortalElement {
+public interface Mortal {
     int getHp();
 
     void setHp(int hp);

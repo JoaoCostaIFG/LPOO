@@ -1,11 +1,11 @@
 package controller.collision_strategy;
 
-import room.element.CollidableElement;
-import room.element.MovableElement;
+import room.element.element_behaviours.Collidable;
+import room.element.element_behaviours.Movable;
 
-public class BlockCollision extends CollisionStrategy<MovableElement, CollidableElement> {
+public class BlockCollision extends CollisionStrategy<Movable, Collidable> {
     @Override
-    public boolean handle(MovableElement mov_ell, CollidableElement coll_ell) {
+    public boolean handle(Movable mov_ell, Collidable coll_ell) {
         return false;
     }
 }

@@ -1,22 +1,21 @@
 package controller;
 
 import controller.collision_strategy.CollisionStrategy;
-import room.element.CollidableElement;
-import room.element.Entity;
-import room.element.MovableElement;
+import room.element.element_behaviours.Collidable;
+import room.element.Element;
 
 import java.util.Map;
 
 public class CollisionHandler {
-    private Map<Class<? extends CollidableElement>, CollisionStrategy> colHandlerMap;
+    private Map<Class<? extends Collidable>, CollisionStrategy> colHandlerMap;
 
-    public CollisionHandler(Map<Class<? extends CollidableElement>, CollisionStrategy> colHandlerMap) {
+    public CollisionHandler(Map<Class<? extends Collidable>, CollisionStrategy> colHandlerMap) {
         this.colHandlerMap = colHandlerMap;
     }
 
-    public boolean handleCollision(Entity entity, CollidableElement element) {
-        CollisionStrategy strat = this.colHandlerMap.get(element.getClass());
+    public boolean handleCollision(Element element, Collidable colidee) {
+        CollisionStrategy strat = this.colHandlerMap.get(colidee.getClass());
 
-        return strat.handle(entity, element);
+        return strat.handle(element, colidee);
     }
 }

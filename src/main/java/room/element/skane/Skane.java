@@ -1,14 +1,18 @@
 package room.element.skane;
 
 import room.Position;
-import room.element.Entity;
-import room.element.EntityQueMorde;
+import room.colliders.RectangleCollider;
+import room.element.*;
+import room.element.element_behaviours.AgressiveBehaviour;
+import room.element.element_behaviours.CollidableBehaviour;
+import room.element.element_behaviours.ImovableBehaviour;
+import room.element.element_behaviours.MortalBehaviour;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-public class Skane extends EntityQueMorde {
+public class Skane extends Element {
     public static class SkaneOpts {
         public int attack_dmg, hp, oxygen_lvl, size;
         public Position pos = null;
@@ -20,7 +24,12 @@ public class Skane extends EntityQueMorde {
     private LinkedHashSet<Scent> scentTrail;
 
     public Skane(Position pos, int atk, int hp, int oxy, int size) {
-        super(pos, hp, atk);
+        super(pos,
+                new AgressiveBehaviour(atk),
+                new CollidableBehaviour(new RectangleCollider(pos, 1, 1)),
+                new MortalBehaviour(hp),
+                new ImovableBehaviour());
+
         this.isBury = false;
         this.oxyLvl = oxy;
         this.maxOxy = this.oxyLvl;
@@ -110,7 +119,6 @@ public class Skane extends EntityQueMorde {
             body.get(body_size - 1).setPos(this.getPos());
         }
 
-        super.notifyObservers(new_pos);
         super.setPos(new_pos);
     }
 }

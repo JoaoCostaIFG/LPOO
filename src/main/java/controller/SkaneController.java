@@ -8,6 +8,7 @@ import gui.EVENT;
 import room.Position;
 import room.Room;
 import room.element.*;
+import room.element.element_behaviours.Collidable;
 import room.element.skane.Skane;
 import room.element.skane.SkaneBody;
 
@@ -20,8 +21,8 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
     private int scentDur;
     private EVENT currEvent;
 
-    protected static final Map<Class<? extends CollidableElement>, CollisionStrategy> colHandlerMap =
-            new HashMap<Class<? extends CollidableElement>, CollisionStrategy>() {{
+    protected static final Map<Class<? extends Collidable>, CollisionStrategy> colHandlerMap =
+            new HashMap<Class<? extends Collidable>, CollisionStrategy>() {{
                 put(Skane.class, new NullCollision());
                 put(SkaneBody.class, new NullCollision());
                 put(Wall.class, new BlockCollision());

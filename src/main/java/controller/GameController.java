@@ -6,8 +6,6 @@ import gui.Gui;
 import gui.EVENT;
 import room.Room;
 import room.element.Element;
-import room.element.Entity;
-import room.element.MortalElement;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,8 +59,8 @@ public class GameController implements Controller {
 
         // TODO
         // cleanup dead enemies
-        for (Entity e : room.getEnemies()) {
-
+        for (Element e : room.getEnemies()) {
+            // TODO spawn dead body (if n papado)
         }
         room.getEnemies().removeIf(me -> (!me.isAlive()));
     }
