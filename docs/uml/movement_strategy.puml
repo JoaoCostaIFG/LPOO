@@ -1,32 +1,44 @@
 @startuml
 
 hide empty members
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam shadowing false
 
-interface MoveStrategy {
-+ execute(Room, Entity)
+interface Movable {
+  + setMoveStrat(moveStrat)
+  + genMoves(room, element) : List<Position>
 }
 
-interface MovableElement {
-
+interface MoveStrategy {
++ genMoves(Room, Element)
 }
 
 abstract class Element {
-
-}
-
-abstract class Entity {
 - moveStrategy
-+ executeStrategy(Room)
++ executeStrategy(Room) : List<Position>
 }
 
 class MeleeMoveStrat {}
 class ScaredMoveStrat {}
+class ImovableBehaviour {}
+class MovableBehaviour {}
+class Civilian {}
+class MeleeGuy {}
 
-Element ^-down- Entity
-MovableElement ^.up. Entity
-MoveStrategy <-right- Entity
+ImovableBehaviour .up.^ Movable
+MovableBehaviour .up.^ Movable
 
-MoveStrategy ^.. MeleeMoveStrat
-MoveStrategy ^.. ScaredMoveStrat
+Element -up-> ImovableBehaviour
+Element -up-> MovableBehaviour
+
+Civilian -up-^ Element
+MeleeGuy -up-^ Element
+
+MeleeMoveStrat .up.^ MoveStrategy
+ScaredMoveStrat .up.^ MoveStrategy
+
+MovableBehaviour -left-> MoveStrategy 
 
 @enduml
+

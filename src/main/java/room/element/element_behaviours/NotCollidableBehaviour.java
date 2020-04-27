@@ -11,7 +11,7 @@ public class NotCollidableBehaviour implements Collidable {
     }
 
     @Override
-    public boolean collidesWith(Collidable element) {
+    public boolean collidesWith(Collidable colidee) {
         return false;
     }
 

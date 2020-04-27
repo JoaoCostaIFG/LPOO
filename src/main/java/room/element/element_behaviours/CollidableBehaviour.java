@@ -17,8 +17,8 @@ public class CollidableBehaviour implements Collidable{
     }
 
     @Override
-    public boolean collidesWith(Collidable element) {
-        return collider.collidesWith(element.getCollider());
+    public boolean collidesWith(Collidable colidee) {
+        return collider.collidesWith(colidee.getCollider());
     }
 
     @Override

@@ -1,33 +1,46 @@
 @startuml
 
 hide empty members
+skinparam shadowing false
+skinparam linetype polyline
 
-class Room {}
+package "Model" #EEDDDD {
+  class Room {}
+}
 
-interface GraphicsDrawer {}
-class Drawer {}
-class Gui {}
+package "View" #DDEEDD {
+  interface GraphicsDrawer {}
+  class Drawer {}
+  class Gui {}
+}
 
-interface Controller {}
-interface PlayerController {}
-abstract class MovableController {}
-class GameController {}
-class EnemyController {}
-class SkaneController {}
+package "Controller" #DDDDEE {
+  class CollisionHandler {}
+  interface Controller {}
+  class EnemyController {}
+  class GameController {}
+  abstract class MovableController {}
+  interface PlayerController {}
+  class SkaneController {}
+}
 
 PlayerController -up-^ Controller
-GameController .up.^ Controller
 MovableController .up.^ Controller
+MovableController -down-> CollisionHandler
+GameController .up.^ Controller
+GameController -down-> SkaneController
+GameController -down-> EnemyController
 
-EnemyController -up-^ MovableController
-SkaneController -up-^ MovableController 
+EnemyController --^ MovableController
+SkaneController --^ MovableController 
 SkaneController .up.^ PlayerController
 
+Drawer .down.^ GraphicsDrawer 
 Gui -up-> GraphicsDrawer
-Drawer ..^ GraphicsDrawer 
+Gui -down-> Room
 
-Controller --> Room
-Gui --> Room
+GameController ---> Room
+GameController --left-> Gui
 
 @enduml
 

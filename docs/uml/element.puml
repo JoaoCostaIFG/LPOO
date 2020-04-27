@@ -1,18 +1,42 @@
 @startuml
 
-skinparam defaultFontSize 17
-skinparam classFontSize 14
-skinparam classAttributeFontSize 14
 hide empty members
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam shadowing false
 
-interface AgressiveElement {}
-interface MortalElement {}
-interface MovableElement {}
-interface MoveStrategy {}
+interface Agressive {
+  + getAtk() : int
+  + setAtk(atk)
+}
+interface Collidable {
+  + getCollider() : Collider
+  + collidesWith(colidee) : boolean
+  + shadowStep(position) : Position
+}
+interface Mortal {
+  + getHp() : int
+  + setHp(hp)
+  + takeDamage(dmg)
+  + isAlive() : boolean
+}
+interface Movable {
+  + getMovCounter() : int
+  + setMovCounter(numTicks)
+  + tickMovCounter()
+  + setMoveStrat(moveStrat)
+  + genMoves(room, element) : List<Position>
+}
+
+class AgressiveBehaviour {}
+class CollidableBehaviour {}
+class ImmortalBehaviour {}
+class ImovableBehaviour {}
+class MortalBehaviour {}
+class MovableBehaviour {}
+class NotCollidableBehaviour {}
 
 abstract class Element {}
-abstract class Entity {}
-abstract class EntityQueMorde {}
 
 class Civilian {}
 class MeleeGuy {}
@@ -22,22 +46,28 @@ class Scent {}
 class Skane {}
 class SkaneBody {}
 
-Entity <|- Element
-Entity ^.up. MovableElement
-Entity ^.up. MortalElement
+AgressiveBehaviour .up.^ Agressive
+CollidableBehaviour .up.^ Collidable
+ImmortalBehaviour .up.^ Mortal
+ImovableBehaviour .up.^ Movable
+MortalBehaviour .up.^ Mortal
+MovableBehaviour .up.^ Movable
+NotCollidableBehaviour .up.^ Collidable
 
-EntityQueMorde <|- Entity
-EntityQueMorde ^.up. AgressiveElement
+Element -up-> AgressiveBehaviour
+Element -up-> CollidableBehaviour
+Element -up-> ImmortalBehaviour
+Element -up-> ImovableBehaviour
+Element -up-> MortalBehaviour
+Element -up-> MovableBehaviour
+Element -up-> NotCollidableBehaviour
 
-Element <|-- SkaneBody
-Element <|-- Wall
-Element <|-- Scent
-Entity <|-- Civilian
-EntityQueMorde <|-- MeleeGuy
-EntityQueMorde <|-- Skane
-
-Skane <-up- SkaneBody
-Skane <-up- Scent
+Civilian -up-^ Element
+MeleeGuy -up-^ Element
+Wall -up-^ Element
+Scent -up-^ Element
+Skane -up-^ Element
+SkaneBody -up-^ Element
 
 @enduml
 
