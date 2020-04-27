@@ -105,8 +105,9 @@ game's classes.
 
 These classes can be found in the following files:
 
-- [Drawer](/src/main/java/gui/Drawer.java)
 - [Controller](/src/main/java/controller/Controller.java)
+- [CollisionHandler](/src/main/java/controller/CollisionHandler.java)
+- [Drawer](/src/main/java/gui/Drawer.java)
 - [EnemyController](/src/main/java/controller/EnemyController.java)
 - [GameController](/src/main/java/controller/GameController.java)
 - [GraphicsDrawer](/src/main/java/gui/GraphicsDrawer.java)
