@@ -130,6 +130,80 @@ develop different parts of the game at the same time (simultaneous development)
 and modify single parts without worrying about the effects on others. This
 evident code separation also helped with testing.
 
+### Structuring the game element inheritance hierarchy
+
+#### Problem in context
+
+Our game was starting to get many game elements with different abilities/properties.
+With this, we were having problems structuring their inheritance hierarchy in a way
+that prevented code duplication and was easy to work with.  
+We were reaching a point where we had to have an abstract class for each combination
+of game element interfaces, which was not feasible.
+
+As an example of this problem, we can see some code duplication showing up between
+the [_Wall class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/room/element/Wall.java#L21-L40)
+and the [_Entity abstract class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/room/element/Entity.java#L71-L90).
+
+Another problem (related to the previous one) that was coming up, was that
+it was becoming increasingly more difficult to choose the correct abstraction
+to be passed to some methods. For example, the _Wall class_ had a **collider**,
+but it didn't extend the _Entity class_ like all the other game elements
+that had **colliders** at the time.
+
+#### The pattern
+
+To help solve these problems, we made use of the **Null Object pattern** in
+conjunction with the strategy of **composition over inheritance**.  
+We implemented this design pattern because we needed a way for objects to
+declare that they didn't have some functionality when those functions were
+called.
+
+#### Implementation
+
+The following picture illustrates how the game elements hierarchy was
+restructured and how the pattern's roles were mapped to the game's classes.
+
+![Restructuring of game element hierarchy and null object pattern](/docs/uml/element.png)
+
+The **Null objects** can be found in the following files:
+
+- [ImmortalBehaviour](/src/main/java/room/element_behaviours/ImmortalBehaviour.java)
+- [ImovableBehaviour](/src/main/java/room/element_behaviours/ImovableBehaviour.java)
+- [NotCollidableBehaviour](/src/main/java/room/element_behaviours/NotCollidableBehaviour.java)
+
+The interfaces and other behaviors can be found in the following files:
+
+- [Agressive](/src/main/java/room/element/element_behaviours/Agressive.java)
+- [AgressiveBehaviour](/src/main/java/room/element/element_behaviours/AgressiveBehaviour.java)
+- [Collidable](/src/main/java/room/element/element_behaviours/Collidable.java)
+- [CollidableBehaviour](/src/main/java/room/element/element_behaviours/CollidableBehaviour.java)
+- [Mortal](/src/main/java/room/element/element_behaviours/Mortal.java)
+- [MortalBehaviour](/src/main/java/room/element/element_behaviours/MortalBehaviour.java)
+- [Movable](/src/main/java/room/element/element_behaviours/Movable.java)
+- [MovableBehaviour](/src/main/java/room/element/element_behaviours/MovableBehaviour.java)
+
+The game objects can be found in the following files:
+
+- [Civilian](/src/main/java/room/element/Civilian.java)
+- [Element](/src/main/java/room/element/Element.java)
+- [MeleeGuy](/src/main/java/room/element/MeleeGuy.java)
+- [Scent](/src/main/java/room/element/skane/Scent.java)
+- [Skane](/src/main/java/room/element/skane/Skane.java)
+- [SkaneBody](/src/main/java/room/element/skane/SkaneBody.java)
+- [Wall](/src/main/java/room/element/Wall.java)
+
+#### Consequences
+
+With this reorganization of the code and the use of the **Null object** pattern,
+we managed to streamline the creation/implementation of new game objects with
+different abilities/combination of abilities. I also provided us with the ability
+to stop worrying about the specific abilities of each object when working with
+the game objects in bulk.
+
+The only downside we could see here was having to create a few more classes, but
+in the end, the result was simpler than any of the alternatives we could think of,
+namely creating classes for each combination of the abilities.
+
 ### Enemy movement
 
 #### Problem in context
