@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 import room.Position;
 import room.Room;
 import room.element.element_behaviours.Collidable;
-import room.element.Entity;
+import room.element.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +14,15 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 
 public class MovableControllerTests {
-    MovableController<Entity> controller;
-    Entity ent;
+    MovableController<Element> controller;
+    Element ent;
     Room room;
     Collidable ele;
     CollisionHandler collisionHandler;
 
     @Before
     public void setUp() {
-        ent = Mockito.mock(Entity.class);
+        ent = Mockito.mock(Element.class);
         room = Mockito.mock(Room.class);
         ele = Mockito.mock(Collidable.class);
         collisionHandler = Mockito.mock(CollisionHandler.class);
@@ -37,6 +37,6 @@ public class MovableControllerTests {
         Mockito.when(room.getCollidingElemsInPos(ent, p)).thenReturn(list);
         controller.canMove(new Position(1, 1), ent, room);
 
-        Mockito.verify(collisionHandler).handleCollision(any(Entity.class), any(Collidable.class));
+        Mockito.verify(collisionHandler).handleCollision(any(Element.class), any(Collidable.class));
     }
 }

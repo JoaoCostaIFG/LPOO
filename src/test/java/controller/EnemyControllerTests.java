@@ -5,13 +5,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import room.Position;
 import room.Room;
-import room.element.Entity;
+import room.element.Element;
 import room.element.MeleeGuy;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertFalse;
 
 public class EnemyControllerTests {
     Room room;
@@ -32,7 +30,7 @@ public class EnemyControllerTests {
         Mockito.when(enemy2.getMovCounter()).thenReturn(0);
         List<Position> retPositions = new ArrayList<>(); retPositions.add(new Position(1, 1));
         Mockito.when(enemy2.genMoves(this.room)).thenReturn(retPositions);
-        List<Entity> list = new ArrayList<>();
+        List<Element> list = new ArrayList<>();
         list.add(enemy1); list.add(enemy2);
 
         // set up room
