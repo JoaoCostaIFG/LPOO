@@ -5,6 +5,9 @@ import creator.RoomCreator;
 import gui.Gui;
 import gui.EVENT;
 import room.Room;
+import room.element.Element;
+import room.element.Entity;
+import room.element.MortalElement;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,8 +55,16 @@ public class GameController implements Controller {
     public void update(Room room) {
         handleEvent(gui.getEvent());
         gui.releaseKeys();
+
         for (Controller c : this.controllers)
             c.update(room);
+
+        // TODO
+        // cleanup dead enemies
+        for (Entity e : room.getEnemies()) {
+
+        }
+        room.getEnemies().removeIf(me -> (!me.isAlive()));
     }
 
     private void run() throws IOException {
