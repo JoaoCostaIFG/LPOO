@@ -46,7 +46,7 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 
 ## Design
 
-```
+```md
 ### Problem
 #### Problem in context
 The description of the design context and the concrete problem that motivated
@@ -303,6 +303,59 @@ benefit, it also avoids the constant polling of the terminal's size.
 
 // TODO  
 Be careful if we want to resize the screen/update the room's info.
+
+### Collisions
+
+#### Problem in context
+
+The first implementation of movement checking in the game was [copy pasted from
+the Hero project](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L268-L281).
+It consisted in, when an object wanted to move to a position,
+verifying if the position was already occupied. When the latter was true, we
+handled the collision and moved to position afterwards.
+
+Code-wise however, this had a plethera of code smells. Firstly, the code associated
+with handling the collision was kept in the _Room_ class, part of the **Model**, 
+thus violating the **MVC** and the **SRP**. Secondly, the _Room_ class mantained
+a different move method for each _MovableElement_ [(Example with the old Monster Class)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L203-L211).
+
+Each method would manage each respective collisions and handle them accordingly.
+This causes two issues:
+
+- there are tons of repeated code between each definition of the move method - obvious
+code smell;
+- If one were to add a new _MovableElement_ to the game, the creation of a move method
+and adding new collision handlers to the existing move methods would be required,
+violating the OPC.
+
+#### The pattern
+
+In order to fix the mentioned problems, the group decided to use the **strategy pattern**.
+This was achieved by using set of _CollisionStrategies_ are used by each controller,
+which assigns them to a specific _Element_ type.
+
+#### Implementation
+
+TODO Remove links
+
+We started by creating the [_MovableController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/94375fc9ee8894725b95c7dc4e1e9cf29a710e09/src/main/java/Controller/MovableController.java#L11-L33)
+abstract class. All controllers that move their controlled elements inherit it.
+Afterwards, we moved all of the collision related methods to each respective controller,
+ie: moving the moveSkane to the [_SkaneController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/94375fc9ee8894725b95c7dc4e1e9cf29a710e09/src/main/java/Controller/SkaneController.java#L20-L27).
+The **strategy pattern** was then implemented by designing the [CollisionStrategy](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/94375fc9ee8894725b95c7dc4e1e9cf29a710e09/src/main/java/Controller/collisionStrategy/CollisionStrategy.java#L1-L9)
+class and its subclasses.
+Lastly, a map that associates element types with a specific collision strategy was
+created in each _MovableController_. This allows for handling collisions dynamically.
+
+TODO Meter uml aqui
+
+#### Consequences
+
+This approach allowed us to more easily create new collision behaviours, and,
+when in constract with the original solution, is far less bloated and more
+open to extension. It also prevents wrong pairing between a _CollidableElement_ and
+a _CollisionStrategy_ using generics, ie: restrict _CollisionStrategy_ to one or
+more _CollidableElement_ (s).
 
 ### Pathfinding for Enemies
 
