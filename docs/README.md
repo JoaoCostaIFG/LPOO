@@ -162,12 +162,15 @@ game's classes.
 
 These classes can be found in the following files:
 
+- [Civilian](/src/main/java/room/element/Civilian.java)
 - [Element](/src/main/java/room/element/Element.java)
-- [Entity](/src/main/java/room/element/Entity.java)
-- [MovableElement](/src/main/java/room/element/MovableElement.java)
-- [MoveStrategy](/src/main/java/room/element/MoveStrategy.java)
-- [MeleeMoveStrat](/src/main/java/controller/strategy/MeleeMoveStrat.java)
-- [ScaredMoveStrat](/src/main/java/controller/strategy/ScaredMoveStrat.java)
+- [ImovableBehaviour](/src/main/java/room/element/element_behaviours/ImovableBehaviour.java)
+- [MeleeMoveStrat](/src/main/java/controller/movement_strategy/MeleeMoveStrat.java)
+- [Movable](/src/main/java/room/element/element_behaviours/Movable.java)
+- [MovableBehaviour](/src/main/java/room/element/element_behaviours/MovableBehaviour.java)
+- [MoveStrategy](/src/main/java/room/element/element_behaviours/MoveStrategy.java)
+- [MeleeGuy](/src/main/java/room/element/MeleeGuy.java)
+- [ScaredMoveStrat](/src/main/java/controller/movement_strategy/ScaredMoveStrat.java)
 
 #### Consequences
 
