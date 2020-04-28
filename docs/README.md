@@ -357,6 +357,41 @@ open to extension. It also prevents wrong pairing between a _CollidableElement_ 
 a _CollisionStrategy_ using generics, ie: restrict _CollisionStrategy_ to one or
 more _CollidableElement_ (s).
 
+### Colliders
+
+#### Problem in context
+
+When designing the game's mechanics we came up with the idea of a multitude of
+enemy types, each with their specific charateristic (like helicopters flying, tanks
+with lasers, enemies with pathinding, etc...). We soon came to the realization that
+checking for collisions between these objects would prove very difficult if we
+continued to [use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/room/Room.java#L67-L90).
+If we kept going with this approach, a switch statement would be required to
+decide the type of verification method to be used when deciding if two objects had
+collided. It would end up **bloating** the _Room_ class, making it more difficult
+to work with.
+
+#### The pattern
+
+To fix this issue the group decided to create a new _Collider_ class and agregate
+it into the _Elemets_ that implemented the _CollidableElement_ interface. For more
+overall flexibility, the **composite pattern** was used to allow for more complex
+_colliders_.
+
+#### Implementation
+
+TODO Aqui é só espetar o UML com o principle, self-explanatory
+
+This solution allows the room to easily check if two objects collide with each
+other, as defined in the [_getCollidingElems_(...)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/f11002b71891daa3b2be796161563597da4a68c6/src/main/java/room/Room.java#L141-L147)
+method.
+
+#### Consequences
+
+The composite principle helps us solve the problem of having complex colliders in
+an object in a robust and elegant way. When compared to its alternative, it's much
+simpler and leads to many less code smells.
+
 ### Pathfinding for Enemies
 
 Observer pattern here.
