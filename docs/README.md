@@ -169,7 +169,8 @@ restructured and how the pattern's roles were mapped to the game's classes.
 
 **Note**: the _Element class_ implements all the interfaces in the diagram,
 namely _Agressive_, _Collidable_, _Mortal_ and _Movable_, in order to make it
-easier to delegate work to the **behaviour classes**.
+easier to delegate work to the **behaviour classes**. This has been omitted
+from the UML class diagram above for clarity's sake.
 
 The **Null objects** can be found in the following files:
 
