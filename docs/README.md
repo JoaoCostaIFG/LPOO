@@ -25,11 +25,13 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
   bigger you become.
 - **Suffering damage** - Enemies can damage the **Skane** with their weapons,
   making it shrink.
-- **Death** - If a **Skane** is too small to withstand incoming damage, it dies.
+- **Damaging/Killing enemies** - for now, all enemies are invulnerable.
+- **Fog of war** - when the **Skane** is buried, it's ability to see is limited.
+  The **Skane** needs to get closer to enemies of walls to sense them.
 
 ### Planned features
 
-- **Damaging/Killing enemies** - for now, all enemies are invulnerable.
+- **Death** - If a **Skane** is too small to withstand incoming damage, it dies.
 - **Enemy spawning** - enemies should spawn over time during the game.
 - **Corpse spawning** - dead enemies should leave their corpse on the ground.
 - **Stronger military** - the soldiers should be able to use guns, cars, and maybe
@@ -164,6 +166,10 @@ The following picture illustrates how the game elements hierarchy was
 restructured and how the pattern's roles were mapped to the game's classes.
 
 ![Restructuring of game element hierarchy and null object pattern](/docs/uml/element.png)
+
+**Note**: the _Element class_ implements all the interfaces in the diagram,
+namely _Agressive_, _Collidable_, _Mortal_ and _Movable_, in order to make it
+easier to delegate work to the **behaviour classes**.
 
 The **Null objects** can be found in the following files:
 
