@@ -3,10 +3,10 @@ import creator.RoomCreator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import room.Position;
-import room.Room;
-import room.element.Element;
-import room.element.skane.SkaneBody;
+import model.Position;
+import model.Room;
+import model.element.Element;
+import model.element.skane.SkaneBody;
 
 import java.util.List;
 import java.util.Random;

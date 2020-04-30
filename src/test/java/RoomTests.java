@@ -1,10 +1,10 @@
 import org.junit.Test;
-import room.Position;
-import room.Room;
+import model.Position;
+import model.Room;
 
-import room.element.*;
-import room.element.element_behaviours.Collidable;
-import room.element.skane.Skane;
+import model.element.*;
+import model.element.element_behaviours.Collidable;
+import model.element.skane.Skane;
 
 import java.util.List;
 

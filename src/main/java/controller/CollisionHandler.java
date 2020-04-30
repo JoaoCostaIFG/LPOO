@@ -1,8 +1,8 @@
 package controller;
 
 import controller.collision_strategy.CollisionStrategy;
-import room.element.element_behaviours.Collidable;
-import room.element.Element;
+import model.element.element_behaviours.Collidable;
+import model.element.Element;
 
 import java.util.Map;
 

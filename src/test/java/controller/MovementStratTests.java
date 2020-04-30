@@ -6,11 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import room.Position;
-import room.Room;
-import room.element.Civilian;
-import room.element.Element;
-import room.element.skane.Skane;
+import model.Position;
+import model.Room;
+import model.element.Civilian;
+import model.element.Element;
+import model.element.skane.Skane;
 
 import java.util.ArrayList;
 import java.util.List;

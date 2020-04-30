@@ -1,6 +1,6 @@
 package controller;
 
-import room.Room;
+import model.Room;
 
 public interface Controller {
     void update(Room room);

@@ -1,6 +1,6 @@
 package controller.collision_strategy;
 
-import room.element.Element;
+import model.element.Element;
 
 public class AttackCollisionStrat extends CollisionStrategy<Element, Element> {
     @Override

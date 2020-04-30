@@ -2,12 +2,12 @@ package creator;
 
 import controller.movement_strategy.MeleeMoveStrat;
 import controller.movement_strategy.ScaredMoveStrat;
-import room.Room;
-import room.element.Civilian;
-import room.element.Element;
-import room.element.MeleeGuy;
-import room.element.skane.Skane;
-import room.element.Wall;
+import model.Room;
+import model.element.Civilian;
+import model.element.Element;
+import model.element.MeleeGuy;
+import model.element.skane.Skane;
+import model.element.Wall;
 
 public class RoomCreator {
     private CreatorUtilities creatorUtls;

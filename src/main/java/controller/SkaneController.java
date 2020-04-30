@@ -1,13 +1,13 @@
 package controller;
 
 import controller.collision_strategy.*;
-import gui.EVENT;
-import room.Position;
-import room.Room;
-import room.element.*;
-import room.element.element_behaviours.Collidable;
-import room.element.skane.Skane;
-import room.element.skane.SkaneBody;
+import view.EVENT;
+import model.Position;
+import model.Room;
+import model.element.*;
+import model.element.element_behaviours.Collidable;
+import model.element.skane.Skane;
+import model.element.skane.SkaneBody;
 
 import java.util.HashMap;
 import java.util.Map;

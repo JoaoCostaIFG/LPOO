@@ -1,6 +1,6 @@
 package creator;
 
-import room.Position;
+import model.Position;
 
 import java.util.HashSet;
 import java.util.Random;

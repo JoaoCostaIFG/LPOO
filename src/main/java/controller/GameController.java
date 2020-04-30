@@ -2,10 +2,9 @@ package controller;
 
 import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
-import gui.Gui;
-import gui.EVENT;
-import room.Room;
-import room.element.Element;
+import view.Gui;
+import view.EVENT;
+import model.Room;
 
 import java.io.IOException;
 import java.util.ArrayList;

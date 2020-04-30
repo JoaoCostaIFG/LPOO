@@ -1,7 +1,7 @@
 package controller.collision_strategy;
 
-import room.element.Element;
-import room.element.skane.Skane;
+import model.element.Element;
+import model.element.skane.Skane;
 
 public class SkaneDamagedStrat extends CollisionStrategy<Element, Skane>{
     @Override

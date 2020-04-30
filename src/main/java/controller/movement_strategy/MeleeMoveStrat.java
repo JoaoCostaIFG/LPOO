@@ -1,12 +1,12 @@
 package controller.movement_strategy;
 
-import room.Position;
-import room.Room;
-import room.element.Element;
-import room.element.element_behaviours.MoveStrategy;
-import room.element.skane.Scent;
-import room.element.skane.Skane;
-import room.element.skane.SkaneBody;
+import model.Position;
+import model.Room;
+import model.element.Element;
+import model.element.element_behaviours.MoveStrategy;
+import model.element.skane.Scent;
+import model.element.skane.Skane;
+import model.element.skane.SkaneBody;
 
 import java.util.ArrayList;
 import java.util.Comparator;

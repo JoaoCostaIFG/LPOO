@@ -7,7 +7,7 @@ skinparam shadowing false
 
 interface Movable {
   + setMoveStrat(moveStrat)
-  + genMoves(room, element) : List<Position>
+  + genMoves(model, element) : List<Position>
 }
 
 interface MoveStrategy {
