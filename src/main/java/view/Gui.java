@@ -14,7 +14,6 @@ import java.io.IOException;
 public class Gui {
     private Room room;
     private Screen screen;
-    private GraphicsDrawer drawer;
     private TerminalResizeHandler resize_handler;
     private EVENT event;
     private Thread input_handler;
@@ -34,7 +33,6 @@ public class Gui {
         screen.startScreen();
 
         this.room = map;
-        this.drawer = new Drawer(screen.newTextGraphics());
 
         this.event = EVENT.NullEvent;
     }
@@ -150,7 +148,7 @@ public class Gui {
         }
 
         screen.clear();
-        this.drawer.drawRoom(room);
+        new Drawer(screen.newTextGraphics()).draw(room);
         screen.refresh();
     }
 }

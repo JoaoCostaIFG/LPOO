@@ -1,29 +1,13 @@
 package view;
 
-import model.Room;
-import model.element.Civilian;
-import model.element.MeleeGuy;
-import model.element.skane.Skane;
-import model.element.Wall;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public interface GraphicsDrawer {
-    void drawSkane(Skane ska);
-
-    void drawWall(Wall wall);
-
-    void drawCivie(Civilian civie);
-
-    void drawMelee(MeleeGuy melee);
-
-    void drawImage(List<String> image, int x, int y);
-
-    static List<String> importAnsiImage(String file_name) {
+public class AnsiImageImporter {
+    List<String> importAnsiImage(String file_name) {
         List<String> image = new ArrayList<>();
 
         try {
@@ -38,6 +22,4 @@ public interface GraphicsDrawer {
 
         return image;
     }
-
-    void drawRoom(Room map);
 }
