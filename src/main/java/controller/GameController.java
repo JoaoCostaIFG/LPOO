@@ -59,9 +59,9 @@ public class GameController implements Controller {
 
         // TODO
         // cleanup dead enemies
-        for (Element e : room.getEnemies()) {
-            // TODO spawn dead body (if n papado)
-        }
+        //for (Element e : room.getEnemies()) {
+        // TODO spawn dead body (if n papado)
+        //}
         room.getEnemies().removeIf(me -> (!me.isAlive()));
     }
 

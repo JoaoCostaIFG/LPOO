@@ -44,6 +44,7 @@ public class Drawer implements GraphicsDrawer {
         this.gra = gra;
     }
 
+    @Override
     public void drawImage(List<String> image, int x, int y) {
         int line_y = y;
         for (String l : image)

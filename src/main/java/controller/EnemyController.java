@@ -3,6 +3,7 @@ package controller;
 import controller.collision_strategy.BlockCollision;
 import controller.collision_strategy.CollisionStrategy;
 import controller.collision_strategy.NullCollision;
+import controller.collision_strategy.SkaneDamagedStrat;
 import room.Position;
 import room.Room;
 import room.element.*;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class EnemyController extends MovableController<Element> {
     protected static final Map<Class<? extends Collidable>, CollisionStrategy> colHandlerMap =
             new HashMap<Class<? extends Collidable>, CollisionStrategy>() {{
-                put(Skane.class, new BlockCollision());
+                put(Skane.class, new SkaneDamagedStrat());
                 put(SkaneBody.class, new BlockCollision());
                 put(Wall.class, new BlockCollision());
                 put(MeleeGuy.class, new NullCollision());

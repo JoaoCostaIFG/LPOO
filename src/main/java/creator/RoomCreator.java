@@ -45,9 +45,9 @@ public class RoomCreator {
         Skane.SkaneOpts skane_opts = new Skane.SkaneOpts();
         skane_opts.pos = creatorUtls.getRdmPosRoom(width, height);
         skane_opts.attack_dmg = 10;
-        skane_opts.hp = 3;
+        skane_opts.hp = 4;
         skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 30;
+        skane_opts.size = 3;
 
         addRoomElement(room, new Skane(skane_opts));
     }

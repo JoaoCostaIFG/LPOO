@@ -53,7 +53,7 @@ public class Skane extends Element {
         );
     }
 
-    public int getMaxOxygenLevel () {
+    public int getMaxOxygenLevel() {
         return this.maxOxy;
     }
 
@@ -86,11 +86,12 @@ public class Skane extends Element {
     }
 
     public void shrink() {
-        SkaneBody s_body = body.get(0);
-        body.remove(s_body);
+        body.remove(0);
     }
 
     public Position getTailPos() {
+        if (body.size() == 0)
+            return null;
         return body.get(body.size() - 1).getPos();
     }
 
@@ -99,7 +100,11 @@ public class Skane extends Element {
     }
 
     public void dropScent(int scentDur) {
-        scentTrail.add(new Scent(getTailPos(), scentDur));
+        Position scentPos = getTailPos();
+        if (scentPos == null)
+            scentTrail.add(new Scent(getPos(), scentDur));
+        else
+            scentTrail.add(new Scent(getTailPos(), scentDur));
     }
 
     public void tickScentTrail() {
