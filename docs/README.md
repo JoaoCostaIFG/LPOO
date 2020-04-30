@@ -439,6 +439,17 @@ case, the data of the [_Skane_ class](/src/main/java/room/element/skane/Skane.ja
 
 We don't think this code smell represents and actual problem in this case.
 
+### Change Preventers
+
+The [_Element hierarchy_](/src/main/java/model/element) and the [TODO _View hierarchy_]
+are both **Parallel Inheritance Hierarchies**. If we wanted to add a new element to the
+game, we would be obliged to create a new _Model_ class and a new _View_ class
+for it.
+
+The only way to fix this code smell would imply moving completely either the _View_
+or the _Model_ into its counterpart. This would be a clear violation of the MVC pattern,
+which would not be doable.
+
 ## Self-Evaluation
 
 fifty fifty [padner](https://westofloathing.gamepedia.com/Pardner).
