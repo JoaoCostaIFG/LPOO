@@ -95,7 +95,7 @@ architectural pattern. Its early adoption during the development made the
 implementation easy and “straight forward”.
 
 This pattern allowed us to separate the game objects (model), the rules of
-the game (controller) and the user input/gui (view), which is perfect for
+the game (controller) and the user input/view (view), which is perfect for
 the type of project (game) we were developing.
 
 #### Implementation
@@ -109,14 +109,14 @@ These classes can be found in the following files:
 
 - [Controller](/src/main/java/controller/Controller.java)
 - [CollisionHandler](/src/main/java/controller/CollisionHandler.java)
-- [Drawer](/src/main/java/gui/Drawer.java)
+- [Drawer](/src/main/java/view/Drawer.java)
 - [EnemyController](/src/main/java/controller/EnemyController.java)
 - [GameController](/src/main/java/controller/GameController.java)
-- [GraphicsDrawer](/src/main/java/gui/GraphicsDrawer.java)
-- [Gui](/src/main/java/gui/Gui.java)
+- [GraphicsDrawer](/src/main/java/view/GraphicsDrawer.java)
+- [Gui](/src/main/java/view/Gui.java)
 - [MovableController](/src/main/java/controller/MovableController.java)
 - [PlayerController](/src/main/java/controller/PlayerController.java)
-- [Room](/src/main/java/room/Room.java)
+- [Room](/src/main/java/model/Room.java)
 - [SkaneController](/src/main/java/controller/SkaneController.java)
 
 #### Consequences
@@ -143,8 +143,8 @@ We were reaching a point where we had to have an abstract class for each combina
 of game element interfaces, which was not feasible.
 
 As an example of this problem, we can see some code duplication showing up between
-the [_Wall class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/room/element/Wall.java#L21-L40)
-and the [_Entity abstract class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/room/element/Entity.java#L71-L90).
+the [_Wall class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/model/element/Wall.java#L21-L40)
+and the [_Entity abstract class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/model/element/Entity.java#L71-L90).
 
 Another problem (related to the previous one) that was coming up, was that
 it was becoming increasingly more difficult to choose the correct abstraction
@@ -174,30 +174,30 @@ from the UML class diagram above for clarity's sake.
 
 The **Null objects** can be found in the following files:
 
-- [ImmortalBehaviour](/src/main/java/room/element_behaviours/ImmortalBehaviour.java)
-- [ImovableBehaviour](/src/main/java/room/element_behaviours/ImovableBehaviour.java)
-- [NotCollidableBehaviour](/src/main/java/room/element_behaviours/NotCollidableBehaviour.java)
+- [ImmortalBehaviour](/src/main/java/model/element_behaviours/ImmortalBehaviour.java)
+- [ImovableBehaviour](/src/main/java/model/element_behaviours/ImovableBehaviour.java)
+- [NotCollidableBehaviour](/src/main/java/model/element_behaviours/NotCollidableBehaviour.java)
 
 The interfaces and other behaviors can be found in the following files:
 
-- [Agressive](/src/main/java/room/element/element_behaviours/Agressive.java)
-- [AgressiveBehaviour](/src/main/java/room/element/element_behaviours/AgressiveBehaviour.java)
-- [Collidable](/src/main/java/room/element/element_behaviours/Collidable.java)
-- [CollidableBehaviour](/src/main/java/room/element/element_behaviours/CollidableBehaviour.java)
-- [Mortal](/src/main/java/room/element/element_behaviours/Mortal.java)
-- [MortalBehaviour](/src/main/java/room/element/element_behaviours/MortalBehaviour.java)
-- [Movable](/src/main/java/room/element/element_behaviours/Movable.java)
-- [MovableBehaviour](/src/main/java/room/element/element_behaviours/MovableBehaviour.java)
+- [Agressive](/src/main/java/model/element/element_behaviours/Agressive.java)
+- [AgressiveBehaviour](/src/main/java/model/element/element_behaviours/AgressiveBehaviour.java)
+- [Collidable](/src/main/java/model/element/element_behaviours/Collidable.java)
+- [CollidableBehaviour](/src/main/java/model/element/element_behaviours/CollidableBehaviour.java)
+- [Mortal](/src/main/java/model/element/element_behaviours/Mortal.java)
+- [MortalBehaviour](/src/main/java/model/element/element_behaviours/MortalBehaviour.java)
+- [Movable](/src/main/java/model/element/element_behaviours/Movable.java)
+- [MovableBehaviour](/src/main/java/model/element/element_behaviours/MovableBehaviour.java)
 
 The game objects can be found in the following files:
 
-- [Civilian](/src/main/java/room/element/Civilian.java)
-- [Element](/src/main/java/room/element/Element.java)
-- [MeleeGuy](/src/main/java/room/element/MeleeGuy.java)
-- [Scent](/src/main/java/room/element/skane/Scent.java)
-- [Skane](/src/main/java/room/element/skane/Skane.java)
-- [SkaneBody](/src/main/java/room/element/skane/SkaneBody.java)
-- [Wall](/src/main/java/room/element/Wall.java)
+- [Civilian](/src/main/java/model/element/Civilian.java)
+- [Element](/src/main/java/model/element/Element.java)
+- [MeleeGuy](/src/main/java/model/element/MeleeGuy.java)
+- [Scent](/src/main/java/model/element/skane/Scent.java)
+- [Skane](/src/main/java/model/element/skane/Skane.java)
+- [SkaneBody](/src/main/java/model/element/skane/SkaneBody.java)
+- [Wall](/src/main/java/model/element/Wall.java)
 
 #### Consequences
 
@@ -223,7 +223,7 @@ it made creating new movement strategies and selecting the correct strategies
 for each enemy type difficult. It also violated the Single-responsibility
 principle.
 
-![Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/room/Room.java#L268-L349)
+![Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/model/Room.java#L268-L349)
 
 #### The pattern
 
@@ -244,14 +244,14 @@ game's classes.
 
 These classes can be found in the following files:
 
-- [Civilian](/src/main/java/room/element/Civilian.java)
-- [Element](/src/main/java/room/element/Element.java)
-- [ImovableBehaviour](/src/main/java/room/element/element_behaviours/ImovableBehaviour.java)
+- [Civilian](/src/main/java/model/element/Civilian.java)
+- [Element](/src/main/java/model/element/Element.java)
+- [ImovableBehaviour](/src/main/java/model/element/element_behaviours/ImovableBehaviour.java)
 - [MeleeMoveStrat](/src/main/java/controller/movement_strategy/MeleeMoveStrat.java)
-- [Movable](/src/main/java/room/element/element_behaviours/Movable.java)
-- [MovableBehaviour](/src/main/java/room/element/element_behaviours/MovableBehaviour.java)
-- [MoveStrategy](/src/main/java/room/element/element_behaviours/MoveStrategy.java)
-- [MeleeGuy](/src/main/java/room/element/MeleeGuy.java)
+- [Movable](/src/main/java/model/element/element_behaviours/Movable.java)
+- [MovableBehaviour](/src/main/java/model/element/element_behaviours/MovableBehaviour.java)
+- [MoveStrategy](/src/main/java/model/element/element_behaviours/MoveStrategy.java)
+- [MeleeGuy](/src/main/java/model/element/MeleeGuy.java)
 - [ScaredMoveStrat](/src/main/java/controller/movement_strategy/ScaredMoveStrat.java)
 
 #### Consequences
@@ -278,7 +278,7 @@ It is also worth noting that resizing the terminal windows during _gameplay_,
 shouldn't change the size of the playing area, since that would benefit users
 with larger screens.
 
-[How the game room size was selected at compile time and never updated after that.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/a74d85d6ec5bedb9570d0330f90c673ca46fd327/src/main/java/Game.java#L28)
+[How the game model size was selected at compile time and never updated after that.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/a74d85d6ec5bedb9570d0330f90c673ca46fd327/src/main/java/Game.java#L28)
 
 //TODO falar das solucoes alternativas pensadas
 
@@ -309,7 +309,7 @@ benefit, it also avoids the constant polling of the terminal's size.
 #### Consequences
 
 // TODO  
-Be careful if we want to resize the screen/update the room's info.
+Be careful if we want to resize the screen/update the model's info.
 
 ### Collisions
 
@@ -372,7 +372,7 @@ When designing the game's mechanics we came up with the idea of a multitude of
 enemy types, each with their specific charateristic (like helicopters flying, tanks
 with lasers, enemies with pathinding, etc...). We soon came to the realization that
 checking for collisions between these objects would prove very difficult if we
-continued to [use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/room/Room.java#L67-L90).
+continued to [use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/model/Room.java#L67-L90).
 If we kept going with this approach, a switch statement would be required to
 decide the type of verification method to be used when deciding if two objects had
 collided. It would end up **bloating** the _Room_ class, making it more difficult
@@ -389,8 +389,8 @@ _colliders_.
 
 TODO Aqui é só espetar o UML com o principle, self-explanatory
 
-This solution allows the room to easily check if two objects collide with each
-other, as defined in the [_getCollidingElems_(...)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/f11002b71891daa3b2be796161563597da4a68c6/src/main/java/room/Room.java#L141-L147)
+This solution allows the model to easily check if two objects collide with each
+other, as defined in the [_getCollidingElems_(...)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/f11002b71891daa3b2be796161563597da4a68c6/src/main/java/model/Room.java#L141-L147)
 method.
 
 #### Consequences
@@ -411,7 +411,7 @@ Strategy pattern here.
 
 ### Bloaters
 
-The [_Room class_](/src/main/java/room/Room.java) is Bloater (_Large class_). This
+The [_Room class_](/src/main/java/model/Room.java) is Bloater (_Large class_). This
 is problematic because finding specific code segments to work on inside the class
 can prove cumbersome and the class as a `tendecy' to violate the
 Single-responsibility principle.
@@ -424,7 +424,7 @@ which are bloaters, but we believe all alternatives are inferior design-wise.
 
 ### Dispensables
 
-The ray-casting related code inside the [_Room class_](/src/main/java/room/Room.java)
+The ray-casting related code inside the [_Room class_](/src/main/java/model/Room.java)
 has comments that seem uneeded and the code for the two private helper functions
 (TODO relative link) looks almost duplicated.
 
@@ -435,7 +435,7 @@ the two helper functions into one, adjusting whatever logic might need to be aju
 
 The [_SkaneController class_](/src/main/java/Controller/SkaneController.java) is an
 example of a class that uses the data of another class more that its own. In this
-case, the data of the [_Skane_ class](/src/main/java/room/element/skane/Skane.java).
+case, the data of the [_Skane_ class](/src/main/java/model/element/skane/Skane.java).
 
 We don't think this code smell represents and actual problem in this case.
 

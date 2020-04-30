@@ -1,13 +1,13 @@
 package controller;
 
 import com.googlecode.lanterna.TerminalSize;
-import gui.EVENT;
-import gui.Gui;
+import view.EVENT;
+import view.Gui;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import room.Room;
-import room.element.skane.Skane;
+import model.Room;
+import model.element.skane.Skane;
 
 import java.io.IOException;
 

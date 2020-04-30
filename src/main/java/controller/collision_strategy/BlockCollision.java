@@ -1,7 +1,7 @@
 package controller.collision_strategy;
 
-import room.element.element_behaviours.Collidable;
-import room.element.element_behaviours.Movable;
+import model.element.element_behaviours.Collidable;
+import model.element.element_behaviours.Movable;
 
 public class BlockCollision extends CollisionStrategy<Movable, Collidable> {
     @Override

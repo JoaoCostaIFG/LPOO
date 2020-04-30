@@ -1,5 +1,5 @@
-import room.Room;
-import room.element.skane.Skane;
+import model.Room;
+import model.element.skane.Skane;
 
 public class CollisionTests {
     private Skane ska;

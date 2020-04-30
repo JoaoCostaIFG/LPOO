@@ -1,7 +1,7 @@
 import org.junit.Test;
-import room.Position;
-import room.colliders.CompositeCollider;
-import room.colliders.RectangleCollider;
+import model.Position;
+import model.colliders.CompositeCollider;
+import model.colliders.RectangleCollider;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

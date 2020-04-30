@@ -1,12 +1,12 @@
 package controller;
 
-import gui.EVENT;
+import view.EVENT;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import room.Position;
-import room.Room;
-import room.element.skane.Skane;
+import model.Position;
+import model.Room;
+import model.element.skane.Skane;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;

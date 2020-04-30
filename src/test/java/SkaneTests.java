@@ -1,8 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
-import room.Position;
-import room.element.skane.Skane;
-import room.element.skane.SkaneBody;
+import model.Position;
+import model.element.skane.Skane;
+import model.element.skane.SkaneBody;
 
 import java.util.List;
 

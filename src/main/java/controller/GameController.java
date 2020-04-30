@@ -2,10 +2,9 @@ package controller;
 
 import com.googlecode.lanterna.TerminalSize;
 import creator.RoomCreator;
-import gui.Gui;
-import gui.EVENT;
-import room.Room;
-import room.element.Element;
+import view.Gui;
+import view.EVENT;
+import model.Room;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,9 +58,9 @@ public class GameController implements Controller {
 
         // TODO
         // cleanup dead enemies
-        for (Element e : room.getEnemies()) {
-            // TODO spawn dead body (if n papado)
-        }
+        //for (Element e : room.getEnemies()) {
+        // TODO spawn dead body (if n papado)
+        //}
         room.getEnemies().removeIf(me -> (!me.isAlive()));
     }
 

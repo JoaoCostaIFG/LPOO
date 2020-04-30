@@ -1,9 +1,9 @@
 package controller.movement_strategy;
 
-import room.Position;
-import room.Room;
-import room.element.Element;
-import room.element.element_behaviours.MoveStrategy;
+import model.Position;
+import model.Room;
+import model.element.Element;
+import model.element.element_behaviours.MoveStrategy;
 
 import java.util.ArrayList;
 import java.util.Comparator;

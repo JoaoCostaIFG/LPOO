@@ -1,16 +1,13 @@
 package controller;
 
-import controller.collision_strategy.AttackCollisionStrat;
-import controller.collision_strategy.BlockCollision;
-import controller.collision_strategy.CollisionStrategy;
-import controller.collision_strategy.NullCollision;
-import gui.EVENT;
-import room.Position;
-import room.Room;
-import room.element.*;
-import room.element.element_behaviours.Collidable;
-import room.element.skane.Skane;
-import room.element.skane.SkaneBody;
+import controller.collision_strategy.*;
+import view.EVENT;
+import model.Position;
+import model.Room;
+import model.element.*;
+import model.element.element_behaviours.Collidable;
+import model.element.skane.Skane;
+import model.element.skane.SkaneBody;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +23,8 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
                 put(Skane.class, new NullCollision());
                 put(SkaneBody.class, new NullCollision());
                 put(Wall.class, new BlockCollision());
-                put(MeleeGuy.class, new AttackCollisionStrat());
-                put(Civilian.class, new AttackCollisionStrat());
+                put(MeleeGuy.class, new SkaneAttackCollision());
+                put(Civilian.class, new SkaneAttackCollision());
             }};
 
     public SkaneController(Skane ska, int scentDur) {

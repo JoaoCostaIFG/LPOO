@@ -2,12 +2,12 @@ package creator;
 
 import controller.movement_strategy.MeleeMoveStrat;
 import controller.movement_strategy.ScaredMoveStrat;
-import room.Room;
-import room.element.Civilian;
-import room.element.Element;
-import room.element.MeleeGuy;
-import room.element.skane.Skane;
-import room.element.Wall;
+import model.Room;
+import model.element.Civilian;
+import model.element.Element;
+import model.element.MeleeGuy;
+import model.element.skane.Skane;
+import model.element.Wall;
 
 public class RoomCreator {
     private CreatorUtilities creatorUtls;
@@ -45,9 +45,9 @@ public class RoomCreator {
         Skane.SkaneOpts skane_opts = new Skane.SkaneOpts();
         skane_opts.pos = creatorUtls.getRdmPosRoom(width, height);
         skane_opts.attack_dmg = 10;
-        skane_opts.hp = 3;
+        skane_opts.hp = 4;
         skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 30;
+        skane_opts.size = 3;
 
         addRoomElement(room, new Skane(skane_opts));
     }
