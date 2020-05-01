@@ -6,11 +6,20 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import model.element.skane.Skane;
 import model.element.skane.SkaneBody;
 
-public class SkaneView extends Drawer<Skane> {
+import static com.googlecode.lanterna.TextColor.Factory.fromString;
+
+public class SkaneView {
+    private static final TextColor bg = fromString("#313742");
+    private static final TextColor bgDark = fromString("#212833");
+    private static final TextColor green = fromString("#76A15D");
+    private static final TextColor orange = fromString("#D68445");
+
     private static final char skaChar = 'S';
     private static final char skaBodyChar = 'o';
     private static final char skaBuryChar = 'X';
     private static final char skaBodyBuryChar = 'x';
+
+    private static final int skaFov = 5;
 
     public void draw(TextGraphics gra, Skane ska) {
         gra.enableModifiers(SGR.BOLD);
