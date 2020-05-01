@@ -148,7 +148,6 @@ public class Gui {
         }
 
         screen.clear();
-        new Drawer(screen.newTextGraphics()).draw(room);
         screen.refresh();
     }
 }

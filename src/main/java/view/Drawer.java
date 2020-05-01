@@ -1,20 +1,11 @@
 package view;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import model.Position;
-import model.Room;
-import model.element.Civilian;
-import model.element.Element;
-import model.element.MeleeGuy;
-import model.element.Wall;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
 
-public abstract class Drawer<T> {
+public class Drawer {
     protected static final TextColor bg = fromString("#313742");
     protected static final TextColor bgDark = fromString("#212833");
     protected static final TextColor blue = fromString("#0E91E7");
@@ -25,6 +16,13 @@ public abstract class Drawer<T> {
 
     protected static final int skaFov = 5;
 
+    private TextGraphics gra;
+
+    public Drawer(TextGraphics gra) {
+        this.gra = gra;
+    }
+
+    /*
     private boolean isOutsideSkaFov(Element e, Position skaPos, boolean isSkaBury) {
         return (isSkaBury && e.getPos().dist(skaPos) > skaFov);
     }
@@ -48,6 +46,5 @@ public abstract class Drawer<T> {
 
         new SkaneView(gra).draw(gra, room.getSkane());
     }
-
-    public abstract void draw(TextGraphics gra, T e);
+     */
 }
