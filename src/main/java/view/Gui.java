@@ -14,15 +14,15 @@ import java.io.IOException;
 public class Gui {
     private Room room;
     private Screen screen;
-    private GraphicsDrawer drawer;
     private TerminalResizeHandler resize_handler;
     private EVENT event;
     private Thread input_handler;
+    private Drawer drawer;
 
     private final int DFLT_WIDTH = 80; // default board width
     private final int DFLT_HEIGHT = 40; // default board height
 
-    public Gui(Room map) throws IOException {
+    public Gui(Room room) throws IOException {
         TerminalSize init_size = new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT);
         Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
         resize_handler = new TerminalResizeHandler(init_size);
@@ -33,7 +33,7 @@ public class Gui {
         screen.setCursorPosition(null); // we don't need a cursor
         screen.startScreen();
 
-        this.room = map;
+        this.room = room;
         this.drawer = new Drawer(screen.newTextGraphics());
 
         this.event = EVENT.NullEvent;
@@ -150,7 +150,7 @@ public class Gui {
         }
 
         screen.clear();
-        this.drawer.drawRoom(room);
+        drawer.draw(room);
         screen.refresh();
     }
 }
