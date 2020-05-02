@@ -94,7 +94,8 @@ will be discussed in more detail in the
 
 - [Room](/src/main/java/org.g73.skanedweller.model/Room.java)
 
-The **org.g73.skanedweller.view component classes** can be found in the following files:
+The **org.g73.skanedweller.view component classes** can be found in the
+following files:
 
 - [CivieView](/src/main/java/org.g73.skanedweller.view/element_views/CivieView.java)
 - [Drawer](/src/main/java/org.g73.skanedweller.view/Drawer.java)
@@ -105,7 +106,8 @@ The **org.g73.skanedweller.view component classes** can be found in the followin
 - [SkaneView](/src/main/java/org.g73.skanedweller.view/element_views/SkaneView.java)
 - [WallView](/src/main/java/org.g73.skanedweller.view/element_views/WallView.java)
 
-The **org.g73.skanedweller.controller component classes** can be found in the following files:
+The **org.g73.skanedweller.controller component classes** can be found in the
+following files:
 
 - [CollisionHandler](/src/main/java/org.g73.skanedweller.controller/CollisionHandler.java)
 - [Controller](/src/main/java/org.g73.skanedweller.controller/Controller.java)
