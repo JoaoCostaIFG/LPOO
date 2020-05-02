@@ -1,0 +1,28 @@
+@startuml
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam shadowing false
+
+abstract class Collider {
+  - position : Position
+  + //collidesWith(col : Collider) : boolean//
+  + changed(observable)
+}
+class CompositeCollider {
+  - colliders : List<Collider>
+  + collidesWith(col : Collider) : boolean
+}
+class RectangleCollider {
+  + collidesWith(rect2 : RectangleCollider) : boolean
+  + collidesWith(comp1 : CompositeCollider) : boolean
+  + collidesWith(col : Collider) : boolean
+}
+
+CompositeCollider -up-^ Collider
+RectangleCollider -up-^ Collider
+
+Collider <--* CompositeCollider
+
+@enduml

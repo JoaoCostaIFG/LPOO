@@ -94,14 +94,14 @@ The **model component classes** can be found in the following files:
 
 The **view component classes** can be found in the following files:
 
-- [CivieView](/src/main/java/view/CivieView.java)
+- [CivieView](/src/main/java/view/element_views/CivieView.java)
 - [Drawer](/src/main/java/view/Drawer.java)
 - [GraphicsDrawer](/src/main/java/view/GraphicsDrawer.java)
 - [Gui](/src/main/java/view/Gui.java)
-- [MeleeGuyView](/src/main/java/view/MeleeGuyView.java)
-- [RoomView](/src/main/java/view/RoomView.java)
-- [SkaneView](/src/main/java/view/SkaneView.java)
-- [WallView](/src/main/java/view/WallView.java)
+- [MeleeGuyView](/src/main/java/view/element_views/MeleeGuyView.java)
+- [RoomView](/src/main/java/view/element_views/RoomView.java)
+- [SkaneView](/src/main/java/view/element_views/SkaneView.java)
+- [WallView](/src/main/java/view/element_views/WallView.java)
 
 The **controller component classes** can be found in the following files:
 
@@ -380,10 +380,11 @@ more _CollidableElement_ (s).
 #### Problem in context
 
 When designing the game's mechanics we came up with the idea of a multitude of
-enemy types, each with their specific charateristic (like helicopters flying, tanks
-with lasers, enemies with pathinding, etc...). We soon came to the realization that
-checking for collisions between these objects would prove very difficult if we
-continued to [use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/model/Room.java#L67-L90).
+enemy types, each with their specific characteristic (like helicopters flying, tanks
+with lasers, enemies with path-finding, etc...). We soon came to the realization
+that checking for collisions between these objects would prove very difficult
+if we continued to
+[use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/model/Room.java#L67-L90).
 If we kept going with this approach, a switch statement would be required to
 decide the type of verification method to be used when deciding if two objects had
 collided. It would end up **bloating** the _Room_ class, making it more difficult
@@ -391,32 +392,30 @@ to work with.
 
 #### The pattern
 
-To fix this issue the group decided to create a new _Collider_ class and agregate
+To fix this issue the group decided to create a new _Collider_ class and aggregate
 it into the _Elemets_ that implemented the _CollidableElement_ interface. For more
 overall flexibility, the **composite pattern** was used to allow for more complex
 _colliders_.
 
 #### Implementation
 
-TODO Aqui é só espetar o UML com o principle, self-explanatory
-
 This solution allows the model to easily check if two objects collide with each
-other, as defined in the [`getCollidingElems()`](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/f11002b71891daa3b2be796161563597da4a68c6/src/main/java/model/Room.java#L141-L147)
-method.
+other, as defined in the `getCollidingElems()` method of the
+[_Room class_](/src/main/java/model/Room.java).
+
+![Composite collider UML class diagram](/docs/uml/colliders_composite.png)
+
+The classes in the UML class diagram above can be found in following files:
+
+- [Collider](/src/main/java/model/colliders/Collider.java)
+- [CompositeCollider](/src/main/java/model/colliders/CompositeCollider.java)
+- [RectangleCollider](/src/main/java/model/colliders/RectangleCollider.java)
 
 #### Consequences
 
-The composite principle helps us solve the problem of having complex colliders in
-an object in a robust and elegant way. When compared to its alternative, it's much
-simpler and leads to many less code smells.
-
-### Pathfinding for Enemies
-
-Observer pattern here.
-
-### Enemy Movement
-
-Strategy pattern here.
+The composite principle helps us solve the problem of having complex **colliders**
+in an object in a robust and elegant way. When compared to its alternative,
+it's much simpler and leads to many less code smells.
 
 ## Known Code Smells and Refactoring Suggestions
 
