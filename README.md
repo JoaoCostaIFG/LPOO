@@ -36,9 +36,9 @@ Don't forget to hide yourself underground, where you'll be safe in times of need
 
 ## Screenshots
 
-[Skane and some enemies](/docs/screenshots/screenshot1.png)
+![Skane and some enemies](/docs/screenshots/screenshot1.png)
 
-[Skane underground](/docs/screenshots/screenshot2.png)
+![Skane underground](/docs/screenshots/screenshot2.png)
 
-[Skane recovering oxygen levels](/docs/screenshots/screenshot3.png)
+![Skane recovering oxygen levels](/docs/screenshots/screenshot3.png)
 
