@@ -17,7 +17,7 @@ public class Gui {
     private TerminalResizeHandler resize_handler;
     private EVENT event;
     private Thread input_handler;
-    private Drawer drawer;
+    private RoomDrawer drawer;
 
     private final int DFLT_WIDTH = 80; // default board width
     private final int DFLT_HEIGHT = 40; // default board height

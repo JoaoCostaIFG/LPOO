@@ -69,9 +69,10 @@ is drawn.
 
 #### The pattern
 
-To solve these problems, we implemented the MVC (Model-View-Controller)
-architectural pattern. Its early adoption during the development made the
-implementation easy and “straight forward”.
+To solve these problems, we implemented the
+[MVC](https://en.wikipedia.org/w/index.php?title=Model%E2%80%93view%E2%80%93controller&oldid=952768599)
+(Model-View-Controller) architectural pattern. Its early adoption during
+the development made the implementation easy and “straight forward”.
 
 This pattern allowed us to separate the game objects (model), the rules of
 the game (controller) and the user input/view (view), which is perfect for
@@ -86,19 +87,20 @@ game's classes.
 
 The **model component classes** can be found in the following files:
 
-- [Room](/src/main/java/model/Room.java)  
-  **Note**: Many classes/interfaces of the model component of our MVC pattern
-  implementation have been omitted from this UML class diagram because they
-  will be discussed in more detail in the
-  [Structuring the game element inheritance hierarchy] chapter.
+**Note**: Many classes/interfaces of the model component of our MVC pattern
+implementation have been omitted from this UML class diagram because they
+will be discussed in more detail in the
+[Structuring the game element inheritance hierarchy] chapter.
+
+- [Room](/src/main/java/model/Room.java)
 
 The **view component classes** can be found in the following files:
 
 - [CivieView](/src/main/java/view/element_views/CivieView.java)
 - [Drawer](/src/main/java/view/Drawer.java)
-- [GraphicsDrawer](/src/main/java/view/GraphicsDrawer.java)
 - [Gui](/src/main/java/view/Gui.java)
 - [MeleeGuyView](/src/main/java/view/element_views/MeleeGuyView.java)
+- [RoomDrawer](/src/main/java/view/RoomDrawer.java)
 - [RoomView](/src/main/java/view/element_views/RoomView.java)
 - [SkaneView](/src/main/java/view/element_views/SkaneView.java)
 - [WallView](/src/main/java/view/element_views/WallView.java)
@@ -148,15 +150,16 @@ that had **colliders** at the time.
 
 #### The pattern
 
-To help solve these problems, we made use of the **Null Object pattern** in
-conjunction with the strategy of **composition over inheritance**.  
+To help solve these problems, we made use of the
+[**Null Object pattern**](https://en.wikipedia.org/w/index.php?title=Null_object_pattern&oldid=940667694)
+in conjunction with the strategy of **composition over inheritance**.  
 We implemented this design pattern because we needed a way for objects to
 declare that they didn't have some functionality when those functions were
 called.
 
 #### Implementation
 
-The following picture illustrates how the game elements hierarchy was
+The following picture illustrates how the game elements' hierarchy was
 restructured and how the pattern's roles were mapped to the game's classes.
 
 ![Restructuring of game element hierarchy and null object pattern](/docs/uml/element.png)
@@ -168,9 +171,9 @@ from the UML class diagram above for clarity's sake.
 
 The **Null objects** can be found in the following files:
 
-- [ImmortalBehaviour](/src/main/java/model/element_behaviours/ImmortalBehaviour.java)
-- [ImovableBehaviour](/src/main/java/model/element_behaviours/ImovableBehaviour.java)
-- [NotCollidableBehaviour](/src/main/java/model/element_behaviours/NotCollidableBehaviour.java)
+- [ImmortalBehaviour](/src/main/java/model/element/element_behaviours/ImmortalBehaviour.java)
+- [ImovableBehaviour](/src/main/java/model/element/element_behaviours/ImovableBehaviour.java)
+- [NotCollidableBehaviour](/src/main/java/model/element/element_behaviours/NotCollidableBehaviour.java)
 
 The interfaces and other behaviors can be found in the following files:
 
@@ -276,9 +279,10 @@ with larger screens.
 
 #### The pattern
 
-In order to fix this we used the observer pattern. When the terminal window
-resizes, a resize handler is notified. After being notified, it updates its
-internal state to reflect the new terminal size.
+In order to fix this we used the
+[**observer pattern**](https://refactoring.guru/design-patterns/observer).
+When the terminal window resizes, a resize handler is notified. After being
+notified, it updates its internal state to reflect the new terminal size.
 
 #### Implementation
 
@@ -330,9 +334,10 @@ This caused two issues:
 #### The pattern
 
 In order to fix the problems mentioned above, the group decided to use the
-**strategy pattern**. This was achieved by setting the _CollisionStrategies_
-that each controller uses when it's controlled game element collides with
-another game element (based on element types).
+[**strategy pattern**](https://refactoring.guru/design-patterns/strategy).
+This was achieved by setting the _CollisionStrategies_ that each controller
+uses when it's controlled game element collides with another game element
+(based on element types).
 
 #### Implementation
 
@@ -394,8 +399,9 @@ to work with.
 
 To fix this issue the group decided to create a new _Collider_ class and aggregate
 it into the _Elemets_ that implemented the _CollidableElement_ interface. For more
-overall flexibility, the **composite pattern** was used to allow for more complex
-_colliders_.
+overall flexibility, the
+[**composite pattern**](https://refactoring.guru/design-patterns/composite) was
+used to allow for more complex _colliders_.
 
 #### Implementation
 
@@ -438,14 +444,15 @@ The ray-casting related code inside the [_Room class_](/src/main/java/model/Room
 on the two private helper functions `octant03Ray` and `octant12Ray` looks almost
 duplicated.
 
-This could be fixed by analysing the code to find ways to join this similarities,
+This could be fixed by analysing the code to find ways to join these similarities,
 but we haven't been able to find a way to that.
 
 ### Couplers
 
-The [_SkaneController class_](/src/main/java/Controller/SkaneController.java) is an
-example of a class that uses the data of another class more that its own. In this
-case, the data of the [_Skane_ class](/src/main/java/model/element/skane/Skane.java).
+The [_SkaneController class_](/src/main/java/controller/SkaneController.java) is
+an example of a class that uses the data of another class more that its own. In
+this case, the data of the
+[_Skane_ class](/src/main/java/model/element/skane/Skane.java).
 
 We don't think this code smell represents and actual problem in this case.
 
@@ -463,4 +470,4 @@ architetural pattern.
 
 ## Self-Evaluation
 
-fifty fifty [padner](https://westofloathing.gamepedia.com/Pardner).
+Fifty-fifty [padner](https://westofloathing.gamepedia.com/Pardner).
