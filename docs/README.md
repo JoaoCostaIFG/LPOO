@@ -89,9 +89,8 @@ The **model component classes** can be found in the following files:
 
 **Note**: Many classes/interfaces of the model component of our MVC pattern
 implementation have been omitted from this UML class diagram because they
-will be discussed in more detail in the
-[Structuring the game element inheritance hierarchy](###Structuring the game element inheritance hierarchy)
-chapter.
+will be discussed in more detail in the **Structuring the game element
+inheritance hierarchy** chapter.
 
 - [Room](/src/main/java/org/g73/skanedweller/model/Room.java)
 
@@ -142,8 +141,8 @@ We were reaching a point where we had to have an abstract class for each combina
 of game element interfaces, which was not feasible.
 
 As an example of this problem, we can see some code duplication showing up between
-the [_Wall class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/model/element/Wall.java#L21-L40)
-and the [_Entity abstract class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/model/element/Entity.java#L71-L90).
+the [_Wall class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/room/element/Wall.java#L21-L40)
+and the [_Entity abstract class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/room/element/Entity.java#L71-L90).
 
 Another problem (related to the previous one) that was coming up, was that
 it was becoming increasingly more difficult to choose the correct abstraction
@@ -223,7 +222,7 @@ it made creating new movement strategies and selecting the correct strategies
 for each enemy type difficult. It also violated the Single-responsibility
 principle.
 
-![Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/model/Room.java#L268-L349)
+[Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/room/Room.java#L268-L349)
 
 #### The pattern
 
@@ -322,7 +321,8 @@ move was blocked, there could be some collision handling invoked.
 Code-wise however, this had a plethora of code smells. Firstly, the code associated
 with handling the collision was kept in the _Room_ class, part of the **Model**,
 thus violating the **MVC** and the **SRP**. Secondly, the _Room_ class maintained
-a different move method for each _MovableElement_.  
+a different move method for each _MovableElement_.
+
 [Example with the old Monster Class](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L203-L211).
 
 Each method would manage their respective collisions and handle them accordingly.
@@ -351,7 +351,7 @@ Afterwards, we moved all the collision related methods to each respective
 controller, i.e.: moving the `moveSkane()` method to the
 [_SkaneController_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java).
 The **strategy pattern** was then implemented by designing the
-[_CollisionStrategy_](/src/main/java/org/g73/skanedweller/controller/collision_strategy/CollisionStrategy)
+[_CollisionStrategy_](/src/main/java/org/g73/skanedweller/controller/collision_strategy/CollisionStrategy.java)
 abstarct class and its implementations. Lastly, a map that associates element
 types with a specific collision strategy was created in each _MovableController_.
 This allows for handling collisions dynamically and each controller can define
@@ -392,7 +392,7 @@ enemy types, each with their specific characteristic (like helicopters flying, t
 with lasers, enemies with path-finding, etc...). We soon came to the realization
 that checking for collisions between these objects would prove very difficult
 if we continued to
-[use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/model/Room.java#L67-L90).
+[use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/room/Room.java#L67-L90).
 If we kept going with this approach, a switch statement would be required to
 decide the type of verification method to be used when deciding if two objects had
 collided. It would end up **bloating** the _Room_ class, making it more difficult
@@ -432,45 +432,58 @@ it's much simpler and leads to many less code smells.
 
 The [_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java) is a Bloater
 (_Large class_). This is problematic because finding specific code segments
-to work on inside the class can prove cumbersome and the class as a
+to work on inside the class can prove cumbersome and the class has a
 `tendecy' to violate the Single-responsibility principle.
 
 We could improve the code by dividing the Room class into smaller, more specific,
-classes.
+classes: _Extract class_ refactor.
 
 There's also the ray-casting helper (private) functions that take 6 arguments,
-which are bloaters, but we believe all alternatives are inferior design-wise.
+which are bloaters (_Long parameter list_), but we believe all alternatives are
+inferior design-wise.
 
 ### Dispensables
 
-The ray-casting related code inside the [_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java)
-on the two private helper functions `octant03Ray` and `octant12Ray` looks almost
-duplicated.
+The ray-casting related code inside the two private helper functions
+`octant03Ray()` and `octant12Ray()`
+on the [_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java)
+looks almost duplicated (_Duplicate code_).
 
-This could be fixed by analysing the code to find ways to join these similarities,
-but we haven't been able to find a way to that.
+This could be fixed by analysing the code to find ways to join these
+similarities, but we haven't been able to find a way to that.
+
+We have code for composite colliders is not in use at the moment. It was created
+because we believed it would be useful for use with the **Skane**, but it ended
+up not being needed (_Speculative generality_).
+
+We could fix this problem by “getting rid of” the
+[_CompositeCollider_ class](/src/main/java/org/g73/skanedweller/model/colliders/CompositeCollider.java).
 
 ### Couplers
 
-The [_SkaneController class_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java) is
-an example of a class that uses the data of another class more that its own. In
+The [_SkaneController class_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java)
+is an example of a class that uses the data of another class more that its own. In
 this case, the data of the
 [_Skane_ class](/src/main/java/org/g73/skanedweller/model/element/skane/Skane.java).
 
-We don't think this code smell represents and actual problem in this case.
+We don't think this code smell represents an actual problem in this case.
 
 ### Change Preventers
 
-The [_Element hierarchy_](/src/main/java/org/g73/skanedweller/model/element) and the
-[_View hierarchy_](/src/main/java/org/g73/skanedweller/view/element_views) are both
-**Parallel Inheritance Hierarchies**. If we wanted to add a new element
-to the game, we would be obliged to create a new _Model_ class and a new
-_View_ class for it.
+The [_Element hierarchy_](/src/main/java/org/g73/skanedweller/model/element) and
+the [_View hierarchy_](/src/main/java/org/g73/skanedweller/view/element_views)
+repesent a situation of **Parallel Inheritance Hierarchies**. If we wanted to
+add a new element to the game, we would be obliged to create a new _Model_ class
+and a new _View_ class for it.
 
 The only way to fix this code smell would imply moving parts of the **View**
-into the **Model** (or vice-versa). This would be a violation of the MVC
+into the **Model** (or vice-versa). This would be a violation of the **MVC**
 architetural pattern.
 
 ## Self-Evaluation
 
-Fifty-fifty [padner](https://westofloathing.gamepedia.com/Pardner).
+We believe both members of the group were integral for the development of this
+project and worked the same amount. With this, we believe self-evaluate with
+50% of the final grade, each.
+
+Or, in other words: Fifty-fifty [padner](https://westofloathing.gamepedia.com/Pardner).
