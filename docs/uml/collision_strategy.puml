@@ -1,0 +1,35 @@
+@startuml
+
+hide empty members
+skinparam shadowing false
+skinparam linetype polyline
+
+abstract class CollisionStrategy {}
+class AttackCollisionStrat {}
+class BlockCollision {}
+class NullCollision {}
+class SkaneAttackCollision {}
+class SkaneDamagedStrat {}
+
+interface Controller {}
+interface PlayerController {}
+class CollisionHandler {}
+class EnemyController {}
+class MovableController {}
+class SkaneController {}
+
+AttackCollisionStrat -up-^ CollisionStrategy
+BlockCollision -up-^ CollisionStrategy
+NullCollision -up-^ CollisionStrategy
+SkaneAttackCollision -up-^ CollisionStrategy
+SkaneDamagedStrat -up-^ CollisionStrategy
+
+MovableController .up.^ Controller
+SkaneController .up.^ PlayerController
+SkaneController -up-^ MovableController
+EnemyController -up-^ MovableController
+
+MovableController -right-> CollisionHandler
+CollisionHandler -right-> CollisionStrategy
+
+@enduml

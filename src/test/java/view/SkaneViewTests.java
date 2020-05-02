@@ -10,12 +10,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.w3c.dom.ls.LSException;
+import view.element_views.SkaneView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
 import static org.mockito.Mockito.*;
 

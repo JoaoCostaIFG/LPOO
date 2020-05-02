@@ -54,6 +54,9 @@ public class Gui {
                         // processKey(screen.pollInput());
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } catch (RuntimeException e) {
+                        // do nothing (happens when we interrupt the thread)
+                        break;
                     }
                 }
             }

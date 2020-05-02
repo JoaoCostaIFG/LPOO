@@ -10,6 +10,11 @@ package "Model" #EEDDDD {
 
 package "View" #DDEEDD {
   interface GraphicsDrawer {}
+  class CivieView {}
+  class MeleeGuyView {}
+  class RoomView {}
+  class SkaneView {}
+  class WallView {}
   class Drawer {}
   class Gui {}
 }
@@ -35,12 +40,17 @@ EnemyController --^ MovableController
 SkaneController --^ MovableController 
 SkaneController .up.^ PlayerController
 
+Drawer -up-> CivieView
+Drawer -up-> MeleeGuyView
+Drawer -up-> RoomView
+Drawer -up-> SkaneView
+Drawer -up-> WallView
 Drawer .down.^ GraphicsDrawer 
-Gui -up-> GraphicsDrawer
+Gui -right-> GraphicsDrawer
 Gui -down-> Room
 
 GameController ---> Room
-GameController --left-> Gui
+GameController --right-> Gui
 
 @enduml
 

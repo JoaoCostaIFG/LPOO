@@ -8,7 +8,7 @@ import model.element.Civilian;
 import model.element.Element;
 import model.element.MeleeGuy;
 import model.element.Wall;
-import model.element.skane.Skane;
+import view.element_views.*;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
 

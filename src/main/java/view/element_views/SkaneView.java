@@ -1,4 +1,4 @@
-package view;
+package view.element_views;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TextColor;

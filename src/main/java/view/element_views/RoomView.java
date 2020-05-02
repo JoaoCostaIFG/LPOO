@@ -1,4 +1,4 @@
-package view;
+package view.element_views;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;

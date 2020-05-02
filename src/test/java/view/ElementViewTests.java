@@ -7,10 +7,12 @@ import model.element.Civilian;
 import model.element.Element;
 import model.element.MeleeGuy;
 import model.element.Wall;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import view.element_views.CivieView;
+import view.element_views.MeleeGuyView;
+import view.element_views.WallView;
 
 import static org.mockito.Mockito.times;
 import static com.googlecode.lanterna.TextColor.Factory.fromString;

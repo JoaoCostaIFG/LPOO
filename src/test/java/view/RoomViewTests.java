@@ -10,6 +10,7 @@ import model.Room;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import view.element_views.RoomView;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
 import static org.mockito.ArgumentMatchers.any;

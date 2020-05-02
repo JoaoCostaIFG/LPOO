@@ -48,27 +48,6 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 
 ## Design
 
-```md
-### Problem
-#### Problem in context
-The description of the design context and the concrete problem that motivated
-the instantiation of the pattern. Someone else other than the original developer
-should be able to read and understand all the motivations for the decisions made.
-When refering to the implementation before the pattern was applied, don’t forget
-to link to the relevant lines of code in the appropriate version.
-#### The pattern
-Identify the design pattern to be applied, why it was selected and how it is a
-good fit considering the existing design context and the problem at hand.
-#### Implementation
-Show how the pattern roles, operations and associations were mapped to the concrete
-design classes. Illustrate it with a UML class diagram, and refer to the
-corresponding source code with links to the relevant lines (these should be
-relative links. When doing this, always point to the latest version of the code.
-#### Consequences
-Benefits and liabilities of the design after the pattern instantiation, eventually
-comparing these consequences with those of alternative solutions
-```
-
 ### Structuring the project
 
 #### Problem in context
@@ -105,18 +84,33 @@ game's classes.
 
 ![Movel view controller pattern.](/docs/uml/mvc.png)
 
-These classes can be found in the following files:
+The **model component classes** can be found in the following files:
 
-- [Controller](/src/main/java/controller/Controller.java)
-- [CollisionHandler](/src/main/java/controller/CollisionHandler.java)
+- [Room](/src/main/java/model/Room.java)  
+  **Note**: Many classes/interfaces of the model component of our MVC pattern
+  implementation have been omitted from this UML class diagram because they
+  will be discussed in more detail in the
+  [Structuring the game element inheritance hierarchy] chapter.
+
+The **view component classes** can be found in the following files:
+
+- [CivieView](/src/main/java/view/CivieView.java)
 - [Drawer](/src/main/java/view/Drawer.java)
-- [EnemyController](/src/main/java/controller/EnemyController.java)
-- [GameController](/src/main/java/controller/GameController.java)
 - [GraphicsDrawer](/src/main/java/view/GraphicsDrawer.java)
 - [Gui](/src/main/java/view/Gui.java)
+- [MeleeGuyView](/src/main/java/view/MeleeGuyView.java)
+- [RoomView](/src/main/java/view/RoomView.java)
+- [SkaneView](/src/main/java/view/SkaneView.java)
+- [WallView](/src/main/java/view/WallView.java)
+
+The **controller component classes** can be found in the following files:
+
+- [CollisionHandler](/src/main/java/controller/CollisionHandler.java)
+- [Controller](/src/main/java/controller/Controller.java)
+- [EnemyController](/src/main/java/controller/EnemyController.java)
+- [GameController](/src/main/java/controller/GameController.java)
 - [MovableController](/src/main/java/controller/MovableController.java)
 - [PlayerController](/src/main/java/controller/PlayerController.java)
-- [Room](/src/main/java/model/Room.java)
 - [SkaneController](/src/main/java/controller/SkaneController.java)
 
 #### Consequences
@@ -280,8 +274,6 @@ with larger screens.
 
 [How the game model size was selected at compile time and never updated after that.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/a74d85d6ec5bedb9570d0330f90c673ca46fd327/src/main/java/Game.java#L28)
 
-//TODO falar das solucoes alternativas pensadas
-
 #### The pattern
 
 In order to fix this we used the observer pattern. When the terminal window
@@ -308,53 +300,72 @@ benefit, it also avoids the constant polling of the terminal's size.
 
 #### Consequences
 
-// TODO  
 Be careful if we want to resize the screen/update the model's info.
 
 ### Collisions
 
 #### Problem in context
 
-The first implementation of movement checking in the game was [copy pasted from
-the Hero project](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L268-L281).
-It consisted in, when an object wanted to move to a position,
-verifying if the position was already occupied. When the latter was true, we
-handled the collision and moved to position afterwards.
+The first implementation of movement checking in the game was
+[very simple and unexpadable](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L268-L281).
+It queried all the game elements positions before moving and blocked the move
+if there was an object with the same target position _in-game_. When this
+move was blocked, there could be some collision handling invoked.
 
-Code-wise however, this had a plethera of code smells. Firstly, the code associated
-with handling the collision was kept in the _Room_ class, part of the **Model**, 
-thus violating the **MVC** and the **SRP**. Secondly, the _Room_ class mantained
-a different move method for each _MovableElement_ [(Example with the old Monster Class)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L203-L211).
+Code-wise however, this had a plethora of code smells. Firstly, the code associated
+with handling the collision was kept in the _Room_ class, part of the **Model**,
+thus violating the **MVC** and the **SRP**. Secondly, the _Room_ class maintained
+a different move method for each _MovableElement_.  
+[Example with the old Monster Class](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L203-L211).
 
-Each method would manage each respective collisions and handle them accordingly.
-This causes two issues:
+Each method would manage their respective collisions and handle them accordingly.
+This caused two issues:
 
-- there are tons of repeated code between each definition of the move method - obvious
-code smell;
-- If one were to add a new _MovableElement_ to the game, the creation of a move method
-and adding new collision handlers to the existing move methods would be required,
-violating the OPC.
+- there was repeated code between each definition of the move method, which is
+  a code smell;
+- If one were to add a new _MovableElement_ to the game, the creation of a move
+  method and adding new collision handlers to the existing move methods would
+  be required, violating the **open-closed principle**.
 
 #### The pattern
 
-In order to fix the mentioned problems, the group decided to use the **strategy pattern**.
-This was achieved by using set of _CollisionStrategies_ are used by each controller,
-which assigns them to a specific _Element_ type.
+In order to fix the problems mentioned above, the group decided to use the
+**strategy pattern**. This was achieved by setting the _CollisionStrategies_
+that each controller uses when it's controlled game element collides with
+another game element (based on element types).
 
 #### Implementation
 
-TODO Remove links
-
-We started by creating the [_MovableController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/94375fc9ee8894725b95c7dc4e1e9cf29a710e09/src/main/java/Controller/MovableController.java#L11-L33)
+We started by creating the
+[_MovableController_](/src/main/java/controller/MovableController.java)
 abstract class. All controllers that move their controlled elements inherit it.
-Afterwards, we moved all of the collision related methods to each respective controller,
-ie: moving the moveSkane to the [_SkaneController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/94375fc9ee8894725b95c7dc4e1e9cf29a710e09/src/main/java/Controller/SkaneController.java#L20-L27).
-The **strategy pattern** was then implemented by designing the [CollisionStrategy](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/94375fc9ee8894725b95c7dc4e1e9cf29a710e09/src/main/java/Controller/collisionStrategy/CollisionStrategy.java#L1-L9)
-class and its subclasses.
-Lastly, a map that associates element types with a specific collision strategy was
-created in each _MovableController_. This allows for handling collisions dynamically.
+Afterwards, we moved all the collision related methods to each respective
+controller, i.e.: moving the `moveSkane()` method to the
+[_SkaneController_](/src/main/java/controller/SkaneController.java).
+The **strategy pattern** was then implemented by designing the
+[_CollisionStrategy_](/src/main/java/controller/collision_strategy/CollisionStrategy)
+abstarct class and its implementations. Lastly, a map that associates element
+types with a specific collision strategy was created in each _MovableController_.
+This allows for handling collisions dynamically and each controller can define
+what happens when it's controlled game element collides with another game element
+based on element types.
 
-TODO Meter uml aqui
+![Collision strategy UML](/docs/uml/collision_strategy.png)
+
+The classes on the UML diagram can be found on the following files:
+
+- [Controller](/src/main/java/controller/Controller.java)
+- [PlayerController](/src/main/java/controller/PlayerController.java)
+- [SkaneController](/src/main/java/controller/SkaneController.java)
+- [MovableController](/src/main/java/controller/MovableController.java)
+- [EnemyController](/src/main/java/controller/EnemyController.java)
+- [CollisionHandler](/src/main/java/controller/CollisionHandler.java)
+- [CollisionStrategy](/src/main/java/controller/collision_strategy/CollisionStrategy.java)
+- [AttackCollisionStrat](/src/main/java/controller/collision_strategy/AttackCollisionStrat.java)
+- [BlockCollision](/src/main/java/controller/collision_strategy/BlockCollision.java)
+- [NullCollision](/src/main/java/controller/collision_strategy/NullCollision.java)
+- [SkaneAttackCollision](/src/main/java/controller/collision_strategy/SkaneAttackCollision.java)
+- [SkaneDamagedStrat](/src/main/java/controller/collision_strategy/SkaneDamagedStrat.java)
 
 #### Consequences
 
@@ -390,7 +401,7 @@ _colliders_.
 TODO Aqui é só espetar o UML com o principle, self-explanatory
 
 This solution allows the model to easily check if two objects collide with each
-other, as defined in the [_getCollidingElems_(...)](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/f11002b71891daa3b2be796161563597da4a68c6/src/main/java/model/Room.java#L141-L147)
+other, as defined in the [`getCollidingElems()`](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/f11002b71891daa3b2be796161563597da4a68c6/src/main/java/model/Room.java#L141-L147)
 method.
 
 #### Consequences
@@ -425,11 +436,11 @@ which are bloaters, but we believe all alternatives are inferior design-wise.
 ### Dispensables
 
 The ray-casting related code inside the [_Room class_](/src/main/java/model/Room.java)
-has comments that seem uneeded and the code for the two private helper functions
-(TODO relative link) looks almost duplicated.
+on the two private helper functions `octant03Ray` and `octant12Ray` looks almost
+duplicated.
 
-This could be fixed by analysing the comments and removing the uneeded ones and joining
-the two helper functions into one, adjusting whatever logic might need to be ajusted.
+This could be fixed by analysing the code to find ways to join this similarities,
+but we haven't been able to find a way to that.
 
 ### Couplers
 
@@ -441,14 +452,15 @@ We don't think this code smell represents and actual problem in this case.
 
 ### Change Preventers
 
-The [_Element hierarchy_](/src/main/java/model/element) and the [TODO _View hierarchy_]
-are both **Parallel Inheritance Hierarchies**. If we wanted to add a new element to the
-game, we would be obliged to create a new _Model_ class and a new _View_ class
-for it.
+The [_Element hierarchy_](/src/main/java/model/element) and the
+[_View hierarchy_](/src/main/java/view/element_views) are both
+**Parallel Inheritance Hierarchies**. If we wanted to add a new element
+to the game, we would be obliged to create a new _Model_ class and a new
+_View_ class for it.
 
-The only way to fix this code smell would imply moving completely either the _View_
-or the _Model_ into its counterpart. This would be a clear violation of the MVC pattern,
-which would not be doable.
+The only way to fix this code smell would imply moving parts of the **View**
+into the **Model** (or vice-versa). This would be a violation of the MVC
+architetural pattern.
 
 ## Self-Evaluation
 
