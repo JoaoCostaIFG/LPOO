@@ -74,8 +74,8 @@ To solve these problems, we implemented the
 (Model-View-Controller) architectural pattern. Its early adoption during
 the development made the implementation easy and “straight forward”.
 
-This pattern allowed us to separate the game objects (org.g73.skanedweller.model), the rules of
-the game (org.g73.skanedweller.controller) and the user input/org.g73.skanedweller.view (org.g73.skanedweller.view), which is perfect for
+This pattern allowed us to separate the game objects (**model**), the rules of
+the game (**controller**) and the user input/gui (**view**), which is perfect for
 the type of project (game) we were developing.
 
 #### Implementation
@@ -83,46 +83,47 @@ the type of project (game) we were developing.
 The following picture illustrates how the pattern's roles were mapped to the
 game's classes.
 
-![Movel org.g73.skanedweller.view org.g73.skanedweller.controller pattern.](/docs/uml/mvc.png)
+![Movel view controller pattern.](/docs/uml/mvc.png)
 
-The **org.g73.skanedweller.model component classes** can be found in the following files:
+The **model component classes** can be found in the following files:
 
-**Note**: Many classes/interfaces of the org.g73.skanedweller.model component of our MVC pattern
+**Note**: Many classes/interfaces of the model component of our MVC pattern
 implementation have been omitted from this UML class diagram because they
 will be discussed in more detail in the
-[Structuring the game element inheritance hierarchy] chapter.
+[Structuring the game element inheritance hierarchy](###Structuring the game element inheritance hierarchy)
+chapter.
 
-- [Room](/src/main/java/org.g73.skanedweller.model/Room.java)
+- [Room](/src/main/java/org/g73/skanedweller/model/Room.java)
 
-The **org.g73.skanedweller.view component classes** can be found in the
+The **view component classes** can be found in the
 following files:
 
-- [CivieView](/src/main/java/org.g73.skanedweller.view/element_views/CivieView.java)
-- [Drawer](/src/main/java/org.g73.skanedweller.view/Drawer.java)
-- [Gui](/src/main/java/org.g73.skanedweller.view/Gui.java)
-- [MeleeGuyView](/src/main/java/org.g73.skanedweller.view/element_views/MeleeGuyView.java)
-- [RoomDrawer](/src/main/java/org.g73.skanedweller.view/RoomDrawer.java)
-- [RoomView](/src/main/java/org.g73.skanedweller.view/element_views/RoomView.java)
-- [SkaneView](/src/main/java/org.g73.skanedweller.view/element_views/SkaneView.java)
-- [WallView](/src/main/java/org.g73.skanedweller.view/element_views/WallView.java)
+- [CivieView](/src/main/java/org/g73/skanedweller/view/element_views/CivieView.java)
+- [Drawer](/src/main/java/org/g73/skanedweller/view/Drawer.java)
+- [Gui](/src/main/java/org/g73/skanedweller/view/Gui.java)
+- [MeleeGuyView](/src/main/java/org/g73/skanedweller/view/element_views/MeleeGuyView.java)
+- [RoomDrawer](/src/main/java/org/g73/skanedweller/view/RoomDrawer.java)
+- [RoomView](/src/main/java/org/g73/skanedweller/view/element_views/RoomView.java)
+- [SkaneView](/src/main/java/org/g73/skanedweller/view/element_views/SkaneView.java)
+- [WallView](/src/main/java/org/g73/skanedweller/view/element_views/WallView.java)
 
-The **org.g73.skanedweller.controller component classes** can be found in the
+The **controller component classes** can be found in the
 following files:
 
-- [CollisionHandler](/src/main/java/org.g73.skanedweller.controller/CollisionHandler.java)
-- [Controller](/src/main/java/org.g73.skanedweller.controller/Controller.java)
-- [EnemyController](/src/main/java/org.g73.skanedweller.controller/EnemyController.java)
-- [GameController](/src/main/java/org.g73.skanedweller.controller/GameController.java)
-- [MovableController](/src/main/java/org.g73.skanedweller.controller/MovableController.java)
-- [PlayerController](/src/main/java/org.g73.skanedweller.controller/PlayerController.java)
-- [SkaneController](/src/main/java/org.g73.skanedweller.controller/SkaneController.java)
+- [CollisionHandler](/src/main/java/org/g73/skanedweller/controller/CollisionHandler.java)
+- [Controller](/src/main/java/org/g73/skanedweller/controller/Controller.java)
+- [EnemyController](/src/main/java/org/g73/skanedweller/controller/EnemyController.java)
+- [GameController](/src/main/java/org/g73/skanedweller/controller/GameController.java)
+- [MovableController](/src/main/java/org/g73/skanedweller/controller/MovableController.java)
+- [PlayerController](/src/main/java/org/g73/skanedweller/controller/PlayerController.java)
+- [SkaneController](/src/main/java/org/g73/skanedweller/controller/SkaneController.java)
 
 #### Consequences
 
 Implementing the **MVC** makes the design denser than it really needed to
 be in some instances. For example, the _SkaneController class_ has some
 methods that could be part of the _Skane class_ if we didn't want to
-separate the game behavior from the org.g73.skanedweller.model. This also makes code navigation
+separate the game behavior from the model. This also makes code navigation
 harder.
 
 These negative consequences were counteracted by how easy it became to
@@ -141,8 +142,8 @@ We were reaching a point where we had to have an abstract class for each combina
 of game element interfaces, which was not feasible.
 
 As an example of this problem, we can see some code duplication showing up between
-the [_Wall class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/org.g73.skanedweller.model/element/Wall.java#L21-L40)
-and the [_Entity abstract class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/org.g73.skanedweller.model/element/Entity.java#L71-L90).
+the [_Wall class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/model/element/Wall.java#L21-L40)
+and the [_Entity abstract class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/7d5e43e87dd228bae488cf092935c630ee51923b/src/main/java/model/element/Entity.java#L71-L90).
 
 Another problem (related to the previous one) that was coming up, was that
 it was becoming increasingly more difficult to choose the correct abstraction
@@ -173,30 +174,30 @@ from the UML class diagram above for clarity's sake.
 
 The **Null objects** can be found in the following files:
 
-- [ImmortalBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/ImmortalBehaviour.java)
-- [ImovableBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/ImovableBehaviour.java)
-- [NotCollidableBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/NotCollidableBehaviour.java)
+- [ImmortalBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/ImmortalBehaviour.java)
+- [ImovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/ImovableBehaviour.java)
+- [NotCollidableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/NotCollidableBehaviour.java)
 
 The interfaces and other behaviors can be found in the following files:
 
-- [Agressive](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/Agressive.java)
-- [AgressiveBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/AgressiveBehaviour.java)
-- [Collidable](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/Collidable.java)
-- [CollidableBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/CollidableBehaviour.java)
-- [Mortal](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/Mortal.java)
-- [MortalBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/MortalBehaviour.java)
-- [Movable](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/Movable.java)
-- [MovableBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/MovableBehaviour.java)
+- [Agressive](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Agressive.java)
+- [AgressiveBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/AgressiveBehaviour.java)
+- [Collidable](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Collidable.java)
+- [CollidableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/CollidableBehaviour.java)
+- [Mortal](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Mortal.java)
+- [MortalBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MortalBehaviour.java)
+- [Movable](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Movable.java)
+- [MovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MovableBehaviour.java)
 
 The game objects can be found in the following files:
 
-- [Civilian](/src/main/java/org.g73.skanedweller.model/element/Civilian.java)
-- [Element](/src/main/java/org.g73.skanedweller.model/element/Element.java)
-- [MeleeGuy](/src/main/java/org.g73.skanedweller.model/element/MeleeGuy.java)
-- [Scent](/src/main/java/org.g73.skanedweller.model/element/skane/Scent.java)
-- [Skane](/src/main/java/org.g73.skanedweller.model/element/skane/Skane.java)
-- [SkaneBody](/src/main/java/org.g73.skanedweller.model/element/skane/SkaneBody.java)
-- [Wall](/src/main/java/org.g73.skanedweller.model/element/Wall.java)
+- [Civilian](/src/main/java/org/g73/skanedweller/model/element/Civilian.java)
+- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java)
+- [MeleeGuy](/src/main/java/org/g73/skanedweller/model/element/MeleeGuy.java)
+- [Scent](/src/main/java/org/g73/skanedweller/model/element/skane/Scent.java)
+- [Skane](/src/main/java/org/g73/skanedweller/model/element/skane/Skane.java)
+- [SkaneBody](/src/main/java/org/g73/skanedweller/model/element/skane/SkaneBody.java)
+- [Wall](/src/main/java/org/g73/skanedweller/model/element/Wall.java)
 
 #### Consequences
 
@@ -222,7 +223,7 @@ it made creating new movement strategies and selecting the correct strategies
 for each enemy type difficult. It also violated the Single-responsibility
 principle.
 
-![Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/org.g73.skanedweller.model/Room.java#L268-L349)
+![Old movement technique code for civilians.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/3fc057d898efcb07976134eb3a43a203a047f502/src/main/java/model/Room.java#L268-L349)
 
 #### The pattern
 
@@ -243,15 +244,15 @@ game's classes.
 
 These classes can be found in the following files:
 
-- [Civilian](/src/main/java/org.g73.skanedweller.model/element/Civilian.java)
-- [Element](/src/main/java/org.g73.skanedweller.model/element/Element.java)
-- [ImovableBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/ImovableBehaviour.java)
-- [MeleeMoveStrat](/src/main/java/org.g73.skanedweller.controller/movement_strategy/MeleeMoveStrat.java)
-- [Movable](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/Movable.java)
-- [MovableBehaviour](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/MovableBehaviour.java)
-- [MoveStrategy](/src/main/java/org.g73.skanedweller.model/element/element_behaviours/MoveStrategy.java)
-- [MeleeGuy](/src/main/java/org.g73.skanedweller.model/element/MeleeGuy.java)
-- [ScaredMoveStrat](/src/main/java/org.g73.skanedweller.controller/movement_strategy/ScaredMoveStrat.java)
+- [Civilian](/src/main/java/org/g73/skanedweller/model/element/Civilian.java)
+- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java)
+- [ImovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/ImovableBehaviour.java)
+- [MeleeMoveStrat](/src/main/java/org/g73/skanedweller/controller/movement_strategy/MeleeMoveStrat.java)
+- [Movable](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Movable.java)
+- [MovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MovableBehaviour.java)
+- [MoveStrategy](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MoveStrategy.java)
+- [MeleeGuy](/src/main/java/org/g73/skanedweller/model/element/MeleeGuy.java)
+- [ScaredMoveStrat](/src/main/java/org/g73/skanedweller/controller/movement_strategy/ScaredMoveStrat.java)
 
 #### Consequences
 
@@ -277,7 +278,7 @@ It is also worth noting that resizing the terminal windows during _gameplay_,
 shouldn't change the size of the playing area, since that would benefit users
 with larger screens.
 
-[How the game org.g73.skanedweller.model size was selected at compile time and never updated after that.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/a74d85d6ec5bedb9570d0330f90c673ca46fd327/src/main/java/Game.java#L28)
+[How the game model size was selected at compile time and never updated after that.](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/a74d85d6ec5bedb9570d0330f90c673ca46fd327/src/main/java/Game.java#L28)
 
 #### The pattern
 
@@ -306,7 +307,7 @@ benefit, it also avoids the constant polling of the terminal's size.
 
 #### Consequences
 
-Be careful if we want to resize the screen/update the org.g73.skanedweller.model's info.
+Be careful if we want to resize the screen/update the model's info.
 
 ### Collisions
 
@@ -337,23 +338,23 @@ This caused two issues:
 
 In order to fix the problems mentioned above, the group decided to use the
 [**strategy pattern**](https://refactoring.guru/design-patterns/strategy).
-This was achieved by setting the _CollisionStrategies_ that each org.g73.skanedweller.controller
+This was achieved by setting the _CollisionStrategies_ that each controller
 uses when it's controlled game element collides with another game element
 (based on element types).
 
 #### Implementation
 
 We started by creating the
-[_MovableController_](/src/main/java/org.g73.skanedweller.controller/MovableController.java)
+[_MovableController_](/src/main/java/org/g73/skanedweller/controller/MovableController.java)
 abstract class. All controllers that move their controlled elements inherit it.
 Afterwards, we moved all the collision related methods to each respective
-org.g73.skanedweller.controller, i.e.: moving the `moveSkane()` method to the
-[_SkaneController_](/src/main/java/org.g73.skanedweller.controller/SkaneController.java).
+controller, i.e.: moving the `moveSkane()` method to the
+[_SkaneController_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java).
 The **strategy pattern** was then implemented by designing the
-[_CollisionStrategy_](/src/main/java/org.g73.skanedweller.controller/collision_strategy/CollisionStrategy)
+[_CollisionStrategy_](/src/main/java/org/g73/skanedweller/controller/collision_strategy/CollisionStrategy)
 abstarct class and its implementations. Lastly, a map that associates element
 types with a specific collision strategy was created in each _MovableController_.
-This allows for handling collisions dynamically and each org.g73.skanedweller.controller can define
+This allows for handling collisions dynamically and each controller can define
 what happens when it's controlled game element collides with another game element
 based on element types.
 
@@ -361,18 +362,18 @@ based on element types.
 
 The classes on the UML diagram can be found on the following files:
 
-- [Controller](/src/main/java/org.g73.skanedweller.controller/Controller.java)
-- [PlayerController](/src/main/java/org.g73.skanedweller.controller/PlayerController.java)
-- [SkaneController](/src/main/java/org.g73.skanedweller.controller/SkaneController.java)
-- [MovableController](/src/main/java/org.g73.skanedweller.controller/MovableController.java)
-- [EnemyController](/src/main/java/org.g73.skanedweller.controller/EnemyController.java)
-- [CollisionHandler](/src/main/java/org.g73.skanedweller.controller/CollisionHandler.java)
-- [CollisionStrategy](/src/main/java/org.g73.skanedweller.controller/collision_strategy/CollisionStrategy.java)
-- [AttackCollisionStrat](/src/main/java/org.g73.skanedweller.controller/collision_strategy/AttackCollisionStrat.java)
-- [BlockCollision](/src/main/java/org.g73.skanedweller.controller/collision_strategy/BlockCollision.java)
-- [NullCollision](/src/main/java/org.g73.skanedweller.controller/collision_strategy/NullCollision.java)
-- [SkaneAttackCollision](/src/main/java/org.g73.skanedweller.controller/collision_strategy/SkaneAttackCollision.java)
-- [SkaneDamagedStrat](/src/main/java/org.g73.skanedweller.controller/collision_strategy/SkaneDamagedStrat.java)
+- [Controller](/src/main/java/org/g73/skanedweller/controller/Controller.java)
+- [PlayerController](/src/main/java/org/g73/skanedweller/controller/PlayerController.java)
+- [SkaneController](/src/main/java/org/g73/skanedweller/controller/SkaneController.java)
+- [MovableController](/src/main/java/org/g73/skanedweller/controller/MovableController.java)
+- [EnemyController](/src/main/java/org/g73/skanedweller/controller/EnemyController.java)
+- [CollisionHandler](/src/main/java/org/g73/skanedweller/controller/CollisionHandler.java)
+- [CollisionStrategy](/src/main/java/org/g73/skanedweller/controller/collision_strategy/CollisionStrategy.java)
+- [AttackCollisionStrat](/src/main/java/org/g73/skanedweller/controller/collision_strategy/AttackCollisionStrat.java)
+- [BlockCollision](/src/main/java/org/g73/skanedweller/controller/collision_strategy/BlockCollision.java)
+- [NullCollision](/src/main/java/org/g73/skanedweller/controller/collision_strategy/NullCollision.java)
+- [SkaneAttackCollision](/src/main/java/org/g73/skanedweller/controller/collision_strategy/SkaneAttackCollision.java)
+- [SkaneDamagedStrat](/src/main/java/org/g73/skanedweller/controller/collision_strategy/SkaneDamagedStrat.java)
 
 #### Consequences
 
@@ -391,7 +392,7 @@ enemy types, each with their specific characteristic (like helicopters flying, t
 with lasers, enemies with path-finding, etc...). We soon came to the realization
 that checking for collisions between these objects would prove very difficult
 if we continued to
-[use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/org.g73.skanedweller.model/Room.java#L67-L90).
+[use the _Position_ class to do so](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/43f14c4bdf223b45f7bd5b52415378e98c1f6f5d/src/main/java/model/Room.java#L67-L90).
 If we kept going with this approach, a switch statement would be required to
 decide the type of verification method to be used when deciding if two objects had
 collided. It would end up **bloating** the _Room_ class, making it more difficult
@@ -407,17 +408,17 @@ used to allow for more complex _colliders_.
 
 #### Implementation
 
-This solution allows the org.g73.skanedweller.model to easily check if two objects collide with each
+This solution allows the model to easily check if two objects collide with each
 other, as defined in the `getCollidingElems()` method of the
-[_Room class_](/src/main/java/org.g73.skanedweller.model/Room.java).
+[_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java).
 
 ![Composite collider UML class diagram](/docs/uml/colliders_composite.png)
 
 The classes in the UML class diagram above can be found in following files:
 
-- [Collider](/src/main/java/org.g73.skanedweller.model/colliders/Collider.java)
-- [CompositeCollider](/src/main/java/org.g73.skanedweller.model/colliders/CompositeCollider.java)
-- [RectangleCollider](/src/main/java/org.g73.skanedweller.model/colliders/RectangleCollider.java)
+- [Collider](/src/main/java/org/g73/skanedweller/model/colliders/Collider.java)
+- [CompositeCollider](/src/main/java/org/g73/skanedweller/model/colliders/CompositeCollider.java)
+- [RectangleCollider](/src/main/java/org/g73/skanedweller/model/colliders/RectangleCollider.java)
 
 #### Consequences
 
@@ -429,10 +430,10 @@ it's much simpler and leads to many less code smells.
 
 ### Bloaters
 
-The [_Room class_](/src/main/java/org.g73.skanedweller.model/Room.java) is Bloater (_Large class_). This
-is problematic because finding specific code segments to work on inside the class
-can prove cumbersome and the class as a `tendecy' to violate the
-Single-responsibility principle.
+The [_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java) is a Bloater
+(_Large class_). This is problematic because finding specific code segments
+to work on inside the class can prove cumbersome and the class as a
+`tendecy' to violate the Single-responsibility principle.
 
 We could improve the code by dividing the Room class into smaller, more specific,
 classes.
@@ -442,7 +443,7 @@ which are bloaters, but we believe all alternatives are inferior design-wise.
 
 ### Dispensables
 
-The ray-casting related code inside the [_Room class_](/src/main/java/org.g73.skanedweller.model/Room.java)
+The ray-casting related code inside the [_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java)
 on the two private helper functions `octant03Ray` and `octant12Ray` looks almost
 duplicated.
 
@@ -451,17 +452,17 @@ but we haven't been able to find a way to that.
 
 ### Couplers
 
-The [_SkaneController class_](/src/main/java/org.g73.skanedweller.controller/SkaneController.java) is
+The [_SkaneController class_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java) is
 an example of a class that uses the data of another class more that its own. In
 this case, the data of the
-[_Skane_ class](/src/main/java/org.g73.skanedweller.model/element/skane/Skane.java).
+[_Skane_ class](/src/main/java/org/g73/skanedweller/model/element/skane/Skane.java).
 
 We don't think this code smell represents and actual problem in this case.
 
 ### Change Preventers
 
-The [_Element hierarchy_](/src/main/java/org.g73.skanedweller.model/element) and the
-[_View hierarchy_](/src/main/java/org.g73.skanedweller.view/element_views) are both
+The [_Element hierarchy_](/src/main/java/org/g73/skanedweller/model/element) and the
+[_View hierarchy_](/src/main/java/org/g73/skanedweller/view/element_views) are both
 **Parallel Inheritance Hierarchies**. If we wanted to add a new element
 to the game, we would be obliged to create a new _Model_ class and a new
 _View_ class for it.
