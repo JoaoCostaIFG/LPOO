@@ -25,7 +25,7 @@ interface Movable {
   + setMovCounter(numTicks)
   + tickMovCounter()
   + setMoveStrat(moveStrat)
-  + genMoves(model, element) : List<Position>
+  + genMoves(org.g73.skanedweller.model, element) : List<Position>
 }
 
 class AgressiveBehaviour {}

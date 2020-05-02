@@ -7,7 +7,7 @@ skinparam shadowing false
 
 interface Movable {
   + setMoveStrat(moveStrat)
-  + genMoves(model, element) : List<Position>
+  + genMoves(org.g73.skanedweller.model, element) : List<Position>
 }
 
 interface MoveStrategy {
