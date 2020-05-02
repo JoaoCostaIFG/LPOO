@@ -70,7 +70,7 @@ is drawn.
 #### The pattern
 
 To solve these problems, we implemented the
-[MVC](https://en.wikipedia.org/w/index.php?title=Model%E2%80%93view%E2%80%93controller&oldid=952768599)
+[**MVC**](https://en.wikipedia.org/w/index.php?title=Model%E2%80%93view%E2%80%93controller&oldid=952768599)
 (Model-View-Controller) architectural pattern. Its early adoption during
 the development made the implementation easy and “straight forward”.
 
