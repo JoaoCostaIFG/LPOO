@@ -10,8 +10,6 @@ import org.g73.skanedweller.model.element.element_behaviours.ImmortalBehaviour;
 import org.g73.skanedweller.model.element.element_behaviours.ImovableBehaviour;
 
 public class SkaneBody extends Element {
-    private Collider collider;
-
     public SkaneBody(Position pos) {
         super(pos,
                 new AgressiveBehaviour(),

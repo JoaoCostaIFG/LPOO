@@ -158,4 +158,15 @@ public class RoomTests {
         assertEquals(1, list.size());
         assertEquals(wall, list.get(0));
     }
+
+    @Test
+    public void setRoomSize() {
+        room = new Room(100, 200);
+        assertEquals(room.getWidth(), 100);
+        assertEquals(room.getHeight(), 200);
+
+        room.setSize(300, 400);
+        assertEquals(room.getWidth(), 300);
+        assertEquals(room.getHeight(), 400);
+    }
 }

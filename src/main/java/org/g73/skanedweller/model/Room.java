@@ -13,7 +13,7 @@ import org.g73.skanedweller.observe.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room implements Observable<Room> {
+public class Room {
     private int width, height;
     private List<Observer<Room>> observers;
     private Skane skane = null;
@@ -88,10 +88,6 @@ public class Room implements Observable<Room> {
         return elems;
     }
 
-    public void moveSkane(Position new_p) {
-        this.skane.setPos(new_p);
-    }
-
     public void addElement(Element e) {
         if (e instanceof Skane) skane = (Skane) e;
         else if (e instanceof Wall) walls.add((Wall) e);
@@ -148,22 +144,6 @@ public class Room implements Observable<Room> {
         List<Collidable> res = getColliding(element);
         element.shadowStep(oldPos);
         return res;
-    }
-
-    @Override
-    public void addObserver(Observer<Room> obs) {
-        this.observers.add(obs);
-    }
-
-    @Override
-    public void removeObserver(Observer<Room> observer) {
-        this.observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers(Room subject) {
-        for (Observer<Room> observer : this.observers)
-            observer.changed(this);
     }
 
     private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
