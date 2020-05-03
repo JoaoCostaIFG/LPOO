@@ -31,12 +31,18 @@ public class Drawer implements RoomDrawer {
     private WallView wallView;
 
     public Drawer(TextGraphics gra) {
+        this(gra, new CivieView(), new MeleeGuyView(),
+                new RoomView(), new SkaneView(), new WallView());
+    }
+
+    public Drawer(TextGraphics gra, CivieView civieView, MeleeGuyView meleeGuyView, RoomView roomView,
+                  SkaneView skaneView, WallView wallView) {
         this.gra = gra;
-        civieView = new CivieView();
-        meleeGuyView = new MeleeGuyView();
-        roomView = new RoomView();
-        skaneView = new SkaneView();
-        wallView = new WallView();
+        this.civieView = civieView;
+        this.meleeGuyView = meleeGuyView;
+        this.roomView = roomView;
+        this.skaneView = skaneView;
+        this.wallView = wallView;
     }
 
     private boolean isOutsideSkaFov(Element e, Position skaPos, boolean isSkaBury) {
