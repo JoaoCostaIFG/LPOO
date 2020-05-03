@@ -39,6 +39,14 @@ public class Gui {
         this.event = EVENT.NullEvent;
     }
 
+    public Gui(Room room, Screen screen, TerminalResizeHandler resize_handler, RoomDrawer drawer) {
+        this.room = room;
+        this.screen = screen;
+        this.resize_handler = resize_handler;
+        this.drawer = drawer;
+        this.event = EVENT.NullEvent;
+    }
+
     public void stopInputHandler() {
         // TODO dunno if it works
         input_handler.interrupt();
