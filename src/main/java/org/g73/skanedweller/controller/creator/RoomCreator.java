@@ -2,12 +2,14 @@ package org.g73.skanedweller.controller.creator;
 
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
+import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Civilian;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.MeleeGuy;
 import org.g73.skanedweller.model.element.Wall;
 import org.g73.skanedweller.model.element.skane.Skane;
+import org.g73.skanedweller.view.element_views.CivieView;
 
 public class RoomCreator {
     private CreatorUtilities creatorUtls;
@@ -53,20 +55,16 @@ public class RoomCreator {
     }
 
     private void createEnemies(Room room, int width, int height) {
-        ScaredMoveStrat scared_strat = new ScaredMoveStrat(12);
-        Civilian c;
+        CivieCreator cc = new CivieCreator(); // Mc Champions - Ebola
         for (int i = 0; i < 1; ++i) {
-            c = new Civilian(creatorUtls.getRdmPosRoom(width, height), 1);
-            c.setMoveStrat(scared_strat);
-            addRoomElement(room, c);
+            Position pos = creatorUtls.getRdmPosRoom(width, height);
+            addRoomElement(room, cc.create(pos));
         }
 
-        MeleeMoveStrat meleeStrat = new MeleeMoveStrat(4);
-        MeleeGuy m;
+        MeleeCreator mc = new MeleeCreator(); // Mc Champions - Ebola
         for (int i = 0; i < 1; ++i) {
-            m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1);
-            m.setMoveStrat(meleeStrat);
-            addRoomElement(room, m);
+            Position pos = creatorUtls.getRdmPosRoom(width, height);
+            addRoomElement(room, mc.create(pos));
         }
     }
 

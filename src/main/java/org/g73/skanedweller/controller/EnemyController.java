@@ -4,6 +4,7 @@ import org.g73.skanedweller.controller.collision_strategy.BlockCollision;
 import org.g73.skanedweller.controller.collision_strategy.CollisionStrategy;
 import org.g73.skanedweller.controller.collision_strategy.NullCollision;
 import org.g73.skanedweller.controller.collision_strategy.SkaneDamagedStrat;
+import org.g73.skanedweller.controller.creator.MeleeCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Civilian;
@@ -27,9 +28,13 @@ public class EnemyController extends MovableController<Element> {
                 put(MeleeGuy.class, new NullCollision());
                 put(Civilian.class, new NullCollision());
             }};
+    private Spawner spawner;
+    private final Integer maxMelee = 5;
+    private final Integer meleeDelay = 30 * 10; // 10 seconds
 
     public EnemyController() {
         super(colHandlerMap);
+        this.spawner = new Spawner(maxMelee, meleeDelay, new MeleeCreator(), new Position(3, 3));
     }
 
     public EnemyController(CollisionHandler colHandler) {
@@ -55,7 +60,9 @@ public class EnemyController extends MovableController<Element> {
 
     @Override
     public void update(Room room) {
+        this.spawner.update(room);
         this.MoveEnemies(room);
+        room.getEnemies().removeIf(me -> (!me.isAlive()));
     }
 
     @Override

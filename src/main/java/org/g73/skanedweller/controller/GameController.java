@@ -61,7 +61,6 @@ public class GameController implements Controller {
         //for (Element e : room.getEnemies()) {
         // TODO spawn dead body (if n papado)
         //}
-        room.getEnemies().removeIf(me -> (!me.isAlive()));
     }
 
     private void run() throws IOException {
