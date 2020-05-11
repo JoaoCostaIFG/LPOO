@@ -17,9 +17,11 @@ public class RangedMoveStrat extends ChaseStrat {
      * When inside its shooting range, attempts to shoot.
      */
     private int ticksBetweenMoves;
+    private int range;
 
-    public RangedMoveStrat(int ticksBetweenMoves) {
+    public RangedMoveStrat(int ticksBetweenMoves, int range) {
         this.ticksBetweenMoves = ticksBetweenMoves;
+        this.range = range;
     }
 
     @Override
@@ -28,17 +30,19 @@ public class RangedMoveStrat extends ChaseStrat {
         if (r.isSkaneBury())
             return new ArrayList<>();
 
-        boolean canShoot = false;
         Position ePos = e.getPos();
         Skane ska = r.getSkane();
         List<PosDist> listPos = new ArrayList<>();
 
         // Head
-        addRayPos(r, listPos, ePos, ska.getPos());
+        if (addRayPos(r, listPos, ePos, ska.getPos()) < this.range)
+            return new ArrayList<>();
 
         // Body
-        for (SkaneBody sb : ska.getBody())
-            addRayPos(r, listPos, ePos, sb.getPos());
+        for (SkaneBody sb : ska.getBody()) {
+            if (addRayPos(r, listPos, ePos, sb.getPos()) < this.range)
+                return new ArrayList<>();
+        }
 
         // Scent
         if (listPos.size() == 0) { // If can't see skane

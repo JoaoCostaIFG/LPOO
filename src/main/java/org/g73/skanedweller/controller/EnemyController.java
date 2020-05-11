@@ -6,10 +6,7 @@ import org.g73.skanedweller.controller.collision_strategy.NullCollision;
 import org.g73.skanedweller.controller.collision_strategy.SkaneDamagedStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.Civilian;
-import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.MeleeGuy;
-import org.g73.skanedweller.model.element.Wall;
+import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
@@ -26,6 +23,7 @@ public class EnemyController extends MovableController<Element> {
                 put(Wall.class, new BlockCollision());
                 put(MeleeGuy.class, new NullCollision());
                 put(Civilian.class, new NullCollision());
+                put(RangedGuy.class, new NullCollision());
             }};
 
     public EnemyController() {

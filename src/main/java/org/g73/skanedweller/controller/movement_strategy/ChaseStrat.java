@@ -20,12 +20,17 @@ public abstract class ChaseStrat implements MoveStrategy {
         }
     }
 
-    protected void addRayPos(Room r, List<PosDist> posDistList, Position s, Position t) {
+    protected double addRayPos(Room r, List<PosDist> posDistList, Position s, Position t) {
+        double dist = -1;
         List<Element> rayResult = r.raycast(s, t);
         if (rayResult.size() > 0) {
-            if (r.isSkanePos(rayResult.get(0).getPos()))
-                posDistList.add(new PosDist(t, s.dist(t)));
+            if (r.isSkanePos(rayResult.get(0).getPos())) {
+                dist = s.dist(t);
+                posDistList.add(new PosDist(t, dist));
+            }
         }
+
+        return dist;
     }
 
     protected boolean checkRayScent(Room r, Position sourcePos, Position scentPos) {
