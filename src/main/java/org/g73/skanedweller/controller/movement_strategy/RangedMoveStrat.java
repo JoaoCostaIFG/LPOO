@@ -10,14 +10,15 @@ import org.g73.skanedweller.model.element.skane.SkaneBody;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeleeMoveStrat extends ChaseStrat {
+public class RangedMoveStrat extends ChaseStrat {
     /*
      * Attempts to get to the closest part of the skane it can see. Otherwise,
      * follows the 'freshest' scent (from the 'Skanes' scent trail) it can see.
+     * When inside its shooting range, attempts to shoot.
      */
     private int ticksBetweenMoves;
 
-    public MeleeMoveStrat(int ticksBetweenMoves) {
+    public RangedMoveStrat(int ticksBetweenMoves) {
         this.ticksBetweenMoves = ticksBetweenMoves;
     }
 
@@ -27,6 +28,7 @@ public class MeleeMoveStrat extends ChaseStrat {
         if (r.isSkaneBury())
             return new ArrayList<>();
 
+        boolean canShoot = false;
         Position ePos = e.getPos();
         Skane ska = r.getSkane();
         List<PosDist> listPos = new ArrayList<>();

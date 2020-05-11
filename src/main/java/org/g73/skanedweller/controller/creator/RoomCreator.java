@@ -3,10 +3,7 @@ package org.g73.skanedweller.controller.creator;
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
 import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.Civilian;
-import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.MeleeGuy;
-import org.g73.skanedweller.model.element.Wall;
+import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.skane.Skane;
 
 public class RoomCreator {
@@ -55,7 +52,7 @@ public class RoomCreator {
     private void createEnemies(Room room, int width, int height) {
         ScaredMoveStrat scared_strat = new ScaredMoveStrat(12);
         Civilian c;
-        for (int i = 0; i < 1; ++i) {
+        for (int i = 0; i < 0; ++i) {
             c = new Civilian(creatorUtls.getRdmPosRoom(width, height), 1);
             c.setMoveStrat(scared_strat);
             addRoomElement(room, c);
@@ -63,10 +60,18 @@ public class RoomCreator {
 
         MeleeMoveStrat meleeStrat = new MeleeMoveStrat(4);
         MeleeGuy m;
-        for (int i = 0; i < 1; ++i) {
+        for (int i = 0; i < 0; ++i) {
             m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1);
             m.setMoveStrat(meleeStrat);
             addRoomElement(room, m);
+        }
+
+        //MeleeMoveStrat meleeStrat = new MeleeMoveStrat(4);
+        RangedGuy rg;
+        for (int i = 0; i < 1; ++i) {
+            rg = new RangedGuy(creatorUtls.getRdmPosRoom(width, height), 1, 2);
+            rg.setMoveStrat(meleeStrat);
+            addRoomElement(room, rg);
         }
     }
 

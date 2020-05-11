@@ -1,9 +1,6 @@
 package org.g73.skanedweller.model;
 
-import org.g73.skanedweller.model.element.Civilian;
-import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.MeleeGuy;
-import org.g73.skanedweller.model.element.Wall;
+import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
@@ -91,8 +88,9 @@ public class Room {
     public void addElement(Element e) {
         if (e instanceof Skane) skane = (Skane) e;
         else if (e instanceof Wall) walls.add((Wall) e);
-        else if (e instanceof Civilian) enemies.add((Civilian) e);
-        else if (e instanceof MeleeGuy) enemies.add((MeleeGuy) e);
+        else if (e instanceof Civilian) enemies.add(e);
+        else if (e instanceof MeleeGuy) enemies.add(e);
+        else if (e instanceof RangedGuy) enemies.add(e);
     }
 
     public void addElements(List<Element> elems) {
