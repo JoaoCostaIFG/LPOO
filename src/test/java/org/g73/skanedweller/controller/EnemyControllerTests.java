@@ -4,6 +4,7 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.MeleeGuy;
+import org.g73.skanedweller.model.element.skane.Skane;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -16,7 +17,7 @@ public class EnemyControllerTests {
     EnemyController controller;
     MeleeGuy enemy1;
     MeleeGuy enemy2;
-
+    Skane ska;
 
     @Before
     public void setUp() {
@@ -24,6 +25,10 @@ public class EnemyControllerTests {
         this.controller = new EnemyController();
         this.enemy1 = Mockito.mock(MeleeGuy.class);
         this.enemy2 = Mockito.mock(MeleeGuy.class);
+
+        this.ska = Mockito.mock(Skane.class);
+        Mockito.when(room.getSkane()).thenReturn(this.ska);
+        Mockito.when(ska.isBury()).thenReturn(false);
 
         // set up enemies
         Mockito.when(enemy1.getMovCounter()).thenReturn(5);

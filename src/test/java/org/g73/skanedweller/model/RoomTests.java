@@ -38,7 +38,7 @@ public class RoomTests {
         assertEquals(room.getEnemies().size(), 1);
         assertEquals(room.getEnemies().get(0), civie);
 
-        MeleeGuy melee = new MeleeGuy(55,67, 3, 10);
+        MeleeGuy melee = new MeleeGuy(55,67, 3, 10, 1);
         room.addElement(melee);
         assertEquals(room.getEnemies().size(), 2);
         assertEquals(room.getEnemies().get(1), melee);

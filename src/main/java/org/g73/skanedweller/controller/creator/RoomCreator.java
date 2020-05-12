@@ -1,5 +1,7 @@
 package org.g73.skanedweller.controller.creator;
 
+import org.g73.skanedweller.controller.attack_strategy.MeleeGuyAtkStrat;
+import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
@@ -53,25 +55,29 @@ public class RoomCreator {
     private void createEnemies(Room room, int width, int height) {
         ScaredMoveStrat scared_strat = new ScaredMoveStrat(12);
         Civilian c;
-        for (int i = 0; i < 1; ++i) {
+        for (int i = 0; i < 0; ++i) {
             c = new Civilian(creatorUtls.getRdmPosRoom(width, height), 1);
             c.setMoveStrat(scared_strat);
             addRoomElement(room, c);
         }
 
-        MeleeMoveStrat meleeStrat = new MeleeMoveStrat(4);
+        MeleeMoveStrat meleeMoveStrat = new MeleeMoveStrat(4);
+        MeleeGuyAtkStrat meleeAtkStrat = new MeleeGuyAtkStrat(30);
         MeleeGuy m;
-        for (int i = 0; i < 1; ++i) {
-            m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1);
-            m.setMoveStrat(meleeStrat);
+        for (int i = 0; i < 0; ++i) {
+            m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1, 1);
+            m.setMoveStrat(meleeMoveStrat);
+            m.setAtkStrat(meleeAtkStrat);
             addRoomElement(room, m);
         }
 
-        RangedMoveStrat rangedStrat = new RangedMoveStrat(6, 10);
+        RangedMoveStrat rangedMoveStrat = new RangedMoveStrat(8);
+        RangedGuyAtkStrat rangedAtkStrat = new RangedGuyAtkStrat(60);
         RangedGuy rg;
         for (int i = 0; i < 1; ++i) {
-            rg = new RangedGuy(creatorUtls.getRdmPosRoom(width, height), 1, 2);
-            rg.setMoveStrat(rangedStrat);
+            rg = new RangedGuy(creatorUtls.getRdmPosRoom(width, height), 1, 2, 12);
+            rg.setMoveStrat(rangedMoveStrat);
+            rg.setAtkStrat(rangedAtkStrat);
             addRoomElement(room, rg);
         }
     }

@@ -52,7 +52,7 @@ public class DrawerTests {
         Skane s = new Skane(withinSkane, 1, 1, 1, 1);
         Wall w1 = new Wall(withinSkane), w2 = new Wall(outsideSkane);
         Civilian c1 = new Civilian(withinSkane, 1), c2 = new Civilian(outsideSkane, 1);
-        MeleeGuy m1 = new MeleeGuy(withinSkane, 1, 1);
+        MeleeGuy m1 = new MeleeGuy(withinSkane, 1, 1, 1);
         mockElements(room, s, List.of(w1, w2), List.of(c1, c2, m1));
 
         this.drawer.draw(room);
@@ -76,7 +76,7 @@ public class DrawerTests {
         Skane s = new Skane(withinSkane, 1, 1, 1, 1);
         Wall w1 = new Wall(withinSkane), w2 = new Wall(outsideSkane), w3 = new Wall(outsideSkane2);
         Civilian c1 = new Civilian(withinSkane, 1), c2 = new Civilian(outsideSkane3, 1);
-        MeleeGuy m1 = new MeleeGuy(withinSkane2, 1, 1);
+        MeleeGuy m1 = new MeleeGuy(withinSkane2, 1, 1, 1);
         mockElements(room, s, List.of(w1, w2, w3), List.of(c1, c2, m1));
 
         this.drawer.draw(room);

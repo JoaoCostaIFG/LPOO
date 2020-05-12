@@ -25,7 +25,7 @@ public class Skane extends Element {
 
     public Skane(Position pos, int atk, int hp, int oxy, int size) {
         super(pos,
-                new AgressiveBehaviour(atk),
+                new AgressiveBehaviour(atk, 0), // TODO
                 new CollidableBehaviour(new RectangleCollider(pos, 1, 1)),
                 new MortalBehaviour(hp),
                 new ImovableBehaviour());
@@ -125,5 +125,12 @@ public class Skane extends Element {
         }
 
         super.setPos(new_pos);
+    }
+
+    @Override
+    public void takeDamage(int dmg) {
+        super.takeDamage(dmg);
+        for (int i = 0; i < dmg && getSize() > 0; ++i)
+            shrink();
     }
 }

@@ -3,7 +3,6 @@ package org.g73.skanedweller.controller.movement_strategy;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.skane.Scent;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
 
@@ -39,16 +38,8 @@ public class MeleeMoveStrat extends ChaseStrat {
             addRayPos(r, listPos, ePos, sb.getPos());
 
         // Scent
-        if (listPos.size() == 0) { // If can't see skane
-            Scent freshestScent = null;
-            for (Scent s : ska.getScentTrail()) {
-                if (checkRayScent(r, ePos, s.getPos()))
-                    freshestScent = s;
-            }
-
-            if (freshestScent != null)
-                listPos.add(new PosDist(freshestScent.getPos(), ePos.dist(freshestScent.getPos())));
-        }
+        if (listPos.size() == 0) // If can't see skane
+            chaseScent(r, ePos, listPos);
 
         return convertToSortPosList(listPos, ePos);
     }

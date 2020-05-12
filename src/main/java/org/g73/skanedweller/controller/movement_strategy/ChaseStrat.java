@@ -4,9 +4,12 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.element_behaviours.MoveStrategy;
+import org.g73.skanedweller.model.element.skane.Scent;
+import org.g73.skanedweller.model.element.skane.Skane;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 public abstract class ChaseStrat implements MoveStrategy {
@@ -21,7 +24,7 @@ public abstract class ChaseStrat implements MoveStrategy {
     }
 
     protected double addRayPos(Room r, List<PosDist> posDistList, Position s, Position t) {
-        double dist = -1;
+        double dist = Double.MAX_VALUE;
         List<Element> rayResult = r.raycast(s, t);
         if (rayResult.size() > 0) {
             if (r.isSkanePos(rayResult.get(0).getPos())) {
@@ -62,5 +65,16 @@ public abstract class ChaseStrat implements MoveStrategy {
         }
 
         return posList;
+    }
+
+    protected void chaseScent(Room r, Position ePos, List<PosDist> listPos) {
+        Scent freshestScent = null;
+        for (Scent s : r.getSkane().getScentTrail()) {
+            if (checkRayScent(r, ePos, s.getPos()))
+                freshestScent = s;
+        }
+
+        if (freshestScent != null)
+            listPos.add(new PosDist(freshestScent.getPos(), ePos.dist(freshestScent.getPos())));
     }
 }

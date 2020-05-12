@@ -117,8 +117,8 @@ public class CreatorTests {
             assertEquals(sb.getPos(), new Position(2, 1));
 
         // mock has no repeated positions
-        verify(rdm, times(4)).nextInt(width - 2);
-        verify(rdm, times(4)).nextInt(heigth - 2);
+        verify(rdm, times(2)).nextInt(width - 2);
+        verify(rdm, times(2)).nextInt(heigth - 2);
         Mockito.verifyNoMoreInteractions(rdm);
 
         // nothing generated on top of anything else (except skane)
