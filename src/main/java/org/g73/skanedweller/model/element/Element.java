@@ -138,9 +138,14 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
     }
 
     @Override
-    public boolean attack(Element me, Element target) {
+    public boolean attack(Room room, Element me, Element target) {
         // FIXME
-        return agressiveBehaviour.attack(me, target);
+        return agressiveBehaviour.attack(room , me, target);
+    }
+
+    public boolean attack(Room room, Element target) {
+        // FIXME
+        return attack(room, this, target);
     }
 
     @Override
@@ -156,11 +161,6 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
     @Override
     public void tickAtkCounter() {
         agressiveBehaviour.tickAtkCounter();
-    }
-
-    public boolean attack(Element target) {
-        // FIXME
-        return attack(this, target);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.attack_strategy.MeleeGuyAtkStrat;
+import org.g73.skanedweller.controller.attack_strategy.MeleeAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
@@ -62,7 +62,7 @@ public class RoomCreator {
         }
 
         MeleeMoveStrat meleeMoveStrat = new MeleeMoveStrat(4);
-        MeleeGuyAtkStrat meleeAtkStrat = new MeleeGuyAtkStrat(30);
+        MeleeAtkStrat meleeAtkStrat = new MeleeAtkStrat(30);
         MeleeGuy m;
         for (int i = 0; i < 0; ++i) {
             m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1, 1);
@@ -72,7 +72,7 @@ public class RoomCreator {
         }
 
         RangedMoveStrat rangedMoveStrat = new RangedMoveStrat(8);
-        RangedGuyAtkStrat rangedAtkStrat = new RangedGuyAtkStrat(60);
+        RangedGuyAtkStrat rangedAtkStrat = new RangedGuyAtkStrat(60, 0);
         RangedGuy rg;
         for (int i = 0; i < 1; ++i) {
             rg = new RangedGuy(creatorUtls.getRdmPosRoom(width, height), 1, 2, 12);

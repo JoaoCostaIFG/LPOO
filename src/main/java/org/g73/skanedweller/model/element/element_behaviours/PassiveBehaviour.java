@@ -1,5 +1,6 @@
 package org.g73.skanedweller.model.element.element_behaviours;
 
+import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 
 public class PassiveBehaviour implements Agressive {
@@ -27,7 +28,7 @@ public class PassiveBehaviour implements Agressive {
     }
 
     @Override
-    public boolean attack(Element me, Element target) {
+    public boolean attack(Room room, Element me, Element target) {
         return false;
     }
 

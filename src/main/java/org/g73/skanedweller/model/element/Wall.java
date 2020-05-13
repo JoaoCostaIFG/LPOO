@@ -2,7 +2,10 @@ package org.g73.skanedweller.model.element;
 
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.colliders.RectangleCollider;
-import org.g73.skanedweller.model.element.element_behaviours.*;
+import org.g73.skanedweller.model.element.element_behaviours.CollidableBehaviour;
+import org.g73.skanedweller.model.element.element_behaviours.ImmortalBehaviour;
+import org.g73.skanedweller.model.element.element_behaviours.ImovableBehaviour;
+import org.g73.skanedweller.model.element.element_behaviours.PassiveBehaviour;
 
 public class Wall extends Element {
     public Wall(Position pos) {

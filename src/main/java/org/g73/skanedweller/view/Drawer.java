@@ -13,6 +13,7 @@ public class Drawer implements RoomDrawer {
     private static final TextColor bg = fromString("#313742");
     private static final TextColor bgDark = fromString("#212833");
     private static final TextColor blue = fromString("#0E91E7");
+    private static final TextColor brightRed = fromString("#C00000");
     private static final TextColor green = fromString("#76A15D");
     private static final TextColor orange = fromString("#D68445");
     private static final TextColor purple = fromString("#8558AD");
@@ -30,14 +31,15 @@ public class Drawer implements RoomDrawer {
     private WallView wallView;
 
     public Drawer(TextGraphics gra) {
-        this(gra, new CivieView(), new MeleeGuyView(),
-                new RangedGuyView(), new RoomView(),
-                new SkaneView(), new WallView());
+        this(gra, new CivieView(),
+                new MeleeGuyView(), new RangedGuyView(),
+                new RoomView(), new SkaneView(),
+                new WallView());
     }
 
-    public Drawer(TextGraphics gra, CivieView civieView, MeleeGuyView meleeGuyView,
-                  RangedGuyView rangedGuyView, RoomView roomView,
-                  SkaneView skaneView, WallView wallView) {
+    public Drawer(TextGraphics gra, CivieView civieView,
+                  MeleeGuyView meleeGuyView, RangedGuyView rangedGuyView,
+                  RoomView roomView, SkaneView skaneView, WallView wallView) {
         this.gra = gra;
         this.civieView = civieView;
         this.meleeGuyView = meleeGuyView;

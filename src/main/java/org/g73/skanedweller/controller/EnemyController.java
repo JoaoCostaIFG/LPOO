@@ -39,10 +39,10 @@ public class EnemyController extends MovableController<Element> {
         if (ska.isBury())
             return false;
 
-        if (e.attack(ska))
+        if (e.attack(room, ska))
             return true;
         for (SkaneBody sb : ska.getBody()) {
-            if (e.attack(sb))
+            if (e.attack(room, sb))
                 return true;
         }
 
