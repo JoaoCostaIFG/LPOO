@@ -82,7 +82,7 @@ public class Skane extends Element {
     }
 
     public void grow() {
-        body.add(0, new SkaneBody(this.getPos()));
+        body.add(0, new SkaneBody(this.getPos(), this));
     }
 
     public void shrink() {
