@@ -20,6 +20,9 @@ public abstract class MovableController<T> implements Controller {
     }
 
     public boolean canMove(Position newPos, Element e, Room room) {
+        if (newPos.equals(e.getPos()))
+            return false;
+
         for (Collidable c : room.getCollidingElemsInPos(e, newPos)) {
             if (!colHandler.handleCollision(e, c))
                 return false;

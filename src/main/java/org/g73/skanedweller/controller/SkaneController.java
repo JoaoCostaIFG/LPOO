@@ -20,13 +20,12 @@ import java.util.Map;
 
 public class SkaneController extends MovableController<Skane> implements PlayerController {
     private Skane ska;
-    private int maxOxy;
     private int scentDur;
     private EVENT currEvent;
 
     protected static final Map<Class<? extends Collidable>, CollisionStrategy> colHandlerMap =
             new HashMap<Class<? extends Collidable>, CollisionStrategy>() {{
-                put(Skane.class, new NullCollision());
+                put(Skane.class, new BlockCollision());
                 put(SkaneBody.class, new NullCollision());
                 put(Wall.class, new BlockCollision());
                 put(MeleeGuy.class, new SkaneAttackCollision());
@@ -37,20 +36,19 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
     public SkaneController(Skane ska, int scentDur) {
         super(colHandlerMap);
         this.ska = ska;
-        this.maxOxy = ska.getMaxOxygenLevel();
         this.scentDur = scentDur;
         this.currEvent = EVENT.NullEvent;
     }
 
     public void takeDamage(int dmg) {
-        if (dmg < 0) return;
+        if (dmg <= 0) return;
         ska.takeDamage(dmg);
         for (int i = 0; i < dmg; ++i)
             ska.shrink();
     }
 
     public void nom(int nourishment) {
-        if (nourishment < 0) return;
+        if (nourishment <= 0) return;
         ska.setHp(ska.getHp() + nourishment);
         for (int i = 0; i < nourishment; ++i)
             ska.grow();
@@ -59,7 +57,7 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
     public void toggleBury() {
         if (ska.isBury())
             ska.bury(false);
-        else if (ska.getOxygenLevel() == maxOxy)
+        else if (ska.getOxygenLevel() == ska.getMaxOxygenLevel())
             ska.bury(true);
     }
 
@@ -70,8 +68,8 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
 
         if (ska.isBury())
             ska.setOxygenLevel(oxy_lvl - 1);
-        else if (oxy_lvl < maxOxy)
-            ska.setOxygenLevel(Math.min(oxy_lvl + 2, maxOxy));
+        else if (oxy_lvl < ska.getMaxOxygenLevel())
+            ska.setOxygenLevel(Math.min(oxy_lvl + 2, ska.getMaxOxygenLevel()));
     }
 
     public void tickScentTrail() {
@@ -89,7 +87,6 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
         if (currEvent == EVENT.NullEvent) return;
         else if (currEvent == EVENT.Bury) toggleBury();
         else { // Movement Event
-            ska.dropScent(scentDur);
             Position newPos;
             switch (currEvent) {
                 case MoveLeft:

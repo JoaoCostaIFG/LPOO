@@ -16,29 +16,34 @@ public class SkaneControllerTests {
     Skane ska;
     Room room;
 
+    private final int scentDur = 3;
+
     @Before
     public void setUp() {
         ska = new Skane(1, 1, 1, 1, 200, 1);
-        skaCtr = new SkaneController(ska, 3);
+        skaCtr = new SkaneController(ska, scentDur);
         room = Mockito.mock(Room.class);
     }
 
     public void setUpMock() {
         ska = Mockito.mock(Skane.class);
-        skaCtr = new SkaneController(ska, 3);
+        skaCtr = new SkaneController(ska, scentDur);
     }
 
     @Test
     public void bury() {
         assertEquals(false, ska.isBury());
-        skaCtr.setEvent(EVENT.Bury); skaCtr.update(this.room);
+        skaCtr.setEvent(EVENT.Bury);
+        skaCtr.update(this.room);
         assertEquals(true, ska.isBury());
-        skaCtr.setEvent(EVENT.Bury); skaCtr.update(this.room);
+        skaCtr.setEvent(EVENT.Bury);
+        skaCtr.update(this.room);
         assertEquals(false, ska.isBury());
 
         ska.setOxygenLevel(150);
         assertEquals(false, ska.isBury());
-        skaCtr.setEvent(EVENT.Bury); skaCtr.update(this.room);
+        skaCtr.setEvent(EVENT.Bury);
+        skaCtr.update(this.room);
         assertEquals(false, ska.isBury());
     }
 
@@ -60,6 +65,30 @@ public class SkaneControllerTests {
     }
 
     @Test
+    public void goOutOfOxy() {
+        ska.bury(true);
+        int n = 200;
+        for (int i = 0; i < n; ++i)
+            skaCtr.update(room);
+        assertEquals(0, ska.getOxygenLevel());
+
+        assertEquals(true, ska.isBury());
+        skaCtr.update(room);
+        assertEquals(false, ska.isBury());
+    }
+
+    @Test
+    public void unburyMaxOxyInhale() {
+        setUpMock();
+        when(ska.getOxygenLevel()).thenReturn(200);
+        when(ska.getMaxOxygenLevel()).thenReturn(200);
+        when(ska.isBury()).thenReturn(false);
+
+        skaCtr.inhale();
+        verify(ska, never()).setOxygenLevel(anyInt());
+    }
+
+    @Test
     public void damage() {
         setUpMock();
         skaCtr.takeDamage(300);
@@ -68,6 +97,11 @@ public class SkaneControllerTests {
 
         reset(ska);
         skaCtr.takeDamage(-10);
+        verify(ska, never()).takeDamage(any(Integer.class));
+        verify(ska, never()).shrink();
+
+        reset(ska);
+        skaCtr.takeDamage(0);
         verify(ska, never()).takeDamage(any(Integer.class));
         verify(ska, never()).shrink();
     }
@@ -84,15 +118,69 @@ public class SkaneControllerTests {
         skaCtr.nom(-10);
         verify(ska, never()).setHp(any(Integer.class));
         verify(ska, never()).grow();
+
+        reset(ska);
+        skaCtr.nom(0);
+        verify(ska, never()).setHp(any(Integer.class));
+        verify(ska, never()).grow();
     }
 
     @Test
     public void update() {
         setUpMock();
+
+        Mockito.when(ska.moveLeft()).thenReturn(new Position(1, 1));
+        skaCtr.setEvent(EVENT.MoveLeft);
+        skaCtr.update(room);
+        verify(ska, times(1)).moveLeft();
+        verify(ska, times(1)).dropScent(scentDur);
+        verify(ska, times(1)).tickScentTrail();
+        verify(ska).setPos(eq(new Position(1, 1)));
+
+        reset(ska);
+        Mockito.when(ska.moveRight()).thenReturn(new Position(1, 1));
+        skaCtr.setEvent(EVENT.MoveRight);
+        skaCtr.update(room);
+        verify(ska, times(1)).moveRight();
+        verify(ska, times(1)).dropScent(scentDur);
+        verify(ska, times(1)).tickScentTrail();
+        verify(ska).setPos(eq(new Position(1, 1)));
+
+        reset(ska);
+        Mockito.when(ska.moveUp()).thenReturn(new Position(1, 1));
+        skaCtr.setEvent(EVENT.MoveUp);
+        skaCtr.update(room);
+        verify(ska, times(1)).moveUp();
+        verify(ska, times(1)).dropScent(scentDur);
+        verify(ska, times(1)).tickScentTrail();
+        verify(ska).setPos(eq(new Position(1, 1)));
+
+        reset(ska);
         Mockito.when(ska.moveDown()).thenReturn(new Position(1, 1));
         skaCtr.setEvent(EVENT.MoveDown);
         skaCtr.update(room);
-        Mockito.verify(ska).setPos(eq(new Position(1, 1)));
+        verify(ska, times(1)).moveDown();
+        verify(ska, times(1)).dropScent(scentDur);
+        verify(ska, times(1)).tickScentTrail();
+        verify(ska).setPos(eq(new Position(1, 1)));
+    }
 
+    @Test
+    public void dontCareEventUpdate() {
+        setUpMock();
+
+        when(ska.getPos()).thenReturn(new Position(5, 5));
+        skaCtr.setEvent(EVENT.QuitGame);
+        skaCtr.update(room);
+
+        verify(ska, never()).setPos(any());
+    }
+
+    @Test
+    public void Scent() {
+        setUpMock();
+        skaCtr.tickScentTrail();
+        verify(ska, times(1)).tickScentTrail();
+        verify(ska, times(1)).dropScent(scentDur);
     }
 }
