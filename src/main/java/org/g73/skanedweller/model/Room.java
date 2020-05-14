@@ -15,6 +15,7 @@ public class Room {
     private Skane skane = null;
     private List<Element> enemies;
     private List<Wall> walls;
+    private RayCasting rayCasting;
 
     public Room(int width, int height) {
         this.width = width;
@@ -35,6 +36,22 @@ public class Room {
     public void setSize(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public void setRayCasting(RayCasting rayCasting) {
+        this.rayCasting = rayCasting;
+    }
+
+    public RayCasting getRayCasting() {
+        return this.rayCasting;
+    }
+
+    public List<Position> posRay(Position s, Position t) {
+        return rayCasting.posRay(this, s, t);
+    }
+
+    public List<Element> elemRay(Position s, Position t) {
+        return rayCasting.elemRay(this, s, t);
     }
 
     public List<Wall> getWalls() {
@@ -141,158 +158,5 @@ public class Room {
         List<Collidable> res = getColliding(element);
         element.shadowStep(oldPos);
         return res;
-    }
-
-    private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-        // Line in octant 0 or 3 (|deltaX| >= |deltaY|).
-        List<Element> elems = new ArrayList<>();
-
-        int errorUp = deltaY * 2;
-        int errorDown = deltaX * 2 - errorUp;
-        int errorTerm = errorUp - deltaX;
-
-        int x = s.getX(), y = s.getY();
-        while (elems.size() == 0 && (x != t.getX() || y != t.getY())) {
-            if (errorTerm >= 0) {
-                y += yDirection;
-                errorTerm -= errorDown; // error goes down
-            } else {
-                errorTerm += errorUp;
-            }
-
-            x += xDirection;
-            elems = getSamePos(new Position(x, y));
-        }
-
-        return elems;
-    }
-
-    private List<Element> octant12Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-        // Line in octant 1 or 2 (|deltaX| <= |deltaY|).
-        List<Element> elems = new ArrayList<>();
-
-        int errorUp = deltaX * 2;
-        int errorDown = deltaY * 2 - errorUp;
-        int errorTerm = errorUp - deltaY;
-
-        int x = s.getX(), y = s.getY();
-        while (elems.size() == 0 && (x != t.getX() || y != t.getY())) {
-            if (errorTerm >= 0) {
-                x += xDirection;
-                errorTerm -= errorDown; // error goes down
-            } else {
-                errorTerm += errorUp;
-            }
-
-            y += yDirection;
-            elems = getSamePos(new Position(x, y));
-        }
-
-        return elems;
-    }
-
-    public List<Element> raycast(Position s, Position t) {
-        /* Bresenham's line-drawing algorithm adapted for collision detetion
-         * ray-casting. Integer arithmetic only version.
-         * Idea from: "Black Book - Special edition", by Michael Abrash's.
-         */
-        int deltaX = t.getX() - s.getX(); // 'length' of the line
-        int xDirection;
-        if (deltaX >= 0) {
-            xDirection = 1;
-        } else {
-            xDirection = -1;
-            deltaX = -deltaX; // abs
-        }
-
-        int deltaY = t.getY() - s.getY(); // 'height' of the line
-        int yDirection;
-        if (deltaY >= 0) {
-            yDirection = 1;
-        } else {
-            yDirection = -1;
-            deltaY = -deltaY; // abs
-        }
-
-        if (deltaX > deltaY)
-            return octant03Ray(s, t, deltaX, deltaY, xDirection, yDirection);
-        return octant12Ray(s, t, deltaX, deltaY, xDirection, yDirection);
-    }
-
-    // TODO FIXME
-    public List<Position> getRayLine(Position s, Position t) {
-        int deltaX = t.getX() - s.getX(); // 'length' of the line
-        int xDirection;
-        if (deltaX >= 0) {
-            xDirection = 1;
-        } else {
-            xDirection = -1;
-            deltaX = -deltaX; // abs
-        }
-
-        int deltaY = t.getY() - s.getY(); // 'height' of the line
-        int yDirection;
-        if (deltaY >= 0) {
-            yDirection = 1;
-        } else {
-            yDirection = -1;
-            deltaY = -deltaY; // abs
-        }
-
-        if (deltaX > deltaY)
-            return octant03RayLine(s, t, deltaX, deltaY, xDirection, yDirection);
-        return octant12RayLine(s, t, deltaX, deltaY, xDirection, yDirection);
-    }
-
-    private List<Position> octant03RayLine(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-        // Line in octant 0 or 3 (|deltaX| >= |deltaY|).
-        List<Position> ret = new ArrayList<>();
-
-        int errorUp = deltaY * 2;
-        int errorDown = deltaX * 2 - errorUp;
-        int errorTerm = errorUp - deltaX;
-
-        int x = s.getX(), y = s.getY();
-        while (x != t.getX() || y != t.getY()) {
-            if (errorTerm >= 0) {
-                y += yDirection;
-                errorTerm -= errorDown; // error goes down
-            } else {
-                errorTerm += errorUp;
-            }
-
-            x += xDirection;
-            ret.add(new Position(x, y));
-            if (getSamePos(new Position(x, y)).size() > 0)
-                break;
-        }
-
-        return ret;
-    }
-
-    private List<Position> octant12RayLine(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {
-        // Line in octant 1 or 2 (|deltaX| <= |deltaY|).
-        List<Position> ret = new ArrayList<>();
-
-        int errorUp = deltaX * 2;
-        int errorDown = deltaY * 2 - errorUp;
-        int errorTerm = errorUp - deltaY;
-
-        int x = s.getX(), y = s.getY();
-        while (x != t.getX() || y != t.getY()) {
-            if (errorTerm >= 0) {
-                x += xDirection;
-                errorTerm -= errorDown; // error goes down
-            } else {
-                errorTerm += errorUp;
-            }
-
-            y += yDirection;
-            ret.add(new Position(x, y));
-            if (getSamePos(new Position(x, y)).size() > 0)
-                break;
-        }
-
-        return ret;
     }
 }
