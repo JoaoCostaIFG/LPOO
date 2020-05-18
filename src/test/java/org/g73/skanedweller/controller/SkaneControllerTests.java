@@ -12,11 +12,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class SkaneControllerTests {
+    private final int scentDur = 3;
     SkaneController skaCtr;
     Skane ska;
     Room room;
-
-    private final int scentDur = 3;
 
     @Before
     public void setUp() {
