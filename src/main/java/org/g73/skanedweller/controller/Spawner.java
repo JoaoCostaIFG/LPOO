@@ -3,8 +3,10 @@ package org.g73.skanedweller.controller;
 import org.g73.skanedweller.controller.creator.Creator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
+import org.g73.skanedweller.model.element.Element;
+import org.g73.skanedweller.observe.Observer;
 
-public class Spawner {
+public class Spawner implements Observer<Room> {
     private Integer delay;
     private Integer currTick;
     private Integer currCount;
@@ -27,12 +29,21 @@ public class Spawner {
             return;
         }
 
-        if (currCount > maxCount)
+        if (currCount + 1 > maxCount)
             return;
 
         currTick = 0;
-        ++currCount;
-        // FIXME Use random gen here
         room.addElement(creator.create(spawningPosition));
+    }
+
+    @Override
+    public void changed(Room observable) {
+        currCount = 0;
+        Object trackObj = creator.create(spawningPosition);
+        for(Element e: observable.getElements()) {
+            if (e.getClass().equals(trackObj.getClass())) {
+                ++currCount;
+            }
+        }
     }
 }

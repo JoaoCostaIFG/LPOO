@@ -1,7 +1,9 @@
 package org.g73.skanedweller.controller;
 
 import com.googlecode.lanterna.TerminalSize;
+import org.g73.skanedweller.controller.creator.MeleeCreator;
 import org.g73.skanedweller.controller.creator.RoomCreator;
+import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.view.EVENT;
 import org.g73.skanedweller.view.Gui;
@@ -16,6 +18,7 @@ public class GameController implements Controller {
     private GAMEST state;
     private List<Controller> controllers;
     private PlayerController playerController;
+    private List<Spawner> spawners;
     private final int DELAY = 30; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
@@ -37,6 +40,10 @@ public class GameController implements Controller {
         controllers.add(new EnemyController());
         controllers.add(skaCtr);
         this.playerController = skaCtr;
+        this.spawners = createSpawners();
+
+        for (Spawner s: spawners)
+            room.addObserver(s);
     }
 
     public GameController(Room room) throws IOException {
@@ -48,6 +55,17 @@ public class GameController implements Controller {
         this(new RoomCreator().createRoom(80, 40));
     }
 
+    private static List<Spawner> createSpawners() {
+        List<Spawner> spawners = new ArrayList<>();
+        final Integer maxMelee = 3;
+        final Integer meleeDelay = 30 * 10; // 10 seconds
+        Spawner meleeSpawner =
+                new Spawner(maxMelee, meleeDelay, new MeleeCreator(), new Position(3, 3));
+
+        spawners.add(meleeSpawner);
+        return spawners;
+    }
+
     @Override
     public void update(Room room) {
         handleEvent(gui.getEvent());
@@ -56,6 +74,8 @@ public class GameController implements Controller {
         for (Controller c : this.controllers)
             c.update(room);
 
+        for (Spawner s: this.spawners)
+            s.update(room);
         // TODO
         // cleanup dead enemies
         //for (Element e : room.getEnemies()) {
@@ -105,6 +125,7 @@ public class GameController implements Controller {
         controllers.remove(playerController);
         this.playerController = new SkaneController(room.getSkane(), 200);
         controllers.add(playerController);
+        spawners = createSpawners();
     }
 
     public void end() {

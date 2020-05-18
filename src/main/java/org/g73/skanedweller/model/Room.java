@@ -4,12 +4,14 @@ import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
+import org.g73.skanedweller.observe.Observable;
 import org.g73.skanedweller.observe.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
-public class Room {
+public class Room implements Observable<Room> {
     private int width, height;
     private List<Observer<Room>> observers;
     private Skane skane = null;
@@ -90,11 +92,27 @@ public class Room {
         else if (e instanceof RangedGuy) enemies.add(e);
         else if (e instanceof Skane) skane = (Skane) e;
         else if (e instanceof Wall) walls.add((Wall) e);
+
+        this.notifyObservers(this);
     }
 
     public void addElements(List<Element> elems) {
         for (Element e : elems)
             addElement(e);
+    }
+
+    public void removeDeadEnemies() {
+        ListIterator<Element> iter = enemies.listIterator();
+        boolean deletedSomething = false;
+        while(iter.hasNext()){
+            if(!iter.next().isAlive()) {
+                iter.remove();
+                deletedSomething = true;
+            }
+        }
+
+        if (deletedSomething)
+            notifyObservers(this);
     }
 
     public List<Element> getSamePos(Position pos) {
@@ -141,6 +159,22 @@ public class Room {
         List<Collidable> res = getColliding(element);
         element.shadowStep(oldPos);
         return res;
+    }
+
+    @Override
+    public void addObserver(Observer<Room> observer) {
+        this.observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer<Room> observer) {
+        this.observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(Room r) {
+        for (Observer<Room> o: this.observers)
+            o.changed(r);
     }
 
     private List<Element> octant03Ray(Position s, Position t, int deltaX, int deltaY, int xDirection, int yDirection) {

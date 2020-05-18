@@ -25,13 +25,8 @@ public class EnemyController extends MovableController<Element> {
                 put(Civilian.class, new NullCollision());
                 put(RangedGuy.class, new NullCollision());
             }};
-    private Spawner spawner;
-    private final Integer maxMelee = 5;
-    private final Integer meleeDelay = 30 * 10; // 10 seconds
-
     public EnemyController() {
         super(colHandlerMap);
-        this.spawner = new Spawner(maxMelee, meleeDelay, new MeleeCreator(), new Position(3, 3));
     }
 
     public EnemyController(CollisionHandler colHandler) {
@@ -80,9 +75,8 @@ public class EnemyController extends MovableController<Element> {
 
     @Override
     public void update(Room room) {
-        this.spawner.update(room);
         this.MoveEnemies(room);
-        room.getEnemies().removeIf(me -> (!me.isAlive()));
+        room.removeDeadEnemies();
     }
 
     @Override
