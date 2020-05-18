@@ -49,7 +49,7 @@ public class Drawer implements RoomDrawer {
         this.wallView = wallView;
     }
 
-    private boolean isOutsideSkaFov(Element e, Position skaPos, boolean isSkaBury) {
+    private boolean IsElemInvis(Element e, Position skaPos, boolean isSkaBury) {
         return (isSkaBury && e.getPos().dist(skaPos) > skaFov);
     }
 
@@ -60,12 +60,12 @@ public class Drawer implements RoomDrawer {
         Position skaPos = room.getSkanePos();
 
         for (Wall wall : room.getWalls()) {
-            if (!isOutsideSkaFov(wall, skaPos, isSkaBury))
+            if (!IsElemInvis(wall, skaPos, isSkaBury))
                 wallView.draw(gra, wall);
         }
 
         for (Element e : room.getEnemies()) {
-            if (isOutsideSkaFov(e, skaPos, isSkaBury))
+            if (IsElemInvis(e, skaPos, isSkaBury))
                 continue;
 
             if (e instanceof Civilian) civieView.draw(gra, (Civilian) e);

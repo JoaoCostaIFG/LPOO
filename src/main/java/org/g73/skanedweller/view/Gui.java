@@ -14,102 +14,122 @@ import java.io.IOException;
 public class Gui {
     private Room room;
     private Screen screen;
-    private TerminalResizeHandler resize_handler;
-    private EVENT event;
-    private Thread input_handler;
+    private TerminalResizeHandler resizeHandler;
     private RoomDrawer drawer;
+
+    private volatile EVENT event;
+    private Thread inputHandler;
 
     private final int DFLT_WIDTH = 80; // default board width
     private final int DFLT_HEIGHT = 40; // default board height
 
-    public Gui(Room room) throws IOException {
-        TerminalSize init_size = new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT);
-        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
-        resize_handler = new TerminalResizeHandler(init_size);
-        terminal.addResizeListener(resize_handler);
-
-        this.screen = new TerminalScreen(terminal);
-        screen.doResizeIfNecessary();
-        screen.setCursorPosition(null); // we don't need a cursor
-        screen.startScreen();
+    public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler) throws IOException {
+        setUpScreen(newScreen);
+        this.screen = newScreen;
+        this.resizeHandler = resizeHandler;
 
         this.room = room;
         this.drawer = new Drawer(screen.newTextGraphics());
-
         this.event = EVENT.NullEvent;
     }
 
-    public Gui(Room room, Screen screen, TerminalResizeHandler resize_handler, RoomDrawer drawer) {
+    public Gui(Room room) throws IOException {
+        TerminalSize init_size = new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT);
+        Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
+        resizeHandler = new TerminalResizeHandler(init_size);
+        terminal.addResizeListener(resizeHandler);
+
+        this.screen = new TerminalScreen(terminal);
+        setUpScreen(this.screen);
+
+        this.room = room;
+        this.drawer = new Drawer(screen.newTextGraphics());
+        this.event = EVENT.NullEvent;
+    }
+
+    public void setUpScreen(Screen screen) throws IOException {
+        screen.doResizeIfNecessary();
+        screen.setCursorPosition(null); // we don't need a cursor
+        screen.startScreen();
+    }
+
+    public Gui(Room room, Screen screen, TerminalResizeHandler resizeHandler, RoomDrawer drawer) {
         this.room = room;
         this.screen = screen;
-        this.resize_handler = resize_handler;
+        this.resizeHandler = resizeHandler;
         this.drawer = drawer;
         this.event = EVENT.NullEvent;
     }
 
     public void stopInputHandler() {
-        // TODO dunno if it works
-        input_handler.interrupt();
+        inputHandler.interrupt();
     }
 
     public void startInputHandler() {
-        input_handler = new Thread() {
+        inputHandler = new Thread() {
             @Override
             public void run() {
                 while (!isInterrupted()) {
                     try {
-                        processKey(screen.readInput());
-                        // processKey(screen.pollInput());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (RuntimeException e) {
-                        // do nothing (happens when we interrupt the thread)
+                        synchronized (this) {
+                            processKey(screen.readInput());
+                        }
+                    } catch (IOException | RuntimeException e) {
                         break;
                     }
                 }
             }
         };
 
-        input_handler.setDaemon(true);
-        input_handler.start();
+        startInputHandler(inputHandler);
+    }
+
+    public void startInputHandler(Thread inputHandler) {
+        this.inputHandler = inputHandler;
+        inputHandler.setDaemon(true);
+        inputHandler.start();
     }
 
     public void releaseKeys() {
-        this.event = EVENT.NullEvent;
+        synchronized (this.inputHandler) {
+            this.event = EVENT.NullEvent;
+        }
     }
 
     private void processKey(KeyStroke key) {
         if (key == null)
             return;
 
+        EVENT newEvent = EVENT.NullEvent;
+
         if (key.getKeyType() == KeyType.Character) {
             switch (key.getCharacter()) {
                 case 'a':
                 case 'A':
-                    this.event = EVENT.MoveLeft;
+                    newEvent = EVENT.MoveLeft;
                     break;
                 case 'd':
                 case 'D':
-                    this.event = EVENT.MoveRight;
+                    newEvent = EVENT.MoveRight;
                     break;
                 case 'w':
                 case 'W':
-                    this.event = EVENT.MoveUp;
+                    newEvent = EVENT.MoveUp;
                     break;
                 case 's':
                 case 'S':
-                    this.event = EVENT.MoveDown;
+                    newEvent = EVENT.MoveDown;
                     break;
                 case 'r':
                 case 'R':
-                    this.event = EVENT.RestartGame;
+                    newEvent = EVENT.RestartGame;
                     break;
                 case 'q':
                 case 'Q':
-                    this.event = EVENT.QuitGame;
+                    newEvent = EVENT.QuitGame;
                     break;
                 case ' ':
-                    this.event = EVENT.Bury;
+                    newEvent = EVENT.Bury;
                 default:
                     break;
             }
@@ -117,23 +137,34 @@ public class Gui {
 
         switch (key.getKeyType()) {
             case ArrowLeft:
-                this.event = EVENT.MoveLeft;
+                newEvent = EVENT.MoveLeft;
                 break;
             case ArrowRight:
-                this.event = EVENT.MoveRight;
+                newEvent = EVENT.MoveRight;
                 break;
             case ArrowUp:
-                this.event = EVENT.MoveUp;
+                newEvent = EVENT.MoveUp;
                 break;
             case ArrowDown:
-                this.event = EVENT.MoveDown;
+                newEvent = EVENT.MoveDown;
                 break;
             case Escape:
             case EOF:
-                this.event = EVENT.QuitGame;
+                newEvent = EVENT.QuitGame;
                 break;
             default:
                 break;
+        }
+
+        synchronized (this.inputHandler) {
+            if (newEvent != EVENT.NullEvent)
+                this.event = newEvent;
+        }
+    }
+
+    public EVENT getEvent() {
+        synchronized (this.inputHandler) {
+            return this.event;
         }
     }
 
@@ -141,12 +172,8 @@ public class Gui {
         this.room = r;
     }
 
-    public EVENT getEvent() {
-        return this.event;
-    }
-
     public TerminalSize getTermSize() {
-        return this.resize_handler.getLastKnownSize();
+        return this.resizeHandler.getLastKnownSize();
     }
 
     public void close() throws IOException {
@@ -154,8 +181,8 @@ public class Gui {
     }
 
     public void draw() throws IOException {
-        if (resize_handler.hasResized()) {
-            TerminalSize newsize = resize_handler.getLastKnownSize();
+        if (resizeHandler.hasResized()) {
+            TerminalSize newsize = resizeHandler.getLastKnownSize();
             room.setSize(newsize.getColumns(), newsize.getRows());
             screen.doResizeIfNecessary();
         }
