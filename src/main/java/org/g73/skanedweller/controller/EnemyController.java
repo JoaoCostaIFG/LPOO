@@ -3,6 +3,7 @@ package org.g73.skanedweller.controller;
 import org.g73.skanedweller.controller.collision_strategy.BlockCollision;
 import org.g73.skanedweller.controller.collision_strategy.CollisionStrategy;
 import org.g73.skanedweller.controller.collision_strategy.NullCollision;
+import org.g73.skanedweller.controller.creator.MeleeCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.*;
@@ -24,7 +25,6 @@ public class EnemyController extends MovableController<Element> {
                 put(Civilian.class, new NullCollision());
                 put(RangedGuy.class, new NullCollision());
             }};
-
     public EnemyController() {
         super(colHandlerMap);
     }
@@ -76,6 +76,7 @@ public class EnemyController extends MovableController<Element> {
     @Override
     public void update(Room room) {
         this.MoveEnemies(room);
+        room.removeDeadEnemies();
     }
 
     @Override

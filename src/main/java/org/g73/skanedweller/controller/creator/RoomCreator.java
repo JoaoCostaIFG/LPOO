@@ -1,10 +1,9 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.attack_strategy.MeleeAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
-import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
-import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
+import org.g73.skanedweller.model.Position;
+import org.g73.skanedweller.model.RayCast;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.skane.Skane;
@@ -53,22 +52,16 @@ public class RoomCreator {
     }
 
     private void createEnemies(Room room, int width, int height) {
-        ScaredMoveStrat scared_strat = new ScaredMoveStrat(12);
-        Civilian c;
-        for (int i = 0; i < 0; ++i) {
-            c = new Civilian(creatorUtls.getRdmPosRoom(width, height), 1);
-            c.setMoveStrat(scared_strat);
-            addRoomElement(room, c);
+        CivieCreator cc = new CivieCreator(); // Mc Champions - Ebola
+        for (int i = 0; i < 1; ++i) {
+            Position pos = creatorUtls.getRdmPosRoom(width, height);
+            addRoomElement(room, cc.create(pos));
         }
 
-        MeleeMoveStrat meleeMoveStrat = new MeleeMoveStrat(4);
-        MeleeAtkStrat meleeAtkStrat = new MeleeAtkStrat(30);
-        MeleeGuy m;
-        for (int i = 0; i < 0; ++i) {
-            m = new MeleeGuy(creatorUtls.getRdmPosRoom(width, height), 1, 1, 1);
-            m.setMoveStrat(meleeMoveStrat);
-            m.setAtkStrat(meleeAtkStrat);
-            addRoomElement(room, m);
+        MeleeCreator mc = new MeleeCreator(); // Mc Champions - Ebola
+        for (int i = 0; i < 1; ++i) {
+            Position pos = creatorUtls.getRdmPosRoom(width, height);
+            addRoomElement(room, mc.create(pos));
         }
 
         RangedMoveStrat rangedMoveStrat = new RangedMoveStrat(8);
@@ -89,6 +82,7 @@ public class RoomCreator {
         createSkane(room, width, height);
         createEnemies(room, width, height);
 
+        room.setRayCasting(new RayCast());
         return room;
     }
 }

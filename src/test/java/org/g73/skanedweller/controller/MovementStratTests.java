@@ -58,9 +58,9 @@ public class MovementStratTests {
         skaList.add(ska);
         List<Element> skaBodyList = new ArrayList<>();
         skaBodyList.add(ska.getBody().get(0));
-        Mockito.when(room.raycast(e.getPos(), ska.getPos()))
+        Mockito.when(room.elemRay(e.getPos(), ska.getPos()))
                 .thenReturn(skaList);
-        Mockito.when(room.raycast(e.getPos(), ska.getBody().get(0).getPos()))
+        Mockito.when(room.elemRay(e.getPos(), ska.getBody().get(0).getPos()))
                 .thenReturn(skaBodyList);
 
         roomMockSetSkaneInfo(room);
@@ -73,9 +73,9 @@ public class MovementStratTests {
 
         List<Element> rayList = new ArrayList<>();
         rayList.add(new Civilian(1, 1, 1));
-        Mockito.when(room.raycast(e.getPos(), ska.getPos()))
+        Mockito.when(room.elemRay(e.getPos(), ska.getPos()))
                 .thenReturn(rayList);
-        Mockito.when(room.raycast(e.getPos(), ska.getBody().get(0).getPos()))
+        Mockito.when(room.elemRay(e.getPos(), ska.getBody().get(0).getPos()))
                 .thenReturn(rayList);
         Mockito.when(room.isSkanePos(any()))
                 .thenReturn(false);
@@ -93,7 +93,7 @@ public class MovementStratTests {
         List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 0);
 
-        Mockito.verify(room, times(0)).raycast(any(), any());
+        Mockito.verify(room, times(0)).elemRay(any(), any());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class MovementStratTests {
         assertEquals(posList.get(0), civie.moveDown());
         assertEquals(posList.get(1), civie.moveLeft());
 
-        Mockito.verify(room, times(1)).raycast(any(), any());
+        Mockito.verify(room, times(1)).elemRay(any(), any());
         Mockito.verify(room, atLeastOnce()).getSkanePos();
     }
 
@@ -122,7 +122,7 @@ public class MovementStratTests {
         List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 0);
 
-        Mockito.verify(room, times(1)).raycast(any(), any());
+        Mockito.verify(room, times(1)).elemRay(any(), any());
         Mockito.verify(room, atLeastOnce()).getSkanePos();
     }
 
@@ -136,7 +136,7 @@ public class MovementStratTests {
         List<Position> posList = civie.genMoves(room);
         assertEquals(posList.size(), 0);
 
-        Mockito.verify(room, times(0)).raycast(any(), any());
+        Mockito.verify(room, times(0)).elemRay(any(), any());
     }
 
     @Test
@@ -153,7 +153,7 @@ public class MovementStratTests {
         assertEquals(posList.get(2), civie.moveRight());
         assertEquals(posList.get(3), civie.moveUp());
 
-        Mockito.verify(room, times(2)).raycast(any(), any());
+        Mockito.verify(room, times(2)).elemRay(any(), any());
     }
 
     @Test
@@ -162,7 +162,7 @@ public class MovementStratTests {
         makeSkaneObstructed(room, civie);
 
         ska.dropScent(1);
-        Mockito.when(room.raycast(any(), any())).thenReturn(new ArrayList<>());
+        Mockito.when(room.elemRay(any(), any())).thenReturn(new ArrayList<>());
 
         this.civie.setMoveStrat(new MeleeMoveStrat(moveTicks));
         List<Position> posList = civie.genMoves(room);
@@ -172,6 +172,6 @@ public class MovementStratTests {
         assertEquals(posList.get(1), civie.moveUp());
 
         // 1 head, 1 body, 1 scent
-        Mockito.verify(room, times(3)).raycast(any(), any());
+        Mockito.verify(room, times(3)).elemRay(any(), any());
     }
 }

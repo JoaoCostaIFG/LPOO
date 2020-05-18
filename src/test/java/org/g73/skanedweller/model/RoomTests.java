@@ -56,8 +56,9 @@ public class RoomTests {
         room.addElement(w2);
         room.addElement(w2);
 
-        // Unobstructed org.g73.skanedweller.view
-        List<Element> unobstructedElemList = room.raycast(p1, p2);
+        // Unobstructed view
+        room.setRayCasting(new RayCast());
+        List<Element> unobstructedElemList = room.elemRay(p1, p2);
         assertEquals(unobstructedElemList.size(), 2);
         for (Element e : unobstructedElemList)
             assertEquals(e, w2);
@@ -75,8 +76,9 @@ public class RoomTests {
         room.addElement(w1);
         room.addElement(w2);
 
-        // Unobstructed org.g73.skanedweller.view
-        List<Element> unobstructedElemList = room.raycast(p1, p2);
+        // Unobstructed view
+        room.setRayCasting(new RayCast());
+        List<Element> unobstructedElemList = room.elemRay(p1, p2);
         assertEquals(unobstructedElemList.size(), 1);
         for (Element e : unobstructedElemList)
             assertEquals(e, w2);
@@ -96,8 +98,9 @@ public class RoomTests {
         room.addElement(w2);
         room.addElement(w3);
 
-        // Obstructed org.g73.skanedweller.view
-        List<Element> obstructedElemList = room.raycast(p1, p3);
+        // Obstructed view
+        room.setRayCasting(new RayCast());
+        List<Element> obstructedElemList = room.elemRay(p1, p3);
         assertEquals(obstructedElemList.size(), 1);
         for (Element e : obstructedElemList)
             assertEquals(e, w2);
@@ -117,8 +120,9 @@ public class RoomTests {
         room.addElement(w2);
         room.addElement(w3);
 
-        // Unobstructed org.g73.skanedweller.view
-        List<Element> obstructedElemList = room.raycast(p1, p3);
+        // Unobstructed view
+        room.setRayCasting(new RayCast());
+        List<Element> obstructedElemList = room.elemRay(p1, p3);
         assertEquals(obstructedElemList.size(), 1);
         for (Element e : obstructedElemList)
             assertEquals(e, w2);
