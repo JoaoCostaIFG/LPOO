@@ -4,10 +4,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import com.sun.tools.javac.util.List;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.Civilian;
-import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.MeleeGuy;
-import org.g73.skanedweller.model.element.Wall;
+import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.element_views.*;
 import org.junit.Before;
@@ -19,6 +16,7 @@ public class DrawerTests {
     private TextGraphics gra;
     private CivieView civieView;
     private MeleeGuyView meleeGuyView;
+    private RangedGuyView rangedGuyView;
     private RoomView roomView;
     private SkaneView skaneView;
     private WallView wallView;
@@ -29,12 +27,13 @@ public class DrawerTests {
     public void setUp() {
         gra = Mockito.mock(TextGraphics.class);
         civieView = Mockito.mock(CivieView.class);
+        rangedGuyView = Mockito.mock(RangedGuyView.class);
         meleeGuyView = Mockito.mock(MeleeGuyView.class);
         roomView = Mockito.mock(RoomView.class);
         skaneView = Mockito.mock(SkaneView.class);
         wallView = Mockito.mock(WallView.class);
 
-        drawer = new Drawer(gra, civieView, meleeGuyView, roomView, skaneView, wallView);
+        drawer = new Drawer(gra, civieView, meleeGuyView, rangedGuyView, roomView, skaneView, wallView);
     }
 
     private void mockElements(Room room, Skane ska, List<Wall> walls, List<Element> enemies) {
@@ -53,7 +52,7 @@ public class DrawerTests {
         Skane s = new Skane(withinSkane, 1, 1, 1, 1);
         Wall w1 = new Wall(withinSkane), w2 = new Wall(outsideSkane);
         Civilian c1 = new Civilian(withinSkane, 1), c2 = new Civilian(outsideSkane, 1);
-        MeleeGuy m1 = new MeleeGuy(withinSkane, 1, 1);
+        MeleeGuy m1 = new MeleeGuy(withinSkane, 1, 1, 1);
         mockElements(room, s, List.of(w1, w2), List.of(c1, c2, m1));
 
         this.drawer.draw(room);
@@ -77,7 +76,7 @@ public class DrawerTests {
         Skane s = new Skane(withinSkane, 1, 1, 1, 1);
         Wall w1 = new Wall(withinSkane), w2 = new Wall(outsideSkane), w3 = new Wall(outsideSkane2);
         Civilian c1 = new Civilian(withinSkane, 1), c2 = new Civilian(outsideSkane3, 1);
-        MeleeGuy m1 = new MeleeGuy(withinSkane2, 1, 1);
+        MeleeGuy m1 = new MeleeGuy(withinSkane2, 1, 1, 1);
         mockElements(room, s, List.of(w1, w2, w3), List.of(c1, c2, m1));
 
         this.drawer.draw(room);

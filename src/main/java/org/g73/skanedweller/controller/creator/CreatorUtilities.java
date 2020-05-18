@@ -20,6 +20,7 @@ public class CreatorUtilities {
     }
 
     public Position getRandomPos(int startx, int endx, int starty, int endy) {
+        // TODO exception if no more gen spots available
         /* we generate random postions until we find one that hasn't been taken yet */
         boolean repeated;
         Position position;

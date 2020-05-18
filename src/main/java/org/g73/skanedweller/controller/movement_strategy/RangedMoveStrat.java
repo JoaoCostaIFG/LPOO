@@ -9,19 +9,21 @@ import org.g73.skanedweller.model.element.skane.SkaneBody;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeleeMoveStrat extends ChaseStrat {
+public class RangedMoveStrat extends ChaseStrat {
     /*
      * Attempts to get to the closest part of the skane it can see. Otherwise,
      * follows the 'freshest' scent (from the 'Skanes' scent trail) it can see.
+     * When inside its shooting range, attempts to shoot.
      */
     private int ticksBetweenMoves;
 
-    public MeleeMoveStrat(int ticksBetweenMoves) {
+    public RangedMoveStrat(int ticksBetweenMoves) {
         this.ticksBetweenMoves = ticksBetweenMoves;
     }
 
     @Override
     public List<Position> genMoves(Room r, Element e) {
+        // TODO kiting ?
         e.setMovCounter(ticksBetweenMoves);
         if (r.isSkaneBury())
             return new ArrayList<>();
@@ -31,11 +33,14 @@ public class MeleeMoveStrat extends ChaseStrat {
         List<PosDist> listPos = new ArrayList<>();
 
         // Head
-        addRayPos(r, listPos, ePos, ska.getPos());
+        if (addRayPos(r, listPos, ePos, ska.getPos()) < e.getRange())
+            return new ArrayList<>();
 
         // Body
-        for (SkaneBody sb : ska.getBody())
-            addRayPos(r, listPos, ePos, sb.getPos());
+        for (SkaneBody sb : ska.getBody()) {
+            if (addRayPos(r, listPos, ePos, sb.getPos()) < e.getRange())
+                return new ArrayList<>();
+        }
 
         // Scent
         if (listPos.size() == 0) // If can't see skane

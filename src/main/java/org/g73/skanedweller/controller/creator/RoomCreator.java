@@ -1,13 +1,13 @@
 package org.g73.skanedweller.controller.creator;
 
+import org.g73.skanedweller.controller.attack_strategy.MeleeAtkStrat;
+import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
+import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.Civilian;
-import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.MeleeGuy;
-import org.g73.skanedweller.model.element.Wall;
+import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.element_views.CivieView;
 
@@ -65,6 +65,16 @@ public class RoomCreator {
         for (int i = 0; i < 1; ++i) {
             Position pos = creatorUtls.getRdmPosRoom(width, height);
             addRoomElement(room, mc.create(pos));
+        }
+
+        RangedMoveStrat rangedMoveStrat = new RangedMoveStrat(8);
+        RangedGuyAtkStrat rangedAtkStrat = new RangedGuyAtkStrat(60, 0);
+        RangedGuy rg;
+        for (int i = 0; i < 1; ++i) {
+            rg = new RangedGuy(creatorUtls.getRdmPosRoom(width, height), 1, 2, 12);
+            rg.setMoveStrat(rangedMoveStrat);
+            rg.setAtkStrat(rangedAtkStrat);
+            addRoomElement(room, rg);
         }
     }
 

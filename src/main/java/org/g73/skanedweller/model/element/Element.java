@@ -26,7 +26,7 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
 
     public Element(Position pos) {
         this(pos,
-                new AgressiveBehaviour(),
+                new PassiveBehaviour(),
                 new NotCollidableBehaviour(),
                 new ImmortalBehaviour(),
                 new ImovableBehaviour());
@@ -123,6 +123,47 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
     }
 
     @Override
+    public int getRange() {
+        return agressiveBehaviour.getRange();
+    }
+
+    @Override
+    public void setRange(int range) {
+        agressiveBehaviour.setRange(range);
+    }
+
+    @Override
+    public void setAtkStrat(AttackStrategy attackStrat) {
+        agressiveBehaviour.setAtkStrat(attackStrat);
+    }
+
+    @Override
+    public boolean attack(Room room, Element me, Element target) {
+        // FIXME
+        return agressiveBehaviour.attack(room , me, target);
+    }
+
+    public boolean attack(Room room, Element target) {
+        // FIXME
+        return attack(room, this, target);
+    }
+
+    @Override
+    public int getAtkCounter() {
+        return agressiveBehaviour.getAtkCounter();
+    }
+
+    @Override
+    public void setAtkCounter(int numTicks) {
+        agressiveBehaviour.setAtkCounter(numTicks);
+    }
+
+    @Override
+    public void tickAtkCounter() {
+        agressiveBehaviour.tickAtkCounter();
+    }
+
+    @Override
     public Collider getCollider() {
         return collidableBehaviour.getCollider();
     }
@@ -184,6 +225,6 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
     }
 
     public List<Position> genMoves(Room r) {
-        return movableBehaviour.genMoves(r, this);
+        return genMoves(r, this);
     }
 }

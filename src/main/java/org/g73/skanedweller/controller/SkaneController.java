@@ -8,6 +8,7 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Civilian;
 import org.g73.skanedweller.model.element.MeleeGuy;
+import org.g73.skanedweller.model.element.RangedGuy;
 import org.g73.skanedweller.model.element.Wall;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.skane.Skane;
@@ -30,6 +31,7 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
                 put(Wall.class, new BlockCollision());
                 put(MeleeGuy.class, new SkaneAttackCollision());
                 put(Civilian.class, new SkaneAttackCollision());
+                put(RangedGuy.class, new SkaneAttackCollision());
             }};
 
     public SkaneController(Skane ska, int scentDur) {
