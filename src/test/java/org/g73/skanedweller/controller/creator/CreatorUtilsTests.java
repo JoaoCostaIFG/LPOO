@@ -1,23 +1,18 @@
-package org.g73.skanedweller.controller;
+package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.creator.CreatorUtilities;
-import org.g73.skanedweller.controller.creator.RoomCreator;
 import org.g73.skanedweller.model.Position;
-import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.skane.SkaneBody;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-public class CreatorTests {
-    // TODO inject random into CreatorUtilities to check the generated positions
+public class CreatorUtilsTests {
     private Random rdm;
     private CreatorUtilities creatorUtls;
 
@@ -86,51 +81,4 @@ public class CreatorTests {
         verify(rdm, times(6)).nextInt(squareSide - 2);
     }
 
-    @Test
-    public void createSkane() {
-        int width = 300;
-        int heigth = 100;
-
-        RoomCreator roomCreator = new RoomCreator(this.creatorUtls);
-
-        Mockito.when(rdm.nextInt(width - 2))
-                .thenReturn(1)
-                .thenReturn(3)
-                .thenReturn(5)
-                .thenReturn(7)
-                .thenReturn(9)
-                .thenReturn(11);
-        Mockito.when(rdm.nextInt(heigth - 2))
-                .thenReturn(0)
-                .thenReturn(2)
-                .thenReturn(4)
-                .thenReturn(6)
-                .thenReturn(8)
-                .thenReturn(10);
-
-        Room room = roomCreator.createRoom(width, heigth);
-        // TODO roomCreator methods should be public for testing ?
-        assertNotEquals(room.getWalls().size(), 0);
-        assertNotEquals(room.getEnemies().size(), 0);
-        assertEquals(room.getSkane().getPos(), new Position(2, 1));
-        for (SkaneBody sb : room.getSkane().getBody())
-            assertEquals(sb.getPos(), new Position(2, 1));
-
-        // mock has no repeated positions
-        verify(rdm, atLeast(2)).nextInt(width - 2);
-        verify(rdm, atLeast(2)).nextInt(heigth - 2);
-        Mockito.verifyNoMoreInteractions(rdm);
-
-        // nothing generated on top of anything else (except skane)
-        List<Element> elemList;
-        for (int i = 0; i < width; ++i) {
-            for (int j = 0; j < heigth; ++j) {
-                if (!room.isSkanePos(new Position(i, j))) {
-                    elemList = room.getSamePos(new Position(i, j));
-                    if (elemList.size() > 1)
-                        fail();
-                }
-            }
-        }
-    }
 }

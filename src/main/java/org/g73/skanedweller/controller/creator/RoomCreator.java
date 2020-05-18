@@ -1,12 +1,9 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
-import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.RayCast;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.*;
-import org.g73.skanedweller.model.element.skane.Skane;
 
 public class RoomCreator {
     private CreatorUtilities creatorUtls;
@@ -40,15 +37,6 @@ public class RoomCreator {
         }
     }
 
-    private void createSkane(Room room, int width, int height) {
-        Skane.SkaneOpts skane_opts = new Skane.SkaneOpts();
-        skane_opts.attack_dmg = 10;
-        skane_opts.hp = 4;
-        skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 3;
-
-    }
-
     private void createEnemies(Room room, int width, int height) {
         CivieCreator cc = new CivieCreator();
         for (int i = 0; i < 1; ++i) {
@@ -75,7 +63,6 @@ public class RoomCreator {
         createWalls(room, width, height);
         Position skaPos = creatorUtls.getRdmPosRoom(width, height);
         addRoomElement(room, new SkaneCreator().create(skaPos));
-        createSkane(room, width, height);
         createEnemies(room, width, height);
 
         room.setRayCasting(new RayCast());
