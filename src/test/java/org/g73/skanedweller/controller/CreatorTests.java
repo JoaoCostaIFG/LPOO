@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class CreatorTests {
     // TODO inject random into CreatorUtilities to check the generated positions
@@ -110,6 +109,7 @@ public class CreatorTests {
                 .thenReturn(10);
 
         Room room = roomCreator.createRoom(width, heigth);
+        // TODO roomCreator methods should be public for testing ?
         assertNotEquals(room.getWalls().size(), 0);
         assertNotEquals(room.getEnemies().size(), 0);
         assertEquals(room.getSkane().getPos(), new Position(2, 1));
@@ -117,8 +117,8 @@ public class CreatorTests {
             assertEquals(sb.getPos(), new Position(2, 1));
 
         // mock has no repeated positions
-        verify(rdm, times(2)).nextInt(width - 2);
-        verify(rdm, times(2)).nextInt(heigth - 2);
+        verify(rdm, atLeast(2)).nextInt(width - 2);
+        verify(rdm, atLeast(2)).nextInt(heigth - 2);
         Mockito.verifyNoMoreInteractions(rdm);
 
         // nothing generated on top of anything else (except skane)
@@ -127,7 +127,6 @@ public class CreatorTests {
             for (int j = 0; j < heigth; ++j) {
                 if (!room.isSkanePos(new Position(i, j))) {
                     elemList = room.getSamePos(new Position(i, j));
-                    // TODO is this bad practice
                     if (elemList.size() > 1)
                         fail();
                 }

@@ -1,15 +1,12 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.attack_strategy.MeleeAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
-import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
-import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
 import org.g73.skanedweller.model.Position;
+import org.g73.skanedweller.model.RayCast;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.skane.Skane;
-import org.g73.skanedweller.view.element_views.CivieView;
 
 public class RoomCreator {
     private CreatorUtilities creatorUtls;
@@ -85,6 +82,7 @@ public class RoomCreator {
         createSkane(room, width, height);
         createEnemies(room, width, height);
 
+        room.setRayCasting(new RayCast());
         return room;
     }
 }

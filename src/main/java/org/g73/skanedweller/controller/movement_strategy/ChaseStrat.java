@@ -25,7 +25,7 @@ public abstract class ChaseStrat implements MoveStrategy {
 
     protected double addRayPos(Room r, List<PosDist> posDistList, Position s, Position t) {
         double dist = Double.MAX_VALUE;
-        List<Element> rayResult = r.raycast(s, t);
+        List<Element> rayResult = r.elemRay(s, t);
         if (rayResult.size() > 0) {
             if (r.isSkanePos(rayResult.get(0).getPos())) {
                 dist = s.dist(t);
@@ -37,7 +37,7 @@ public abstract class ChaseStrat implements MoveStrategy {
     }
 
     protected boolean checkRayScent(Room r, Position sourcePos, Position scentPos) {
-        List<Element> rayResult = r.raycast(sourcePos, scentPos);
+        List<Element> rayResult = r.elemRay(sourcePos, scentPos);
 
         return rayResult.size() == 0;
     }
