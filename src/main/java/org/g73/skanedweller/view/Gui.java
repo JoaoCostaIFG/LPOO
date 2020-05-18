@@ -61,7 +61,7 @@ public class Gui {
         this.event = EVENT.NullEvent;
     }
 
-    public void stopInputHandler() {
+    public void stopInputHandler() throws NullPointerException {
         inputHandler.stop();
     }
 
@@ -138,7 +138,7 @@ public class Gui {
         }
     }
 
-    public EVENT getEvent() {
+    public EVENT getEvent() throws NullPointerException {
         KeyStroke ks;
         ks = inputHandler.getLastKey();
         processKey(ks);

@@ -10,11 +10,8 @@ import com.googlecode.lanterna.terminal.Terminal;
 import org.g73.skanedweller.model.Room;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -83,16 +80,11 @@ public class GuiTests {
         }
     }
 
-    private void testKey(KeyEventPair ke) throws IOException {
-        Mockito.when(screen.readInput())
+    private void testKey(InputHandler inputHandler, KeyEventPair ke) throws IOException, InterruptedException {
+        Mockito.when(inputHandler.getLastKey())
                 .thenReturn(ke.ks)
                 .thenReturn(null);
 
-        boolean found = false;
-        while (!found) {
-            if (gui.getEvent() == ke.ev)
-                found = true;
-        }
         assertEquals(gui.getEvent(), ke.ev);
 
         gui.releaseKeys();
@@ -101,65 +93,50 @@ public class GuiTests {
 
     @Test
     public void processEvents() throws IOException, InterruptedException {
-        //     List<KeyEventPair> strokes = new ArrayList<>();
-        //     strokes.add(new KeyEventPair('a', EVENT.MoveLeft));
-        //     strokes.add(new KeyEventPair('A', EVENT.MoveLeft));
-        //     strokes.add(new KeyEventPair('d', EVENT.MoveRight));
-        //     strokes.add(new KeyEventPair('D', EVENT.MoveRight));
-        //     strokes.add(new KeyEventPair('w', EVENT.MoveUp));
-        //     strokes.add(new KeyEventPair('W', EVENT.MoveUp));
-        //     strokes.add(new KeyEventPair('s', EVENT.MoveDown));
-        //     strokes.add(new KeyEventPair('S', EVENT.MoveDown));
-        //     strokes.add(new KeyEventPair('r', EVENT.RestartGame));
-        //     strokes.add(new KeyEventPair('R', EVENT.RestartGame));
-        //     strokes.add(new KeyEventPair('q', EVENT.QuitGame));
-        //     strokes.add(new KeyEventPair('Q', EVENT.QuitGame));
-        //     strokes.add(new KeyEventPair(' ', EVENT.Bury));
-        //     strokes.add(new KeyEventPair(KeyType.ArrowLeft, EVENT.MoveLeft));
-        //     strokes.add(new KeyEventPair(KeyType.ArrowRight, EVENT.MoveRight));
-        //     strokes.add(new KeyEventPair(KeyType.ArrowUp, EVENT.MoveUp));
-        //     strokes.add(new KeyEventPair(KeyType.ArrowDown, EVENT.MoveDown));
-        //     strokes.add(new KeyEventPair(KeyType.Escape, EVENT.QuitGame));
-        //     strokes.add(new KeyEventPair(KeyType.EOF, EVENT.QuitGame));
+        List<KeyEventPair> strokes = new ArrayList<>();
+        strokes.add(new KeyEventPair('a', EVENT.MoveLeft));
+        strokes.add(new KeyEventPair('A', EVENT.MoveLeft));
+        strokes.add(new KeyEventPair('d', EVENT.MoveRight));
+        strokes.add(new KeyEventPair('D', EVENT.MoveRight));
+        strokes.add(new KeyEventPair('w', EVENT.MoveUp));
+        strokes.add(new KeyEventPair('W', EVENT.MoveUp));
+        strokes.add(new KeyEventPair('s', EVENT.MoveDown));
+        strokes.add(new KeyEventPair('S', EVENT.MoveDown));
+        strokes.add(new KeyEventPair('r', EVENT.RestartGame));
+        strokes.add(new KeyEventPair('R', EVENT.RestartGame));
+        strokes.add(new KeyEventPair('q', EVENT.QuitGame));
+        strokes.add(new KeyEventPair('Q', EVENT.QuitGame));
+        strokes.add(new KeyEventPair(' ', EVENT.Bury));
+        strokes.add(new KeyEventPair(KeyType.ArrowLeft, EVENT.MoveLeft));
+        strokes.add(new KeyEventPair(KeyType.ArrowRight, EVENT.MoveRight));
+        strokes.add(new KeyEventPair(KeyType.ArrowUp, EVENT.MoveUp));
+        strokes.add(new KeyEventPair(KeyType.ArrowDown, EVENT.MoveDown));
+        strokes.add(new KeyEventPair(KeyType.Escape, EVENT.QuitGame));
+        strokes.add(new KeyEventPair(KeyType.EOF, EVENT.QuitGame));
 
-        //     gui.startInputHandler();
-        //     assertEquals(EVENT.NullEvent, gui.getEvent());
+        InputHandler inputHandler = Mockito.mock(InputHandler.class);
+        gui.startInputHandler(inputHandler);
 
-        //     for (KeyEventPair ke : strokes)
-        //         testKey(ke);
+        Mockito.when(inputHandler.getLastKey()).thenReturn(null);
+        assertEquals(EVENT.NullEvent, gui.getEvent());
 
-        //     gui.releaseKeys();
-        //     assertEquals(gui.getEvent(), EVENT.NullEvent);
-    }
+        for (KeyEventPair ke : strokes)
+            testKey(inputHandler, ke);
 
-    private static class TestRunnable implements Runnable {
-        @Override
-        public void run() {
-            synchronized (this) {
-                try {
-                    this.wait();
-                } catch (InterruptedException ignored) {
-                }
-            }
-        }
+        gui.releaseKeys();
+        assertEquals(gui.getEvent(), EVENT.NullEvent);
     }
 
     @Test
     public void testInputHandlerStart() {
-        TestRunnable testRunnable = new TestRunnable();
-        Thread inputHandler = new Thread(testRunnable);
-        gui.startInputHandler(inputHandler);
+        InputHandler inputHandler = Mockito.mock(InputHandler.class);
 
-        assertTrue(inputHandler.isAlive());
-        assertTrue(inputHandler.isDaemon());
-        assertFalse(inputHandler.isInterrupted());
+        gui.startInputHandler(inputHandler);
+        Mockito.verify(inputHandler, Mockito.times(1)).setDaemon(true);
+        Mockito.verify(inputHandler, Mockito.times(1)).start();
 
         gui.stopInputHandler();
-        assertTrue(inputHandler.isInterrupted());
-
-        synchronized (testRunnable) {
-            testRunnable.notifyAll(); // stop runnable
-        }
+        Mockito.verify(inputHandler, Mockito.times(1)).stop();
     }
 
     @Test

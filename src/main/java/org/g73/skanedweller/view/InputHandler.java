@@ -30,12 +30,19 @@ public class InputHandler implements Runnable {
         return isDaemon;
     }
 
+    public boolean isAlive() {
+        return t != null && t.isAlive();
+    }
+
     public void run() {
+        KeyStroke newKeyStroke;
         while (!halt) {
             try {
                 synchronized (this) {
-                    lastKey = screen.readInput();
+                    newKeyStroke = screen.readInput();
                 }
+                if (newKeyStroke != null)
+                    lastKey = newKeyStroke;
             } catch (IOException | RuntimeException e) {
                 halt = true;
             }
@@ -43,15 +50,16 @@ public class InputHandler implements Runnable {
     }
 
     public void start() {
-        if (t == null) {
-            t = new Thread(this);
-            t.setDaemon(isDaemon);
-            t.start();
-        }
+        start(new Thread(this));
+    }
+
+    public void start(Thread newT) {
+        t = newT;
+        t.setDaemon(isDaemon);
+        t.start();
     }
 
     public void stop() {
         halt = true;
-        // TODO null t
     }
 }
