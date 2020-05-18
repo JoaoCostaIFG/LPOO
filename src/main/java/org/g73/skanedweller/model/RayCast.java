@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RayCast implements RayCasting {
-    public RayCast() {
-    }
-
     private List<Position> octant03Ray(Room room, Position s, Position t,
                                        int deltaX, int deltaY, int xDirection,
                                        int yDirection) {
