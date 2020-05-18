@@ -1,4 +1,4 @@
-package org.g73.skanedweller.controller;
+package org.g73.skanedweller.controller.creator;
 
 import org.g73.skanedweller.controller.creator.CreatorUtilities;
 import org.g73.skanedweller.controller.creator.RoomCreator;
