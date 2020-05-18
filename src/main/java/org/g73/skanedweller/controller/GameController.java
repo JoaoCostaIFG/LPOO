@@ -76,11 +76,6 @@ public class GameController implements Controller {
 
         for (Spawner s: this.spawners)
             s.update(room);
-        // TODO
-        // cleanup dead enemies
-        //for (Element e : room.getEnemies()) {
-        // TODO spawn dead body (if n papado)
-        //}
     }
 
     private void run() throws IOException {
@@ -120,7 +115,7 @@ public class GameController implements Controller {
         TerminalSize ts = gui.getTermSize();
         this.room = new RoomCreator().createRoom(ts.getColumns(), ts.getRows());
 
-        //this.gui.stopInputHandler();
+        this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
         controllers.remove(playerController);
         this.playerController = new SkaneController(room.getSkane(), 200);

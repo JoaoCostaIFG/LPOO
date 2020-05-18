@@ -17,8 +17,8 @@ public class Gui {
     private TerminalResizeHandler resizeHandler;
     private RoomDrawer drawer;
 
-    private volatile EVENT event;
-    private Thread inputHandler;
+    private EVENT event;
+    private InputHandler inputHandler;
 
     private final int DFLT_WIDTH = 80; // default board width
     private final int DFLT_HEIGHT = 40; // default board height
@@ -62,74 +62,55 @@ public class Gui {
     }
 
     public void stopInputHandler() {
-        inputHandler.interrupt();
+        inputHandler.stop();
     }
 
     public void startInputHandler() {
-        inputHandler = new Thread() {
-            @Override
-            public void run() {
-                while (!isInterrupted()) {
-                    try {
-                        synchronized (this) {
-                            processKey(screen.readInput());
-                        }
-                    } catch (IOException | RuntimeException e) {
-                        break;
-                    }
-                }
-            }
-        };
-
-        startInputHandler(inputHandler);
+        startInputHandler(new InputHandler(this.screen));
     }
 
-    public void startInputHandler(Thread inputHandler) {
+    public void startInputHandler(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
         inputHandler.setDaemon(true);
         inputHandler.start();
     }
 
     public void releaseKeys() {
-        synchronized (this.inputHandler) {
-            this.event = EVENT.NullEvent;
-        }
+        this.event = EVENT.NullEvent;
     }
 
-    private void processKey(KeyStroke key) {
+    public void processKey(KeyStroke key) {
         if (key == null)
             return;
-
-        EVENT newEvent = EVENT.NullEvent;
 
         if (key.getKeyType() == KeyType.Character) {
             switch (key.getCharacter()) {
                 case 'a':
                 case 'A':
-                    newEvent = EVENT.MoveLeft;
+                    this.event = EVENT.MoveLeft;
                     break;
                 case 'd':
                 case 'D':
-                    newEvent = EVENT.MoveRight;
+                    this.event = EVENT.MoveRight;
                     break;
                 case 'w':
                 case 'W':
-                    newEvent = EVENT.MoveUp;
+                    this.event = EVENT.MoveUp;
                     break;
                 case 's':
                 case 'S':
-                    newEvent = EVENT.MoveDown;
+                    this.event = EVENT.MoveDown;
                     break;
                 case 'r':
                 case 'R':
-                    newEvent = EVENT.RestartGame;
+                    this.event = EVENT.RestartGame;
                     break;
                 case 'q':
                 case 'Q':
-                    newEvent = EVENT.QuitGame;
+                    this.event = EVENT.QuitGame;
                     break;
                 case ' ':
-                    newEvent = EVENT.Bury;
+                    this.event = EVENT.Bury;
                 default:
                     break;
             }
@@ -137,35 +118,32 @@ public class Gui {
 
         switch (key.getKeyType()) {
             case ArrowLeft:
-                newEvent = EVENT.MoveLeft;
+                this.event = EVENT.MoveLeft;
                 break;
             case ArrowRight:
-                newEvent = EVENT.MoveRight;
+                this.event = EVENT.MoveRight;
                 break;
             case ArrowUp:
-                newEvent = EVENT.MoveUp;
+                this.event = EVENT.MoveUp;
                 break;
             case ArrowDown:
-                newEvent = EVENT.MoveDown;
+                this.event = EVENT.MoveDown;
                 break;
             case Escape:
             case EOF:
-                newEvent = EVENT.QuitGame;
+                this.event = EVENT.QuitGame;
                 break;
             default:
                 break;
         }
-
-        synchronized (this.inputHandler) {
-            if (newEvent != EVENT.NullEvent)
-                this.event = newEvent;
-        }
     }
 
     public EVENT getEvent() {
-        synchronized (this.inputHandler) {
-            return this.event;
-        }
+        KeyStroke ks;
+        ks = inputHandler.getLastKey();
+        processKey(ks);
+
+        return this.event;
     }
 
     public void setRoom(Room r) {
