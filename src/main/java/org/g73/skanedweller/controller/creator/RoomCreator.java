@@ -1,14 +1,10 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
-import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.RayCast;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.RangedGuy;
 import org.g73.skanedweller.model.element.Wall;
-import org.g73.skanedweller.model.element.skane.Skane;
 
 public class RoomCreator {
     private CreatorUtilities creatorUtls;
@@ -42,19 +38,8 @@ public class RoomCreator {
         }
     }
 
-    private void createSkane(Room room, int width, int height) {
-        Skane.SkaneOpts skane_opts = new Skane.SkaneOpts();
-        skane_opts.pos = creatorUtls.getRdmPosRoom(width, height);
-        skane_opts.attack_dmg = 10;
-        skane_opts.hp = 4;
-        skane_opts.oxygen_lvl = 200;
-        skane_opts.size = 3;
-
-        addRoomElement(room, new Skane(skane_opts));
-    }
-
     private void createEnemies(Room room, int width, int height) {
-        CivieCreator cc = new CivieCreator(); // Mc Champions - Ebola
+        CivieCreator cc = new CivieCreator();
         for (int i = 0; i < 1; ++i) {
             Position pos = creatorUtls.getRdmPosRoom(width, height);
             addRoomElement(room, cc.create(pos));
@@ -66,14 +51,10 @@ public class RoomCreator {
             addRoomElement(room, mc.create(pos));
         }
 
-        RangedMoveStrat rangedMoveStrat = new RangedMoveStrat(8);
-        RangedGuyAtkStrat rangedAtkStrat = new RangedGuyAtkStrat(60, 0);
-        RangedGuy rg;
+        RangedCreator rc = new RangedCreator();
         for (int i = 0; i < 1; ++i) {
-            rg = new RangedGuy(creatorUtls.getRdmPosRoom(width, height), 1, 2, 12);
-            rg.setMoveStrat(rangedMoveStrat);
-            rg.setAtkStrat(rangedAtkStrat);
-            addRoomElement(room, rg);
+            Position pos = creatorUtls.getRdmPosRoom(width, height);
+            addRoomElement(room, rc.create(pos));
         }
     }
 
@@ -81,7 +62,8 @@ public class RoomCreator {
         Room room = new Room(width, height);
 
         createWalls(room, width, height);
-        createSkane(room, width, height);
+        Position skaPos = creatorUtls.getRdmPosRoom(width, height);
+        addRoomElement(room, new SkaneCreator().create(skaPos));
         createEnemies(room, width, height);
 
         room.setRayCasting(new RayCast());

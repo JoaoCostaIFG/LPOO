@@ -1,7 +1,9 @@
 package org.g73.skanedweller.controller;
 
 import com.googlecode.lanterna.TerminalSize;
+import org.g73.skanedweller.controller.creator.CivieCreator;
 import org.g73.skanedweller.controller.creator.MeleeCreator;
+import org.g73.skanedweller.controller.creator.RangedCreator;
 import org.g73.skanedweller.controller.creator.RoomCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
@@ -57,12 +59,25 @@ public class GameController implements Controller {
 
     private static List<Spawner> createSpawners() {
         List<Spawner> spawners = new ArrayList<>();
-        final Integer maxMelee = 3;
+        final Integer maxMelee = 10;
         final Integer meleeDelay = 30 * 10; // 10 seconds
-        Spawner meleeSpawner =
-                new Spawner(maxMelee, meleeDelay, new MeleeCreator(), new Position(3, 3));
+        final Integer maxRanged = 5;
+        final Integer rangedDelay = 30 * 15; // 10 seconds
+        final Integer maxCivies = 30;
+        final Integer civiesDelay = 30 * 1;
 
+        Spawner meleeSpawner =
+                new Spawner(maxMelee, meleeDelay, new MeleeCreator(), new Position(3,3));
         spawners.add(meleeSpawner);
+
+        Spawner rangedSpawner =
+                new Spawner(maxRanged, rangedDelay, new RangedCreator(), new Position(60,3));
+        spawners.add(rangedSpawner);
+
+        Spawner civieSpawner =
+                new Spawner(maxCivies, civiesDelay, new CivieCreator(), new Position(60, 35));
+        spawners.add(civieSpawner);
+
         return spawners;
     }
 
