@@ -1,17 +1,5 @@
 package org.g73.skanedweller.controller;
 
-import org.g73.skanedweller.controller.creator.Creator;
-import org.g73.skanedweller.model.Position;
-import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.Element;
-import org.junit.Test;
-import org.mockito.InOrder;
-import org.mockito.Mockito;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.never;
-
 public class SpawnerTests {
     //@Test
     //public void spawn() {

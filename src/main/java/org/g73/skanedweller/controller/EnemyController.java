@@ -3,7 +3,6 @@ package org.g73.skanedweller.controller;
 import org.g73.skanedweller.controller.collision_strategy.BlockCollision;
 import org.g73.skanedweller.controller.collision_strategy.CollisionStrategy;
 import org.g73.skanedweller.controller.collision_strategy.NullCollision;
-import org.g73.skanedweller.controller.creator.MeleeCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.*;

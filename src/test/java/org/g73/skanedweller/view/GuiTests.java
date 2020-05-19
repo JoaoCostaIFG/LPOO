@@ -27,7 +27,7 @@ public class GuiTests {
     private TerminalResizeHandler resizeHandler;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         room = Mockito.mock(Room.class);
         drawer = Mockito.mock(RoomDrawer.class);
         screen = Mockito.mock(Screen.class);
@@ -36,7 +36,17 @@ public class GuiTests {
     }
 
     @Test
-    public void drawResized() throws IOException {
+    public void testSetRoom() {
+        Room r = new Room(2000, 2000);
+        assertNotEquals(gui.getRoom(), r);
+        gui.setRoom(r);
+        assertEquals(gui.getRoom(), r);
+    }
+
+    @Test
+    public void testDrawResized() throws IOException {
+        Mockito.reset(screen);
+
         Mockito.when(resizeHandler.hasResized()).thenReturn(true);
         TerminalSize size = new TerminalSize(2, 2);
         Mockito.when(resizeHandler.getLastKnownSize()).thenReturn(size);
@@ -52,7 +62,7 @@ public class GuiTests {
     }
 
     @Test
-    public void draw() throws IOException {
+    public void testDraw() throws IOException {
         Mockito.when(resizeHandler.hasResized()).thenReturn(false);
         gui.draw();
 
@@ -80,7 +90,7 @@ public class GuiTests {
         }
     }
 
-    private void testKey(InputHandler inputHandler, KeyEventPair ke) throws IOException, InterruptedException {
+    private void testKey(InputHandler inputHandler, KeyEventPair ke) {
         Mockito.when(inputHandler.getLastKey())
                 .thenReturn(ke.ks)
                 .thenReturn(null);
@@ -92,7 +102,7 @@ public class GuiTests {
     }
 
     @Test
-    public void processEvents() throws IOException, InterruptedException {
+    public void processEvents() {
         List<KeyEventPair> strokes = new ArrayList<>();
         strokes.add(new KeyEventPair('a', EVENT.MoveLeft));
         strokes.add(new KeyEventPair('A', EVENT.MoveLeft));
@@ -117,7 +127,8 @@ public class GuiTests {
         InputHandler inputHandler = Mockito.mock(InputHandler.class);
         gui.startInputHandler(inputHandler);
 
-        Mockito.when(inputHandler.getLastKey()).thenReturn(null);
+        Mockito.when(inputHandler.getLastKey())
+                .thenReturn(null);
         assertEquals(EVENT.NullEvent, gui.getEvent());
 
         for (KeyEventPair ke : strokes)
@@ -141,10 +152,11 @@ public class GuiTests {
 
     @Test
     public void testStartCloseScreen() throws IOException {
+        Mockito.reset(screen);
         Gui gui = new Gui(room, screen, null);
-        Mockito.verify(screen).startScreen();
-        Mockito.verify(screen).setCursorPosition(null);
         Mockito.verify(screen).doResizeIfNecessary();
+        Mockito.verify(screen).setCursorPosition(null);
+        Mockito.verify(screen).startScreen();
 
         gui.close();
         Mockito.verify(screen).close();
@@ -162,5 +174,13 @@ public class GuiTests {
 
         Mockito.when(resizeHandler.getLastKnownSize()).thenReturn(new TerminalSize(100, 100));
         assertEquals(gui.getTermSize(), new TerminalSize(100, 100));
+    }
+
+    @Test
+    public void testDefaultInputHandlerStart() {
+        assertNull(gui.getInputHandler());
+        gui.startInputHandler();
+        assertNotNull(gui.getInputHandler());
+        gui.stopInputHandler();
     }
 }

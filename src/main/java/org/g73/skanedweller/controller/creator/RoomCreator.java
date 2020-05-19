@@ -5,7 +5,9 @@ import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.RayCast;
 import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.*;
+import org.g73.skanedweller.model.element.Element;
+import org.g73.skanedweller.model.element.RangedGuy;
+import org.g73.skanedweller.model.element.Wall;
 import org.g73.skanedweller.model.element.skane.Skane;
 
 public class RoomCreator {

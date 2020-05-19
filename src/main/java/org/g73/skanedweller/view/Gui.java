@@ -17,24 +17,11 @@ public class Gui {
     private TerminalResizeHandler resizeHandler;
     private RoomDrawer drawer;
 
-    private EVENT event;
-    private InputHandler inputHandler;
-
-    private final int DFLT_WIDTH = 80; // default board width
-    private final int DFLT_HEIGHT = 40; // default board height
-
-    public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler) throws IOException {
-        setUpScreen(newScreen);
-        this.screen = newScreen;
-        this.resizeHandler = resizeHandler;
-
-        this.room = room;
-        this.drawer = new Drawer(screen.newTextGraphics());
-        this.event = EVENT.NullEvent;
-    }
+    private EVENT event = EVENT.NullEvent;
+    private InputHandler inputHandler = null;
 
     public Gui(Room room) throws IOException {
-        TerminalSize init_size = new TerminalSize(DFLT_WIDTH, DFLT_HEIGHT);
+        TerminalSize init_size = new TerminalSize(room.getWidth(), room.getHeight());
         Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
         resizeHandler = new TerminalResizeHandler(init_size);
         terminal.addResizeListener(resizeHandler);
@@ -44,7 +31,19 @@ public class Gui {
 
         this.room = room;
         this.drawer = new Drawer(screen.newTextGraphics());
-        this.event = EVENT.NullEvent;
+    }
+
+    public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler) throws IOException {
+        this(room, newScreen, resizeHandler, new Drawer(newScreen.newTextGraphics()));
+    }
+
+    public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler, RoomDrawer drawer) throws IOException {
+        setUpScreen(newScreen);
+        this.screen = newScreen;
+        this.resizeHandler = resizeHandler;
+
+        this.room = room;
+        this.drawer = drawer;
     }
 
     public void setUpScreen(Screen screen) throws IOException {
@@ -53,12 +52,8 @@ public class Gui {
         screen.startScreen();
     }
 
-    public Gui(Room room, Screen screen, TerminalResizeHandler resizeHandler, RoomDrawer drawer) {
-        this.room = room;
-        this.screen = screen;
-        this.resizeHandler = resizeHandler;
-        this.drawer = drawer;
-        this.event = EVENT.NullEvent;
+    public InputHandler getInputHandler() {
+        return this.inputHandler;
     }
 
     public void stopInputHandler() throws NullPointerException {
@@ -148,6 +143,10 @@ public class Gui {
 
     public void setRoom(Room r) {
         this.room = r;
+    }
+
+    public Room getRoom() {
+        return this.room;
     }
 
     public TerminalSize getTermSize() {

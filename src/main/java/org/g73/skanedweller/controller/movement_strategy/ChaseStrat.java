@@ -5,11 +5,9 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.element_behaviours.MoveStrategy;
 import org.g73.skanedweller.model.element.skane.Scent;
-import org.g73.skanedweller.model.element.skane.Skane;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
 public abstract class ChaseStrat implements MoveStrategy {

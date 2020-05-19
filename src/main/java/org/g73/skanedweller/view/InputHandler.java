@@ -34,6 +34,10 @@ public class InputHandler implements Runnable {
         return t != null && t.isAlive();
     }
 
+    public Thread getThread() {
+        return t;
+    }
+
     public void run() {
         KeyStroke newKeyStroke;
         while (!halt) {
