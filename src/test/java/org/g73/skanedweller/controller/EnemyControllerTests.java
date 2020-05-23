@@ -52,4 +52,7 @@ public class EnemyControllerTests {
         Mockito.verify(enemy1, Mockito.never()).setPos(Mockito.any(Position.class));
         Mockito.verify(enemy2).setPos(Mockito.eq(new Position(1, 1)));
     }
+
+    @Test
+    public void
 }
