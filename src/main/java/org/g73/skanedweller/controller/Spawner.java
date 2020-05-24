@@ -1,6 +1,5 @@
 package org.g73.skanedweller.controller;
 
-import org.g73.skanedweller.controller.creator.Creator;
 import org.g73.skanedweller.controller.creator.elements_creator.ElementCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
@@ -46,5 +45,17 @@ public class Spawner implements Observer<Room> {
                 ++currCount;
             }
         }
+    }
+
+    public Position getSpawningPosition() {
+        return spawningPosition;
+    }
+
+    public Integer getMaxCount() {
+        return maxCount;
+    }
+
+    public Integer getDelay() {
+        return delay;
     }
 }

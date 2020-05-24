@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 
 public class MapReader {
-    private String map_name;
+    private BufferedReader br;
     private Integer length;
     private Integer height;
     private Position skanePos;
@@ -21,8 +21,7 @@ public class MapReader {
     private List<Position> melSpawners;
     private List<Position> ranSpawners;
 
-    public MapReader(String map_name) throws IOException {
-        this.map_name = map_name;
+    public MapReader() {
         this.length = 0;
         this.height = 0;
         this.walls = new ArrayList<>();
@@ -32,14 +31,24 @@ public class MapReader {
         this.civSpawners = new ArrayList<>();
         this.melSpawners = new ArrayList<>();
         this.ranSpawners = new ArrayList<>();
+    }
+    
+    public MapReader(String map_name) throws IOException {
+        this();
+        InputStream is = getClass().getClassLoader().getResourceAsStream(map_name);
+        if (is == null)
+            throw new FileNotFoundException();
+        br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        this.generateMap();
+    }
+    
+    public MapReader(BufferedReader br) throws IOException {
+        this();
+        this.br = br;
         this.generateMap();
     }
 
     public void generateMap() throws IOException {
-        InputStream is = getClass().getClassLoader().getResourceAsStream(map_name);
-        if (is == null)
-            throw new FileNotFoundException();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 
         int height=0, length;
 
@@ -60,18 +69,6 @@ public class MapReader {
         
         this.height = height;
         this.length = length;
-        genOutterWalls();
-    }
-
-    private void genOutterWalls() {
-        for (int i=0; i<height+2; ++i) {
-            walls.add(new Position(0, i));
-            walls.add(new Position(length + 1, i));
-        }
-        for (int i=1; i<length + 1; ++i) {
-            walls.add(new Position(i, 0));
-            walls.add(new Position(i, height + 1));
-        }
     }
 
     private void handleChar(Character c, Integer length, Integer height) {

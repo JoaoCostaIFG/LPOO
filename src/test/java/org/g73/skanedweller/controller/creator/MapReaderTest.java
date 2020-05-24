@@ -1,22 +1,21 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.junit.Test;
+import org.junit.Before;
 
 import java.io.IOException;
 
 import static org.junit.Assert.fail;
 
 public class MapReaderTest {
-    @Test
-    public void walls() {
-        MapReader mr = new MapReader("firstmap");
+    MapReader mr;
+    
+    @Before
+    public void setUp() {
         try {
-            mr.generateMap();
+            mr = new MapReader("firstmap");
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             fail();
         }
-
-        System.out.println(mr.getWalls().size());
     }
 }
