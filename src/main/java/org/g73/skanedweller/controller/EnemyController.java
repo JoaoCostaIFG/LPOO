@@ -65,7 +65,7 @@ public class EnemyController extends MovableController<Element> {
             posList = e.genMoves(room);
             for (Position p : posList) {
                 if (canMove(p, e, room)) {
-                    e.setPos(p);
+                    move(e, p);
                     break;
                 }
             }

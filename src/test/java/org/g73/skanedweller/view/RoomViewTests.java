@@ -75,12 +75,11 @@ public class RoomViewTests {
                         bgDarkChar);
 
 
-        for (int i = skaX - skaFov; i < skaX + skaFov; ++i) {
-            for (int j = skaY - skaFov; j < skaY + skaFov; ++j) {
-                if (Math.pow(skaX - i, 2) + Math.pow(skaY - j, 2) < skaFov * skaFov) {
+        for (int i = Math.max(skaX - skaFov, 0); i < skaX + skaFov && i >= 0; ++i) {
+            for (int j = Math.max(skaY - skaFov, 0); j < skaY + skaFov && j >= 0; ++j) {
+                if (Math.pow(skaX - i, 2) + Math.pow(skaY - j, 2) < skaFov * skaFov)
                     Mockito.verify(gra, times(1))
                             .setCharacter(i, j, bgChar);
-                }
             }
         }
     }

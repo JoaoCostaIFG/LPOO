@@ -19,8 +19,8 @@ public class RoomView {
     private static final int skaFov = 5;
 
     private void drawSkaneFov(TextGraphics gra, Position skaPos) {
-        for (int i = skaPos.getX() - skaFov; i < skaPos.getX() + skaFov; ++i) {
-            for (int j = skaPos.getY() - skaFov; j < skaPos.getY() + skaFov; ++j) {
+        for (int i = Math.max(skaPos.getX() - skaFov, 0); i < skaPos.getX() + skaFov && i >= 0; ++i) {
+            for (int j = Math.max(skaPos.getY() - skaFov, 0); j < skaPos.getY() + skaFov && j >= 0; ++j) {
                 if (Math.pow(skaPos.getX() - i, 2) + Math.pow(skaPos.getY() - j, 2) < skaFov * skaFov)
                     gra.setCharacter(i, j, bgChar);
             }

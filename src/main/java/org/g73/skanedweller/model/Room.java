@@ -113,11 +113,6 @@ public class Room implements Observable<Room> {
         this.notifyObservers(this);
     }
 
-    public void addElements(List<Element> elems) {
-        for (Element e : elems)
-            addElement(e);
-    }
-
     public void removeDeadEnemies() {
         ListIterator<Element> iter = enemies.listIterator();
         boolean deletedSomething = false;
@@ -142,27 +137,10 @@ public class Room implements Observable<Room> {
         return elems;
     }
 
-    public List<Collidable> getCollidableElems() {
-        // Equal to enemies, all are collidable
-        List<Collidable> elems = new ArrayList<>();
-
-        /* other */
-        elems.addAll(walls);
-        elems.addAll(enemies);
-
-        /* skane */
-        if (skane != null) {
-            elems.add(skane);
-            elems.addAll(skane.getBody());
-        }
-
-        return elems;
-    }
-
     public List<Collidable> getColliding(Collidable ent) {
         // TODO Can be optimized (Divide by octants) or use Listenable
         List<Collidable> res = new ArrayList<>();
-        for (Collidable e : getCollidableElems()) {
+        for (Collidable e : getElements()) {
             if (e.collidesWith(ent) && !e.equals(ent))
                 res.add(e);
         }

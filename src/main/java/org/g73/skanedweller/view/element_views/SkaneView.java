@@ -28,7 +28,7 @@ public class SkaneView {
         gra.setBackgroundColor(bg);
 
         double oxyPerc = (double) (ska.getMaxOxygenLevel() - ska.getOxygenLevel()) / ska.getMaxOxygenLevel();
-        long numSpotsToFill = Math.round((ska.getSize() + 1) * oxyPerc);
+        long numSpotsToFill = Math.round((ska.getSize() + 1) * oxyPerc); // orange spots to draw (empty oxygen)
         long numSpots = 0;
 
         gra.setForegroundColor(orange);

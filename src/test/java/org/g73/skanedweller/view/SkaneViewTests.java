@@ -1,7 +1,10 @@
 package org.g73.skanedweller.view;
 
 import com.googlecode.lanterna.SGR;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.AbstractTextGraphics;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.skane.Skane;
@@ -10,12 +13,14 @@ import org.g73.skanedweller.view.element_views.SkaneView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class SkaneViewTests {
@@ -40,8 +45,6 @@ public class SkaneViewTests {
     private TextGraphics gra;
     private Skane ska;
     private SkaneBody skaBody;
-
-    // TODO check green and orange colors
 
     @Before
     public void setUp() {
@@ -75,7 +78,7 @@ public class SkaneViewTests {
     }
 
     @Test
-    public void drawUnburySkane() {
+    public void testDrawUnburySkane() {
         Mockito.when(ska.isBury())
                 .thenReturn(false);
 
@@ -96,7 +99,7 @@ public class SkaneViewTests {
     }
 
     @Test
-    public void drawBurySkane() {
+    public void testDrawBurySkane() {
         Mockito.when(ska.isBury())
                 .thenReturn(true);
 
@@ -114,6 +117,110 @@ public class SkaneViewTests {
 
         Mockito.verify(gra, never())
                 .setBackgroundColor(bgDark);
+    }
+
+    @Test
+    public void testDrawBurySkaneBodyFOV() {
+        Mockito.when(ska.isBury())
+                .thenReturn(true);
+
+        when(skaBody.getX())
+                .thenReturn(8);
+        when(skaBody.getY())
+                .thenReturn(3);
+        Mockito.when(skaBody.getPos())
+                .thenReturn(new Position(8, 3));
+
+        new SkaneView().draw(gra, ska);
+        Mockito.verify(gra, never())
+                .setBackgroundColor(bgDark);
+
+        Mockito.reset(gra);
+        when(skaBody.getX())
+                .thenReturn(9);
+        when(skaBody.getY())
+                .thenReturn(3);
+        Mockito.when(skaBody.getPos())
+                .thenReturn(new Position(9, 3));
+
+        new SkaneView().draw(gra, ska);
+        Mockito.verify(gra)
+                .setBackgroundColor(bgDark);
+    }
+
+    private class TextGraphicsSpy extends AbstractTextGraphics {
+        private int width, height;
+        private TextCharacter plane[][];
+
+        public TextGraphicsSpy(int width, int height) {
+            this.width = width;
+            this.height = height;
+            this.plane = new TextCharacter[height][width];
+            for (int i = 0; i < width; ++i) {
+                for (int j = 0; j < height; ++j)
+                    plane[i][j] = null;
+            }
+        }
+
+        @Override
+        public TerminalSize getSize() {
+            return new TerminalSize(width, height);
+        }
+
+        @Override
+        public TextGraphics setCharacter(int column, int row, TextCharacter character) {
+            plane[column][row] = character;
+            return null;
+        }
+
+        @Override
+        public TextCharacter getCharacter(int column, int row) {
+            return plane[column][row];
+        }
+    }
+
+    @Test
+    public void testOxyIndicatorDraw() {
+        // making it so green needs to be called at least once
+        Mockito.when(ska.getOxygenLevel())
+                .thenReturn(maxOxy / 2);
+
+        new SkaneView().draw(gra, ska);
+        Mockito.verify(gra, atLeastOnce()).setForegroundColor(green);
+
+        /* using spy to check the chars */
+        TextGraphicsSpy graSpy = new TextGraphicsSpy(200, 200);
+        List<SkaneBody> bodies = new ArrayList<>();
+        for (int i = 1; i <= 10; ++i) {
+            SkaneBody b = Mockito.mock(SkaneBody.class);
+            Mockito.when(b.getX())
+                    .thenReturn(3 + i);
+            Mockito.when(b.getY())
+                    .thenReturn(3);
+            Mockito.when(b.getPos())
+                    .thenReturn(new Position(3 + i, 3));
+
+            bodies.add(b);
+        }
+        Mockito.when(ska.getBody())
+                .thenReturn(bodies);
+        Mockito.when(ska.getSize())
+                .thenReturn(bodies.size());
+
+        new SkaneView().draw(graSpy, ska);
+
+        TextCharacter bodyOrange = new TextCharacter('o', orange, bg, SGR.BOLD);
+        for (int i = 0; i < 6; ++i) {
+            SkaneBody b = bodies.get(i);
+            assertEquals(graSpy.getCharacter(b.getX(), b.getY()), bodyOrange);
+        }
+        TextCharacter bodyGreen = new TextCharacter('o', green, bg, SGR.BOLD);
+        for (int i = 6; i < 10; ++i) {
+            SkaneBody b = bodies.get(i);
+            assertEquals(graSpy.getCharacter(b.getX(), b.getY()), bodyGreen);
+        }
+
+        assertEquals(graSpy.getCharacter(skaX, skaY), new TextCharacter('S', green, bg, SGR.BOLD));
     }
 
     @After

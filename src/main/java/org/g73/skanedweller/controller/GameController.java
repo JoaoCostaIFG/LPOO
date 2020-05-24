@@ -27,13 +27,6 @@ public class GameController implements Controller {
         new GameController().start();
     }
 
-    private void handleEvent(EVENT event) {
-        if (event == EVENT.NullEvent) return;
-        else if (event == EVENT.QuitGame) this.end();
-        else if (event == EVENT.RestartGame) this.state = GAMEST.RESTART;
-        else playerController.setEvent(event); // Player Event
-    }
-
     public GameController(Room room, Gui gui, SkaneController skaCtr) {
         this.room = room;
         this.gui = gui;
@@ -42,8 +35,8 @@ public class GameController implements Controller {
         controllers.add(new EnemyController());
         controllers.add(skaCtr);
         this.playerController = skaCtr;
-        this.spawners = createSpawners();
 
+        this.spawners = createSpawners();
         for (Spawner s: spawners)
             room.addObserver(s);
     }
@@ -81,6 +74,21 @@ public class GameController implements Controller {
         return spawners;
     }
 
+    public List<Spawner> getSpawners() {
+        return this.spawners;
+    }
+
+    public void setSpawners(List<Spawner> spawners) {
+        this.spawners = spawners;
+    }
+
+    private void handleEvent(EVENT event) {
+        if (event == EVENT.NullEvent) return;
+        else if (event == EVENT.QuitGame) this.end();
+        else if (event == EVENT.RestartGame) this.state = GAMEST.RESTART;
+        else playerController.setEvent(event); // Player Event
+    }
+
     @Override
     public void update(Room room) {
         handleEvent(gui.getEvent());
@@ -107,7 +115,7 @@ public class GameController implements Controller {
                 if (DELAY - timeDiff > 0)
                     Thread.sleep(DELAY - timeDiff);
             } catch (InterruptedException e) {
-                System.out.println("Thread interrupted: %s" + e.getMessage());
+                // System.out.println("Thread interrupted: %s" + e.getMessage());
             }
             beforeTime = System.currentTimeMillis();
         }
