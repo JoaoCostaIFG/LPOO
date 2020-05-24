@@ -13,7 +13,6 @@ import org.g73.skanedweller.view.element_views.SkaneView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;

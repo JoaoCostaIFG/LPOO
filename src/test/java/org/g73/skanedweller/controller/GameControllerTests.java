@@ -5,7 +5,6 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.EVENT;
 import org.g73.skanedweller.view.Gui;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;

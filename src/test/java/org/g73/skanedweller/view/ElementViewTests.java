@@ -3,8 +3,6 @@ package org.g73.skanedweller.view;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.sun.org.apache.bcel.internal.generic.LADD;
-import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.view.element_views.*;
 import org.junit.Before;

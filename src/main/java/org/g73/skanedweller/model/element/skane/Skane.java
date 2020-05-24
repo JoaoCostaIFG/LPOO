@@ -92,7 +92,8 @@ public class Skane extends Element {
     public Position getTailPos() {
         if (body.size() == 0)
             return null;
-        return body.get(body.size() - 1).getPos();
+        //return body.get(body.size() - 1).getPos();
+        return body.get(0).getPos();
     }
 
     public LinkedHashSet<Scent> getScentTrail() {

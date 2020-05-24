@@ -1,7 +1,5 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.creator.CreatorUtilities;
-import org.g73.skanedweller.controller.creator.RoomCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;

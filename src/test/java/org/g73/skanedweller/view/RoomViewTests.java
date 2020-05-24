@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import static com.googlecode.lanterna.TextColor.Factory.fromString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
 public class RoomViewTests {
@@ -75,10 +76,13 @@ public class RoomViewTests {
                         bgDarkChar);
 
 
-        for (int i = Math.max(skaX - skaFov, 0); i < skaX + skaFov && i >= 0; ++i) {
-            for (int j = Math.max(skaY - skaFov, 0); j < skaY + skaFov && j >= 0; ++j) {
+        for (int i = 0; i < room.getWidth(); ++i) {
+            for (int j = 0; j < room.getHeight(); ++j) {
                 if (Math.pow(skaX - i, 2) + Math.pow(skaY - j, 2) < skaFov * skaFov)
                     Mockito.verify(gra, times(1))
+                            .setCharacter(i, j, bgChar);
+                else
+                    Mockito.verify(gra, never())
                             .setCharacter(i, j, bgChar);
             }
         }
