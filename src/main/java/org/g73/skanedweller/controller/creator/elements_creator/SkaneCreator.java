@@ -1,16 +1,17 @@
-package org.g73.skanedweller.controller.creator;
+package org.g73.skanedweller.controller.creator.elements_creator;
 
+import org.g73.skanedweller.controller.creator.Creator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.skane.Skane;
 
-public class SkaneCreator extends Creator<Skane> {
-    private Integer attack_dmg, hp, oxygen_lvl, size;
+public class SkaneCreator extends ElementCreator {
+    private Integer size;
+    private Integer oxygen_lvl;
 
     public SkaneCreator(Integer attack_dmg, Integer hp, Integer oxygen_lvl, Integer size) {
-        this.attack_dmg = attack_dmg;
-        this.hp = hp;
-        this.oxygen_lvl = oxygen_lvl;
+        super(hp, attack_dmg, 0);
         this.size = size;
+        this.oxygen_lvl = oxygen_lvl;
     }
 
     public SkaneCreator() {
@@ -21,8 +22,8 @@ public class SkaneCreator extends Creator<Skane> {
     public Skane create(Position pos) {
         Skane.SkaneOpts skane_opts = new Skane.SkaneOpts();
         skane_opts.pos = pos;
-        skane_opts.attack_dmg = attack_dmg;
-        skane_opts.hp = hp;
+        skane_opts.attack_dmg = super.getAtk();
+        skane_opts.hp = super.getHp();
         skane_opts.oxygen_lvl = oxygen_lvl;
         skane_opts.size = size;
 

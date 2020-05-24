@@ -158,8 +158,9 @@ public class Gui {
     }
 
     public void draw() throws IOException {
-        if (resizeHandler.hasResized()) {
-            TerminalSize newsize = resizeHandler.getLastKnownSize();
+        TerminalSize newsize = resizeHandler.getLastKnownSize();
+        if (resizeHandler.hasResized() || 
+                newsize.getColumns() != room.getWidth() || newsize.getRows() != room.getHeight()) {
             room.setSize(newsize.getColumns(), newsize.getRows());
             screen.doResizeIfNecessary();
         }

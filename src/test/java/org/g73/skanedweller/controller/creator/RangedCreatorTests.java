@@ -1,5 +1,6 @@
 package org.g73.skanedweller.controller.creator;
 
+import org.g73.skanedweller.controller.creator.elements_creator.RangedCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.RangedGuy;
 import org.junit.Before;
