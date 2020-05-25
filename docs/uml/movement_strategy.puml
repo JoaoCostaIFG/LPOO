@@ -6,25 +6,36 @@ skinparam linetype polyline
 skinparam shadowing false
 
 interface Movable {
-  + setMoveStrat(moveStrat)
-  + genMoves(org.g73.skanedweller.model, element) : List<Position>
+  + setMoveStrat(MoveStrategy)
+  + genMoves(Room, Element) : List<Position>
 }
+
+abstract class Element {
+- moveStrategy
++ genMoves(Room) : List<Position>
+}
+
+class ImovableBehaviour {}
+class MovableBehaviour {}
+class Civilian {}
+class MeleeGuy {}
+class RangedGuy {}
 
 interface MoveStrategy {
 + genMoves(Room, Element)
 }
 
-abstract class Element {
-- moveStrategy
-+ executeStrategy(Room) : List<Position>
+abstract class ChaseStrat {
+# addRayPos(Room, List<PosDist>, source: Position, target: Position) : double
+# checkRayScent(Room, source: Position, scentPos: Position) : boolean
+# convertToSortPosList(List<PosDist>, Position) : List<Position>
+# chaseScent(Room, elemPos: Position, listPos: List<PosDist>)
 }
-
 class MeleeMoveStrat {}
-class ScaredMoveStrat {}
-class ImovableBehaviour {}
-class MovableBehaviour {}
-class Civilian {}
-class MeleeGuy {}
+class RangedMoveStrat {}
+class ScaredMoveStrat {
+- canSeeSkane(Room, skanePos: Position)
+}
 
 ImovableBehaviour .up.^ Movable
 MovableBehaviour .up.^ Movable
@@ -34,9 +45,12 @@ Element -up-> MovableBehaviour
 
 Civilian -up-^ Element
 MeleeGuy -up-^ Element
+RangedGuy -up-^ Element
 
-MeleeMoveStrat .up.^ MoveStrategy
+ChaseStrat .up.^ MoveStrategy
 ScaredMoveStrat .up.^ MoveStrategy
+MeleeMoveStrat -up-^ ChaseStrat
+RangedMoveStrat -up-^ ChaseStrat
 
 MovableBehaviour -left-> MoveStrategy 
 

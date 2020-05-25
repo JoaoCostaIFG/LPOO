@@ -188,8 +188,8 @@ The interfaces and other behaviors can be found in the following files:
 
 The game elements can be found in the following files:
 
-- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java) --
-As mentioned above, all game objects extend this Abstract class.
+- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java) - As
+mentioned above, all game objects extend this Abstract class.
 
 - [Civilian](/src/main/java/org/g73/skanedweller/model/element/Civilian.java)
 - [Laser](/src/main/java/org/g73/skanedweller/model/element/Laser.java)
@@ -239,20 +239,25 @@ enemy types use the same movement strategy.
 #### Implementation
 
 The following picture illustrates how the pattern's roles were mapped to the
-game's classes.
+game's classes.  
+**Note:** Only game elements that are 'movable', as in, instanciated with a
+_MovableBehaviour class_ are shown in the following UML class diagram.
 
 ![Movement strategy pattern](/docs/uml/movement_strategy.png)
 
 These classes can be found in the following files:
 
+- [ChaseStrat](/src/main/java/org/g73/skanedweller/controller/movement_strategy/ChaseStrat.java)
 - [Civilian](/src/main/java/org/g73/skanedweller/model/element/Civilian.java)
 - [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java)
 - [ImovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/ImovableBehaviour.java)
+- [MeleeGuy](/src/main/java/org/g73/skanedweller/model/element/MeleeGuy.java)
 - [MeleeMoveStrat](/src/main/java/org/g73/skanedweller/controller/movement_strategy/MeleeMoveStrat.java)
 - [Movable](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Movable.java)
 - [MovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MovableBehaviour.java)
 - [MoveStrategy](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MoveStrategy.java)
-- [MeleeGuy](/src/main/java/org/g73/skanedweller/model/element/MeleeGuy.java)
+- [RangedGuy](/src/main/java/org/g73/skanedweller/model/element/RangedGuy.java)
+- [RangedMoveStrat](/src/main/java/org/g73/skanedweller/model/element/RangedMoveStrat.java)
 - [ScaredMoveStrat](/src/main/java/org/g73/skanedweller/controller/movement_strategy/ScaredMoveStrat.java)
 
 #### Consequences
