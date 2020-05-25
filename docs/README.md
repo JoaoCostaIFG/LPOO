@@ -2,7 +2,7 @@
 
 In this game, the player controls a giant snake known as **Skane**. The player's
 objective is, putting it simply, to wreak havoc. Be careful with armed enemies,
-though.
+though. They can easily ruin your day.
 
 This project was developed by _João de Jesus Costa_ (_up201806560_@fe.up.pt) and
 _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
