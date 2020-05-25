@@ -1,6 +1,7 @@
 package org.g73.skanedweller.controller;
 
 import com.googlecode.lanterna.TerminalSize;
+import org.g73.skanedweller.controller.creator.MapReader;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.EVENT;
@@ -20,18 +21,20 @@ public class GameControllerTests {
     private GameController game;
     private Gui gui;
     private Room room;
+    private MapReader mr;
     private SkaneController ska_ctr;
 
     @Before
     public void setUp() {
         room = Mockito.mock(Room.class);
         gui = Mockito.mock(Gui.class);
+        mr = Mockito.mock(MapReader.class);
         ska_ctr = Mockito.mock(SkaneController.class);
 
         Mockito.when(room.getSkane()).thenReturn(new Skane(1, 1, 1, 1, 1, 1));
         Mockito.when(gui.getTermSize()).thenReturn(new TerminalSize(10, 10));
 
-        this.game = new GameController(room, gui, ska_ctr);
+        this.game = new GameController(room, gui, mr, ska_ctr);
         assertEquals(room, game.getRoom());
     }
 
@@ -100,7 +103,6 @@ public class GameControllerTests {
     public void testSpawners() throws IOException {
         List<Spawner> spawners = game.getSpawners();
         int numSpawners = spawners.size();
-        assertNotEquals(numSpawners, 0); // 3 types of enemies, 1 spawner for each
         verify(room, times(numSpawners)).addObserver(any(Spawner.class));
         for (Spawner s : spawners)
             verify(room).addObserver(s);

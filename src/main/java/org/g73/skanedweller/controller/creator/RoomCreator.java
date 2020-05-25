@@ -1,70 +1,50 @@
 package org.g73.skanedweller.controller.creator;
 
+import org.g73.skanedweller.controller.creator.elements_creator.*;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.RayCast;
 import org.g73.skanedweller.model.Room;
-import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.Wall;
 
+import java.util.List;
+
 public class RoomCreator {
-    private CreatorUtilities creatorUtls;
-
-    public RoomCreator() {
-        this.creatorUtls = new CreatorUtilities();
-    }
-
-    public RoomCreator(CreatorUtilities creatorUtls) {
-        this.creatorUtls = creatorUtls;
-    }
-
-    private void addRoomElement(Room room, Element e) {
-        creatorUtls.regPos(e.getPos());
-        room.addElement(e);
-    }
-
-    private void createWalls(Room room, int width, int height) {
-        for (int c = 0; c < width; ++c) {
-            addRoomElement(room, new Wall(c, 0));
-            addRoomElement(room, new Wall(c, height - 1));
-        }
-
-        for (int r = 1; r < height - 1; ++r) {
-            addRoomElement(room, new Wall(0, r));
-            addRoomElement(room, new Wall(width - 1, r));
-        }
-
-        for (int m = height / 3; m < 2 * height / 3; ++m) {
-            addRoomElement(room, new Wall(width / 2, m));
-        }
-    }
-
-    private void createEnemies(Room room, int width, int height) {
+    private void createEnemies(Room room, List<Position> civs, List<Position> melees, List<Position> rangeds) {
         CivieCreator cc = new CivieCreator();
-        for (int i = 0; i < 1; ++i) {
-            Position pos = creatorUtls.getRdmPosRoom(width, height);
-            addRoomElement(room, cc.create(pos));
-        }
+        for (Position pos: civs)
+            room.addElement(cc.create(pos));
 
         MeleeCreator mc = new MeleeCreator(); // Mc Champions - Ebola
-        for (int i = 0; i < 1; ++i) {
-            Position pos = creatorUtls.getRdmPosRoom(width, height);
-            addRoomElement(room, mc.create(pos));
-        }
+        for (Position pos: melees)
+            room.addElement(mc.create(pos));
 
         RangedCreator rc = new RangedCreator();
-        for (int i = 0; i < 1; ++i) {
-            Position pos = creatorUtls.getRdmPosRoom(width, height);
-            addRoomElement(room, rc.create(pos));
-        }
+        for (Position pos: rangeds)
+            room.addElement(rc.create(pos));
     }
 
-    public Room createRoom(int width, int height) {
+    private void genOutterWalls(Room room) {
+        int height = room.getHeight(), length = room.getWidth();
+        for (int i=0; i<height+2; ++i) {
+            room.addElement(new Wall(new Position(0, i)));
+            room.addElement(new Wall(new Position(length + 1, i)));
+        }
+        for (int i=1; i<length + 1; ++i) {
+            room.addElement(new Wall(new Position(i, 0)));
+            room.addElement(new Wall(new Position(i, height + 1)));
+        }
+    }
+    
+    public Room createRoom(MapReader mr) {
+        int height = mr.getHeight();
+        int width = mr.getLength();
         Room room = new Room(width, height);
 
-        createWalls(room, width, height);
-        Position skaPos = creatorUtls.getRdmPosRoom(width, height);
-        addRoomElement(room, new SkaneCreator().create(skaPos));
-        createEnemies(room, width, height);
+        for (Position p: mr.getWalls())
+            room.addElement(new Wall(p));
+        genOutterWalls(room);
+        createEnemies(room, mr.getCivilians(), mr.getMeleeEnem(), mr.getRangedEnem());
+        room.addElement(new SkaneCreator().create(mr.getSkanePos()));
 
         room.setRayCasting(new RayCast());
         return room;

@@ -1,15 +1,12 @@
-package org.g73.skanedweller.controller.creator;
+package org.g73.skanedweller.controller.creator.elements_creator;
 
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.Civilian;
-import org.g73.skanedweller.model.element.Element;
 
-public class CivieCreator extends Creator<Civilian> {
-    private Integer hp;
-
+public class CivieCreator extends ElementCreator {
     public CivieCreator(Integer hp) {
-        this.hp = hp;
+        super(hp, 0, 0);
     }
 
     public CivieCreator() {
@@ -19,7 +16,7 @@ public class CivieCreator extends Creator<Civilian> {
     @Override
     public Civilian create(Position pos) {
         ScaredMoveStrat scared_strat = new ScaredMoveStrat(12);
-        Civilian c = new Civilian(pos, hp);
+        Civilian c = new Civilian(pos, super.getHp());
         c.setMoveStrat(scared_strat);
         return c;
     }

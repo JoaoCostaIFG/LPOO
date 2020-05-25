@@ -1,6 +1,7 @@
 package org.g73.skanedweller.controller;
 
 import org.g73.skanedweller.controller.creator.Creator;
+import org.g73.skanedweller.controller.creator.elements_creator.ElementCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.never;
 public class SpawnerTests {
     @Test
     public void spawn() {
-        Creator cr = Mockito.mock(Creator.class);
+        ElementCreator cr = Mockito.mock(ElementCreator.class);
         MeleeGuy e = Mockito.mock(MeleeGuy.class);
         Mockito.when(cr.create(any(Position.class))).thenReturn(e);
         Position pos = new Position(20, 21);

@@ -1,10 +1,8 @@
 package org.g73.skanedweller.controller;
 
-import com.googlecode.lanterna.TerminalSize;
-import org.g73.skanedweller.controller.creator.CivieCreator;
-import org.g73.skanedweller.controller.creator.MeleeCreator;
-import org.g73.skanedweller.controller.creator.RangedCreator;
+import org.g73.skanedweller.controller.creator.MapReader;
 import org.g73.skanedweller.controller.creator.RoomCreator;
+import org.g73.skanedweller.controller.creator.spawners_creator.*;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.view.EVENT;
@@ -21,56 +19,56 @@ public class GameController implements Controller {
     private List<Controller> controllers;
     private PlayerController playerController;
     private List<Spawner> spawners;
-    private final int DELAY = 30; // time between frames (in ms)
+    private MapReader mapReader;
+    private static final String map_name = "firstmap";
+    private static final int DELAY = 30; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
         new GameController().start();
     }
 
-    public GameController(Room room, Gui gui, SkaneController skaCtr) {
+    public GameController(Room room, Gui gui, MapReader mr, SkaneController skaCtr) {
         this.room = room;
         this.gui = gui;
         this.state = GAMEST.RUNNING;
-        this.controllers = new ArrayList<Controller>();
+        this.controllers = new ArrayList<>();
         controllers.add(new EnemyController());
         controllers.add(skaCtr);
         this.playerController = skaCtr;
+        this.mapReader = mr;
 
         this.spawners = createSpawners();
         for (Spawner s: spawners)
             room.addObserver(s);
     }
 
-    public GameController(Room room) throws IOException {
-        this(room, new Gui(room),
+    public GameController(Room room, MapReader mr) throws IOException {
+        this(room, new Gui(room), mr,
                 new SkaneController(room.getSkane(), 50));
+    }
+    
+    public GameController(MapReader mr) throws IOException {
+        this(new RoomCreator().createRoom(mr), mr);
     }
 
     public GameController() throws IOException {
-        this(new RoomCreator().createRoom(80, 40));
+        this(new MapReader(map_name));
     }
 
-    private static List<Spawner> createSpawners() {
+    private List<Spawner> createSpawners() {
         List<Spawner> spawners = new ArrayList<>();
-        final Integer maxMelee = 10;
-        final Integer meleeDelay = 30 * 10; // 10 seconds
-        final Integer maxRanged = 5;
-        final Integer rangedDelay = 30 * 15; // 10 seconds
-        final Integer maxCivies = 30;
-        final Integer civiesDelay = 30 * 1;
-
-        Spawner meleeSpawner =
-                new Spawner(maxMelee, meleeDelay, new MeleeCreator(), new Position(3,3));
-        spawners.add(meleeSpawner);
-
-        Spawner rangedSpawner =
-                new Spawner(maxRanged, rangedDelay, new RangedCreator(), new Position(60,3));
-        spawners.add(rangedSpawner);
-
-        Spawner civieSpawner =
-                new Spawner(maxCivies, civiesDelay, new CivieCreator(), new Position(60, 35));
-        spawners.add(civieSpawner);
-
+        SpawnerCreator civSpCreator = new CivSpawnerCreator();
+        for (Position p: this.mapReader.getCivSpawners())
+            spawners.add(civSpCreator.create(p));
+        
+        SpawnerCreator meleeSpCreator = new MeleeSpawnerCreator();
+        for (Position p: this.mapReader.getMelSpawners())
+            spawners.add(meleeSpCreator.create(p));
+        
+        SpawnerCreator rangedSpCreator = new RangedSpawnerCreator();
+        for (Position p: this.mapReader.getRanSpawners())
+            spawners.add(rangedSpCreator.create(p));
+        
         return spawners;
     }
 
@@ -135,8 +133,7 @@ public class GameController implements Controller {
 
     public void restart() {
         this.state = GAMEST.RUNNING;
-        TerminalSize ts = gui.getTermSize();
-        this.room = new RoomCreator().createRoom(ts.getColumns(), ts.getRows());
+        this.room = new RoomCreator().createRoom(mapReader);
 
         this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
