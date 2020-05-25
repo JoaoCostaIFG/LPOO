@@ -84,27 +84,11 @@ game's classes.
 
 The **model component classes** can be found in the following files:
 
-**Note**: Many classes/interfaces of the model component of our MVC pattern
-implementation have been omitted from this UML class diagram because they
-will be discussed in more detail in the **Structuring the game element
-inheritance hierarchy** chapter.
+**Note**: Many classes/interfaces from our implementation have been omitted from
+this UML class diagram so it wouldn't be too bloated. Most of them will be
+discussed in more detail in other sections of this chapter.
 
-- [Room](/src/main/java/org/g73/skanedweller/model/Room.java)
-
-The **view component classes** can be found in the
-following files:
-
-- [CivieView](/src/main/java/org/g73/skanedweller/view/element_views/CivieView.java)
-- [Drawer](/src/main/java/org/g73/skanedweller/view/Drawer.java)
-- [Gui](/src/main/java/org/g73/skanedweller/view/Gui.java)
-- [MeleeGuyView](/src/main/java/org/g73/skanedweller/view/element_views/MeleeGuyView.java)
-- [RoomDrawer](/src/main/java/org/g73/skanedweller/view/RoomDrawer.java)
-- [RoomView](/src/main/java/org/g73/skanedweller/view/element_views/RoomView.java)
-- [SkaneView](/src/main/java/org/g73/skanedweller/view/element_views/SkaneView.java)
-- [WallView](/src/main/java/org/g73/skanedweller/view/element_views/WallView.java)
-
-The **controller component classes** can be found in the
-following files:
+The shown **controller component classes** can be found in the following files:
 
 - [CollisionHandler](/src/main/java/org/g73/skanedweller/controller/CollisionHandler.java)
 - [Controller](/src/main/java/org/g73/skanedweller/controller/Controller.java)
@@ -113,6 +97,22 @@ following files:
 - [MovableController](/src/main/java/org/g73/skanedweller/controller/MovableController.java)
 - [PlayerController](/src/main/java/org/g73/skanedweller/controller/PlayerController.java)
 - [SkaneController](/src/main/java/org/g73/skanedweller/controller/SkaneController.java)
+
+The shown **model component classes** can be found in the following files:
+
+- [Room](/src/main/java/org/g73/skanedweller/model/Room.java)
+- [RayCasting](/src/main/java/org/g73/skanedweller/model/RayCasting.java)
+- [RayCast](/src/main/java/org/g73/skanedweller/model/RayCast.java)
+
+The shown **view component classes** can be found in the following files:
+
+- [Drawer](/src/main/java/org/g73/skanedweller/view/Drawer.java)
+- [Gui](/src/main/java/org/g73/skanedweller/view/Gui.java)
+- [RoomDrawer](/src/main/java/org/g73/skanedweller/view/RoomDrawer.java)
+
+- [InputHandler](/src/main/java/org/g73/skanedweller/view/InputHandler.java)
+- The _TerminalResizeListener class_ is part of Google's Lanterna package.
+- [TerminalResizeHandler](/src/main/java/org/g73/skanedweller/view/TerminalResizeHandler.java)
 
 #### Consequences
 
