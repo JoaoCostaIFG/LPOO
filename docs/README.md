@@ -26,11 +26,11 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
   bigger you become.
 - **Suffering damage** - Enemies can damage the **Skane** with their weapons,
   making it shrink.
-- **Damaging/Killing enemies** - for now, all enemies are invulnerable.
+- **Damaging/Killing enemies** - All enemies can be killed;
 - **Fog of war** - when the **Skane** is buried, it's ability to see is limited.
   The **Skane** needs to get closer to enemies of walls to sense them.
 - **Death** - If a **Skane** is too small to withstand incoming damage, it dies.
-- **Enemy spawning** - enemies should spawn over time during the game.
+- **Enemy spawning** - enemies spawn over time during the game.
 - **Map importing** - it's easy to create and import your own custom maps.
 
 ### Abandoned ideas
