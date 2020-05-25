@@ -95,7 +95,6 @@ public class GameController implements Controller {
         // TODO
         if (!room.getSkane().isAlive())
             this.state = GAMEST.RESTART;
-        System.out.println(room.getSkane().getHp());
 
         for (Controller c : this.controllers)
             c.update(room);
