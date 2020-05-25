@@ -6,27 +6,41 @@ skinparam linetype polyline
 
 package "Model" #EEDDDD {
   class Room {}
+  interface RayCasting {}
+  class RayCast {}
 }
 
 package "View" #DDEEDD {
-  interface RoomDrawer {}
+  /'
   class CivieView {}
+  class LaserView {}
   class MeleeGuyView {}
+  class RangedGuyView {}
   class RoomView {}
   class SkaneView {}
   class WallView {}
+  '/
+
   class Drawer {}
+  interface RoomDrawer {}
   class Gui {}
+  class TerminalResizeHandler {}
+  interface TerminalResizeListener {}
+  class InputHandler {}
 }
 
 package "Controller" #DDDDEE {
   class CollisionHandler {}
   interface Controller {}
   class EnemyController {}
-  class GameController {}
   abstract class MovableController {}
   interface PlayerController {}
   class SkaneController {}
+
+  class GameController #orange {}
+  note left of GameController
+  this is the main class
+  end note
 }
 
 PlayerController -up-^ Controller
@@ -40,17 +54,28 @@ EnemyController --^ MovableController
 SkaneController --^ MovableController 
 SkaneController .up.^ PlayerController
 
+/'
 Drawer -up-> CivieView
+Drawer -up-> LaserView
 Drawer -up-> MeleeGuyView
+Drawer -up-> RangedGuyView
 Drawer -up-> RoomView
 Drawer -up-> SkaneView
 Drawer -up-> WallView
+'/
 Drawer .down.^ RoomDrawer 
-Gui -right-> RoomDrawer
+TerminalResizeHandler .down.^ TerminalResizeListener
+Gui -up-> TerminalResizeListener
+Gui -left-> RoomDrawer
 Gui -down-> Room
+Gui -right-> InputHandler
+
 
 GameController ---> Room
 GameController --right-> Gui
+
+Room -down-> RayCasting
+RayCast .up.> RayCasting
 
 @enduml
 
