@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -252,11 +253,17 @@ public class RoomTests {
         Position s = Mockito.mock(Position.class);
         Position t = Mockito.mock(Position.class);
 
-        room.posRay(s, t);
+        List<Position> posL = new ArrayList<>(Collections.singletonList(t));
+        Mockito.when(rc.posRay(room, s, t))
+                .thenReturn(posL);
+        assertEquals(room.posRay(s, t), posL);
         Mockito.verify(rc).posRay(room, s, t);
 
         Mockito.reset(rc);
-        room.elemRay(s, t);
+        List<Element> elemL = new ArrayList<>(Collections.singletonList(Mockito.mock(Element.class)));
+        Mockito.when(rc.elemRay(room, s, t))
+                .thenReturn(elemL);
+        assertEquals(room.elemRay(s, t), elemL);
         Mockito.verify(rc).elemRay(room, s, t);
     }
 

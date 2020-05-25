@@ -1,6 +1,5 @@
 package org.g73.skanedweller.controller.creator.elements_creator;
 
-import org.g73.skanedweller.controller.creator.Creator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.skane.Skane;
 

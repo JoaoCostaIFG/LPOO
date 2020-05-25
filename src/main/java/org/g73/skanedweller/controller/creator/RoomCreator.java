@@ -1,6 +1,9 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.creator.elements_creator.*;
+import org.g73.skanedweller.controller.creator.elements_creator.CivieCreator;
+import org.g73.skanedweller.controller.creator.elements_creator.MeleeCreator;
+import org.g73.skanedweller.controller.creator.elements_creator.RangedCreator;
+import org.g73.skanedweller.controller.creator.elements_creator.SkaneCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.RayCast;
 import org.g73.skanedweller.model.Room;

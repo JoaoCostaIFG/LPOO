@@ -2,7 +2,10 @@ package org.g73.skanedweller.controller;
 
 import org.g73.skanedweller.controller.creator.MapReader;
 import org.g73.skanedweller.controller.creator.RoomCreator;
-import org.g73.skanedweller.controller.creator.spawners_creator.*;
+import org.g73.skanedweller.controller.creator.spawners_creator.CivSpawnerCreator;
+import org.g73.skanedweller.controller.creator.spawners_creator.MeleeSpawnerCreator;
+import org.g73.skanedweller.controller.creator.spawners_creator.RangedSpawnerCreator;
+import org.g73.skanedweller.controller.creator.spawners_creator.SpawnerCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.view.EVENT;
