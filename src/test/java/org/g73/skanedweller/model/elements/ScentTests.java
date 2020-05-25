@@ -1,4 +1,4 @@
-package org.g73.skanedweller.model;
+package org.g73.skanedweller.model.elements;
 
 import org.g73.skanedweller.model.element.skane.Scent;
 import org.junit.Before;

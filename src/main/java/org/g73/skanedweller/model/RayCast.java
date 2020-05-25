@@ -17,7 +17,8 @@ public class RayCast implements RayCasting {
         int errorTerm = errorUp - deltaX;
 
         int x = s.getX(), y = s.getY();
-        while (x != t.getX() || y != t.getY()) {
+        while ((x != t.getX() || y != t.getY()) &&
+                (x >= 0 && x <= room.getWidth() && y >= 0 && y <= room.getHeight())) {
             if (errorTerm >= 0) {
                 y += yDirection;
                 errorTerm -= errorDown; // error goes down
@@ -45,7 +46,8 @@ public class RayCast implements RayCasting {
         int errorTerm = errorUp - deltaY;
 
         int x = s.getX(), y = s.getY();
-        while (x != t.getX() || y != t.getY()) {
+        while ((x != t.getX() || y != t.getY()) &&
+                (x >= 0 && x <= room.getWidth() && y >= 0 && y <= room.getHeight())) {
             if (errorTerm >= 0) {
                 x += xDirection;
                 errorTerm -= errorDown; // error goes down

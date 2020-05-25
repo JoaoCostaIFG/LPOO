@@ -209,7 +209,7 @@ public class RoomTests {
     }
 
     @Test
-    public void getCollidingElements() {
+    public void testGetCollidingElements() {
         Civilian c = Mockito.mock(Civilian.class);
         assertNotEquals(c, ska);
         room.addElement(c);
@@ -222,5 +222,25 @@ public class RoomTests {
         Mockito.when(c.collidesWith(ska))
                 .thenReturn(false);
         assertEquals(room.getColliding(ska), new ArrayList<>());
+    }
+
+    @Test
+    public void testGetCollidingElemsInPos() {
+        Civilian c = Mockito.mock(Civilian.class);
+        assertNotEquals(c, ska);
+        room.addElement(c);
+        room.addElement(ska);
+
+        Mockito.when(ska.collidesWith(c))
+                .thenReturn(true);
+
+        Position cPos = new Position(2, 2);
+        Position newPos = new Position(3, 3);
+        Mockito.when(c.shadowStep(cPos))
+                .thenReturn(newPos);
+
+        assertEquals(room.getCollidingElemsInPos(c, cPos), new ArrayList<Element>(Collections.singletonList(ska)));
+        Mockito.verify(c).shadowStep(cPos);
+        Mockito.verify(c).shadowStep(newPos);
     }
 }
