@@ -11,9 +11,7 @@ import org.g73.skanedweller.model.element.Laser;
 import org.g73.skanedweller.model.element.RangedGuy;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.w3c.dom.ranges.Range;
 
 import java.util.ArrayList;
 import java.util.List;
