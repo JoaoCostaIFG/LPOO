@@ -5,13 +5,13 @@ import org.g73.skanedweller.model.element.skane.Skane;
 
 public class SkaneAttackCollision extends CollisionStrategy<Skane, Element> {
     @Override
-    public boolean handle(Skane skane, Element prey) {
-        prey.takeDamage(skane.getAtk());
+    public boolean handle(Skane movElem, Element collElem) {
+        collElem.takeDamage(movElem.getAtk());
 
         // TODO
-        if (!prey.isAlive()) {
-            skane.setHp(skane.getHp() + 1);
-            skane.grow();
+        if (!collElem.isAlive()) {
+            movElem.setHp(movElem.getHp() + 1);
+            movElem.grow();
             return true;
         }
         return false;

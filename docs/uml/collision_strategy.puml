@@ -1,16 +1,24 @@
 @startuml
 
 hide empty members
+skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype polyline
 
-abstract class CollisionStrategy {}
+abstract class CollisionStrategy {
++ //handle(movElem: Movable, collElem: Collidable) : boolean//
+}
 class BlockCollision {}
 class NullCollision {}
 class SkaneAttackCollision {}
 
-interface Controller {}
-interface PlayerController {}
+interface Controller {
++ update(room: Room)
+}
+interface PlayerController {
++ setEvent(event: EVENT)
++ handleEvent(event: EVENT, room: Room)
+}
 class CollisionHandler {}
 class EnemyController {}
 class MovableController {}

@@ -33,7 +33,7 @@ public class EnemyController extends MovableController<Element> {
     }
 
     private boolean attemptSkaneAttack(Room room, Element e) {
-        // TODO n gosto desta shit toda de ataques
+        // TODO n gosto desta peeep toda de ataques
         Skane ska = room.getSkane();
         if (ska.isBury())
             return false;
