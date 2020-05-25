@@ -48,6 +48,7 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
     }
 
     public void nom(int nourishment) {
+        // TODO
         if (nourishment <= 0) return;
         ska.setHp(ska.getHp() + nourishment);
         for (int i = 0; i < nourishment; ++i)

@@ -8,7 +8,9 @@ public class SkaneAttackCollision extends CollisionStrategy<Skane, Element> {
     public boolean handle(Skane skane, Element prey) {
         prey.takeDamage(skane.getAtk());
 
+        // TODO
         if (!prey.isAlive()) {
+            skane.setHp(skane.getHp() + 1);
             skane.grow();
             return true;
         }
