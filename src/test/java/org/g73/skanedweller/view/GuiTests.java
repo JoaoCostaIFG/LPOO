@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 
 public class GuiTests {
     private Gui gui;
@@ -64,7 +65,11 @@ public class GuiTests {
     @Test
     public void testDraw() throws IOException {
         Mockito.when(resizeHandler.hasResized()).thenReturn(false);
+        Mockito.when(resizeHandler.getLastKnownSize()).thenReturn(new TerminalSize(2, 2));
+        Mockito.when(room.getHeight()).thenReturn(2);
+        Mockito.when(room.getWidth()).thenReturn(2);
         gui.draw();
+        Mockito.verify(room, Mockito.never()).setSize(any(Integer.class), any(Integer.class));
 
         InOrder order = Mockito.inOrder(screen, drawer);
         order.verify(screen).clear();

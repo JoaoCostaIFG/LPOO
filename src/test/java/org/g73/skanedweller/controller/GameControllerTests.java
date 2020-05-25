@@ -103,7 +103,6 @@ public class GameControllerTests {
     public void testSpawners() throws IOException {
         List<Spawner> spawners = game.getSpawners();
         int numSpawners = spawners.size();
-        assertNotEquals(numSpawners, 0); // 3 types of enemies, 1 spawner for each
         verify(room, times(numSpawners)).addObserver(any(Spawner.class));
         for (Spawner s : spawners)
             verify(room).addObserver(s);
