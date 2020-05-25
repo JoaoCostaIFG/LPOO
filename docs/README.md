@@ -257,7 +257,7 @@ These classes can be found in the following files:
 - [MovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MovableBehaviour.java)
 - [MoveStrategy](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MoveStrategy.java)
 - [RangedGuy](/src/main/java/org/g73/skanedweller/model/element/RangedGuy.java)
-- [RangedMoveStrat](/src/main/java/org/g73/skanedweller/model/element/RangedMoveStrat.java)
+- [RangedMoveStrat](/src/main/java/org/g73/skanedweller/controller/movement_strategy/RangedMoveStrat.java)
 - [ScaredMoveStrat](/src/main/java/org/g73/skanedweller/controller/movement_strategy/ScaredMoveStrat.java)
 
 #### Consequences
