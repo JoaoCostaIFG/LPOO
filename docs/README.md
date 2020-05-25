@@ -21,6 +21,7 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 - **Civilians** - there are civilians all over the map running from you (because
   they are scared).
 - **Military** - there are foot soldiers trying to stop you using their knifes.
+- **Stronger military** - there are soldiers wielding ranged weaponry.
 - **Eating** - the more (dead) people you eat, the more health you have and the
   bigger you become.
 - **Suffering damage** - Enemies can damage the **Skane** with their weapons,
@@ -28,21 +29,17 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 - **Damaging/Killing enemies** - for now, all enemies are invulnerable.
 - **Fog of war** - when the **Skane** is buried, it's ability to see is limited.
   The **Skane** needs to get closer to enemies of walls to sense them.
-
-### Planned features
-
 - **Death** - If a **Skane** is too small to withstand incoming damage, it dies.
 - **Enemy spawning** - enemies should spawn over time during the game.
+- **Map importing** - it's easy to create and import your own custom maps.
+
+### Abandoned ideas
+
 - **Corpse spawning** - dead enemies should leave their corpse on the ground.
-- **Stronger military** - the soldiers should be able to use guns, cars, and maybe
-  even helicopters.
 - **Enemy alertness state** - indicators for whether and enemy is aware of
   your presence.
 - **Perk/upgrade like rewards** - killing stronger enemies (e.g.: tanks) should
   yield special extra rewards, like movement speed upgrades.
-
-### Abandoned ideas
-
 - **Jumping** - the **Skane** will not be able to jump to attack helicopters or
   get over small walls after unburying itself.
 
