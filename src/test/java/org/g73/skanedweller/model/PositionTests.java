@@ -1,14 +1,11 @@
 package org.g73.skanedweller.model;
 
-import org.g73.skanedweller.observe.Observer;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.Objects;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotEquals;
 
 public class PositionTests {
     private final int initx = 5;

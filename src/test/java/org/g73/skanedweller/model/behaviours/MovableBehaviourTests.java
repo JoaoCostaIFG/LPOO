@@ -3,7 +3,6 @@ package org.g73.skanedweller.model.behaviours;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.element_behaviours.ImovableBehaviour;
 import org.g73.skanedweller.model.element.element_behaviours.MovableBehaviour;
 import org.g73.skanedweller.model.element.element_behaviours.MoveStrategy;
 import org.junit.Before;

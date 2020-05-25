@@ -1,7 +1,6 @@
 package org.g73.skanedweller.model;
 
 import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.Wall;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
