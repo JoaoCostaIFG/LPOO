@@ -297,6 +297,8 @@ notified, it updates its internal state to reflect the new terminal size.
 
 The following classes were adapted/developed/used to implement this pattern:
 
+![Terminal resize handler](/docs/uml/terminal_size.png)
+
 - _TerminalResizeListener_ - An interface from **lanterna** for terminal resize
   event observers.
 - _TerminalResizeHandler_ - Our implementation of the previous interface.
