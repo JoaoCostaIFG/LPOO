@@ -4,11 +4,9 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.colliders.Collider;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.element_behaviours.CollidableBehaviour;
-import org.g73.skanedweller.model.element.element_behaviours.NotCollidableBehaviour;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import sun.awt.X11.XErrorHandler;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;

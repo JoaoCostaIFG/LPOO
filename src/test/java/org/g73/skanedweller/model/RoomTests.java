@@ -1,176 +1,226 @@
 package org.g73.skanedweller.model;
 
-import org.g73.skanedweller.model.element.Civilian;
-import org.g73.skanedweller.model.element.Element;
-import org.g73.skanedweller.model.element.MeleeGuy;
-import org.g73.skanedweller.model.element.Wall;
+import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
+import org.g73.skanedweller.model.element.skane.Scent;
 import org.g73.skanedweller.model.element.skane.Skane;
+import org.g73.skanedweller.model.element.skane.SkaneBody;
+import org.g73.skanedweller.observe.Observer;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class RoomTests {
-    private Room room = new Room(300, 100);
+    private Room room;
+    private Skane ska;
+
+    @Before
+    public void setUp() {
+        this.room = new Room(300, 100);
+        this.ska = Mockito.mock(Skane.class);
+    }
 
     @Test
-    public void creation() {
+    public void testRoomInit() {
         assertEquals(room.getWidth(), 300);
         assertEquals(room.getHeight(), 100);
     }
 
     @Test
-    public void addElement() {
-        Skane skane = new Skane(1, 5, 10, 5, 5, 3);
-        room.addElement(skane);
-        assertEquals(room.getSkane(), skane);
-        assertEquals(room.getSkane(), skane);
+    public void testRoomSets() {
+        room.setSize(300, 400);
+        assertEquals(room.getWidth(), 300);
+        assertEquals(room.getHeight(), 400);
 
-        Wall wall = new Wall(2, 3);
+        RayCasting rayCasting = Mockito.mock(RayCasting.class);
+        room.setRayCasting(rayCasting);
+        assertEquals(room.getRayCasting(), rayCasting);
+    }
+
+    @Test
+    public void testAddElement() {
+        Observer obs = Mockito.mock(Observer.class);
+        int num_obs = 0;
+        room.addObserver(obs);
+
+        assertNull(room.getSkane());
+        room.addElement(ska);
+        assertEquals(room.getSkane(), ska);
+        Mockito.verify(obs, times(++num_obs)).changed(room);
+
+        assertEquals(room.getWalls().size(), 0);
+        Wall wall = Mockito.mock(Wall.class);
         room.addElement(wall);
         assertEquals(room.getWalls().size(), 1);
         assertEquals(room.getWalls().get(0), wall);
+        Mockito.verify(obs, times(++num_obs)).changed(room);
 
-        Civilian civie = new Civilian(3,7, 3);
+        assertEquals(room.getEnemies().size(), 0);
+        Civilian civie = Mockito.mock(Civilian.class);
         room.addElement(civie);
         assertEquals(room.getEnemies().size(), 1);
         assertEquals(room.getEnemies().get(0), civie);
+        Mockito.verify(obs, times(++num_obs)).changed(room);
 
-        MeleeGuy melee = new MeleeGuy(55,67, 3, 10, 1);
+        MeleeGuy melee = Mockito.mock(MeleeGuy.class);
         room.addElement(melee);
         assertEquals(room.getEnemies().size(), 2);
         assertEquals(room.getEnemies().get(1), melee);
+        Mockito.verify(obs, times(++num_obs)).changed(room);
+
+        RangedGuy ranged = Mockito.mock(RangedGuy.class);
+        room.addElement(ranged);
+        assertEquals(room.getEnemies().size(), 3);
+        assertEquals(room.getEnemies().get(2), ranged);
+        Mockito.verify(obs, times(++num_obs)).changed(room);
+
+        room.addElement(Mockito.mock(Laser.class));
+        Mockito.verify(obs, times(++num_obs)).changed(room);
+        room.addElement(Mockito.mock(Scent.class));
+        Mockito.verify(obs, times(++num_obs)).changed(room);
+        room.addElement(Mockito.mock(SkaneBody.class));
+        Mockito.verify(obs, times(++num_obs)).changed(room);
+
+        assertEquals(room.getWalls().size(), 1);
+        assertEquals(room.getEnemies().size(), 3);
+        assertEquals(room.getSkane(), ska);
     }
 
     @Test
-    public void unobstructedRayCastOct03() {
-        Position p1 = new Position(2, 3);
-        Position p2 = new Position(232, 57);
+    public void testGetElement() {
+        // no skane in room
+        List<Element> es = new ArrayList<>();
+        es.add(Mockito.mock(Wall.class));
+        es.add(Mockito.mock(Civilian.class));
+        for (Element e : es)
+            room.addElement(e);
 
-        Wall w1 = new Wall(p1);
-        Wall w2 = new Wall(p2);
+        List<Element> roomEs = room.getElements();
+        assertEquals(roomEs, es);
+        for (Element e : es) {
+            if (e == null)
+                fail("Added null object (most likely skane");
+        }
 
-        room.addElement(w1);
-        room.addElement(w2);
-        room.addElement(w2);
+        // there's a skane in the room
+        es.add(ska);
+        room.addElement(ska);
 
-        // Unobstructed view
-        room.setRayCasting(new RayCast());
-        List<Element> unobstructedElemList = room.elemRay(p1, p2);
-        assertEquals(unobstructedElemList.size(), 2);
-        for (Element e : unobstructedElemList)
-            assertEquals(e, w2);
+        roomEs = room.getElements();
+        assertEquals(roomEs, es);
+        for (Element e : es) {
+            if (e == null)
+                fail("Added null object (most likely skane");
+        }
     }
 
     @Test
-    public void unobstructedRayCastOct12() {
-        Position p1 = new Position(200, 5);
-        Position p2 = new Position(1, 280);
+    public void testRoomRemoveDead() {
+        Observer obs = Mockito.mock(Observer.class);
+        int num_notifications = 0;
+        room.addObserver(obs);
 
-        Wall w1 = new Wall(p1);
-        Wall w2 = new Wall(p2);
+        Civilian c1 = Mockito.mock(Civilian.class);
+        Mockito.when(c1.isAlive())
+                .thenReturn(false);
+        Civilian c2 = Mockito.mock(Civilian.class);
+        Mockito.when(c2.isAlive())
+                .thenReturn(true);
 
-        room.addElement(w1);
-        room.addElement(w1);
-        room.addElement(w2);
+        room.addElement(c1);
+        Mockito.verify(obs, times(++num_notifications)).changed(room);
+        room.addElement(c2);
+        Mockito.verify(obs, times(++num_notifications)).changed(room);
+        assertEquals(room.getElements().size(), 2);
+        assertEquals(room.getElements(), new ArrayList<Element>(Arrays.asList(c1, c2)));
 
-        // Unobstructed view
-        room.setRayCasting(new RayCast());
-        List<Element> unobstructedElemList = room.elemRay(p1, p2);
-        assertEquals(unobstructedElemList.size(), 1);
-        for (Element e : unobstructedElemList)
-            assertEquals(e, w2);
+        room.removeDeadEnemies();
+        Mockito.verify(obs, times(++num_notifications)).changed(room);
+        assertEquals(room.getElements().size(), 1);
+        assertEquals(room.getElements(), new ArrayList<Element>(Collections.singletonList(c2)));
+
+        room.removeDeadEnemies();
+        Mockito.verify(obs, times(num_notifications)).changed(room);
+        assertEquals(room.getElements().size(), 1);
+        assertEquals(room.getElements(), new ArrayList<Element>(Collections.singletonList(c2)));
     }
 
     @Test
-    public void obstructedRayCast03() {
-        Position p1 = new Position(2, 3);
-        Position p2 = new Position(232, 57);
-        Position p3 = new Position(233, 57);
+    public void testRoomObsRm() {
+        Observer obs = Mockito.mock(Observer.class);
+        room.addObserver(obs);
+        Mockito.verify(obs, never()).changed(room);
 
-        Wall w1 = new Wall(p1);
-        Wall w2 = new Wall(p2);
-        Wall w3 = new Wall(p3);
+        room.addElement(Mockito.mock(Element.class));
+        Mockito.verify(obs).changed(room);
 
-        room.addElement(w1);
-        room.addElement(w2);
-        room.addElement(w3);
-
-        // Obstructed view
-        room.setRayCasting(new RayCast());
-        List<Element> obstructedElemList = room.elemRay(p1, p3);
-        assertEquals(obstructedElemList.size(), 1);
-        for (Element e : obstructedElemList)
-            assertEquals(e, w2);
+        room.removeObserver(obs);
+        room.addElement(Mockito.mock(Element.class));
+        Mockito.verify(obs, times(1)).changed(room);
     }
 
     @Test
-    public void obstructedRayCastOct12() {
-        Position p1 = new Position(200, 5);
-        Position p2 = new Position(2, 279);
-        Position p3 = new Position(1, 280);
+    public void testRoomSkane() {
+        room.addElement(ska);
 
-        Wall w1 = new Wall(p1);
-        Wall w2 = new Wall(p2);
-        Wall w3 = new Wall(p3);
+        Mockito.when(ska.isBury())
+                .thenReturn(false);
+        assertFalse(room.isSkaneBury());
 
-        room.addElement(w1);
-        room.addElement(w2);
-        room.addElement(w3);
+        Mockito.when(ska.isBury())
+                .thenReturn(true);
+        assertTrue(room.isSkaneBury());
 
-        // Unobstructed view
-        room.setRayCasting(new RayCast());
-        List<Element> obstructedElemList = room.elemRay(p1, p3);
-        assertEquals(obstructedElemList.size(), 1);
-        for (Element e : obstructedElemList)
-            assertEquals(e, w2);
+        Position skaP = new Position(3, 3);
+        Mockito.when(ska.getPos())
+                .thenReturn(skaP);
+        assertEquals(room.getSkanePos(), skaP);
+    }
+
+    @Test
+    public void testIsSkanePos() {
+        Position skaP = new Position(3, 3);
+        Position skaBodyP = new Position(4, 4);
+        Position otherP = new Position(5, 5);
+
+        Mockito.when(ska.getPos())
+                .thenReturn(skaP);
+        room.addElement(ska);
+
+        List<SkaneBody> skaBody = new ArrayList<>();
+        skaBody.add(Mockito.mock(SkaneBody.class));
+        Mockito.when(ska.getBody())
+                .thenReturn(skaBody);
+        Mockito.when(skaBody.get(0).getPos())
+                .thenReturn(skaBodyP);
+
+        assertTrue(room.isSkanePos(skaP));
+        assertTrue(room.isSkanePos(skaBodyP));
+        assertFalse(room.isSkanePos(otherP));
     }
 
     @Test
     public void getCollidingElements() {
-        room = new Room(100, 100);
-        Skane ska = new Skane(100, 100, 1, 1, 1, 1);
-        ska.setPos(new Position(101, 100));
-        Civilian civ = new Civilian(1, 1, 1);
+        Civilian c = Mockito.mock(Civilian.class);
+        assertNotEquals(c, ska);
+        room.addElement(c);
         room.addElement(ska);
-        room.addElement(civ);
-        room.addElement(new Wall(1, 1));
-        room.addElement(new Wall(20, 1));
-        room.addElement(new Wall(20, 1));
 
-        List<Collidable> list = room.getColliding(civ);
-        assertEquals(1, list.size());
-        list = room.getCollidingElemsInPos(civ, new Position(20, 1));
-        assertEquals(2, list.size()); // Collides with clone copy, what do?
+        Mockito.when(c.collidesWith(ska))
+                .thenReturn(true);
+        assertEquals(room.getColliding(ska), new ArrayList<Element>(Collections.singletonList(c)));
 
-        list = room.getColliding(ska);
-        assertEquals(0, list.size());
-
-        list = room.getCollidingElemsInPos(civ, new Position(1, 1));
-        assertEquals(1, list.size());
-        list = room.getCollidingElemsInPos(civ, new Position(20, 1));
-        assertEquals(2, list.size());
-        list = room.getCollidingElemsInPos(civ, new Position(10, 10));
-        assertEquals(0, list.size());
-
-        Wall wall = new Wall(new Position(102, 100)); // Right next to skane
-        room.addElement(wall);
-
-        list = room.getCollidingElemsInPos(ska, new Position(102, 100));
-        assertEquals(1, list.size());
-        assertEquals(wall, list.get(0));
-    }
-
-    @Test
-    public void setRoomSize() {
-        room = new Room(100, 200);
-        assertEquals(room.getWidth(), 100);
-        assertEquals(room.getHeight(), 200);
-
-        room.setSize(300, 400);
-        assertEquals(room.getWidth(), 300);
-        assertEquals(room.getHeight(), 400);
+        Mockito.when(c.collidesWith(ska))
+                .thenReturn(false);
+        assertEquals(room.getColliding(ska), new ArrayList<>());
     }
 }
