@@ -53,6 +53,8 @@ public class MapReader {
         int height=0, length;
 
         String line = br.readLine();
+        if (line == null)
+            throw new InputMismatchException();
         length = line.length();
         do {
             if (line.length() != length)
@@ -63,9 +65,6 @@ public class MapReader {
             line = br.readLine();
             ++height;
         } while (line != null);
-
-        if (height == 0 || length == 0)
-            throw new InputMismatchException();
         
         this.height = height;
         this.length = length;

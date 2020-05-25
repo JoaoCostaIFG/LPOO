@@ -6,8 +6,7 @@ import org.junit.Test;
 import java.io.*;
 import java.util.InputMismatchException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class MapReaderTest {
     MapReader mr;
@@ -15,11 +14,25 @@ public class MapReaderTest {
     @Test
     public void testReadFile() throws IOException {
         mr = new MapReader("firstmap");
+        assertNotEquals(0, (int) mr.getLength());
+        assertNotEquals(0, (int) mr.getHeight());
+    }
+    
+    @Test(expected = FileNotFoundException.class)
+    public void testNoFile() throws IOException {
+        mr = new MapReader("notfoundmap");
     }
     
     @Test(expected = InputMismatchException.class)
     public void testSize() throws IOException {
         String imp = "-------\n-------\n------\n";
+        BufferedReader reader = new BufferedReader(new StringReader(imp));
+        mr = new MapReader(reader);
+    }
+    
+    @Test(expected = InputMismatchException.class)
+    public void testEmptyFile() throws IOException {
+        String imp = "";
         BufferedReader reader = new BufferedReader(new StringReader(imp));
         mr = new MapReader(reader);
     }
