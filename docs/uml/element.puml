@@ -5,6 +5,8 @@ skinparam classAttributeIconSize 0
 skinparam linetype polyline
 skinparam shadowing false
 
+/' Behaviours '/
+
 interface Agressive {
   + getAtk() : int
   + setAtk(atk)
@@ -25,7 +27,7 @@ interface Movable {
   + setMovCounter(numTicks)
   + tickMovCounter()
   + setMoveStrat(moveStrat)
-  + genMoves(org.g73.skanedweller.model, element) : List<Position>
+  + genMoves(model, element) : List<Position>
 }
 
 class AgressiveBehaviour {}
@@ -35,16 +37,24 @@ class ImovableBehaviour {}
 class MortalBehaviour {}
 class MovableBehaviour {}
 class NotCollidableBehaviour {}
+class PassiveBehaviour {}
 
 abstract class Element {}
 
-class Civilian {}
-class MeleeGuy {}
-class Wall {}
+/' Elements '/
 
-class Scent {}
-class Skane {}
-class SkaneBody {}
+package "Game Elements" #BBBBEE {
+  class Civilian {}
+  class Laser {}
+  class MeleeGuy {}
+  class Wall {}
+  class RangedGuy {}
+  class Scent {}
+  class Skane {}
+  class SkaneBody {}
+}
+
+/' Connections '/
 
 AgressiveBehaviour .up.^ Agressive
 CollidableBehaviour .up.^ Collidable
@@ -53,6 +63,7 @@ ImovableBehaviour .up.^ Movable
 MortalBehaviour .up.^ Mortal
 MovableBehaviour .up.^ Movable
 NotCollidableBehaviour .up.^ Collidable
+PassiveBehaviour .up.^ Agressive
 
 Element -up-> AgressiveBehaviour
 Element -up-> CollidableBehaviour
@@ -61,13 +72,16 @@ Element -up-> ImovableBehaviour
 Element -up-> MortalBehaviour
 Element -up-> MovableBehaviour
 Element -up-> NotCollidableBehaviour
+Element -up-> PassiveBehaviour
 
-Civilian -up-^ Element
-MeleeGuy -up-^ Element
-Wall -up-^ Element
-Scent -up-^ Element
-Skane -up-^ Element
-SkaneBody -up-^ Element
+Civilian --up-^ Element
+Laser --up-^ Element
+MeleeGuy --up-^ Element
+Wall --up-^ Element
+RangedGuy --up-^ Element
+Scent --up-^ Element
+Skane --up-^ Element
+SkaneBody --up-^ Element
 
 @enduml
 

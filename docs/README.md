@@ -173,6 +173,7 @@ The **Null objects** can be found in the following files:
 - [ImmortalBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/ImmortalBehaviour.java)
 - [ImovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/ImovableBehaviour.java)
 - [NotCollidableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/NotCollidableBehaviour.java)
+- [PassiveBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/PassiveBehaviour.java)
 
 The interfaces and other behaviors can be found in the following files:
 
@@ -185,11 +186,15 @@ The interfaces and other behaviors can be found in the following files:
 - [Movable](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Movable.java)
 - [MovableBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/MovableBehaviour.java)
 
-The game objects can be found in the following files:
+The game elements can be found in the following files:
+
+- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java) --
+As mentioned above, all game objects extend this Abstract class.
 
 - [Civilian](/src/main/java/org/g73/skanedweller/model/element/Civilian.java)
-- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java)
+- [Laser](/src/main/java/org/g73/skanedweller/model/element/Laser.java)
 - [MeleeGuy](/src/main/java/org/g73/skanedweller/model/element/MeleeGuy.java)
+- [RangedGuy](/src/main/java/org/g73/skanedweller/model/element/RangedGuy.java)
 - [Scent](/src/main/java/org/g73/skanedweller/model/element/skane/Scent.java)
 - [Skane](/src/main/java/org/g73/skanedweller/model/element/skane/Skane.java)
 - [SkaneBody](/src/main/java/org/g73/skanedweller/model/element/skane/SkaneBody.java)
