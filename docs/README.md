@@ -361,8 +361,8 @@ controller, i.e.: moving the `moveSkane()` method to the
 [_SkaneController_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java).
 The **strategy pattern** was then implemented by designing the
 [_CollisionStrategy_](/src/main/java/org/g73/skanedweller/controller/collision_strategy/CollisionStrategy.java)
-abstarct class and its implementations. Lastly, a map that associates element
-types with a specific collision strategy was created in each _MovableController_.
+abstarct class and its implementations. Lastly, a map that associates each element
+types with a specific collision strategy was created for all _MovableController_.
 This allows for handling collisions dynamically and each controller can define
 what happens when it's controlled game element collides with another game element
 based on element types.
@@ -378,11 +378,9 @@ The classes on the UML diagram can be found on the following files:
 - [EnemyController](/src/main/java/org/g73/skanedweller/controller/EnemyController.java)
 - [CollisionHandler](/src/main/java/org/g73/skanedweller/controller/CollisionHandler.java)
 - [CollisionStrategy](/src/main/java/org/g73/skanedweller/controller/collision_strategy/CollisionStrategy.java)
-- [AttackCollisionStrat](/src/main/java/org/g73/skanedweller/controller/collision_strategy/AttackCollisionStrat.java)
 - [BlockCollision](/src/main/java/org/g73/skanedweller/controller/collision_strategy/BlockCollision.java)
 - [NullCollision](/src/main/java/org/g73/skanedweller/controller/collision_strategy/NullCollision.java)
 - [SkaneAttackCollision](/src/main/java/org/g73/skanedweller/controller/collision_strategy/SkaneAttackCollision.java)
-- [SkaneDamagedStrat](/src/main/java/org/g73/skanedweller/controller/collision_strategy/SkaneDamagedStrat.java)
 
 #### Consequences
 
@@ -390,7 +388,7 @@ This approach allowed us to more easily create new collision behaviours, and,
 when in constract with the original solution, is far less bloated and more
 open to extension. It also prevents wrong pairing between a _CollidableElement_ and
 a _CollisionStrategy_ using generics, ie: restrict _CollisionStrategy_ to one or
-more _CollidableElement_ (s).
+more _CollidableElement(s)_.
 
 ### Colliders
 
