@@ -23,7 +23,7 @@ public class GameController implements Controller {
     private PlayerController playerController;
     private List<Spawner> spawners;
     private MapReader mapReader;
-    private static final String map_name = "firstmap";
+    private static final String map_name = "fort_invasion_map";
     private static final int DELAY = 30; // time between frames (in ms)
 
     public static void main(String[] args) throws IOException {
