@@ -242,4 +242,46 @@ public class RoomTests {
         Mockito.verify(c).shadowStep(cPos);
         Mockito.verify(c).shadowStep(newPos);
     }
+
+    @Test
+    public void testRoomRayCastDelegate() {
+        RayCasting rc = Mockito.mock(RayCasting.class);
+        room.setRayCasting(rc);
+        assertEquals(room.getRayCasting(), rc);
+
+        Position s = Mockito.mock(Position.class);
+        Position t = Mockito.mock(Position.class);
+
+        room.posRay(s, t);
+        Mockito.verify(rc).posRay(room, s, t);
+
+        Mockito.reset(rc);
+        room.elemRay(s, t);
+        Mockito.verify(rc).elemRay(room, s, t);
+    }
+
+    @Test
+    public void testRoomSamePos() {
+        Position p1 = new Position(1, 1);
+        Position p2 = new Position(2, 2);
+
+        Civilian c1 = Mockito.mock(Civilian.class);
+        Mockito.when(c1.getPos())
+                .thenReturn(p1);
+        Civilian c2 = Mockito.mock(Civilian.class);
+        Mockito.when(c2.getPos())
+                .thenReturn(p2);
+
+        assertEquals(room.getSamePos(p1).size(), 0);
+        assertEquals(room.getSamePos(p2).size(), 0);
+
+        room.addElement(c1);
+        assertEquals(room.getSamePos(p1), new ArrayList<Element>(Collections.singletonList(c1)));
+        assertEquals(room.getSamePos(p2).size(), 0);
+
+        room.addElement(c1);
+        room.addElement(c2);
+        assertEquals(room.getSamePos(p1), new ArrayList<Element>(Arrays.asList(c1, c1)));
+        assertEquals(room.getSamePos(p2), new ArrayList<Element>(Collections.singletonList(c2)));
+    }
 }

@@ -22,14 +22,14 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
   they are scared).
 - **Military** - there are foot soldiers trying to stop you using their knifes.
 - **Stronger military** - there are soldiers wielding ranged weaponry.
+- **Damaging/Killing enemies** - all enemies can be killed;
 - **Eating** - the more (dead) people you eat, the more health you have and the
   bigger you become.
-- **Suffering damage** - Enemies can damage the **Skane** with their weapons,
+- **Suffering damage** - enemies can damage the **Skane** with their weapons,
   making it shrink.
-- **Damaging/Killing enemies** - All enemies can be killed;
 - **Fog of war** - when the **Skane** is buried, it's ability to see is limited.
   The **Skane** needs to get closer to enemies of walls to sense them.
-- **Death** - If a **Skane** is too small to withstand incoming damage, it dies.
+- **Death** - if a **Skane** is too small to withstand incoming damage, it dies.
 - **Enemy spawning** - enemies spawn over time during the game.
 - **Map importing** - it's easy to create and import your own custom maps.
 
