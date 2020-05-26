@@ -21,15 +21,16 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 
 public class MovementStratTests {
-    private Civilian civie;
+    private Element e;
     private Skane ska;
     private final int moveTicks = 5;
 
     @Before
     public void setUp() {
-        this.ska = new Skane(20, 1, 1, 1, 1, 1);
-        this.civie = new Civilian(10, 10, 10);
-        civie.setMovCounter(0);
+        this.ska = Mockito.mock(Skane.class); // new Skane(20, 1, 1, 1, 1, 1);
+        this.e = Mockito.mock(Element.class); // new Civilian(10, 10, 10);
+        Mockito.when(e.getMovCounter())
+                .thenReturn(0);
 
         ska.setPos(ska.moveRight());
         ska.setPos(ska.moveRight());
