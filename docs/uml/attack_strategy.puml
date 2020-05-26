@@ -1,0 +1,59 @@
+@startuml
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam shadowing false
+
+interface Agressive {
++ setAtkStrat(AttackStrategy)
++ attack(Room, me: Element, target: Element) : boolean
+}
+
+abstract class Element {
++ setAtkStrat(AttackStrategy)
++ attack(Room, target: Element) : boolean
+}
+
+class AgressiveBehaviour {
+- attackStrat: AttackStrategy
+}
+class PassiveBehaviour {}
+class MeleeGuy {}
+class RangedGuy {}
+
+interface AttackStrategy {
++ genMoves(Room, Element)
+}
+
+abstract class ChaseStrat {
+# addRayPos(Room, List<PosDist>, source: Position, target: Position) : double
+# checkRayScent(Room, source: Position, scentPos: Position) : boolean
+# convertToSortPosList(List<PosDist>, Position) : List<Position>
+# chaseScent(Room, elemPos: Position, listPos: List<PosDist>)
+}
+class MeleeMoveStrat {}
+class RangedMoveStrat {}
+class ScaredMoveStrat {
+- canSeeSkane(Room, skanePos: Position)
+}
+
+ImovableBehaviour .up.^ Movable
+MovableBehaviour .up.^ Movable
+
+Element -up-> ImovableBehaviour
+Element -up-> MovableBehaviour
+
+Civilian -up-^ Element
+MeleeGuy -up-^ Element
+RangedGuy -up-^ Element
+
+ChaseStrat .up.^ MoveStrategy
+ScaredMoveStrat .up.^ MoveStrategy
+MeleeMoveStrat -up-^ ChaseStrat
+RangedMoveStrat -up-^ ChaseStrat
+
+MovableBehaviour -left-> MoveStrategy 
+
+@enduml
+
