@@ -1,6 +1,7 @@
 package org.g73.skanedweller.controller;
 
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
+import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
@@ -17,19 +18,19 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 public class MovementStratTests {
-    private Civilian civie;
+    private Element el;
     private Skane ska;
     private final int moveTicks = 5;
 
     @Before
     public void setUp() {
         this.ska = new Skane(20, 1, 1, 1, 1, 1);
-        this.civie = new Civilian(10, 10, 10);
-        civie.setMovCounter(0);
+        this.el = Mockito.mock(Element.class);
+        el.setMovCounter(0);
 
         ska.setPos(ska.moveRight());
         ska.setPos(ska.moveRight());
@@ -37,7 +38,7 @@ public class MovementStratTests {
 
     @After
     public void wereTicksSet() {
-        assertEquals(civie.getMovCounter(), moveTicks);
+        assertEquals(el.getMovCounter(), moveTicks);
     }
 
     private void roomMockSetSkaneInfo (Room room) {
@@ -89,8 +90,8 @@ public class MovementStratTests {
         Mockito.when(room.isSkaneBury())
                 .thenReturn(true);
 
-        this.civie.setMoveStrat(new ScaredMoveStrat(moveTicks));
-        List<Position> posList = civie.genMoves(room);
+        this.el.setMoveStrat(new ScaredMoveStrat(moveTicks));
+        List<Position> posList = el.genMoves(room);
         assertEquals(posList.size(), 0);
 
         Mockito.verify(room, times(0)).elemRay(any(), any());
@@ -99,14 +100,14 @@ public class MovementStratTests {
     @Test
     public void scaredStratTest() {
         Room room = Mockito.mock(Room.class);
-        makeSkaneVisible(room, civie);
+        makeSkaneVisible(room, el);
 
-        this.civie.setMoveStrat(new ScaredMoveStrat(moveTicks));
-        List<Position> posList = civie.genMoves(room);
+        this.el.setMoveStrat(new ScaredMoveStrat(moveTicks));
+        List<Position> posList = el.genMoves(room);
         assertEquals(posList.size(), 2);
 
-        assertEquals(posList.get(0), civie.moveDown());
-        assertEquals(posList.get(1), civie.moveLeft());
+        assertEquals(posList.get(0), el.moveDown());
+        assertEquals(posList.get(1), el.moveLeft());
 
         Mockito.verify(room, times(1)).elemRay(any(), any());
         Mockito.verify(room, atLeastOnce()).getSkanePos();
@@ -116,10 +117,10 @@ public class MovementStratTests {
     public void scaredStratObstructedTest() {
         Room room = Mockito.mock(Room.class);
 
-        makeSkaneObstructed(room, civie);
+        makeSkaneObstructed(room, el);
 
-        this.civie.setMoveStrat(new ScaredMoveStrat(moveTicks));
-        List<Position> posList = civie.genMoves(room);
+        this.el.setMoveStrat(new ScaredMoveStrat(moveTicks));
+        List<Position> posList = el.genMoves(room);
         assertEquals(posList.size(), 0);
 
         Mockito.verify(room, times(1)).elemRay(any(), any());
@@ -132,8 +133,8 @@ public class MovementStratTests {
         Mockito.when(room.isSkaneBury())
                 .thenReturn(true);
 
-        this.civie.setMoveStrat(new MeleeMoveStrat(moveTicks));
-        List<Position> posList = civie.genMoves(room);
+        this.el.setMoveStrat(new MeleeMoveStrat(moveTicks));
+        List<Position> posList = el.genMoves(room);
         assertEquals(posList.size(), 0);
 
         Mockito.verify(room, times(0)).elemRay(any(), any());
@@ -142,16 +143,16 @@ public class MovementStratTests {
     @Test
     public void meleeStratTest() {
         Room room = Mockito.mock(Room.class);
-        makeSkaneVisible(room, civie);
+        makeSkaneVisible(room, el);
 
-        this.civie.setMoveStrat(new MeleeMoveStrat(moveTicks));
-        List<Position> posList = civie.genMoves(room);
+        this.el.setMoveStrat(new MeleeMoveStrat(moveTicks));
+        List<Position> posList = el.genMoves(room);
         assertEquals(posList.size(), 4); // can see 2 skane parts
 
-        assertEquals(posList.get(0), civie.moveRight());
-        assertEquals(posList.get(1), civie.moveUp());
-        assertEquals(posList.get(2), civie.moveRight());
-        assertEquals(posList.get(3), civie.moveUp());
+        assertEquals(posList.get(0), el.moveRight());
+        assertEquals(posList.get(1), el.moveUp());
+        assertEquals(posList.get(2), el.moveRight());
+        assertEquals(posList.get(3), el.moveUp());
 
         Mockito.verify(room, times(2)).elemRay(any(), any());
     }
@@ -159,19 +160,43 @@ public class MovementStratTests {
     @Test
     public void meleeStratObstructedTest() {
         Room room = Mockito.mock(Room.class);
-        makeSkaneObstructed(room, civie);
+        makeSkaneObstructed(room, el);
 
         ska.dropScent(1);
         Mockito.when(room.elemRay(any(), any())).thenReturn(new ArrayList<>());
 
-        this.civie.setMoveStrat(new MeleeMoveStrat(moveTicks));
-        List<Position> posList = civie.genMoves(room);
+        this.el.setMoveStrat(new MeleeMoveStrat(moveTicks));
+        List<Position> posList = el.genMoves(room);
         assertEquals(posList.size(), 2); // can see scent
 
-        assertEquals(posList.get(0), civie.moveRight());
-        assertEquals(posList.get(1), civie.moveUp());
+        assertEquals(posList.get(0), el.moveRight());
+        assertEquals(posList.get(1), el.moveUp());
 
         // 1 head, 1 body, 1 scent
         Mockito.verify(room, times(3)).elemRay(any(), any());
     }
+    
+//    @Test
+//    public void testRangedStratBurried() {
+//        Room room = Mockito.mock(Room.class);
+//        Element e = Mockito.mock(Element.class);
+//
+//        RangedMoveStrat moveStrat = new RangedMoveStrat(60);
+//        Mockito.when(room.isSkaneBury()).thenReturn(true);
+//        assertEquals(0, moveStrat.genMoves(room, e).size());
+//        Mockito.verify(e, times(1)).setMovCounter(eq(60));
+//        Mockito.verify(room).isSkaneBury();
+//        verifyNoMoreInteractions(room);
+//    }
+//    
+//    @Test
+//    public void testRangedStratSurface() {
+//        Room room = Mockito.mock(Room.class);
+//        Element e = Mockito.mock(Element.class);
+//
+//        RangedMoveStrat moveStrat = new RangedMoveStrat(60);
+//        Mockito.when(room.isSkaneBury()).thenReturn(true);
+//        assertEquals(0, moveStrat.genMoves(room, e).size());
+//        Mockito.verify(e, times(1)).setMovCounter(eq(60));
+//    }
 }

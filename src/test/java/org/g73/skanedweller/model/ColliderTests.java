@@ -1,6 +1,5 @@
-package org.g73.skanedweller.controller;
+package org.g73.skanedweller.model;
 
-import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.colliders.CompositeCollider;
 import org.g73.skanedweller.model.colliders.RectangleCollider;
 import org.junit.Test;
@@ -10,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ColliderTests {
     @Test
-    public void rectangleCollider() {
+    public void rectangleCollider() { // Hehe ca pt de sustoo
         RectangleCollider r1 = new RectangleCollider(10, 10, 10, 10);
         RectangleCollider r2 = new RectangleCollider(11, 11, 1, 1);
         assertTrue(r1.collidesWith(r1));

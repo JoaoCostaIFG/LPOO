@@ -28,6 +28,11 @@ public class PassiveBehaviour implements Agressive {
     }
 
     @Override
+    public AttackStrategy getAtkStrat() {
+        return null;
+    }
+    
+    @Override
     public boolean attack(Room room, Element me, Element target) {
         return false;
     }

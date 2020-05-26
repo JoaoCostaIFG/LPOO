@@ -26,6 +26,11 @@ public class ImovableBehaviour implements Movable{
     }
 
     @Override
+    public MoveStrategy getMoveStrat() {
+        return null;
+    }
+
+    @Override
     public List<Position> genMoves(Room r, Element e) {
         return new ArrayList<>();
     }
