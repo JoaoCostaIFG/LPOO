@@ -45,6 +45,28 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 
 ## Design
 
+```
+### Problem
+#### Problem in context
+The description of the design context and the concrete problem that motivated
+the instantiation of the pattern. Someone else other than the original developer
+should be able to read and understand all the motivations for the decisions made.
+When refering to the implementation before the pattern was applied, don’t forget
+to link to the relevant lines of code in the appropriate version.
+#### The pattern
+Identify the design pattern to be applied, why it was selected and how it is a
+good fit considering the existing design context and the problem at hand.
+#### Implementation
+Show how the pattern roles, operations and associations were mapped to the concrete
+design classes. Illustrate it with a UML class diagram, and refer to the
+corresponding source code with links to the relevant lines (these should be
+relative links. When doing this, always point to the latest version of the code.
+#### Consequences
+Benefits and liabilities of the design after the pattern instantiation, eventually
+comparing these consequences with those of alternative solutions
+```
+
+
 ### Structuring the project
 
 #### Problem in context
@@ -390,7 +412,7 @@ open to extension. It also prevents wrong pairing between a _CollidableElement_ 
 a _CollisionStrategy_ using generics, ie: restrict _CollisionStrategy_ to one or
 more _CollidableElement(s)_.
 
-### Colliders
+### Colliders - Composite
 
 #### Problem in context
 
@@ -432,6 +454,38 @@ The classes in the UML class diagram above can be found in following files:
 The composite principle helps us solve the problem of having complex **colliders**
 in an object in a robust and elegant way. When compared to its alternative,
 it's much simpler and leads to many less code smells.
+
+### Colliders - Observer
+
+#### Problem in context
+
+After implementing the collider classes we quickly came into a problem: when an element
+had moved, its [_collider_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/cd2a188f81a710bcbf8c143b8fa93ea991ed82b3/src/main/java/room/colliders/Collider.java#L1-L5)
+wouldn't be updated with the new position.
+
+#### The pattern
+
+We decided that the __observer pattern__ was the best solution for this problem.
+
+#### Implementation
+
+The following changes were made to make use of the pattern:
+
+- [_Element_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/element/Element.java#L100-L113) -
+  Now implements the [_Observable interface_](/src/main/java/org/g73/skanedweller/observe/Observable.java).
+  Every time an element moves, it notifies its collider(s):
+
+- [_Collider_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/colliders/Collider.java#L20-L23) -
+Now implements the [_Observer interface_](/src/main/java/org/g73/skanedweller/observe/Observer.java).
+  When a collider is notified that it has changed to a position, it updates its position accordingly.
+
+# TODO UML HERE
+  
+#### Consequences
+
+This approach works well for all of the possible changes/additions to the game's
+colliders that we could think of.
+We couldn't think of other alternative solution to the problem.
 
 ## Known Code Smells and Refactoring Suggestions
 
