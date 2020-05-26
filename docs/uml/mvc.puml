@@ -24,6 +24,7 @@ package "View" #DDEEDD {
   class Drawer {}
   interface RoomDrawer {}
   class Gui {}
+  class KeyHandler {}
   class TerminalResizeHandler {}
   interface TerminalResizeListener {}
   class InputHandler {}
@@ -66,10 +67,11 @@ Drawer -up-> WallView
 Drawer .down.^ RoomDrawer 
 TerminalResizeHandler .down.^ TerminalResizeListener
 Gui -up-> TerminalResizeListener
-Gui -left-> RoomDrawer
-Gui -down-> Room
+Gui -left-> KeyHandler
 Gui -right-> InputHandler
 
+Gui -up-> RoomDrawer
+Gui -down-> Room
 
 GameController ---> Room
 GameController --right-> Gui
