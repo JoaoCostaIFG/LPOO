@@ -56,23 +56,24 @@ package "Game Elements" #BBBBEE {
 
 /' Connections '/
 
-AgressiveBehaviour .up.^ Agressive
-CollidableBehaviour .up.^ Collidable
-ImmortalBehaviour .up.^ Mortal
-ImovableBehaviour .up.^ Movable
-MortalBehaviour .up.^ Mortal
-MovableBehaviour .up.^ Movable
-NotCollidableBehaviour .up.^ Collidable
-PassiveBehaviour .up.^ Agressive
+AgressiveBehaviour .down.^ Agressive
+CollidableBehaviour .down.^ Collidable
+ImmortalBehaviour .down.^ Mortal
+ImovableBehaviour .down.^ Movable
+MortalBehaviour .down.^ Mortal
+MovableBehaviour .down.^ Movable
+NotCollidableBehaviour .down.^ Collidable
+PassiveBehaviour .down.^ Agressive
 
-Element -up-> AgressiveBehaviour
-Element -up-> CollidableBehaviour
-Element -up-> ImmortalBehaviour
-Element -up-> ImovableBehaviour
-Element -up-> MortalBehaviour
-Element -up-> MovableBehaviour
-Element -up-> NotCollidableBehaviour
-Element -up-> PassiveBehaviour
+Element -up-> Agressive
+Element -up-> Collidable
+Element -up-> Mortal
+Element -up-> Movable
+
+Element .up.^ Agressive
+Element .up.^ Collidable
+Element .up.^ Mortal
+Element .up.^ Movable
 
 Civilian --up-^ Element
 Laser --up-^ Element
@@ -84,4 +85,3 @@ Skane --up-^ Element
 SkaneBody --up-^ Element
 
 @enduml
-

@@ -34,7 +34,7 @@ public class RangedGuyAtkStrat implements AttackStrategy<RangedGuy> {
         if (me.getPos().dist(target.getPos()) > me.getRange() && !me.collidesWith(target))
             return false;
 
-        LaserAttackStrat laserAttackStrat = new LaserAttackStrat();
+        LaserAtkStrat laserAtkStrat = new LaserAtkStrat();
         List<Position> posToShoot = room.posRay(me.getPos(), target.getPos());
         if (posToShoot.size() > 0 &&
                 !posToShoot.get(posToShoot.size() - 1).equals(target.getPos()))
@@ -42,7 +42,7 @@ public class RangedGuyAtkStrat implements AttackStrategy<RangedGuy> {
 
         for (Position p : posToShoot) {
             if (!p.equals(me.getPos())) {
-                Laser l = me.shoot(p, laserDur, 0, laserAttackStrat);
+                Laser l = me.shoot(p, laserDur, 0, laserAtkStrat);
                 l.makeReady();
             }
         }

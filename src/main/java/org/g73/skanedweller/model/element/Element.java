@@ -63,7 +63,7 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
 
     /* movement */
     // TODO keep this here?
-    // TODO maybe throw all pos shit into another behaviour
+    // TODO maybe throw all pos peeep into another behaviour
     public Position moveUp() {
         return new Position(getX(), getY() - 1);
     }

@@ -1,6 +1,6 @@
 package org.g73.skanedweller.controller.creator;
 
-import org.g73.skanedweller.controller.attack_strategy.LaserAttackStrat;
+import org.g73.skanedweller.controller.attack_strategy.LaserAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.MeleeAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.SkaneAttackStrategy;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.times;
 public class AttackStratTests {
     private Room room;
     private Element e;
-    private LaserAttackStrat laser;
+    private LaserAtkStrat laser;
     private MeleeAtkStrat melee;
     private RangedGuyAtkStrat ranged;
     private SkaneAttackStrategy skane;
@@ -33,7 +33,7 @@ public class AttackStratTests {
     public void setUp() {
         room = Mockito.mock(Room.class);;
         e = Mockito.mock(Element.class);
-        laser = new LaserAttackStrat();
+        laser = new LaserAtkStrat();
         skane = new SkaneAttackStrategy();
         melee = new MeleeAtkStrat(30);
         ranged = new RangedGuyAtkStrat(40, 10);
@@ -117,9 +117,9 @@ public class AttackStratTests {
         
         Position origin = new Position(0, 0); Position dist1Unit = new Position(1, 0);
         Laser l1 = Mockito.mock(Laser.class); Laser l2 = Mockito.mock(Laser.class);
-        Mockito.when(rangedGuy.shoot(eq(origin), eq(10), eq(0), any(LaserAttackStrat.class)))
+        Mockito.when(rangedGuy.shoot(eq(origin), eq(10), eq(0), any(LaserAtkStrat.class)))
                 .thenReturn(l1);
-        Mockito.when(rangedGuy.shoot(eq(dist1Unit), eq(10), eq(0), any(LaserAttackStrat.class)))
+        Mockito.when(rangedGuy.shoot(eq(dist1Unit), eq(10), eq(0), any(LaserAtkStrat.class)))
                 .thenReturn(l2);
         poses.add(new Position(1, 0));
         Mockito.when(room.posRay(rangedGuy.getPos(), e.getPos())).thenReturn(poses);

@@ -5,13 +5,15 @@ skinparam classAttributeIconSize 0
 skinparam linetype polyline
 skinparam shadowing false
 
+/' Behaviour '/
+
 interface Agressive {
 + setAtkStrat(AttackStrategy)
++ getAtkStrat() : AttackStrategy
 + attack(Room, me: Element, target: Element) : boolean
 }
 
 abstract class Element {
-+ setAtkStrat(AttackStrategy)
 + attack(Room, target: Element) : boolean
 }
 
@@ -21,39 +23,35 @@ class AgressiveBehaviour {
 class PassiveBehaviour {}
 class MeleeGuy {}
 class RangedGuy {}
+class Laser {}
+
+/' Attack strats '/
 
 interface AttackStrategy {
-+ genMoves(Room, Element)
++ attack(Room, me: Element, target: Element) : boolean
 }
 
-abstract class ChaseStrat {
-# addRayPos(Room, List<PosDist>, source: Position, target: Position) : double
-# checkRayScent(Room, source: Position, scentPos: Position) : boolean
-# convertToSortPosList(List<PosDist>, Position) : List<Position>
-# chaseScent(Room, elemPos: Position, listPos: List<PosDist>)
-}
-class MeleeMoveStrat {}
-class RangedMoveStrat {}
-class ScaredMoveStrat {
-- canSeeSkane(Room, skanePos: Position)
-}
+class LaserAtkStrat {}
+class MeleeAtkStrat {}
+class RangedGuyAtkStrat {}
 
-ImovableBehaviour .up.^ Movable
-MovableBehaviour .up.^ Movable
+/' Connections '/
 
-Element -up-> ImovableBehaviour
-Element -up-> MovableBehaviour
+AgressiveBehaviour .down.^ Agressive
+PassiveBehaviour .down.^ Agressive
 
-Civilian -up-^ Element
+Element -up-> Agressive
+Element .up.^ Agressive
+
+Laser -up-^ Element
 MeleeGuy -up-^ Element
 RangedGuy -up-^ Element
 
-ChaseStrat .up.^ MoveStrategy
-ScaredMoveStrat .up.^ MoveStrategy
-MeleeMoveStrat -up-^ ChaseStrat
-RangedMoveStrat -up-^ ChaseStrat
+LaserAtkStrat .up.^ AttackStrategy
+MeleeAtkStrat .up.^ AttackStrategy
+RangedGuyAtkStrat .up.^ AttackStrategy
 
-MovableBehaviour -left-> MoveStrategy 
+AgressiveBehaviour -left-> AttackStrategy
 
 @enduml
 

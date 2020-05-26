@@ -5,7 +5,7 @@ import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.Laser;
 import org.g73.skanedweller.model.element.element_behaviours.AttackStrategy;
 
-public class LaserAttackStrat implements AttackStrategy<Laser> {
+public class LaserAtkStrat implements AttackStrategy<Laser> {
     @Override
     public boolean attack(Room room, Laser me, Element target) {
         if (!me.getReadiness())
