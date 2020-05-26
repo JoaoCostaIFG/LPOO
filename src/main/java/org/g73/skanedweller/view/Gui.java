@@ -16,6 +16,7 @@ public class Gui {
     private Screen screen;
     private TerminalResizeHandler resizeHandler;
     private RoomDrawer drawer;
+    private KeyHandler keyHandler;
 
     private EVENT event = EVENT.NullEvent;
     private InputHandler inputHandler = null;
@@ -31,19 +32,21 @@ public class Gui {
 
         this.room = room;
         this.drawer = new Drawer(screen.newTextGraphics());
+        this.keyHandler = new KeyHandler();
     }
 
     public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler) throws IOException {
-        this(room, newScreen, resizeHandler, new Drawer(newScreen.newTextGraphics()));
+        this(room, newScreen, resizeHandler, new Drawer(newScreen.newTextGraphics()), new KeyHandler());
     }
 
-    public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler, RoomDrawer drawer) throws IOException {
+    public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler, RoomDrawer drawer, KeyHandler kh) throws IOException {
         setUpScreen(newScreen);
         this.screen = newScreen;
         this.resizeHandler = resizeHandler;
 
         this.room = room;
         this.drawer = drawer;
+        this.keyHandler = kh;
     }
 
     public void setUpScreen(Screen screen) throws IOException {
@@ -74,69 +77,10 @@ public class Gui {
         this.event = EVENT.NullEvent;
     }
 
-    public void processKey(KeyStroke key) {
-        if (key == null)
-            return;
-
-        if (key.getKeyType() == KeyType.Character) {
-            switch (key.getCharacter()) {
-                case 'a':
-                case 'A':
-                    this.event = EVENT.MoveLeft;
-                    break;
-                case 'd':
-                case 'D':
-                    this.event = EVENT.MoveRight;
-                    break;
-                case 'w':
-                case 'W':
-                    this.event = EVENT.MoveUp;
-                    break;
-                case 's':
-                case 'S':
-                    this.event = EVENT.MoveDown;
-                    break;
-                case 'r':
-                case 'R':
-                    this.event = EVENT.RestartGame;
-                    break;
-                case 'q':
-                case 'Q':
-                    this.event = EVENT.QuitGame;
-                    break;
-                case ' ':
-                    this.event = EVENT.Bury;
-                default:
-                    break;
-            }
-        }
-
-        switch (key.getKeyType()) {
-            case ArrowLeft:
-                this.event = EVENT.MoveLeft;
-                break;
-            case ArrowRight:
-                this.event = EVENT.MoveRight;
-                break;
-            case ArrowUp:
-                this.event = EVENT.MoveUp;
-                break;
-            case ArrowDown:
-                this.event = EVENT.MoveDown;
-                break;
-            case Escape:
-            case EOF:
-                this.event = EVENT.QuitGame;
-                break;
-            default:
-                break;
-        }
-    }
-
     public EVENT getEvent() throws NullPointerException {
         KeyStroke ks;
         ks = inputHandler.getLastKey();
-        processKey(ks);
+        this.event = this.keyHandler.processKey(ks);
 
         return this.event;
     }

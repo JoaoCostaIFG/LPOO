@@ -6,11 +6,7 @@ public enum EVENT {
     MoveRight,
     MoveUp,
     MoveDown,
-    MoveStop,
     NullEvent,
     QuitGame,
-    RestartGame;
-
-    private EVENT() {
-    }
+    RestartGame
 }
