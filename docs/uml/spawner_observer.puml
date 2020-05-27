@@ -1,0 +1,32 @@
+@startuml
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam shadowing false
+
+interface Observable<T> {
+    + addObserver(Observer<T>) : void
+    + removeObserver(Observer<T>) : void
+    + notifyObservers(T subject) : void
+}
+
+interface Observer<T> {
+    + changed(T observable) : void
+}
+
+class Room {
+    + addElement(Element e) : void
+    + removeDeadEnemies(Element e) : void
+}
+
+class Spawner {}
+class GameController {}
+
+Room "Room".up.^ Observable
+Room o-up-> Observer
+Spawner "Room".up.^ Observer
+GameController -up-> Spawner
+GameController -up-> Room
+
+@enduml

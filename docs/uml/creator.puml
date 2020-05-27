@@ -1,0 +1,47 @@
+@startuml
+
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+skinparam shadowing false
+
+abstract class Creator<T> {
++ // create(Position) : T //
+}
+
+abstract class ElementCreator {
++ getHp() : Integer
++ getAtk() : Integer
++ getRange() : Integer
+}
+
+package "ElementCreators" #DDEEDD {
+    class CivieCreator {}
+    class MeleeCreator {}
+    class RangedCreator {}
+    class SkaneCreator {}
+}
+
+abstract class SpawnerCreator {
++ getSpawnCD() : Integer
++ getMaxEntities() : Integer
+}
+
+package "SpawnerCreators" #DDDDEE {
+    class CivSpawnerCreator {}
+    class MeleeSpawnerCreator {}
+    class RangedSpawnerCreator {}
+}
+
+ElementCreator "Spawner"-up-^ Creator
+CivieCreator -up-^ ElementCreator
+RangedCreator -up-^ ElementCreator
+MeleeCreator -up-^ ElementCreator
+SkaneCreator -up-^ ElementCreator
+
+SpawnerCreator "Element"-up-^ Creator
+CivSpawnerCreator -up-^ SpawnerCreator
+MeleeSpawnerCreator -up-^ SpawnerCreator
+RangedSpawnerCreator -up-^ SpawnerCreator
+
+@enduml

@@ -573,7 +573,7 @@ class, by making use of the new _Creator_ classes.
 Later into development, when we implemented the _Spawner_ class, we also creators
 for it.
 
-# INSERT UML
+![Creation pattern UML class diagram](/docs/uml/creator.png)
 
 #### Consequences
 
@@ -614,6 +614,9 @@ The following changes were made to make use of the pattern:
 - [Room](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/1a1caa7cbf166531ffaa90716aa5510f66e029cb/src/main/java/org/g73/skanedweller/model/Room.java#L106-L128) - 
   Made the _Room_ class implement the _Observable<Room>_ interface.
   When an object is added or removed to a room, it notifies its observers.
+
+
+![Spawners observer pattern UML class diagram](/docs/uml/spawner_observer.png)
   
 #### Consequences
 
