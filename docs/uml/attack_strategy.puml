@@ -25,7 +25,6 @@ class PassiveBehaviour {}
 class Laser {}
 class MeleeGuy {}
 class RangedGuy {}
-class Skane {}
 
 /' Attack strats '/
 
@@ -36,7 +35,6 @@ interface AttackStrategy {
 class LaserAtkStrat {}
 class MeleeAtkStrat {}
 class RangedGuyAtkStrat {}
-class SkaneAttackStrategy {}
 
 /' Connections '/
 
@@ -49,12 +47,10 @@ Element .up.^ Agressive
 Laser -up-^ Element
 MeleeGuy -up-^ Element
 RangedGuy -up-^ Element
-Skane -up-^ Element
 
 LaserAtkStrat .up.^ AttackStrategy
 MeleeAtkStrat .up.^ AttackStrategy
 RangedGuyAtkStrat .up.^ AttackStrategy
-SkaneAttackStrategy .up.^ AttackStrategy
 
 AgressiveBehaviour -left-> AttackStrategy
 

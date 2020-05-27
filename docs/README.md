@@ -526,7 +526,6 @@ project files:
 - [LaserAtkStrat](/src/main/java/org/g73/skanedweller/controller/attack_strategy/LaserAtkStrat.java)
 - [MeleeAtkStrat](/src/main/java/org/g73/skanedweller/controller/attack_strategy/MeleeAtkStrat.java)
 - [RangedGuyAtkStrat](/src/main/java/org/g73/skanedweller/controller/attack_strategy/RangedGuyAtkStrat.java)
-- [SkaneAttackStrategy](/src/main/java/org/g73/skanedweller/controller/attack_strategy/SkaneAttackStrategy.java)
 
 - [Agressive](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Agressive.java)
 - [AgressiveBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/AgressiveBehaviour.java)
@@ -542,9 +541,15 @@ project files:
 
 Implementing this pattern made it possible to have ranged attacks in our game
 and helped us separate the responsibilities of attacking and colliding.  
-The only downside of our implementation is that instantiating an object can
-be a bit more cumbersome, since we need to give it an attack strategy and
-a range.
+There are downsides though. This implementation makes the instantiation of
+aggressive elements be a bit more cumbersome, since we need to give it them
+an attack strategy and a range value. The other downside is related to the
+**Skane** and the way it attacks enemies. The **Skane** only attacks enemies
+that it collides with, so its attacks are tied to its collisions. We could
+make it so the **Skane** attempts to attack every enemy in the Room each frame,
+using its attack strategy but that would be inefficient, so the **Skane** attacks
+using its collision strategy (in contrast to all the other game elements capable
+of aggression).
 
 ### Creating the game's elements
 
@@ -561,66 +566,64 @@ this class became a _bloater_ and was hard to maintain.
 #### The pattern
 
 The pattern used as a solution was the **Creator pattern**. This way we could
-seperate all of the _RoomCreator_'s responsibilities into a small number of
-different classes.
+separate all the _RoomCreator's_ responsibilities into a few different classes.
 
 #### Implementation
 
-We firstly made a new creator interface. Afterwards, we seperated all of the methods
-in the _RoomCreator_ class that instantiated new game objects into new [classes](/src/main/java/org/g73/skanedweller/controller/creator)
-that implemented the recently created interface. Lastly, we refactored the _RoomCreator_
-class, by making use of the new _Creator_ classes.
-Later into development, when we implemented the _Spawner_ class, we also creators
-for it.
+We firstly made a new creator interface. Afterwards, we separated all the methods
+in the _RoomCreator_ class that instantiated new game objects into new
+[classes](/src/main/java/org/g73/skanedweller/controller/creator) that implemented
+the recently created interface. Lastly, we 'refactored' the _RoomCreator_
+class, by making use of the new _Creator_ classes.  
+Later into development, when we implemented the _Spawner_ class, which also has
+creators for it.
 
 ![Creation pattern UML class diagram](/docs/uml/creator.png)
 
 #### Consequences
 
-This approach allows the _RoomCreator_ to not be conscious of how many hp, range,
-attack, etc ...the game objects need to have. This is specified by the creator that
-we choose to use.  
-This solution also supports the Open/Closed principle. In spite of not needing
-different types of creators for the same enemy type, we could've easily add more.
+This approach allows the _RoomCreator_ to act indifferently of how much hp, range,
+attack, (etc...) the game objects need to have. These are specified by the creator
+that we choose to use.  
+This solution also respects the **Open/Closed principle**: in spite of not needing
+different types of creators for the same enemy type, we could've easily added more.
 For instance, if we wanted to add a difficulty choice to the start of the game,
-we could develop several new creator classes, each according to a specific difficuly.
-Then we could use one of them in the start of the game, depending on the chosen difficuly
-mode. This could prove to be very useful later on.
+we could develop several new creator classes, each according to a specific difficulty
+level. This could prove useful in more advanced stages of development.
 
 ### Spawners observer pattern
 
 #### Problem in context
 
-When we thought of including _Spawners_ to the game, one of the main features that
-we had in mind was to limit the maximum number of enemies inside a _Room_.
-In our [initial implementation](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/62b365ea1f1faf58f1bf4184c44a5ad4597c63c0/src/main/java/org/g73/skanedweller/controller/Spawner.java#L24-L37)
-however, each spawner could create a maximum number of elements, which wasn't as
-intended.
+When we thought of adding _Spawners_ to the game, one of the main features that
+we had in mind was limiting the maximum number of entities, of each kind,
+inside a _Room_. However, in our [initial implementation](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/62b365ea1f1faf58f1bf4184c44a5ad4597c63c0/src/main/java/org/g73/skanedweller/controller/Spawner.java#L24-L37),
+each spawner could only create a maximum number of elements, which wasn't
+the intended functionality.
 
 #### The pattern
 
-In order to solve this, we used the observer pattern. When an element is
-added or removed to a room, we notify the spawners listening to that room.
+In order to solve this, we used the **Observer pattern**. When an element is
+added to or removed from a room, we notify the _spawners_ listening to that room.
 
 #### Implementation
 
 The following changes were made to make use of the pattern:
 
-- [Spawner](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/1a1caa7cbf166531ffaa90716aa5510f66e029cb/src/main/java/org/g73/skanedweller/controller/Spawner.java#L39-L48) - 
+- [Spawner](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/1a1caa7cbf166531ffaa90716aa5510f66e029cb/src/main/java/org/g73/skanedweller/controller/Spawner.java#L39-L48) -
   Made the _Spawner_ class implement the _Observer<Room>_ interface.
   When a spawner is notified that a room has changed, it counts how many elements
   the room has.
 
-- [Room](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/1a1caa7cbf166531ffaa90716aa5510f66e029cb/src/main/java/org/g73/skanedweller/model/Room.java#L106-L128) - 
+- [Room](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/1a1caa7cbf166531ffaa90716aa5510f66e029cb/src/main/java/org/g73/skanedweller/model/Room.java#L106-L128) -
   Made the _Room_ class implement the _Observable<Room>_ interface.
   When an object is added or removed to a room, it notifies its observers.
 
-
 ![Spawners observer pattern UML class diagram](/docs/uml/spawner_observer.png)
-  
+
 #### Consequences
 
-This approach simplifies the code when in constrast with other alternatives.
+This approach simplifies the code when in contrast with other alternatives.
 The group chose this solution, despite its inefficiency, due to this fact.
 
 ## Known Code Smells and Refactoring Suggestions
