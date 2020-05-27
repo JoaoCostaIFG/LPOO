@@ -471,11 +471,10 @@ We decided that the **Observer pattern** was the best solution for this problem.
 
 The following changes were made to make use of the pattern:
 
-- [_Element_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/element/Element.java#L100-L113) -
+- [Element](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/element/Element.java#L100-L113) -
   Now implements the [_Observable interface_](/src/main/java/org/g73/skanedweller/observe/Observable.java).
   Every time an element moves, it notifies its collider.
-
-- [_Collider_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/colliders/Collider.java#L20-L23) -
+- [Collider](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/colliders/Collider.java#L20-L23) -
   Now implements the [_Observer interface_](/src/main/java/org/g73/skanedweller/observe/Observer.java).
   When a collider is notified that it has changed to a position, it updates its
   position accordingly.
@@ -494,7 +493,7 @@ solutions to the problem.
 
 When we implemented the game's collisions system and colliders, we somewhat
 _abused_ it to make enemies attack each other. While we only had the
-**Skane** and mellee enemies, this proved to be a very acceptable
+**Skane** and melee enemies, this proved to be a very acceptable
 [solution](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/4b76bf654433510d6a27976836e401ef5fb8570c/src/main/java/org/g73/skanedweller/controller/collision_strategy/AttackCollisionStrat.java#L5-L11),
 even though it could be seen as a violation of the **Single Responsibility**
 principle.  
@@ -519,17 +518,33 @@ the elements' [_Agressive behaviour_](https://github.com/FEUP-LPOO/lpoo-2020-g73
 The following UML class diagram illustrates how this pattern is mapped into
 the game's classes.
 
-// TODO uml
+![Attack Strategy UML class diagram](/docs/uml/attack_strategy.png)
+
+The classes listen in this UML class diagram can be found in the following
+project files:
+
+- [LaserAtkStrat](/src/main/java/org/g73/skanedweller/controller/attack_strategy/LaserAtkStrat.java)
+- [MeleeAtkStrat](/src/main/java/org/g73/skanedweller/controller/attack_strategy/MeleeAtkStrat.java)
+- [RangedGuyAtkStrat](/src/main/java/org/g73/skanedweller/controller/attack_strategy/RangedGuyAtkStrat.java)
+- [SkaneAttackStrategy](/src/main/java/org/g73/skanedweller/controller/attack_strategy/SkaneAttackStrategy.java)
+
+- [Agressive](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Agressive.java)
+- [AgressiveBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/AgressiveBehaviour.java)
+- [AttackStrategy](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/AttackStrategy.java)
+- [PassiveBehaviour](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/PassiveBehaviour.java)
+
+- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java)
+- [Laser](/src/main/java/org/g73/skanedweller/model/element/Laser.java)
+- [MeleeGuy](/src/main/java/org/g73/skanedweller/model/element/MeleeGuy.java)
+- [RangedGuy](/src/main/java/org/g73/skanedweller/model/element/RangedGuy.java)
 
 #### Consequences
 
-complex inst
-no more S priciple dead
-ranged attacks work
-
-This approach works well for all of the possible changes/additions to the game's
-colliders that we could think of.
-We couldn't think of other alternative solutions to the problem.
+Implementing this pattern made it possible to have ranged attacks in our game
+and helped us separate the responsibilities of attacking and colliding.  
+The only downside of our implementation is that instantiating an object can
+be a bit more cumbersome, since we need to give it an attack strategy and
+a range.
 
 ### Creating the game's elements
 
@@ -545,7 +560,7 @@ this class became a _bloater_ and was hard to maintain.
 
 #### The pattern
 
-The pattern used as a solution was the __Creator pattern__. This way we could
+The pattern used as a solution was the **Creator pattern**. This way we could
 seperate all of the _RoomCreator_'s responsibilities into a small number of
 different classes.
 
@@ -557,6 +572,7 @@ that implemented the recently created interface. Lastly, we refactored the _Room
 class, by making use of the new _Creator_ classes.
 Later into development, when we implemented the _Spawner_ class, we also creators
 for it.
+
 # INSERT UML
 
 #### Consequences
