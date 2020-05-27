@@ -555,6 +555,8 @@ We firstly made a new creator interface. Afterwards, we seperated all of the met
 in the _RoomCreator_ class that instantiated new game objects into new [classes](/src/main/java/org/g73/skanedweller/controller/creator)
 that implemented the recently created interface. Lastly, we refactored the _RoomCreator_
 class, by making use of the new _Creator_ classes.
+Later into development, when we implemented the _Spawner_ class, we also creators
+for it.
 # INSERT UML
 
 #### Consequences
@@ -568,6 +570,39 @@ For instance, if we wanted to add a difficulty choice to the start of the game,
 we could develop several new creator classes, each according to a specific difficuly.
 Then we could use one of them in the start of the game, depending on the chosen difficuly
 mode. This could prove to be very useful later on.
+
+### Spawners observer pattern
+
+#### Problem in context
+
+When we thought of including _Spawners_ to the game, one of the main features that
+we had in mind was to limit the maximum number of enemies inside a _Room_.
+In our [initial implementation](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/62b365ea1f1faf58f1bf4184c44a5ad4597c63c0/src/main/java/org/g73/skanedweller/controller/Spawner.java#L24-L37)
+however, each spawner could create a maximum number of elements, which wasn't as
+intended.
+
+#### The pattern
+
+In order to solve this, we used the observer pattern. When an element is
+added or removed to a room, we notify the spawners listening to that room.
+
+#### Implementation
+
+The following changes were made to make use of the pattern:
+
+- [Spawner](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/1a1caa7cbf166531ffaa90716aa5510f66e029cb/src/main/java/org/g73/skanedweller/controller/Spawner.java#L39-L48) - 
+  Made the _Spawner_ class implement the _Observer<Room>_ interface.
+  When a spawner is notified that a room has changed, it counts how many elements
+  the room has.
+
+- [Room](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/1a1caa7cbf166531ffaa90716aa5510f66e029cb/src/main/java/org/g73/skanedweller/model/Room.java#L106-L128) - 
+  Made the _Room_ class implement the _Observable<Room>_ interface.
+  When an object is added or removed to a room, it notifies its observers.
+  
+#### Consequences
+
+This approach simplifies the code when in constrast with other alternatives.
+The group chose this solution, despite its inefficiency, due to this fact.
 
 ## Known Code Smells and Refactoring Suggestions
 
