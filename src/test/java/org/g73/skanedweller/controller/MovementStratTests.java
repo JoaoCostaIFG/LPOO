@@ -1,6 +1,5 @@
 package org.g73.skanedweller.controller;
 
-import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
@@ -22,7 +21,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
 
 public class MovementStratTests {
     private final int moveTicks = 5;

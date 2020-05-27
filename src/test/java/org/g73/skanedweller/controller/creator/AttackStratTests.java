@@ -3,7 +3,6 @@ package org.g73.skanedweller.controller.creator;
 import org.g73.skanedweller.controller.attack_strategy.LaserAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.MeleeAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.RangedGuyAtkStrat;
-import org.g73.skanedweller.controller.attack_strategy.SkaneAttackStrategy;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
@@ -27,14 +26,12 @@ public class AttackStratTests {
     private LaserAtkStrat laser;
     private MeleeAtkStrat melee;
     private RangedGuyAtkStrat ranged;
-    private SkaneAttackStrategy skane;
-    
+
     @Before
     public void setUp() {
         room = Mockito.mock(Room.class);;
         e = Mockito.mock(Element.class);
         laser = new LaserAtkStrat();
-        skane = new SkaneAttackStrategy();
         melee = new MeleeAtkStrat(30);
         ranged = new RangedGuyAtkStrat(40, 10);
     }
@@ -65,13 +62,7 @@ public class AttackStratTests {
         Mockito.verify(l, times(2)).makeUnready();
         Mockito.verify(e, times(2)).takeDamage(7);
     }
-    
-    @Test
-    public void testSkaneAtkStrat() {
-        Element m = Mockito.mock(Element.class);
-        assertFalse(skane.attack(room, m, e));
-    }
-    
+
     @Test
     public void testMeleeAtkStrat() {
         Element me = Mockito.mock(Element.class);

@@ -25,7 +25,7 @@ public class Skane extends Element {
 
     public Skane(Position pos, int atk, int hp, int oxy, int size) {
         super(pos,
-                new AgressiveBehaviour(atk, 0), // TODO
+                new AgressiveBehaviour(atk, 0),
                 new CollidableBehaviour(new RectangleCollider(pos, 1, 1)),
                 new MortalBehaviour(hp),
                 new ImovableBehaviour());

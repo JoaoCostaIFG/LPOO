@@ -3,7 +3,10 @@ package org.g73.skanedweller.controller.creator;
 import org.g73.skanedweller.model.Position;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.InputMismatchException;
 
 import static org.junit.Assert.*;

@@ -8,12 +8,12 @@ public class SkaneAttackCollision extends CollisionStrategy<Skane, Element> {
     public boolean handle(Skane movElem, Element collElem) {
         collElem.takeDamage(movElem.getAtk());
 
-        // TODO
         if (!collElem.isAlive()) {
             movElem.setHp(movElem.getHp() + 1);
             movElem.grow();
             return true;
         }
+
         return false;
     }
 }

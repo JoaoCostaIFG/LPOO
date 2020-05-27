@@ -87,42 +87,42 @@ public class SkaneControllerTests {
         verify(ska, never()).setOxygenLevel(anyInt());
     }
 
-    @Test
-    public void damage() {
-        setUpMock();
-        skaCtr.takeDamage(300);
-        verify(ska).takeDamage(300);
-        verify(ska, times(300)).shrink();
+   // @Test
+   // public void damage() {
+   //     setUpMock();
+   //     skaCtr.takeDamage(300);
+   //     verify(ska).takeDamage(300);
+   //     verify(ska, times(300)).shrink();
 
-        reset(ska);
-        skaCtr.takeDamage(-10);
-        verify(ska, never()).takeDamage(any(Integer.class));
-        verify(ska, never()).shrink();
+   //     reset(ska);
+   //     skaCtr.takeDamage(-10);
+   //     verify(ska, never()).takeDamage(any(Integer.class));
+   //     verify(ska, never()).shrink();
 
-        reset(ska);
-        skaCtr.takeDamage(0);
-        verify(ska, never()).takeDamage(any(Integer.class));
-        verify(ska, never()).shrink();
-    }
+   //     reset(ska);
+   //     skaCtr.takeDamage(0);
+   //     verify(ska, never()).takeDamage(any(Integer.class));
+   //     verify(ska, never()).shrink();
+   // }
 
-    @Test
-    public void eat() {
-        setUpMock();
-        when(ska.getHp()).thenReturn(2);
-        skaCtr.nom(300);
-        verify(ska).setHp(300 + 2);
-        verify(ska, times(300)).grow();
+   // @Test
+   // public void eat() {
+   //     setUpMock();
+   //     when(ska.getHp()).thenReturn(2);
+   //     skaCtr.nom(300);
+   //     verify(ska).setHp(300 + 2);
+   //     verify(ska, times(300)).grow();
 
-        reset(ska);
-        skaCtr.nom(-10);
-        verify(ska, never()).setHp(any(Integer.class));
-        verify(ska, never()).grow();
+   //     reset(ska);
+   //     skaCtr.nom(-10);
+   //     verify(ska, never()).setHp(any(Integer.class));
+   //     verify(ska, never()).grow();
 
-        reset(ska);
-        skaCtr.nom(0);
-        verify(ska, never()).setHp(any(Integer.class));
-        verify(ska, never()).grow();
-    }
+   //     reset(ska);
+   //     skaCtr.nom(0);
+   //     verify(ska, never()).setHp(any(Integer.class));
+   //     verify(ska, never()).grow();
+   // }
 
     @Test
     public void update() {

@@ -40,21 +40,6 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
         this.currEvent = EVENT.NullEvent;
     }
 
-    public void takeDamage(int dmg) {
-        if (dmg <= 0) return;
-        ska.takeDamage(dmg);
-        for (int i = 0; i < dmg; ++i)
-            ska.shrink();
-    }
-
-    public void nom(int nourishment) {
-        // TODO
-        if (nourishment <= 0) return;
-        ska.setHp(ska.getHp() + nourishment);
-        for (int i = 0; i < nourishment; ++i)
-            ska.grow();
-    }
-
     public void toggleBury() {
         if (ska.isBury())
             ska.bury(false);
