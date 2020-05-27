@@ -66,7 +66,6 @@ Benefits and liabilities of the design after the pattern instantiation, eventual
 comparing these consequences with those of alternative solutions
 ```
 
-
 ### Structuring the project
 
 #### Problem in context
@@ -211,7 +210,7 @@ The interfaces and other behaviors can be found in the following files:
 The game elements can be found in the following files:
 
 - [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java) - As
-mentioned above, all game objects extend this Abstract class.
+  mentioned above, all game objects extend this Abstract class.
 
 - [Civilian](/src/main/java/org/g73/skanedweller/model/element/Civilian.java)
 - [Laser](/src/main/java/org/g73/skanedweller/model/element/Laser.java)
@@ -412,7 +411,7 @@ open to extension. It also prevents wrong pairing between a _CollidableElement_ 
 a _CollisionStrategy_ using generics, ie: restrict _CollisionStrategy_ to one or
 more _CollidableElement(s)_.
 
-### Colliders - Composite
+### Collisions (Composite pattern part)
 
 #### Problem in context
 
@@ -455,17 +454,18 @@ The composite principle helps us solve the problem of having complex **colliders
 in an object in a robust and elegant way. When compared to its alternative,
 it's much simpler and leads to many less code smells.
 
-### Colliders - Observer
+### Collisions (Observer pattern part)
 
 #### Problem in context
 
-After implementing the collider classes we quickly came into a problem: when an element
-had moved, its [_collider_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/cd2a188f81a710bcbf8c143b8fa93ea991ed82b3/src/main/java/room/colliders/Collider.java#L1-L5)
+After implementing the _collider classes_ we quickly came into a problem: when
+an element had moved, its
+[_collider_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/cd2a188f81a710bcbf8c143b8fa93ea991ed82b3/src/main/java/room/colliders/Collider.java#L1-L5)
 wouldn't be updated with the new position.
 
 #### The pattern
 
-We decided that the __observer pattern__ was the best solution for this problem.
+We decided that the **Observer pattern** was the best solution for this problem.
 
 #### Implementation
 
@@ -473,19 +473,59 @@ The following changes were made to make use of the pattern:
 
 - [_Element_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/element/Element.java#L100-L113) -
   Now implements the [_Observable interface_](/src/main/java/org/g73/skanedweller/observe/Observable.java).
-  Every time an element moves, it notifies its collider(s):
+  Every time an element moves, it notifies its collider.
 
 - [_Collider_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/90cb4f0319680d38016ad088188d4d1f24277cd7/src/main/java/org/g73/skanedweller/model/colliders/Collider.java#L20-L23) -
-Now implements the [_Observer interface_](/src/main/java/org/g73/skanedweller/observe/Observer.java).
-  When a collider is notified that it has changed to a position, it updates its position accordingly.
+  Now implements the [_Observer interface_](/src/main/java/org/g73/skanedweller/observe/Observer.java).
+  When a collider is notified that it has changed to a position, it updates its
+  position accordingly.
 
 # TODO UML HERE
-  
+
 #### Consequences
 
-This approach works well for all of the possible changes/additions to the game's
-colliders that we could think of.
-We couldn't think of other alternative solution to the problem.
+This approach works well for all the possible changes/additions to the game's
+colliders that we could think of. We couldn't think of any better alternative
+solutions to the problem.
+
+### Attacking without collisions
+
+#### Problem in context
+
+When we implemented the game's collisions system and colliders, we somewhat
+_abused_ it to make enemies attack each other. While we only had the
+**Skane** and mellee enemies, this proved to be a very acceptable
+[solution](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/4b76bf654433510d6a27976836e401ef5fb8570c/src/main/java/org/g73/skanedweller/controller/collision_strategy/AttackCollisionStrat.java#L5-L11),
+even though it could be seen as a violation of the **Single Responsibility**
+principle.  
+When we started implementing the ranged enemies, we were faced with the
+problem that the ranged enemies need to fire their lasers without, necessarily,
+colliding with their targets (they are ranged units after all).
+
+#### The pattern
+
+Following a similar strategy (pun intended) to the one we implemented for
+the _movement strategies_, we made use of the **Strategy pattern** once again.
+
+#### Implementation
+
+Given the structure of the code at the time, the implementation of this pattern
+was fairly straight forward. We deleted the collision strategy classes that
+were responsible for attacks between enemies and added a **range** field to the
+game elements' [_Aggressive behaviour_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/master/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Agressive.java).
+After that, we just had to create the needed attack strategies and set them on
+the elements' [_Agressive behaviour_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/master/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Agressive.java).
+
+The following UML class diagram illustrates how this pattern is mapped into
+the game's classes.
+
+// TODO uml
+
+#### Consequences
+
+complex inst
+no more S priciple dead
+ranged attacks work
 
 ## Known Code Smells and Refactoring Suggestions
 
