@@ -5,19 +5,39 @@ skinparam classAttributeIconSize 0
 skinparam linetype polyline
 skinparam shadowing false
 
-interface Observer {}
+interface Observer<T> {
+    + // changed(T) : void //
+}
 
 abstract class Collider {
-- position: Position
-+ // colliderWith(Collider) : boolean //
-+ changed(Position)
+    - position: Position
+    + // colliderWith(Collider) : boolean //
+    + changed(Position)
 }
 
 class CompositeCollider {}
 class RectangleCollider {}
 
-Collider .up.^ Observer
+interface Observable<T> {
+    + // addObserver(Observer<T>) : void //
+    + // removeObserver(Observer<T>) : void //
+    + // notifyObserver(Observer<T>) : void //
+}
+
+interface Collidable {
+    + // getCollider() : Collider //
+    + // colliderWith(Collidable) : boolean //
+}
+
+
+abstract class Element {}
+
+Collider "Position".up.^ Observer
 CompositeCollider -up-^ Collider
 RectangleCollider -up-^ Collider
+
+Collidable "Position"-up-^ Observable
+Element "Position".up.^ Collidable
+Element -right-> Collider
 
 @enduml

@@ -480,7 +480,7 @@ The following changes were made to make use of the pattern:
   When a collider is notified that it has changed to a position, it updates its
   position accordingly.
 
-# TODO UML HERE
+![The observer pattern in Element and Collider](/docs/uml/collider_observe.png)
 
 #### Consequences
 
