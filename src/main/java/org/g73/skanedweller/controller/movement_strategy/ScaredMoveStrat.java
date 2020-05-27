@@ -49,6 +49,7 @@ public class ScaredMoveStrat implements MoveStrategy {
         if (distA <= distB)
             finalPos.add(b);
 
+
         a = e.moveLeft();
         b = e.moveRight();
         distA = a.dist(ska_pos);

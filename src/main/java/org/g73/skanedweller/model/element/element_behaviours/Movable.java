@@ -14,6 +14,8 @@ public interface Movable {
     void tickMovCounter();
 
     void setMoveStrat(MoveStrategy moveStrat);
+    
+    MoveStrategy getMoveStrat();
 
     List<Position> genMoves(Room r, Element e);
 }

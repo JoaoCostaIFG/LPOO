@@ -38,6 +38,11 @@ public class AgressiveBehaviour implements Agressive {
     public void setAtkStrat(AttackStrategy attackStrat) {
         this.attackStrat = attackStrat;
     }
+    
+    @Override
+    public AttackStrategy getAtkStrat() {
+        return this.attackStrat;
+    }
 
     @Override
     public boolean attack(Room room, Element me, Element target) {
