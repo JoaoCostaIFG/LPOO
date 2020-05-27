@@ -527,6 +527,48 @@ complex inst
 no more S priciple dead
 ranged attacks work
 
+This approach works well for all of the possible changes/additions to the game's
+colliders that we could think of.
+We couldn't think of other alternative solutions to the problem.
+
+### Creating the game's elements
+
+#### Problem in context
+
+After creating the skane and enemy classes we quickly came to the conclusion
+that instantiating them in the _GameController_ class was not feasible. Our solution
+to this was to create a new [_RoomCreator_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/53e35524552c49cda900a2a2a4927716ec0c29b1/src/main/java/creator/RoomCreator.java#L17-L115)
+class, where all game elements were instantiated. Despite this, as new elements
+were added to the game, the _RoomCreator_ class became resposible for the creation
+of numerous classes, violating the SRP. As the number of game elements increased,
+this class became a _bloater_ and was hard to maintain.
+
+#### The pattern
+
+The pattern used as a solution was the __Creator pattern__. This way we could
+seperate all of the _RoomCreator_'s responsibilities into a small number of
+different classes.
+
+#### Implementation
+
+We firstly made a new creator interface. Afterwards, we seperated all of the methods
+in the _RoomCreator_ class that instantiated new game objects into new [classes](/src/main/java/org/g73/skanedweller/controller/creator)
+that implemented the recently created interface. Lastly, we refactored the _RoomCreator_
+class, by making use of the new _Creator_ classes.
+# INSERT UML
+
+#### Consequences
+
+This approach allows the _RoomCreator_ to not be conscious of how many hp, range,
+attack, etc ...the game objects need to have. This is specified by the creator that
+we choose to use.  
+This solution also supports the Open/Closed principle. In spite of not needing
+different types of creators for the same enemy type, we could've easily add more.
+For instance, if we wanted to add a difficulty choice to the start of the game,
+we could develop several new creator classes, each according to a specific difficuly.
+Then we could use one of them in the start of the game, depending on the chosen difficuly
+mode. This could prove to be very useful later on.
+
 ## Known Code Smells and Refactoring Suggestions
 
 ### Bloaters
