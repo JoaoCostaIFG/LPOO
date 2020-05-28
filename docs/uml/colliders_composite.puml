@@ -8,7 +8,7 @@ skinparam shadowing false
 abstract class Collider {
   - position : Position
   + //collidesWith(col : Collider) : boolean//
-  + changed(observable)
+  + changed(observable: Position)
 }
 class CompositeCollider {
   - colliders : List<Collider>

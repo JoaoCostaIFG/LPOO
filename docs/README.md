@@ -630,31 +630,41 @@ The group chose this solution, despite its inefficiency, due to this fact.
 
 ### Bloaters
 
-The [_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java) is a Bloater
-(_Large class_). This is problematic because finding specific code segments
-to work on inside the class can prove cumbersome and the class has a
-`tendecy' to violate the Single-responsibility principle.
+#### Large Element class
 
-We could improve the code by dividing the Room class into smaller, more specific,
-classes: _Extract class_ refactor.
+The [_Element class_](/src/main/java/org/g73/skanedweller/model/element/Element.java)
+is a Bloater (**Large class**). This is problematic because finding specific
+code segments to work on inside the class can prove cumbersome.
 
-There's also the ray-casting helper (private) functions that take 6 arguments,
-which are bloaters (_Long parameter list_), but we believe all alternatives are
-inferior design-wise.
+We believe this code smell doesn't represent an actual problem with the code,
+since most of the methods on the _Element class_ are delegations to other
+objects.
+
+#### Too many arguments on ray-casting helper methods
+
+The ray-casting helper (private) methods take 7 (seven) arguments.
+
+Although these are bloaters (**Long parameter list**), all alternatives we
+found are inferior design-wise.
 
 ### Dispensables
 
-The ray-casting related code inside the two private helper functions
-`octant03Ray()` and `octant12Ray()`
-on the [_Room class_](/src/main/java/org/g73/skanedweller/model/Room.java)
-looks almost duplicated (_Duplicate code_).
+#### Ray-casting helper functions
 
-This could be fixed by analysing the code to find ways to join these
+The ray-casting related code inside the two private helper functions
+`octant03Ray()` and `octant12Ray()` on the
+[_Raycast class_](/src/main/java/org/g73/skanedweller/model/RayCast.java)
+looks almost duplicated (**Duplicate code**).
+
+This could be fixed by analyzing the code to find ways to join these
 similarities, but we haven't been able to find a way to that.
 
-We have code for composite colliders is not in use at the moment. It was created
-because we believed it would be useful for use with the **Skane**, but it ended
-up not being needed (_Speculative generality_).
+#### Unused composite colliders
+
+We have code for composite colliders which are not used in the game at the
+moment. It was created because we believed it would be useful when implementing
+the **Skane's** collision, but it ended up not being needed
+(**Speculative generality**).
 
 We could fix this problem by “getting rid of” the
 [_CompositeCollider_ class](/src/main/java/org/g73/skanedweller/model/colliders/CompositeCollider.java).
@@ -662,28 +672,28 @@ We could fix this problem by “getting rid of” the
 ### Couplers
 
 The [_SkaneController class_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java)
-is an example of a class that uses the data of another class more that its own. In
-this case, the data of the
+is an example of a class that uses the data of another class more that its own
+(**Inappropriate intimacy**). In this case, the data of the
 [_Skane_ class](/src/main/java/org/g73/skanedweller/model/element/skane/Skane.java).
 
 We don't think this code smell represents an actual problem in this case.
 
-### Change Preventers
+### Change preventers
 
 The [_Element hierarchy_](/src/main/java/org/g73/skanedweller/model/element) and
 the [_View hierarchy_](/src/main/java/org/g73/skanedweller/view/element_views)
-repesent a situation of **Parallel Inheritance Hierarchies**. If we wanted to
-add a new element to the game, we would be obliged to create a new _Model_ class
-and a new _View_ class for it.
+represent a situation of **Parallel Inheritance Hierarchies**. If we wanted to
+add a new visible element to the game, we would be obligated to create a new
+_Model_ class (the concrete element) and a new _View_ class for it.
 
 The only way to fix this code smell would imply moving parts of the **View**
 into the **Model** (or vice-versa). This would be a violation of the **MVC**
-architetural pattern.
+architectural pattern.
 
 ## Self-Evaluation
 
-We believe both members of the group were integral for the development of this
-project and worked the same amount. With this, we believe self-evaluate with
-50% of the final grade, each.
+We believe both members of the group were integral parts of the development
+of this project and put the same amount of effort, work and time into it. With
+this being said, we self-evaluate with 50% of the final grade, each.
 
 Or, in other words: Fifty-fifty [padner](https://westofloathing.gamepedia.com/Pardner).
