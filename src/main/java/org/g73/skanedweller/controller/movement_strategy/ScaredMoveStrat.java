@@ -22,10 +22,7 @@ public class ScaredMoveStrat implements MoveStrategy {
 
     private boolean canSeeSkane(Room room, Position s) {
         List<Element> skaHeadRay = room.elemRay(s, room.getSkanePos());
-        if (skaHeadRay.size() == 0 || !room.isSkanePos(skaHeadRay.get(0).getPos()))
-            return false;
-
-        return true;
+        return skaHeadRay.size() != 0 && room.isSkanePos(skaHeadRay.get(0).getPos());
     }
 
     @Override

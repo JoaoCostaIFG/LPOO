@@ -19,12 +19,12 @@ public class RectangleCollider extends Collider {
         return width;
     }
 
-    public int getHeight() {
-        return height;
-    }
-
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void setHeight(int height) {
@@ -36,7 +36,7 @@ public class RectangleCollider extends Collider {
         int rect2X = rect2.getX();
         int rect1Y = super.getY();
         int rect2Y = rect2.getY();
-        return  (rect1X < rect2X + rect2.getWidth()&&
+        return (rect1X < rect2X + rect2.getWidth() &&
                 rect1X + this.width > rect2X &&
                 rect1Y < rect2Y + rect2.getHeight() &&
                 rect1Y + this.height > rect2Y);

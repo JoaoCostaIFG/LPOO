@@ -133,19 +133,19 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
     }
 
     @Override
+    public AttackStrategy getAtkStrat() {
+        return agressiveBehaviour.getAtkStrat();
+    }
+
+    @Override
     public void setAtkStrat(AttackStrategy attackStrat) {
         agressiveBehaviour.setAtkStrat(attackStrat);
     }
 
     @Override
-    public AttackStrategy getAtkStrat() {
-        return agressiveBehaviour.getAtkStrat();
-    }
-    
-    @Override
     public boolean attack(Room room, Element me, Element target) {
         // FIXME
-        return agressiveBehaviour.attack(room , me, target);
+        return agressiveBehaviour.attack(room, me, target);
     }
 
     public boolean attack(Room room, Element target) {
@@ -219,13 +219,13 @@ public abstract class Element implements Agressive, Collidable, Mortal, Movable 
     }
 
     @Override
-    public void setMoveStrat(MoveStrategy moveStrat) {
-        movableBehaviour.setMoveStrat(moveStrat);
+    public MoveStrategy getMoveStrat() {
+        return this.movableBehaviour.getMoveStrat();
     }
 
     @Override
-    public MoveStrategy getMoveStrat() {
-        return this.movableBehaviour.getMoveStrat();
+    public void setMoveStrat(MoveStrategy moveStrat) {
+        movableBehaviour.setMoveStrat(moveStrat);
     }
 
     @Override

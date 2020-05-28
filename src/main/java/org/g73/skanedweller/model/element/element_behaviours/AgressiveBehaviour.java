@@ -35,13 +35,13 @@ public class AgressiveBehaviour implements Agressive {
     }
 
     @Override
-    public void setAtkStrat(AttackStrategy attackStrat) {
-        this.attackStrat = attackStrat;
-    }
-    
-    @Override
     public AttackStrategy getAtkStrat() {
         return this.attackStrat;
+    }
+
+    @Override
+    public void setAtkStrat(AttackStrategy attackStrat) {
+        this.attackStrat = attackStrat;
     }
 
     @Override

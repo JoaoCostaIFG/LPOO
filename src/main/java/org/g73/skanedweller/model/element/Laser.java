@@ -26,9 +26,10 @@ public class Laser extends Element {
     public void makeReady() {
         this.ready = true;
     }
-     public void makeUnready() {
+
+    public void makeUnready() {
         this.ready = false;
-     }
+    }
 
     public boolean getReadiness() {
         return this.ready;

@@ -1,17 +1,14 @@
 package org.g73.skanedweller.view.element_views;
 
 import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.element.Laser;
 import org.g73.skanedweller.model.element.RangedGuy;
+import org.g73.skanedweller.view.Colors;
 
-import static com.googlecode.lanterna.TextColor.Factory.fromString;
+public class RangedGuyView implements ElementDrawer<RangedGuy> {
+    private static final TextCharacter rangedChar = new TextCharacter('R', Colors.yellow, Colors.bg);
 
-public class RangedGuyView {
-    private static final TextColor bg = fromString("#313742");
-    private static final TextColor yellow = fromString("#988D3D");
-    private static final TextCharacter rangedChar = new TextCharacter('R', yellow, bg);
     private LaserView laserView;
 
     public RangedGuyView(LaserView laserView) {

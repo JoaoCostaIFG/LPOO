@@ -1,7 +1,6 @@
 package org.g73.skanedweller.view;
 
 import com.googlecode.lanterna.TextCharacter;
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.view.element_views.*;
@@ -12,22 +11,14 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.googlecode.lanterna.TextColor.Factory.fromString;
 import static org.mockito.Mockito.*;
 
 public class ElementViewTests {
-    private static final TextColor bg = fromString("#313742");
-    private static final TextColor blue = fromString("#0E91E7");
-    private static final TextColor brightRed = fromString("#C00000");
-    private static final TextColor purple = fromString("#8558AD");
-    private static final TextColor red = fromString("#844F4E");
-    private static final TextColor yellow = fromString("#988D3D");
-
-    private static final TextCharacter civieChar = new TextCharacter('C', blue, bg);
-    private static final TextCharacter laserChar = new TextCharacter('#', brightRed, bg);
-    private static final TextCharacter meleeChar = new TextCharacter('M', red, bg);
-    private static final TextCharacter rangedChar = new TextCharacter('R', yellow, bg);
-    private static final TextCharacter wallChar = new TextCharacter('#', purple, bg);
+    private static final TextCharacter civieChar = new TextCharacter('C', Colors.blue, Colors.bg);
+    private static final TextCharacter laserChar = new TextCharacter('#', Colors.brightRed, Colors.bg);
+    private static final TextCharacter meleeChar = new TextCharacter('M', Colors.red, Colors.bg);
+    private static final TextCharacter rangedChar = new TextCharacter('R', Colors.yellow, Colors.bg);
+    private static final TextCharacter wallChar = new TextCharacter('#', Colors.purple, Colors.bg);
 
     private TextGraphics gra;
 

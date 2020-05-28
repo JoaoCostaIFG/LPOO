@@ -40,12 +40,12 @@ public class Room implements Observable<Room> {
         this.height = height;
     }
 
-    public void setRayCasting(RayCasting rayCasting) {
-        this.rayCasting = rayCasting;
-    }
-
     public RayCasting getRayCasting() {
         return this.rayCasting;
+    }
+
+    public void setRayCasting(RayCasting rayCasting) {
+        this.rayCasting = rayCasting;
     }
 
     public List<Position> posRay(Position s, Position t) {
@@ -116,8 +116,8 @@ public class Room implements Observable<Room> {
     public void removeDeadEnemies() {
         ListIterator<Element> iter = enemies.listIterator();
         boolean deletedSomething = false;
-        while(iter.hasNext()){
-            if(!iter.next().isAlive()) {
+        while (iter.hasNext()) {
+            if (!iter.next().isAlive()) {
                 iter.remove();
                 deletedSomething = true;
             }
@@ -168,7 +168,7 @@ public class Room implements Observable<Room> {
 
     @Override
     public void notifyObservers(Room r) {
-        for (Observer<Room> o: this.observers)
+        for (Observer<Room> o : this.observers)
             o.changed(r);
     }
 }

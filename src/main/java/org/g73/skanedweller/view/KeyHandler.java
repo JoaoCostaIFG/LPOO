@@ -4,10 +4,10 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
 public class KeyHandler {
-    
+
     public EVENT processKey(KeyStroke key) {
         EVENT event = EVENT.NullEvent;
-        
+
         if (key == null)
             return event;
 

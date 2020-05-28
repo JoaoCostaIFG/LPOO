@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController implements Controller {
+    private static final String map_name = "fort_invasion_map";
+    private static final int DELAY = 30; // time between frames (in ms)
     private Room room;
     private Gui gui;
     private GAMEST state;
@@ -23,12 +25,6 @@ public class GameController implements Controller {
     private PlayerController playerController;
     private List<Spawner> spawners;
     private MapReader mapReader;
-    private static final String map_name = "fort_invasion_map";
-    private static final int DELAY = 30; // time between frames (in ms)
-
-    public static void main(String[] args) throws IOException {
-        new GameController().start();
-    }
 
     public GameController(Room room, Gui gui, MapReader mr, SkaneController skaCtr) {
         this.room = room;
@@ -41,7 +37,7 @@ public class GameController implements Controller {
         this.mapReader = mr;
 
         this.spawners = createSpawners();
-        for (Spawner s: spawners)
+        for (Spawner s : spawners)
             room.addObserver(s);
     }
 
@@ -49,7 +45,7 @@ public class GameController implements Controller {
         this(room, new Gui(room), mr,
                 new SkaneController(room.getSkane(), 50));
     }
-    
+
     public GameController(MapReader mr) throws IOException {
         this(new RoomCreator().createRoom(mr), mr);
     }
@@ -58,20 +54,24 @@ public class GameController implements Controller {
         this(new MapReader(map_name));
     }
 
+    public static void main(String[] args) throws IOException {
+        new GameController().start();
+    }
+
     private List<Spawner> createSpawners() {
         List<Spawner> spawners = new ArrayList<>();
         SpawnerCreator civSpCreator = new CivSpawnerCreator();
-        for (Position p: this.mapReader.getCivSpawners())
+        for (Position p : this.mapReader.getCivSpawners())
             spawners.add(civSpCreator.create(p));
-        
+
         SpawnerCreator meleeSpCreator = new MeleeSpawnerCreator();
-        for (Position p: this.mapReader.getMelSpawners())
+        for (Position p : this.mapReader.getMelSpawners())
             spawners.add(meleeSpCreator.create(p));
-        
+
         SpawnerCreator rangedSpCreator = new RangedSpawnerCreator();
-        for (Position p: this.mapReader.getRanSpawners())
+        for (Position p : this.mapReader.getRanSpawners())
             spawners.add(rangedSpCreator.create(p));
-        
+
         return spawners;
     }
 
@@ -102,7 +102,7 @@ public class GameController implements Controller {
         for (Controller c : this.controllers)
             c.update(room);
 
-        for (Spawner s: this.spawners)
+        for (Spawner s : this.spawners)
             s.update(room);
     }
 

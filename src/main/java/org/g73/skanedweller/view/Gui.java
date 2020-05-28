@@ -84,12 +84,12 @@ public class Gui {
         return this.event;
     }
 
-    public void setRoom(Room r) {
-        this.room = r;
-    }
-
     public Room getRoom() {
         return this.room;
+    }
+
+    public void setRoom(Room r) {
+        this.room = r;
     }
 
     public TerminalSize getTermSize() {
@@ -102,7 +102,7 @@ public class Gui {
 
     public void draw() throws IOException {
         TerminalSize newsize = resizeHandler.getLastKnownSize();
-        if (resizeHandler.hasResized() || 
+        if (resizeHandler.hasResized() ||
                 newsize.getColumns() != room.getWidth() || newsize.getRows() != room.getHeight()) {
             room.setSize(newsize.getColumns(), newsize.getRows());
             screen.doResizeIfNecessary();

@@ -5,6 +5,6 @@ public enum GAMEST {
     STOPPED,
     RESTART;
 
-    private GAMEST() {
+    GAMEST() {
     }
 }

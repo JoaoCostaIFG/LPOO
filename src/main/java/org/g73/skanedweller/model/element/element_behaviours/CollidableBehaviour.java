@@ -4,7 +4,7 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.colliders.Collider;
 import org.g73.skanedweller.observe.Observer;
 
-public class CollidableBehaviour implements Collidable{
+public class CollidableBehaviour implements Collidable {
     private Collider collider;
 
     public CollidableBehaviour(Collider col) {

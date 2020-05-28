@@ -19,10 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SkaneController extends MovableController<Skane> implements PlayerController {
-    private Skane ska;
-    private int scentDur;
-    private EVENT currEvent;
-
     protected static final Map<Class<? extends Collidable>, CollisionStrategy> colHandlerMap =
             new HashMap<Class<? extends Collidable>, CollisionStrategy>() {{
                 put(Skane.class, new BlockCollision());
@@ -32,6 +28,9 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
                 put(Civilian.class, new SkaneAttackCollision());
                 put(RangedGuy.class, new SkaneAttackCollision());
             }};
+    private Skane ska;
+    private int scentDur;
+    private EVENT currEvent;
 
     public SkaneController(Skane ska, int scentDur) {
         super(colHandlerMap);

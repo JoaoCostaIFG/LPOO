@@ -26,9 +26,9 @@ public class SkaneCreator extends ElementCreator {
         skane_opts.oxygen_lvl = oxygen_lvl;
         skane_opts.size = size;
 
-       // Skane ska = new Skane(skane_opts);
-       // ska.setAtkStrat(new SkaneAttackStrategy());
-       // return ska;
+        // Skane ska = new Skane(skane_opts);
+        // ska.setAtkStrat(new SkaneAttackStrategy());
+        // return ska;
         return new Skane(skane_opts);
     }
 }

@@ -47,7 +47,7 @@ public class CompositeCollider extends Collider {
         int relativeY = col.getY() - this.getY();
         col.setPos(new Position(relativeX, relativeY));
 
-        for (Collider c: this.colliders) {
+        for (Collider c : this.colliders) {
             if (c.collidesWith(col)) {
                 col.setPos(oldPos);
                 return true;

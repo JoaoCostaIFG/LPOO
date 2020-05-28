@@ -13,16 +13,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 public class Skane extends Element {
-    public static class SkaneOpts {
-        public int attack_dmg, hp, oxygen_lvl, size;
-        public Position pos = null;
-    }
-
     private Boolean isBury;
     private int oxyLvl, maxOxy;
     private List<SkaneBody> body;
     private LinkedHashSet<Scent> scentTrail;
-
     public Skane(Position pos, int atk, int hp, int oxy, int size) {
         super(pos,
                 new AgressiveBehaviour(atk, 0),
@@ -133,5 +127,10 @@ public class Skane extends Element {
         super.takeDamage(dmg);
         for (int i = 0; i < dmg && getSize() > 0; ++i)
             shrink();
+    }
+
+    public static class SkaneOpts {
+        public int attack_dmg, hp, oxygen_lvl, size;
+        public Position pos = null;
     }
 }

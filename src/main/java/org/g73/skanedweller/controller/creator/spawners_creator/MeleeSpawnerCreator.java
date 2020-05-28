@@ -6,7 +6,7 @@ import org.g73.skanedweller.model.Position;
 
 public class MeleeSpawnerCreator extends SpawnerCreator {
     public MeleeSpawnerCreator() {
-        super(30*10, 10);
+        super(30 * 10, 10);
     }
 
     @Override

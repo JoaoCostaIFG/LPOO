@@ -11,16 +11,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public abstract class ChaseStrat implements MoveStrategy {
-    protected class PosDist {
-        public Position p;
-        public double dist;
-
-        public PosDist(Position p, double dist) {
-            this.p = p;
-            this.dist = dist;
-        }
-    }
-
     protected double addRayPos(Room r, List<PosDist> posDistList, Position s, Position t) {
         double dist = Double.MAX_VALUE;
         List<Element> rayResult = r.elemRay(s, t);
@@ -74,5 +64,15 @@ public abstract class ChaseStrat implements MoveStrategy {
 
         if (freshestScent != null)
             listPos.add(new PosDist(freshestScent.getPos(), ePos.dist(freshestScent.getPos())));
+    }
+
+    protected class PosDist {
+        public Position p;
+        public double dist;
+
+        public PosDist(Position p, double dist) {
+            this.p = p;
+            this.dist = dist;
+        }
     }
 }

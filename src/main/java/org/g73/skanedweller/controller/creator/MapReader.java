@@ -32,7 +32,7 @@ public class MapReader {
         this.melSpawners = new ArrayList<>();
         this.ranSpawners = new ArrayList<>();
     }
-    
+
     public MapReader(String map_name) throws IOException {
         this();
         InputStream is = getClass().getClassLoader().getResourceAsStream(map_name);
@@ -41,7 +41,7 @@ public class MapReader {
         br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         this.generateMap();
     }
-    
+
     public MapReader(BufferedReader br) throws IOException {
         this();
         this.br = br;
@@ -50,7 +50,7 @@ public class MapReader {
 
     public void generateMap() throws IOException {
 
-        int height=0, length;
+        int height = 0, length;
 
         String line = br.readLine();
         if (line == null)
@@ -59,13 +59,13 @@ public class MapReader {
         do {
             if (line.length() != length)
                 throw new InputMismatchException();
-            for (int i=0; i<line.length(); ++i) {
+            for (int i = 0; i < line.length(); ++i) {
                 handleChar(line.charAt(i), i, height);
             }
             line = br.readLine();
             ++height;
         } while (line != null);
-        
+
         this.height = height;
         this.length = length;
     }
@@ -85,8 +85,7 @@ public class MapReader {
                 skanePos = p;
             else
                 throw new InputMismatchException();
-        }
-        else if (c == 'C')
+        } else if (c == 'C')
             civSpawners.add(p);
         else if (c == 'M')
             melSpawners.add(p);

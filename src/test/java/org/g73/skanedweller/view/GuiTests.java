@@ -99,20 +99,15 @@ public class GuiTests {
         Mockito.verify(screen).close();
     }
 
-    // TODO
-    // @Test
-    // public void testResizeHandler() throws IOException {
-    //     TerminalSize init_size = new TerminalSize(80, 60);
-    //     Terminal terminal = new DefaultTerminalFactory().setInitialTerminalSize(init_size).createTerminal();
-    //     TerminalResizeHandler resizeHandler = Mockito.mock(TerminalResizeHandler.class);
-    //     terminal.addResizeListener(resizeHandler);
+     @Test
+     public void testResizeHandler() throws IOException {
+         Screen screen = Mockito.mock(Screen.class);
+         Gui gui = new Gui(room, screen, resizeHandler);
 
-    //     Screen screen = new TerminalScreen(terminal);
-    //     Gui gui = new Gui(room, screen, resizeHandler);
-
-    //     Mockito.when(resizeHandler.getLastKnownSize()).thenReturn(new TerminalSize(100, 100));
-    //     assertEquals(gui.getTermSize(), new TerminalSize(100, 100));
-    // }
+         Mockito.when(resizeHandler.getLastKnownSize())
+                 .thenReturn(new TerminalSize(100, 100));
+         assertEquals(gui.getTermSize(), new TerminalSize(100, 100));
+     }
 
     @Test
     public void testDefaultInputHandlerStart() {

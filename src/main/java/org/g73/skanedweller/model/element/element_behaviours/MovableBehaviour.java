@@ -26,15 +26,15 @@ public class MovableBehaviour implements Movable {
     }
 
     @Override
+    public MoveStrategy getMoveStrat() {
+        return this.moveStrat;
+    }
+
+    @Override
     public void setMoveStrat(MoveStrategy moveStrat) {
         this.moveStrat = moveStrat;
     }
 
-    @Override
-    public MoveStrategy getMoveStrat() {
-        return this.moveStrat;
-    }
-    
     @Override
     public List<Position> genMoves(Room r, Element e) {
         return moveStrat.genMoves(r, e);

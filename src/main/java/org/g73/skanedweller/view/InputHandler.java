@@ -22,12 +22,12 @@ public class InputHandler implements Runnable {
         return ret;
     }
 
-    public void setDaemon(boolean state) {
-        isDaemon = state;
-    }
-
     public boolean isDaemon() {
         return isDaemon;
+    }
+
+    public void setDaemon(boolean state) {
+        isDaemon = state;
     }
 
     public boolean isAlive() {

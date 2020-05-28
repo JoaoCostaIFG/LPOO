@@ -40,7 +40,7 @@ public class Spawner implements Observer<Room> {
     public void changed(Room observable) {
         currCount = 0;
         Object trackObj = creator.create(spawningPosition);
-        for(Element e: observable.getElements()) {
+        for (Element e : observable.getElements()) {
             if (e.getClass().equals(trackObj.getClass())) {
                 ++currCount;
             }

@@ -7,7 +7,7 @@ import org.g73.skanedweller.model.element.Element;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImovableBehaviour implements Movable{
+public class ImovableBehaviour implements Movable {
     @Override
     public int getMovCounter() {
         return 1;
@@ -22,12 +22,12 @@ public class ImovableBehaviour implements Movable{
     }
 
     @Override
-    public void setMoveStrat(MoveStrategy moveStrat) {
+    public MoveStrategy getMoveStrat() {
+        return null;
     }
 
     @Override
-    public MoveStrategy getMoveStrat() {
-        return null;
+    public void setMoveStrat(MoveStrategy moveStrat) {
     }
 
     @Override

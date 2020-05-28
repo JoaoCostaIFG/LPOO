@@ -12,9 +12,9 @@ public interface Agressive {
 
     void setRange(int range);
 
-    void setAtkStrat(AttackStrategy attackStrat);
-    
     AttackStrategy getAtkStrat();
+
+    void setAtkStrat(AttackStrategy attackStrat);
 
     boolean attack(Room room, Element me, Element target);
 

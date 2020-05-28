@@ -24,6 +24,7 @@ public class EnemyController extends MovableController<Element> {
                 put(Civilian.class, new NullCollision());
                 put(RangedGuy.class, new NullCollision());
             }};
+
     public EnemyController() {
         super(colHandlerMap);
     }
