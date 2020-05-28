@@ -70,33 +70,38 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
 
     @Override
     public void handleEvent(EVENT event, Room room) {
-        if (currEvent == EVENT.NullEvent) return;
-        else if (currEvent == EVENT.Bury) toggleBury();
+        if (event == EVENT.NullEvent) return;
+        else if (event == EVENT.Bury) toggleBury();
         else { // Movement Event
             Position newPos;
-            switch (currEvent) {
+            boolean changed = false;
+            switch (event) {
                 case MoveLeft:
                     newPos = ska.moveLeft();
+                    changed = true;
                     break;
                 case MoveRight:
                     newPos = ska.moveRight();
+                    changed = true;
                     break;
                 case MoveUp:
                     newPos = ska.moveUp();
+                    changed = true;
                     break;
                 case MoveDown:
                     newPos = ska.moveDown();
+                    changed = true;
                     break;
-                default:
+                default: // useless
                     newPos = ska.getPos();
                     break;
             }
-            if (canMove(newPos, ska, room)) {
+            if (changed && canMove(newPos, ska, room)) {
                 move(ska, newPos);
                 tickScentTrail();
             }
         }
-        currEvent = EVENT.NullEvent;
+        currEvent = EVENT.NullEvent; // reset event
     }
 
     @Override
