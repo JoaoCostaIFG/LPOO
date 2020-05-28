@@ -5,17 +5,17 @@ import org.g73.skanedweller.controller.creator.spawners_creator.CivSpawnerCreato
 import org.g73.skanedweller.controller.creator.spawners_creator.MeleeSpawnerCreator;
 import org.g73.skanedweller.controller.creator.spawners_creator.RangedSpawnerCreator;
 import org.g73.skanedweller.model.Position;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SpawnerCreatorTests {
     private MeleeSpawnerCreator mlSpCreator;
     private RangedSpawnerCreator rgSpCreator;
     private CivSpawnerCreator civSpCreator;
     
-    @Before
+    @BeforeEach
     public void setUp() {
         this.mlSpCreator = new MeleeSpawnerCreator();
         this.rgSpCreator = new RangedSpawnerCreator();

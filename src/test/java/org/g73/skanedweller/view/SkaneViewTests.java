@@ -9,15 +9,15 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
 import org.g73.skanedweller.view.element_views.SkaneView;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class SkaneViewTests {
@@ -36,7 +36,7 @@ public class SkaneViewTests {
     private Skane ska;
     private SkaneBody skaBody;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.gra = Mockito.mock(TextGraphics.class);
         this.ska = Mockito.mock(Skane.class);
@@ -213,7 +213,7 @@ public class SkaneViewTests {
         assertEquals(graSpy.getCharacter(skaX, skaY), new TextCharacter('S', Colors.green, Colors.bg, SGR.BOLD));
     }
 
-    @After
+    @AfterEach
     public void endChecks() {
         Mockito.verify(gra, atLeastOnce())
                 .setBackgroundColor(Colors.bg);

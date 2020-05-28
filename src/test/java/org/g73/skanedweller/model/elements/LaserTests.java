@@ -1,15 +1,15 @@
 package org.g73.skanedweller.model.elements;
 
 import org.g73.skanedweller.model.element.Laser;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LaserTests {
     private Laser laser;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.laser = new Laser(10, 10, 2, 2, 0);
     }

@@ -5,7 +5,7 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.MeleeGuy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 

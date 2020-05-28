@@ -6,16 +6,16 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.EVENT;
 import org.g73.skanedweller.view.Gui;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class GameControllerTests {
@@ -25,7 +25,7 @@ public class GameControllerTests {
     private MapReader mr;
     private SkaneController ska_ctr;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         room = Mockito.mock(Room.class);
         gui = Mockito.mock(Gui.class);

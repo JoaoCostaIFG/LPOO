@@ -1,17 +1,18 @@
 package org.g73.skanedweller.model.behaviours;
 
 import org.g73.skanedweller.model.element.element_behaviours.MortalBehaviour;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class MortalBehaviourTests {
     private final int hp = 2;
 
     private MortalBehaviour behaviour;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.behaviour = new MortalBehaviour(hp);
     }

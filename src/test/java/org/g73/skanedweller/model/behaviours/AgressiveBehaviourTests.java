@@ -4,11 +4,12 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.element_behaviours.AgressiveBehaviour;
 import org.g73.skanedweller.model.element.element_behaviours.AttackStrategy;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class AgressiveBehaviourTests {
     private final int atk = 3;
@@ -19,7 +20,7 @@ public class AgressiveBehaviourTests {
     private Room room;
     private AgressiveBehaviour behaviour;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.strat = Mockito.mock(AttackStrategy.class);
         this.room = Mockito.mock(Room.class);

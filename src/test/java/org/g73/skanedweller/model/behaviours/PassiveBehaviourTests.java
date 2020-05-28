@@ -4,19 +4,19 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.element_behaviours.AttackStrategy;
 import org.g73.skanedweller.model.element.element_behaviours.PassiveBehaviour;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class PassiveBehaviourTests {
     private AttackStrategy strat;
     private Room room;
     private PassiveBehaviour behaviour;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.strat = Mockito.mock(AttackStrategy.class);
         this.room = Mockito.mock(Room.class);

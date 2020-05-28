@@ -5,21 +5,21 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.element_behaviours.ImovableBehaviour;
 import org.g73.skanedweller.model.element.element_behaviours.MoveStrategy;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ImovableBehaviourTests {
     private Room room;
     private MoveStrategy strat;
     private ImovableBehaviour behaviour;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.room = Mockito.mock(Room.class);
         this.strat = Mockito.mock(MoveStrategy.class);

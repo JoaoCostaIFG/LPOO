@@ -9,9 +9,9 @@ import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.skane.Scent;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
@@ -39,7 +39,7 @@ public class MovementStratTests {
     private SkaneBody skaBody;
     private Room room;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.e = Mockito.mock(Element.class);
         Mockito.when(e.getMovCounter())
@@ -72,7 +72,7 @@ public class MovementStratTests {
         roomMockSetSkaneInfo();
     }
 
-    @After
+    @AfterEach
     public void testSetMovCoutner() {
         Mockito.verify(e).setMovCounter(moveTicks);
     }

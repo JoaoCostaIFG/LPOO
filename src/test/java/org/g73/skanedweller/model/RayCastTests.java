@@ -1,8 +1,8 @@
 package org.g73.skanedweller.model;
 
 import org.g73.skanedweller.model.element.Element;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -10,13 +10,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RayCastTests {
     private RayCast rc;
     private Room room;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.rc = new RayCast();
         this.room = Mockito.mock(Room.class);

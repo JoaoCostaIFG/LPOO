@@ -5,8 +5,8 @@ import org.g73.skanedweller.model.element.skane.Scent;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
 import org.g73.skanedweller.observe.Observer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
@@ -22,7 +22,7 @@ public class RoomTests {
     private Room room;
     private Skane ska;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.room = new Room(300, 100);
         this.ska = Mockito.mock(Skane.class);

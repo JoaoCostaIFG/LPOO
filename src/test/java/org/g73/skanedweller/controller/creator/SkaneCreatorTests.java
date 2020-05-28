@@ -3,15 +3,16 @@ package org.g73.skanedweller.controller.creator;
 import org.g73.skanedweller.controller.creator.elements_creator.SkaneCreator;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.skane.Skane;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class SkaneCreatorTests {
     private SkaneCreator skaCreator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         skaCreator = new SkaneCreator(1, 1, 1, 1);
     }

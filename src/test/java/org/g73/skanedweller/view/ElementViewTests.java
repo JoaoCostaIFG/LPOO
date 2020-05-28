@@ -4,8 +4,8 @@ import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.view.element_views.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ElementViewTests {
 
     private TextGraphics gra;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.gra = Mockito.mock(TextGraphics.class);
     }

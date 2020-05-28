@@ -8,8 +8,8 @@ import org.g73.skanedweller.model.element.MeleeGuy;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class EnemyControllerTests {
     Skane ska;
     CollisionHandler colH;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.room = Mockito.mock(Room.class);
         this.colH = Mockito.mock(CollisionHandler.class);
@@ -108,7 +108,7 @@ public class EnemyControllerTests {
         Mockito.verify(enemy2).getMovCounter();
     }
 
-    @Test
+
     public void testEnemiesAttackUnbury() {
         List<SkaneBody> sbs = new ArrayList<>();
         sbs.add(new SkaneBody(new Position(2, 2), ska));

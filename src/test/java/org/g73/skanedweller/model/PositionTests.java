@@ -1,18 +1,18 @@
 package org.g73.skanedweller.model;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PositionTests {
     private final int initx = 5;
     private final int inity = 5;
     private Position p;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.p = new Position(initx, inity);
     }

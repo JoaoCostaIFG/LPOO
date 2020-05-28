@@ -1,10 +1,11 @@
 package org.g73.skanedweller.model.elements;
 
 import org.g73.skanedweller.model.element.skane.Scent;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class ScentTests {
     private final int initx = 20;
@@ -12,7 +13,7 @@ public class ScentTests {
     private final int initDur = 2;
     private Scent s;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         s = new Scent(initx, inity, initDur);
     }

@@ -4,8 +4,8 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.EVENT;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
@@ -17,7 +17,7 @@ public class SkaneControllerTests {
     Skane ska;
     Room room;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         ska = Mockito.mock(Skane.class);
         skaCtr = new SkaneController(ska, scentDur);

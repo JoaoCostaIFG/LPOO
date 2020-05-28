@@ -5,16 +5,16 @@ import org.g73.skanedweller.controller.creator.elements_creator.MeleeCreator;
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.MeleeGuy;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MeleeCreatorTests {
     private MeleeCreator meleeCreator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         meleeCreator = new MeleeCreator(1, 1, 1);
     }

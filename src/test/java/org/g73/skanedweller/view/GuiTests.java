@@ -4,14 +4,14 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import org.g73.skanedweller.model.Room;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -24,7 +24,7 @@ public class GuiTests {
     private TerminalResizeHandler resizeHandler;
     private KeyHandler keyHandler;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         room = Mockito.mock(Room.class);
         drawer = Mockito.mock(RoomDrawer.class);

@@ -5,16 +5,16 @@ import org.g73.skanedweller.controller.creator.elements_creator.RangedCreator;
 import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.RangedGuy;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RangedCreatorTests {
     private RangedCreator rangedCreator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         rangedCreator = new RangedCreator(1, 1, 1);
     }

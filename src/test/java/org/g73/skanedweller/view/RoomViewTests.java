@@ -7,8 +7,8 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.view.element_views.RoomView;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -30,7 +30,7 @@ public class RoomViewTests {
     private TextGraphics gra;
     private Room room;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.gra = Mockito.mock(TextGraphics.class);
         this.room = Mockito.mock(Room.class);

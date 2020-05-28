@@ -3,17 +3,18 @@ package org.g73.skanedweller.model.behaviours;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.element_behaviours.NotCollidableBehaviour;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 public class NotCollidableBehaviourTests {
     private NotCollidableBehaviour behaviour;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.behaviour = new NotCollidableBehaviour();
     }

@@ -4,11 +4,11 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.colliders.Collider;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.element_behaviours.CollidableBehaviour;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 
@@ -16,7 +16,7 @@ public class CollidableBehaviourTests {
     private Collider col;
     private CollidableBehaviour behaviour;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.col = Mockito.mock(Collider.class);
         this.behaviour = new CollidableBehaviour(col);

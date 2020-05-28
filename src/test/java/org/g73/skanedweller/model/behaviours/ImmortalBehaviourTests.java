@@ -1,16 +1,17 @@
 package org.g73.skanedweller.model.behaviours;
 
 import org.g73.skanedweller.model.element.element_behaviours.ImmortalBehaviour;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class ImmortalBehaviourTests {
     private ImmortalBehaviour behaviour;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.behaviour = new ImmortalBehaviour();
     }

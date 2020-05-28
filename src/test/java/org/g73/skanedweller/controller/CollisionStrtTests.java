@@ -7,11 +7,11 @@ import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.element_behaviours.Movable;
 import org.g73.skanedweller.model.element.skane.Skane;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 

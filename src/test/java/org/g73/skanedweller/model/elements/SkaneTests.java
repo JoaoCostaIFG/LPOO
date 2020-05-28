@@ -4,12 +4,12 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.skane.Scent;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SkaneTests {
     private final int initx = 50;
@@ -19,7 +19,7 @@ public class SkaneTests {
     private Skane ska;
     List<SkaneBody> body;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         ska = new Skane(initx, inity, 100, initHp, 5, 2);
         body = ska.getBody();

@@ -4,16 +4,16 @@ import org.g73.skanedweller.controller.creator.elements_creator.CivieCreator;
 import org.g73.skanedweller.controller.movement_strategy.ScaredMoveStrat;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.Civilian;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CivCreatorTests {
     private CivieCreator civCreator;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         civCreator = new CivieCreator();
     }

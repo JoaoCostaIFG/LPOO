@@ -4,8 +4,8 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class MovableControllerTests {
     Collidable ele;
     CollisionHandler collisionHandler;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         ent = Mockito.mock(Element.class);
         room = Mockito.mock(Room.class);

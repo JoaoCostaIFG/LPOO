@@ -2,13 +2,13 @@ package org.g73.skanedweller.view;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class KeyHandlerTests {
     private KeyHandler keyHandler;
@@ -31,7 +31,7 @@ public class KeyHandlerTests {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         keyHandler = new KeyHandler();
     }

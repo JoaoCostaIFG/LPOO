@@ -2,14 +2,14 @@ package org.g73.skanedweller.controller.creator;
 
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RoomCreatorTests {
     // TODO inject random into CreatorUtilities to check the generated positions
@@ -18,7 +18,7 @@ public class RoomCreatorTests {
     final int width = 300;
     final int heigth = 100;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         roomCreator = new RoomCreator();
         mapReader = Mockito.mock(MapReader.class);

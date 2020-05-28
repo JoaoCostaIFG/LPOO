@@ -7,8 +7,8 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.element_views.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class DrawerTests {
@@ -23,7 +23,7 @@ public class DrawerTests {
     private Drawer drawer;
     private Room room;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         gra = Mockito.mock(TextGraphics.class);
         civieView = Mockito.mock(CivieView.class);

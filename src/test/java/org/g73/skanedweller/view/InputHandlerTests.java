@@ -2,19 +2,19 @@ package org.g73.skanedweller.view;
 
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class InputHandlerTests {
     private InputHandler inputHandler;
     private Screen screen;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         screen = Mockito.mock(Screen.class);
         inputHandler = new InputHandler(screen);
