@@ -34,7 +34,9 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 - **Map importing** - it's easy to create and import your own custom maps.
 
 ![Implemented features screenshot 1](/docs/screenshots/implemented_features1.png)
+
 ![Implemented features screenshot 2](/docs/screenshots/implemented_features2.png)
+
 ![Implemented features screenshot 3](/docs/screenshots/implemented_features3.png)
 
 ### Planned features
