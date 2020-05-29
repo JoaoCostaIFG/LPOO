@@ -680,6 +680,20 @@ The only way to fix this code smell would imply moving parts of the **View**
 into the **Model** (or vice-versa). This would be a violation of the **MVC**
 architetural pattern.
 
+### Switch Statements
+
+The [_GameController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/249faea0773fa318eef898f626e0db6a7b70906b/src/main/java/org/g73/skanedweller/controller/GameController.java#L86-L91)
+and
+[_SkaneController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/249faea0773fa318eef898f626e0db6a7b70906b/src/main/java/org/g73/skanedweller/controller/SkaneController.java#L70-L104)
+classes both have a switch case statement used to handle a given event. This is an
+Object-Orientation abuser, and as such we tried to come up with a few solutions.
+The best idea that we had was to refactor the input events into a command pattern.
+However, this approach had some drawbacks. On the one hand, it added controller
+logic into the view, violating the MVC. On the other hand, in order to implement
+the pattern we had to modify other parts of the code that were pretty robust and
+smell-free.
+Due to these reasons we decided it would be better if we kept switch statement.
+
 ## Self-Evaluation
 
 We believe both members of the group were integral for the development of this
