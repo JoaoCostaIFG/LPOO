@@ -4,18 +4,19 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.*;
+import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.element_views.*;
 
 public class Drawer implements RoomDrawer {
     private static final int skaFov = 5;
 
     private TextGraphics gra;
-    private CivieView civieView;
-    private MeleeGuyView meleeGuyView;
-    private RangedGuyView rangedGuyView;
-    private RoomView roomView;
-    private SkaneView skaneView;
-    private WallView wallView;
+    private ElementDrawer<Civilian> civieView;
+    private ElementDrawer<MeleeGuy> meleeGuyView;
+    private ElementDrawer<RangedGuy> rangedGuyView;
+    private ElementDrawer<Room> roomView;
+    private ElementDrawer<Skane> skaneView;
+    private ElementDrawer<Wall> wallView;
 
     public Drawer(TextGraphics gra) {
         this(gra, new CivieView(),
