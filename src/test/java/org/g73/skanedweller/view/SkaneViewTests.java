@@ -48,7 +48,7 @@ public class SkaneViewTests {
     }
 
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() {
         this.gra = Mockito.mock(TextGraphics.class);
         this.ska = Mockito.mock(Skane.class);
         this.skaBody = Mockito.mock(SkaneBody.class);
@@ -155,9 +155,9 @@ public class SkaneViewTests {
                 setBackgroundColor(bgDark);
     }
 
-    private class TextGraphicsSpy extends AbstractTextGraphics {
+    private static class TextGraphicsSpy extends AbstractTextGraphics {
         private int width, height;
-        private TextCharacter plane[][];
+        private TextCharacter[][] plane;
 
         public TextGraphicsSpy(int width, int height) {
             this.width = width;

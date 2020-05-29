@@ -70,10 +70,10 @@ with the following characters:
 - R - Ranged spawner
 - M - Melee spawner
 - C - Civilian spawner
-(any other character is ignored)
-An invalid file format will throw an InputMismatchException. For example,
-two Skanes in the same map or lines with different length will lead to failure.
-[Here](src/main/resources/firstmap) is an example of a map file.
+  (any other character is ignored)
+  An invalid file format will throw an InputMismatchException. For example,
+  two Skanes in the same map or lines with different length will lead to failure.
+  [Here](src/main/resources/firstmap) is an example of a map file.
 
 ## Design
 
@@ -701,15 +701,9 @@ the **Skane's** collision, but it ended up not being needed
 We could fix this problem by “getting rid of” the
 [_CompositeCollider_ class](/src/main/java/org/g73/skanedweller/model/colliders/CompositeCollider.java).
 
-## Testing
+### Object-orientation abusers
 
-The picture below is a _screenshot_ of our project's test coverage report.
-![Coverage report](/docs/screenshots/coverage_report.png)
-
-The mutation test results can be found in [this directory](/docs/pitest/index.html)
-of the repository, and also hosted [here]().
-
-### Switch Statements
+#### Switch Statements
 
 The [_GameController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/249faea0773fa318eef898f626e0db6a7b70906b/src/main/java/org/g73/skanedweller/controller/GameController.java#L86-L91)
 and
@@ -722,6 +716,14 @@ logic into the view, violating the MVC. On the other hand, in order to implement
 the pattern we had to modify other parts of the code that were pretty robust and
 smell-free.
 Due to these reasons we decided it would be better if we kept switch statement.
+
+## Testing
+
+The picture below is a _screenshot_ of our project's test coverage report.
+![Coverage report](/docs/screenshots/coverage_report.png)
+
+The mutation test results can be found in [this directory](/docs/pitest/index.html)
+of the repository, and also hosted [here](https://feup-lpoo.github.io/lpoo-2020-g73-pitest/).
 
 ## Self-Evaluation
 
