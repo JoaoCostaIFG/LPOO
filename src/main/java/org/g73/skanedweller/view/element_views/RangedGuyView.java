@@ -7,16 +7,16 @@ import org.g73.skanedweller.model.element.RangedGuy;
 import org.g73.skanedweller.view.Colors;
 
 public class RangedGuyView implements ElementDrawer<RangedGuy> {
-    private static final TextCharacter rangedChar = new TextCharacter('R', Colors.yellow, Colors.bg);
-
     private LaserView laserView;
+    private TextCharacter rangedChar;
 
-    public RangedGuyView(LaserView laserView) {
+    public RangedGuyView(Colors colors, LaserView laserView) {
         this.laserView = laserView;
+        this.rangedChar = new TextCharacter('R', colors.getColor("yellow"), colors.getColor("bg"));
     }
 
-    public RangedGuyView() {
-        this(new LaserView());
+    public RangedGuyView(Colors colors) {
+        this(colors, new LaserView(colors));
     }
 
     public void draw(TextGraphics gra, RangedGuy ranged) {

@@ -638,6 +638,27 @@ The ray-casting helper (private) methods take 7 (seven) arguments.
 Although these are bloaters (**Long parameter list**), all alternatives we
 found are inferior design-wise.
 
+### Couplers
+
+The [_SkaneController class_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java)
+is an example of a class that uses the data of another class more that its own
+(**Inappropriate intimacy**). In this case, the data of the
+[_Skane_ class](/src/main/java/org/g73/skanedweller/model/element/skane/Skane.java).
+
+We don't think this code smell represents an actual problem in this case.
+
+### Change preventers
+
+The [_Element hierarchy_](/src/main/java/org/g73/skanedweller/model/element) and
+the [_View hierarchy_](/src/main/java/org/g73/skanedweller/view/element_views)
+represent a situation of **Parallel Inheritance Hierarchies**. If we wanted to
+add a new visible element to the game, we would be obligated to create a new
+_Model_ class (the concrete element) and a new _View_ class for it.
+
+The only way to fix this code smell would imply moving parts of the **View**
+into the **Model** (or vice-versa). This would be a violation of the **MVC**
+architectural pattern.
+
 ### Dispensables
 
 #### Ray-casting helper functions
@@ -660,26 +681,19 @@ the **Skane's** collision, but it ended up not being needed
 We could fix this problem by “getting rid of” the
 [_CompositeCollider_ class](/src/main/java/org/g73/skanedweller/model/colliders/CompositeCollider.java).
 
-### Couplers
+#### The _Colors_ class
 
-The [_SkaneController class_](/src/main/java/org/g73/skanedweller/controller/SkaneController.java)
-is an example of a class that uses the data of another class more that its own
-(**Inappropriate intimacy**). In this case, the data of the
-[_Skane_ class](/src/main/java/org/g73/skanedweller/model/element/skane/Skane.java).
+The [_Colors_ class](/src/main/java/org/g73/skanedweller/view/Colors.java) is
+a **Data Class**, that has no methods and only public static data fields.
+This is problematic because it violates the encapsulation principle of
+object-oriented code.  
+This class is stores the game's color configurations and its data fields are
+used by all the **View** classes that implement the
+[_Element Drawer_ interface](/src/main/java/org/g73/skanedweller/view/element_views/ElementDrawer.java)
+(e.g.: [CivieView](/src/main/java/org/g73/skanedweller/view/element_views/CivieView.java)),
+as well as the **View** package tests.
 
-We don't think this code smell represents an actual problem in this case.
-
-### Change preventers
-
-The [_Element hierarchy_](/src/main/java/org/g73/skanedweller/model/element) and
-the [_View hierarchy_](/src/main/java/org/g73/skanedweller/view/element_views)
-represent a situation of **Parallel Inheritance Hierarchies**. If we wanted to
-add a new visible element to the game, we would be obligated to create a new
-_Model_ class (the concrete element) and a new _View_ class for it.
-
-The only way to fix this code smell would imply moving parts of the **View**
-into the **Model** (or vice-versa). This would be a violation of the **MVC**
-architectural pattern.
+We thought about
 
 ## Testing
 

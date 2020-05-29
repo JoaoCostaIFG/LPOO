@@ -9,10 +9,15 @@ import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.view.Colors;
 
 public class RoomView implements ElementDrawer<Room> {
-    private static final TextCharacter bgChar = new TextCharacter(' ', Colors.bg, Colors.bg);
-    private static final TextCharacter bgDarkChar = new TextCharacter(' ', Colors.bgDark, Colors.bgDark);
+    private TextCharacter bgChar;
+    private TextCharacter bgDarkChar;
+    private int skaFov;
 
-    private static final int skaFov = 5;
+    public RoomView(Colors colors, int skaFov) {
+        this.bgChar = new TextCharacter(' ', colors.getColor("bg"), colors.getColor("bg"));
+        this.bgDarkChar = new TextCharacter(' ', colors.getColor("bgDark"), colors.getColor("bgDark"));
+        this.skaFov = skaFov;
+    }
 
     private void drawSkaneFov(TextGraphics gra, Position skaPos) {
         for (int i = Math.max(skaPos.getX() - skaFov, 0); i < skaPos.getX() + skaFov && i >= 0; ++i) {

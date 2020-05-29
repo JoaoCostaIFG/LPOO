@@ -6,7 +6,11 @@ import org.g73.skanedweller.model.element.Civilian;
 import org.g73.skanedweller.view.Colors;
 
 public class CivieView implements ElementDrawer<Civilian> {
-    private static final TextCharacter civieChar = new TextCharacter('C', Colors.blue, Colors.bg);
+    private TextCharacter civieChar;
+
+    public CivieView(Colors colors) {
+        this.civieChar = new TextCharacter('C', colors.getColor("blue"), colors.getColor("bg"));
+    }
 
     public void draw(TextGraphics gra, Civilian civie) {
         gra.setCharacter(civie.getX(), civie.getY(), civieChar);

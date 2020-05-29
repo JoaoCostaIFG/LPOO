@@ -13,32 +13,45 @@ public class SkaneView implements ElementDrawer<Skane> {
     private static final char skaBuryChar = 'X';
     private static final char skaBodyBuryChar = 'x';
 
-    private static final int skaFov = 5;
+    private TextColor bg;
+    private TextColor bgDark;
+    private TextColor orange;
+    private TextColor green;
+    private int skaFov;
+
+    public SkaneView(Colors colors, int skaFov) {
+        this.bg = colors.getColor("bg");
+        this.bgDark = colors.getColor("bgDark");
+        this.green = colors.getColor("green");
+        this.orange = colors.getColor("orange");
+
+        this.skaFov = skaFov;
+    }
 
     public void draw(TextGraphics gra, Skane ska) {
         gra.enableModifiers(SGR.BOLD);
         TextColor oldBg = gra.getBackgroundColor();
         TextColor oldFg = gra.getForegroundColor();
-        gra.setBackgroundColor(Colors.bg);
+        gra.setBackgroundColor(bg);
 
         double oxyPerc = (double) (ska.getMaxOxygenLevel() - ska.getOxygenLevel()) / ska.getMaxOxygenLevel();
         long numSpotsToFill = Math.round((ska.getSize() + 1) * oxyPerc); // orange spots to draw (empty oxygen)
         long numSpots = 0;
 
-        gra.setForegroundColor(Colors.orange);
+        gra.setForegroundColor(orange);
         for (SkaneBody b : ska.getBody()) {
             if (ska.isBury() && b.getPos().dist(ska.getPos()) > skaFov)
-                gra.setBackgroundColor(Colors.bgDark);
+                gra.setBackgroundColor(bgDark);
             else
-                gra.setBackgroundColor(Colors.bg);
+                gra.setBackgroundColor(bg);
 
             if (numSpots++ == numSpotsToFill)
-                gra.setForegroundColor(Colors.green);
+                gra.setForegroundColor(green);
             gra.setCharacter(b.getX(), b.getY(), ska.isBury() ? skaBodyBuryChar : skaBodyChar);
         }
 
         if (numSpots == numSpotsToFill)
-            gra.setForegroundColor(Colors.green);
+            gra.setForegroundColor(green);
         gra.setCharacter(ska.getX(), ska.getY(), ska.isBury() ? skaBuryChar : skaChar);
 
         gra.setBackgroundColor(oldBg);

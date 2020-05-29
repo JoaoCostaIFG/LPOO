@@ -7,8 +7,10 @@ import org.g73.skanedweller.model.element.*;
 import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.view.element_views.*;
 
+import java.io.IOException;
+
 public class Drawer implements RoomDrawer {
-    private static final int skaFov = 5;
+    private final int skaFov = 5;
 
     private TextGraphics gra;
     private ElementDrawer<Civilian> civieView;
@@ -18,11 +20,18 @@ public class Drawer implements RoomDrawer {
     private ElementDrawer<Skane> skaneView;
     private ElementDrawer<Wall> wallView;
 
-    public Drawer(TextGraphics gra) {
-        this(gra, new CivieView(),
-                new MeleeGuyView(), new RangedGuyView(),
-                new RoomView(), new SkaneView(),
-                new WallView());
+    public Drawer(TextGraphics gra, String colorResName) throws IOException {
+        this.gra = gra;
+
+        // load colors to pass to views
+        Colors colors = new Colors(colorResName);
+
+        this.civieView = new CivieView(colors);
+        this.meleeGuyView = new MeleeGuyView(colors);
+        this.rangedGuyView = new RangedGuyView(colors);
+        this.roomView = new RoomView(colors, skaFov);
+        this.skaneView = new SkaneView(colors, skaFov);
+        this.wallView = new WallView(colors);
     }
 
     public Drawer(TextGraphics gra, CivieView civieView,

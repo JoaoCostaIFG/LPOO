@@ -6,7 +6,11 @@ import org.g73.skanedweller.model.element.MeleeGuy;
 import org.g73.skanedweller.view.Colors;
 
 public class MeleeGuyView implements ElementDrawer<MeleeGuy> {
-    private static final TextCharacter meleeChar = new TextCharacter('M', Colors.red, Colors.bg);
+    private TextCharacter meleeChar;
+
+    public MeleeGuyView(Colors colors) {
+        this.meleeChar = new TextCharacter('M', colors.getColor("red"), colors.getColor("bg"));
+    }
 
     public void draw(TextGraphics gra, MeleeGuy melee) {
         gra.setCharacter(melee.getX(), melee.getY(), meleeChar);

@@ -5,3 +5,4 @@ build/
 *.iml
 .jqwik-database
 docs/pitest/.git
+docs/pitest/.nojekyll

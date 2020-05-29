@@ -11,6 +11,8 @@ import org.g73.skanedweller.model.Room;
 import java.io.IOException;
 
 public class Gui {
+    private static final String colorResName = "colors";
+
     private Room room;
     private Screen screen;
     private TerminalResizeHandler resizeHandler;
@@ -30,12 +32,14 @@ public class Gui {
         setUpScreen(this.screen);
 
         this.room = room;
-        this.drawer = new Drawer(screen.newTextGraphics());
+        this.drawer = new Drawer(screen.newTextGraphics(), colorResName);
         this.keyHandler = new KeyHandler();
     }
 
     public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler) throws IOException {
-        this(room, newScreen, resizeHandler, new Drawer(newScreen.newTextGraphics()), new KeyHandler());
+        this(room, newScreen, resizeHandler,
+                new Drawer(newScreen.newTextGraphics(), colorResName),
+                new KeyHandler());
     }
 
     public Gui(Room room, Screen newScreen, TerminalResizeHandler resizeHandler, RoomDrawer drawer, KeyHandler kh) throws IOException {

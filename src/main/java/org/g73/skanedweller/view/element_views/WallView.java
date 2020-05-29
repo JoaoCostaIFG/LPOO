@@ -6,7 +6,11 @@ import org.g73.skanedweller.model.element.Wall;
 import org.g73.skanedweller.view.Colors;
 
 public class WallView implements ElementDrawer<Wall> {
-    private static final TextCharacter wallChar = new TextCharacter('#', Colors.purple, Colors.bg);
+    private TextCharacter wallChar;
+
+    public WallView(Colors colors) {
+        this.wallChar = new TextCharacter('#', colors.getColor("purple"), colors.getColor("bg"));
+    }
 
     public void draw(TextGraphics gra, Wall wall) {
         gra.setCharacter(wall.getX(), wall.getY(), wallChar);

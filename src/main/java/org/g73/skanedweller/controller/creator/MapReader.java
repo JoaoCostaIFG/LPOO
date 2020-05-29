@@ -33,9 +33,9 @@ public class MapReader {
         this.ranSpawners = new ArrayList<>();
     }
 
-    public MapReader(String map_name) throws IOException {
+    public MapReader(String mapName) throws IOException {
         this();
-        InputStream is = getClass().getClassLoader().getResourceAsStream(map_name);
+        InputStream is = getClass().getClassLoader().getResourceAsStream(mapName);
         if (is == null)
             throw new FileNotFoundException();
         br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -49,13 +49,13 @@ public class MapReader {
     }
 
     public void generateMap() throws IOException {
-
-        int height = 0, length;
-
         String line = br.readLine();
         if (line == null)
             throw new InputMismatchException();
-        length = line.length();
+
+        int height = 0;
+        int length = line.length();
+
         do {
             if (line.length() != length)
                 throw new InputMismatchException();
@@ -72,25 +72,36 @@ public class MapReader {
 
     private void handleChar(Character c, Integer length, Integer height) {
         Position p = new Position(length, height);
-        if (c == 'W')
-            walls.add(p);
-        else if (c == 'r')
-            rangedEnem.add(p);
-        else if (c == 'm')
-            meleeEnem.add(p);
-        else if (c == 'c')
-            civilians.add(p);
-        else if (c == 'S') {
-            if (skanePos == null)
+        switch (c) {
+            case 'c':
+                civilians.add(p);
+                break;
+            case 'C':
+                civSpawners.add(p);
+                break;
+            case 'm':
+                meleeEnem.add(p);
+                break;
+            case 'M':
+                melSpawners.add(p);
+                break;
+            case 'r':
+                rangedEnem.add(p);
+                break;
+            case 'R':
+                ranSpawners.add(p);
+                break;
+            case 'S':
+                if (skanePos != null)
+                    throw new InputMismatchException();
                 skanePos = p;
-            else
-                throw new InputMismatchException();
-        } else if (c == 'C')
-            civSpawners.add(p);
-        else if (c == 'M')
-            melSpawners.add(p);
-        else if (c == 'R')
-            ranSpawners.add(p);
+                break;
+            case 'W':
+                walls.add(p);
+                break;
+            default:
+                break;
+        }
     }
 
     public List<Position> getWalls() {

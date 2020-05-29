@@ -6,7 +6,11 @@ import org.g73.skanedweller.model.element.Laser;
 import org.g73.skanedweller.view.Colors;
 
 public class LaserView implements ElementDrawer<Laser> {
-    private static final TextCharacter laserChar = new TextCharacter('#', Colors.brightRed, Colors.bg);
+    private TextCharacter laserChar;
+
+    public LaserView(Colors colors) {
+        this.laserChar = new TextCharacter('#', colors.getColor("brightRed"), colors.getColor("bg"));
+    }
 
     public void draw(TextGraphics gra, Laser laser) {
         if (laser.getReadiness()) // only draw ready lasers
