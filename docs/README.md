@@ -681,20 +681,6 @@ the **Skane's** collision, but it ended up not being needed
 We could fix this problem by “getting rid of” the
 [_CompositeCollider_ class](/src/main/java/org/g73/skanedweller/model/colliders/CompositeCollider.java).
 
-#### The _Colors_ class
-
-The [_Colors_ class](/src/main/java/org/g73/skanedweller/view/Colors.java) is
-a **Data Class**, that has no methods and only public static data fields.
-This is problematic because it violates the encapsulation principle of
-object-oriented code.  
-This class is stores the game's color configurations and its data fields are
-used by all the **View** classes that implement the
-[_Element Drawer_ interface](/src/main/java/org/g73/skanedweller/view/element_views/ElementDrawer.java)
-(e.g.: [CivieView](/src/main/java/org/g73/skanedweller/view/element_views/CivieView.java)),
-as well as the **View** package tests.
-
-We thought about
-
 ## Testing
 
 The picture below is a _screenshot_ of our project's test coverage report.
