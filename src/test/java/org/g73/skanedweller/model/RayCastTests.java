@@ -1,5 +1,7 @@
 package org.g73.skanedweller.model;
 
+import net.jqwik.api.*;
+import net.jqwik.api.lifecycle.BeforeTry;
 import org.g73.skanedweller.model.element.Element;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,20 +12,23 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RayCastTests {
+    private final int maxRoomLen = 300;
+
     private RayCast rc;
     private Room room;
 
+    @BeforeTry
     @BeforeEach
     public void setUp() {
         this.rc = new RayCast();
         this.room = Mockito.mock(Room.class);
         Mockito.when(room.getWidth())
-                .thenReturn(300);
+                .thenReturn(maxRoomLen);
         Mockito.when(room.getHeight())
-                .thenReturn(300);
+                .thenReturn(maxRoomLen);
     }
 
     private Element setUpPos(Position p) {
@@ -36,11 +41,17 @@ public class RayCastTests {
         return e;
     }
 
-    @Test
-    public void testRayCastUnobstructedOct03() {
-        Position p1 = new Position(2, 3);
-        Position p2 = new Position(232, 57);
+    @Provide
+    Arbitrary<Position> insideRoom() {
+        Arbitrary<Integer> x = Arbitraries.integers().between(0, maxRoomLen);
+        Arbitrary<Integer> y = Arbitraries.integers().between(0, maxRoomLen);
 
+        return Combinators.combine(x, y).as(Position::new);
+    }
+
+    @Property
+    public void testRayCastUnobstructed(@ForAll("insideRoom") Position p1,
+                                        @ForAll("insideRoom") Position p2) {
         Element e1 = setUpPos(p1);
         Element e2 = setUpPos(p2);
 
@@ -49,81 +60,74 @@ public class RayCastTests {
 
         // Unobstructed view
         List<Element> elemList = rc.elemRay(room, p1, p2);
-        assertEquals(elemList.size(), 2);
-        for (Element e : elemList)
-            assertEquals(e, e2);
+        if (p1.equals(p2)) {
+            assertEquals(elemList.size(), 0);
+        } else {
+            assertEquals(elemList.size(), 2);
+            for (Element e : elemList)
+                assertEquals(e, e2);
+        }
         // reverse
         List<Element> elemListRev = rc.elemRay(room, p2, p1);
-        assertEquals(elemListRev.size(), 1);
-        for (Element e : elemListRev)
-            assertEquals(e, e1);
+        if (p1.equals(p2)) {
+            assertEquals(elemList.size(), 0);
+        } else {
+            assertEquals(elemListRev.size(), 1);
+            for (Element e : elemListRev)
+                assertEquals(e, e1);
+        }
     }
 
-    @Test
-    public void testRayCastUnobstructedOct12() {
-        Position p1 = new Position(200, 5);
-        Position p2 = new Position(1, 280);
 
+    @Property
+    public void testRayCastObstructed(@ForAll("insideRoom") Position p1,
+                                      @ForAll("insideRoom") Position p2) {
         Element e1 = setUpPos(p1);
         Element e2 = setUpPos(p2);
 
-        Mockito.when(room.getSamePos(p1))
-                .thenReturn(new ArrayList<Element>(Arrays.asList(e1, e1))); // 2 at source
+        int x = (p2.getX() + p1.getX()) / 2;
+        int y = (p2.getY() + p1.getY()) / 2;
+        List<Position> posList = new ArrayList<>();
+        posList.add(new Position(x - 1, y - 1));
+        posList.add(new Position(x, y - 1));
+        posList.add(new Position(x + 1, y - 1));
+        posList.add(new Position(x - 1, y));
+        posList.add(new Position(x, y));
+        posList.add(new Position(x + 1, y));
+        posList.add(new Position(x - 1, y + 1));
+        posList.add(new Position(x, y + 1));
+        posList.add(new Position(x + 1, y + 1));
+        for (Position middlePos : posList)
+            setUpPos(middlePos);
+
+        Position hitMiddlePos = null;
+        List<Element> elemList;
 
         // Unobstructed view
-        List<Element> elemList = rc.elemRay(room, p1, p2);
-        assertEquals(elemList.size(), 1);
-        for (Element e : elemList)
-            assertEquals(e, e2);
+        elemList = rc.elemRay(room, p1, p2);
+        if (p1.equals(p2)) {
+            assertEquals(elemList.size(), 0);
+        } else {
+            assertEquals(elemList.size(), 1);
+
+            hitMiddlePos = elemList.get(0).getPos();
+            assertTrue(posList.contains(hitMiddlePos));
+
+            assertTrue(!p1.equals(hitMiddlePos) || !p2.equals(hitMiddlePos));
+        }
         // reverse
-        List<Element> elemListRev = rc.elemRay(room, p2, p1);
-        assertEquals(elemListRev.size(), 2);
-        for (Element e : elemListRev)
-            assertEquals(e, e1);
-    }
+        elemList = rc.elemRay(room, p2, p1);
+        if (p1.equals(p2)) {
+            assertEquals(elemList.size(), 0);
+            assertNull(hitMiddlePos);
+        } else {
+            assertEquals(elemList.size(), 1);
 
-    @Test
-    public void testRayCastObstructed03() {
-        Position p1 = new Position(2, 3);
-        Position p2 = new Position(232, 57);
-        Position p3 = new Position(233, 57);
+            hitMiddlePos = elemList.get(0).getPos();
+            assertTrue(posList.contains(hitMiddlePos));
 
-        Element e1 = setUpPos(p1);
-        Element e2 = setUpPos(p2);
-        Element e3 = setUpPos(p3);
-
-        // Obstructed view
-        List<Element> elemList = rc.elemRay(room, p1, p3);
-        assertEquals(elemList.size(), 1);
-        for (Element e : elemList)
-            assertEquals(e, e2);
-        // reverse
-        List<Element> elemListRev = rc.elemRay(room, p3, p1);
-        assertEquals(elemListRev.size(), 1);
-        for (Element e : elemListRev)
-            assertEquals(e, e2);
-    }
-
-    @Test
-    public void testRayCastObstructedOct23() {
-        Position p1 = new Position(200, 5);
-        Position p2 = new Position(2, 279);
-        Position p3 = new Position(1, 280);
-
-        Element e1 = setUpPos(p1);
-        Element e2 = setUpPos(p2);
-        Element e3 = setUpPos(p3);
-
-        // Unobstructed view
-        List<Element> elemList = rc.elemRay(room, p1, p3);
-        assertEquals(elemList.size(), 1);
-        for (Element e : elemList)
-            assertEquals(e, e2);
-        // reverse
-        List<Element> elemListRev = rc.elemRay(room, p3, p1);
-        assertEquals(elemListRev.size(), 1);
-        for (Element e : elemListRev)
-            assertEquals(e, e2);
+            assertTrue(!p1.equals(hitMiddlePos) || !p2.equals(hitMiddlePos));
+        }
     }
 
     @Test
