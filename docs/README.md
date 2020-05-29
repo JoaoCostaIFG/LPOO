@@ -55,6 +55,26 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 - **Jumping** - the **Skane** will not be able to jump to attack helicopters or
   get over small walls after unburying itself.
 
+## Implementation details
+
+We developed a dynamic map reader. During the initialization of the game,
+the room design is read from a file. This file is located within the resources/
+folder. In it we can specify the walls, enemies, spawners and the skane's position
+with the following characters:
+
+- W - Wall
+- S - Player skane
+- r - Ranged enemy
+- m - Melee enemy
+- c - Civilian
+- R - Ranged spawner
+- M - Melee spawner
+- C - Civilian spawner
+(any other character is ignored)
+An invalid file format will throw an InputMismatchException. For example,
+two Skanes in the same map or lines with different length will lead to failure.
+[Here](src/main/resources/firstmap) is an example of a map file.
+
 ## Design
 
 ### Structuring the project
