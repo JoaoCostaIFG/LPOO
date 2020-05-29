@@ -55,6 +55,26 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 - **Jumping** - the **Skane** will not be able to jump to attack helicopters or
   get over small walls after unburying itself.
 
+## Implementation details
+
+We developed a dynamic map reader. During the initialization of the game,
+the room design is read from a file. This file is located within the resources/
+folder. In it we can specify the walls, enemies, spawners and the skane's position
+with the following characters:
+
+- W - Wall
+- S - Player skane
+- r - Ranged enemy
+- m - Melee enemy
+- c - Civilian
+- R - Ranged spawner
+- M - Melee spawner
+- C - Civilian spawner
+(any other character is ignored)
+An invalid file format will throw an InputMismatchException. For example,
+two Skanes in the same map or lines with different length will lead to failure.
+[Here](src/main/resources/firstmap) is an example of a map file.
+
 ## Design
 
 ### Structuring the project
@@ -556,7 +576,7 @@ this class became a _bloater_ and was hard to maintain.
 
 #### The pattern
 
-The pattern used as a solution was the **Creator pattern**. This way we could
+The pattern used as a solution was the **Factory pattern**. This way we could
 separate all the _RoomCreator's_ responsibilities into a few different classes.
 
 #### Implementation
@@ -569,7 +589,7 @@ class, by making use of the new _Creator_ classes.
 Later into development, when we implemented the _Spawner_ class, which also has
 creators for it.
 
-![Creation pattern UML class diagram](/docs/uml/creator.png)
+![Factory pattern UML class diagram](/docs/uml/creator.png)
 
 #### Consequences
 
@@ -688,6 +708,20 @@ The picture below is a _screenshot_ of our project's test coverage report.
 
 The mutation test results can be found in [this directory](/docs/pitest/index.html)
 of the repository, and also hosted [here]().
+
+### Switch Statements
+
+The [_GameController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/249faea0773fa318eef898f626e0db6a7b70906b/src/main/java/org/g73/skanedweller/controller/GameController.java#L86-L91)
+and
+[_SkaneController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/249faea0773fa318eef898f626e0db6a7b70906b/src/main/java/org/g73/skanedweller/controller/SkaneController.java#L70-L104)
+classes both have a switch case statement used to handle a given event. This is an
+Object-Orientation abuser, and as such we tried to come up with a few solutions.
+The best idea that we had was to refactor the input events into a command pattern.
+However, this approach had some drawbacks. On the one hand, it added controller
+logic into the view, violating the MVC. On the other hand, in order to implement
+the pattern we had to modify other parts of the code that were pretty robust and
+smell-free.
+Due to these reasons we decided it would be better if we kept switch statement.
 
 ## Self-Evaluation
 
