@@ -576,7 +576,7 @@ this class became a _bloater_ and was hard to maintain.
 
 #### The pattern
 
-The pattern used as a solution was the **Creator pattern**. This way we could
+The pattern used as a solution was the **Factory pattern**. This way we could
 separate all the _RoomCreator's_ responsibilities into a few different classes.
 
 #### Implementation
@@ -589,7 +589,7 @@ class, by making use of the new _Creator_ classes.
 Later into development, when we implemented the _Spawner_ class, which also has
 creators for it.
 
-![Creation pattern UML class diagram](/docs/uml/creator.png)
+![Factory pattern UML class diagram](/docs/uml/creator.png)
 
 #### Consequences
 
