@@ -19,6 +19,7 @@ test {
     }
     include '**/*Test.class'
     include '**/*Tests.class'
+    maxHeapSize = "2048m"
 }
 
 dependencies {

@@ -7,9 +7,11 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.view.element_views.RoomView;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -17,9 +19,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 
 public class RoomViewTests {
-    private static final TextCharacter bgChar = new TextCharacter(' ', Colors.bg, Colors.bg);
-    private static final TextCharacter bgDarkChar = new TextCharacter(' ', Colors.bgDark, Colors.bgDark);
-
     private static final int skaFov = 5;
 
     private static final int width = 300;
@@ -27,11 +26,17 @@ public class RoomViewTests {
     private static final int skaX = 3;
     private static final int skaY = 3;
 
+    private Colors colors = new Colors("colors");
+    private TextCharacter bgChar;
+    private TextCharacter bgDarkChar;
     private TextGraphics gra;
     private Room room;
 
+    public RoomViewTests() throws IOException {
+    }
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         this.gra = Mockito.mock(TextGraphics.class);
         this.room = Mockito.mock(Room.class);
 
@@ -42,6 +47,12 @@ public class RoomViewTests {
 
         Mockito.when(room.getSkanePos())
                 .thenReturn(new Position(skaX, skaY));
+
+        // colors
+        this.bgChar = new TextCharacter(' ', colors.getColor("bg"),
+                colors.getColor("bg"));
+        this.bgDarkChar = new TextCharacter(' ', colors.getColor("bgDark"),
+                colors.getColor("bgDark"));
     }
 
     @Test
@@ -49,7 +60,7 @@ public class RoomViewTests {
         Mockito.when(room.isSkaneBury())
                 .thenReturn(false);
 
-        new RoomView().draw(gra, room);
+        new RoomView(colors, skaFov).draw(gra, room);
 
         Mockito.verify(gra, times(1))
                 .fillRectangle(new TerminalPosition(0, 0),
@@ -64,7 +75,7 @@ public class RoomViewTests {
         Mockito.when(room.isSkaneBury())
                 .thenReturn(true);
 
-        new RoomView().draw(gra, room);
+        new RoomView(colors, skaFov).draw(gra, room);
 
         Mockito.verify(gra, times(1))
                 .fillRectangle(new TerminalPosition(0, 0),

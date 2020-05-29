@@ -8,23 +8,33 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
 public class ElementViewTests {
-    private static final TextCharacter civieChar = new TextCharacter('C', Colors.blue, Colors.bg);
-    private static final TextCharacter laserChar = new TextCharacter('#', Colors.brightRed, Colors.bg);
-    private static final TextCharacter meleeChar = new TextCharacter('M', Colors.red, Colors.bg);
-    private static final TextCharacter rangedChar = new TextCharacter('R', Colors.yellow, Colors.bg);
-    private static final TextCharacter wallChar = new TextCharacter('#', Colors.purple, Colors.bg);
+    private TextCharacter civieChar;
+    private TextCharacter laserChar;
+    private TextCharacter meleeChar;
+    private TextCharacter rangedChar;
+    private TextCharacter wallChar;
 
+    private Colors colors = new Colors("colors");
     private TextGraphics gra;
+
+    public ElementViewTests() throws IOException {
+    }
 
     @BeforeEach
     public void setUp() {
         this.gra = Mockito.mock(TextGraphics.class);
+        this.civieChar = new TextCharacter('C', colors.getColor("blue"), colors.getColor("bg"));
+        this.laserChar = new TextCharacter('#', colors.getColor("brightRed"), colors.getColor("bg"));
+        this.meleeChar = new TextCharacter('M', colors.getColor("red"), colors.getColor("bg"));
+        this.rangedChar = new TextCharacter('R', colors.getColor("yellow"), colors.getColor("bg"));
+        this.wallChar = new TextCharacter('#', colors.getColor("purple"), colors.getColor("bg"));
     }
 
     private void setUpElementPos(Element e) {
@@ -44,7 +54,7 @@ public class ElementViewTests {
         Civilian civie = Mockito.mock(Civilian.class);
         setUpElementPos(civie);
 
-        new CivieView().draw(gra, civie);
+        new CivieView(colors).draw(gra, civie);
         Mockito.verify(gra, times(1))
                 .setCharacter(60, 65, civieChar);
 
@@ -56,7 +66,7 @@ public class ElementViewTests {
         MeleeGuy melee = Mockito.mock(MeleeGuy.class);
         setUpElementPos(melee);
 
-        new MeleeGuyView().draw(gra, melee);
+        new MeleeGuyView(colors).draw(gra, melee);
         Mockito.verify(gra, times(1))
                 .setCharacter(60, 65, meleeChar);
 
@@ -75,7 +85,7 @@ public class ElementViewTests {
         setUpElementPos(rg);
 
         LaserView lv = Mockito.mock(LaserView.class);
-        new RangedGuyView(lv).draw(gra, rg);
+        new RangedGuyView(colors, lv).draw(gra, rg);
         Mockito.verify(gra).setCharacter(60, 65, rangedChar);
 
         Mockito.verify(rg).getLasers();
@@ -92,7 +102,7 @@ public class ElementViewTests {
 
         setUpElementPos(laser);
 
-        new LaserView().draw(gra, laser);
+        new LaserView(colors).draw(gra, laser);
         Mockito.verify(laser).getReadiness();
         Mockito.verify(gra).setCharacter(60, 65, laserChar);
 
@@ -107,7 +117,7 @@ public class ElementViewTests {
 
         setUpElementPos(laser);
 
-        new LaserView().draw(gra, laser);
+        new LaserView(colors).draw(gra, laser);
         Mockito.verify(laser).getReadiness();
         Mockito.verify(gra, never()).setCharacter(60, 65, laserChar);
 
@@ -119,7 +129,7 @@ public class ElementViewTests {
         Wall wall = Mockito.mock(Wall.class);
         setUpElementPos(wall);
 
-        new WallView().draw(gra, wall);
+        new WallView(colors).draw(gra, wall);
         Mockito.verify(gra, times(1))
                 .setCharacter(60, 65, wallChar);
 

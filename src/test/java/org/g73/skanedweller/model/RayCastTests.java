@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RayCastTests {
-    private final int maxRoomLen = 300;
+    private final int maxRoomLen = 80;
 
     private RayCast rc;
     private Room room;
@@ -36,7 +36,7 @@ public class RayCastTests {
         Mockito.when(e.getPos())
                 .thenReturn(p);
         Mockito.when(room.getSamePos(p))
-                .thenReturn(new ArrayList<Element>(Collections.singletonList(e)));
+                .thenReturn(new ArrayList<>(Collections.singletonList(e)));
 
         return e;
     }
@@ -56,7 +56,7 @@ public class RayCastTests {
         Element e2 = setUpPos(p2);
 
         Mockito.when(room.getSamePos(p2))
-                .thenReturn(new ArrayList<Element>(Arrays.asList(e2, e2))); // 2 at destiny
+                .thenReturn(new ArrayList<>(Arrays.asList(e2, e2))); // 2 at destiny
 
         // Unobstructed view
         List<Element> elemList = rc.elemRay(room, p1, p2);
@@ -184,7 +184,7 @@ public class RayCastTests {
 
     @Test
     public void testRayCastHitNoPos() {
-        Position p1 = new Position(400, 400); // this pos is out of Room size
+        Position p1 = new Position(100, 100); // this pos is out of Room size
         Position p2 = new Position(1, 1);
 
         // nothing until end of run

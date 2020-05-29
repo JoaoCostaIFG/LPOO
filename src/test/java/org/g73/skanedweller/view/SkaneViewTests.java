@@ -3,6 +3,7 @@ package org.g73.skanedweller.view;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.AbstractTextGraphics;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import org.g73.skanedweller.model.Position;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,18 +28,27 @@ public class SkaneViewTests {
     private static final char skaBuryChar = 'X';
     private static final char skaBodyBuryChar = 'x';
 
+    private static final int skaFov = 5;
     private static final int skaBodyX = 4;
     private static final int skaBodyY = 4;
     private static final int skaX = 3;
     private static final int skaY = 3;
     private static final int maxOxy = 100;
 
+    private Colors colors = new Colors("colors");
+    private TextColor bg;
+    private TextColor bgDark;
+    private TextColor orange;
+    private TextColor green;
     private TextGraphics gra;
     private Skane ska;
     private SkaneBody skaBody;
 
+    public SkaneViewTests() throws IOException {
+    }
+
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
         this.gra = Mockito.mock(TextGraphics.class);
         this.ska = Mockito.mock(Skane.class);
         this.skaBody = Mockito.mock(SkaneBody.class);
@@ -65,6 +76,12 @@ public class SkaneViewTests {
         skaBodyList.add(skaBody);
         Mockito.when(ska.getBody())
                 .thenReturn(skaBodyList);
+
+        // colors
+        this.bg = colors.getColor("bg");
+        this.bgDark = colors.getColor("bgDark");
+        this.green = colors.getColor("green");
+        this.orange = colors.getColor("orange");
     }
 
     @Test
@@ -72,7 +89,7 @@ public class SkaneViewTests {
         Mockito.when(ska.isBury())
                 .thenReturn(false);
 
-        new SkaneView().draw(gra, ska);
+        new SkaneView(colors, skaFov).draw(gra, ska);
 
         Mockito.verify(gra, never())
                 .setCharacter(skaBodyX, skaBodyY, skaBodyBuryChar);
@@ -85,7 +102,7 @@ public class SkaneViewTests {
                 .setCharacter(skaX, skaY, skaChar);
 
         Mockito.verify(gra, never())
-                .setBackgroundColor(Colors.bgDark);
+                .setBackgroundColor(bgDark);
     }
 
     @Test
@@ -93,7 +110,7 @@ public class SkaneViewTests {
         Mockito.when(ska.isBury())
                 .thenReturn(true);
 
-        new SkaneView().draw(gra, ska);
+        new SkaneView(colors, skaFov).draw(gra, ska);
 
         Mockito.verify(gra, times(1))
                 .setCharacter(skaBodyX, skaBodyY, skaBodyBuryChar);
@@ -106,7 +123,7 @@ public class SkaneViewTests {
                 .setCharacter(skaX, skaY, skaChar);
 
         Mockito.verify(gra, never())
-                .setBackgroundColor(Colors.bgDark);
+                .setBackgroundColor(bgDark);
     }
 
     @Test
@@ -121,9 +138,9 @@ public class SkaneViewTests {
         Mockito.when(skaBody.getPos())
                 .thenReturn(new Position(8, 3));
 
-        new SkaneView().draw(gra, ska);
+        new SkaneView(colors, skaFov).draw(gra, ska);
         Mockito.verify(gra, never())
-                .setBackgroundColor(Colors.bgDark);
+                .setBackgroundColor(bgDark);
 
         Mockito.reset(gra);
         when(skaBody.getX())
@@ -133,9 +150,9 @@ public class SkaneViewTests {
         Mockito.when(skaBody.getPos())
                 .thenReturn(new Position(9, 3));
 
-        new SkaneView().draw(gra, ska);
+        new SkaneView(colors, skaFov).draw(gra, ska);
         Mockito.verify(gra).
-                setBackgroundColor(Colors.bgDark);
+                setBackgroundColor(bgDark);
     }
 
     private class TextGraphicsSpy extends AbstractTextGraphics {
@@ -175,8 +192,8 @@ public class SkaneViewTests {
         Mockito.when(ska.getOxygenLevel())
                 .thenReturn(maxOxy / 2);
 
-        new SkaneView().draw(gra, ska);
-        Mockito.verify(gra, atLeastOnce()).setForegroundColor(Colors.green);
+        new SkaneView(colors, skaFov).draw(gra, ska);
+        Mockito.verify(gra, atLeastOnce()).setForegroundColor(green);
 
         /* using spy to check the chars */
         TextGraphicsSpy graSpy = new TextGraphicsSpy(200, 200);
@@ -197,26 +214,26 @@ public class SkaneViewTests {
         Mockito.when(ska.getSize())
                 .thenReturn(bodies.size());
 
-        new SkaneView().draw(graSpy, ska);
+        new SkaneView(colors, skaFov).draw(graSpy, ska);
 
-        TextCharacter bodyOrange = new TextCharacter('o', Colors.orange, Colors.bg, SGR.BOLD);
+        TextCharacter bodyOrange = new TextCharacter('o', orange, bg, SGR.BOLD);
         for (int i = 0; i < 6; ++i) {
             SkaneBody b = bodies.get(i);
             assertEquals(graSpy.getCharacter(b.getX(), b.getY()), bodyOrange);
         }
-        TextCharacter bodyGreen = new TextCharacter('o', Colors.green, Colors.bg, SGR.BOLD);
+        TextCharacter bodyGreen = new TextCharacter('o', green, bg, SGR.BOLD);
         for (int i = 6; i < 10; ++i) {
             SkaneBody b = bodies.get(i);
             assertEquals(graSpy.getCharacter(b.getX(), b.getY()), bodyGreen);
         }
 
-        assertEquals(graSpy.getCharacter(skaX, skaY), new TextCharacter('S', Colors.green, Colors.bg, SGR.BOLD));
+        assertEquals(graSpy.getCharacter(skaX, skaY), new TextCharacter('S', green, bg, SGR.BOLD));
     }
 
     @AfterEach
     public void endChecks() {
         Mockito.verify(gra, atLeastOnce())
-                .setBackgroundColor(Colors.bg);
+                .setBackgroundColor(bg);
 
         Mockito.verify(gra, times(1))
                 .enableModifiers(SGR.BOLD);
