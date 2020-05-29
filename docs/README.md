@@ -680,7 +680,8 @@ architectural pattern.
 The picture below is a _screenshot_ of our project's test coverage report.
 ![Coverage report](/docs/screenshots/coverage_report.png)
 
-The mutation test results can be found [here](/docs/pitest/index.html).
+The mutation test results can be found in [this directory](/docs/pitest/index.html)
+of the repository, and also hosted [here]().
 
 ## Self-Evaluation
 
