@@ -33,6 +33,12 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 - **Enemy spawning** - enemies spawn over time during the game.
 - **Map importing** - it's easy to create and import your own custom maps.
 
+### Planned features
+
+- **Menu** - we were planning to implement a menu to the game with map selection
+  functionality, but the teacher told us we weren't allowed to implement new
+  features during the last week of development before the dead-line.
+
 ### Abandoned ideas
 
 - **Corpse spawning** - dead enemies should leave their corpse on the ground.
@@ -44,27 +50,6 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
   get over small walls after unburying itself.
 
 ## Design
-
-```
-### Problem
-#### Problem in context
-The description of the design context and the concrete problem that motivated
-the instantiation of the pattern. Someone else other than the original developer
-should be able to read and understand all the motivations for the decisions made.
-When refering to the implementation before the pattern was applied, don’t forget
-to link to the relevant lines of code in the appropriate version.
-#### The pattern
-Identify the design pattern to be applied, why it was selected and how it is a
-good fit considering the existing design context and the problem at hand.
-#### Implementation
-Show how the pattern roles, operations and associations were mapped to the concrete
-design classes. Illustrate it with a UML class diagram, and refer to the
-corresponding source code with links to the relevant lines (these should be
-relative links. When doing this, always point to the latest version of the code.
-#### Consequences
-Benefits and liabilities of the design after the pattern instantiation, eventually
-comparing these consequences with those of alternative solutions
-```
 
 ### Structuring the project
 
@@ -690,10 +675,23 @@ The only way to fix this code smell would imply moving parts of the **View**
 into the **Model** (or vice-versa). This would be a violation of the **MVC**
 architectural pattern.
 
+## Testing
+
+The picture below is a _screenshot_ of our project's test coverage report.
+![Coverage report](/docs/screenshots/coverage_report.png)
+
+The mutation test results can be found [here](/docs/pitest/index.html).
+
 ## Self-Evaluation
 
 We believe both members of the group were integral parts of the development
 of this project and put the same amount of effort, work and time into it. With
-this being said, we self-evaluate with 50% of the final grade, each.
+this being said, we self-evaluate with 50% of the final grade, each:
+
+- João de Jesus Costa: 50%
+- João Lucas Silva Martins: 50%
 
 Or, in other words: Fifty-fifty [padner](https://westofloathing.gamepedia.com/Pardner).
+
+We estimate that each member of the group has spent between 70 (seventy) and
+80 (eighty) hours working on this project.
