@@ -611,7 +611,7 @@ creators for it.
 The classes in the UML class diagram above can be found in following files:
 
 - [Creator](/src/main/java/org/g73/skanedweller/controller/creator/Creator.java)
-- [SpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/SpawnerCreator.java)
+- [SpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/SpawnerCreator.java)
 - [RangedSpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/RangedSpawnerCreator.java)
 - [MeleeSpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/MeleeSpawnerCreator.java)
 - [CivSpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/CivSpawnerCreator.java)
