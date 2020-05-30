@@ -171,8 +171,4 @@ public class Room implements Observable<Room> {
         for (Observer<Room> o : this.observers)
             o.changed(r);
     }
-
-    public List<Observer<Room>> getObs() {
-        return observers;
-    }
 }

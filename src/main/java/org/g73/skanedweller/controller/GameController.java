@@ -17,6 +17,7 @@ import java.util.List;
 
 public class GameController implements Controller {
     private static final String map_name = "fort_invasion_map";
+    private static final int scentDur = 50;
     private static final int DELAY = 30; // time between frames (in ms)
 
     private Room room;
@@ -43,7 +44,7 @@ public class GameController implements Controller {
 
     public GameController(Room room, MapReader mr) throws IOException {
         this(room, new Gui(room), mr,
-                new SkaneController(room.getSkane(), 50));
+                new SkaneController(room.getSkane(), scentDur));
     }
 
     public GameController(MapReader mr) throws IOException {
@@ -150,7 +151,7 @@ public class GameController implements Controller {
         this.gui.setRoom(this.room);
 
         controllers.clear();
-        this.playerController = new SkaneController(room.getSkane(), 200);
+        this.playerController = new SkaneController(room.getSkane(), scentDur);
         controllers.add(playerController);
         controllers.add(new EnemyController());
 
