@@ -345,10 +345,10 @@ The following classes were adapted/developed/used to implement this pattern:
 - _TerminalResizeListener_ - An interface from **lanterna** for terminal resize
   event observers.
 - [_TerminalResizeHandler_](/src/main/java/org/g73/skanedweller/view/TerminalResizeHandler.java) -
-Our implementation of the previous interface.
+  Our implementation of the previous interface.
 - _Terminal_ - **Lanterna's** class. It takes the role of the observable and
   notifies all subscribed _TerminalResizeListener_ each time it resizes.
-- [_Gui_](/src/main/java/org/g73/skanedweller/view/Gui.java) - 
+- [_Gui_](/src/main/java/org/g73/skanedweller/view/Gui.java) -
   Instantiates both _Terminal_ and _TerminalResizeHandler_. It also
   subscribes a _TerminalResizeHandler_, as a resize listener, to its _Terminal_
   instance. Uses the _TerminalResizeHandler_ to update the screen after each
@@ -672,7 +672,6 @@ The following changes were made to make use of the pattern:
 ![Spawners observer pattern UML class diagram](/docs/uml/spawner_observer.png)
 
 The classes in the UML class diagram above can be found in following files:
-
 
 - [Observer](/src/main/java/org/g73/skanedweller/observe/Observer.java)
 - [Observable](/src/main/java/org/g73/skanedweller/observe/Observable.java)
