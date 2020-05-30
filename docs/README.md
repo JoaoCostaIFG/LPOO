@@ -41,8 +41,8 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 
 ### Planned features
 
-- **Menu** - we were planning to implement a menu to the game with map selection
-  functionality, but the teacher told us we weren't allowed to implement new
+- **Menu** - we were planning to add a menu to the game with map selection
+  functionality, but our teacher told us we weren't allowed to implement new
   features during the last week of development before the dead-line.
 
 ### Abandoned ideas
@@ -57,23 +57,29 @@ _João Lucas Silva Martins_ (_up201806436_@fe.up.pt).
 
 ## Implementation details
 
-We developed a dynamic map reader. During the initialization of the game,
-the room design is read from a file. This file is located within the resources/
-folder. In it we can specify the walls, enemies, spawners and the skane's position
-with the following characters:
+### Game map
 
-- W - Wall
-- S - Player skane
-- r - Ranged enemy
-- m - Melee enemy
+We developed a dynamic map reader. During the initialization of the game, the
+room design is read from a file.  
+These map files are located within the **resources/** directory of the project.
+In these files we can specify the walls, enemies, spawners and the **Skane's**
+initial position with the following characters (all other characters are
+considered empty space):
+
 - c - Civilian
-- R - Ranged spawner
-- M - Melee spawner
 - C - Civilian spawner
-  (any other character is ignored)
-  An invalid file format will throw an InputMismatchException. For example,
-  two Skanes in the same map or lines with different length will lead to failure.
-  [Here](src/main/resources/firstmap) is an example of a map file.
+- m - Melee enemy
+- M - Melee spawner
+- r - Ranged enemy
+- R - Ranged spawner
+- S - Player skane
+- W - Wall
+
+An invalid file format will throw an _InputMismatchException_ object. For example,
+two **Skanes** in the same map or lines with different length will lead to a
+failure.
+
+[Here](src/main/resources/firstmap) is an example of a (very simple) map file.
 
 ## Design
 
@@ -637,6 +643,47 @@ The following changes were made to make use of the pattern:
 This approach simplifies the code when in contrast with other alternatives.
 The group chose this solution, despite its inefficiency, due to this fact.
 
+## Problems fixed without implementing design patterns
+
+### Room class was too large
+
+At some point during the development, we noticed that the
+[_Room_ class](/src/main/java/org/g73/skanedweller/model/Room.java) had become
+too large (**Bloater** code smell). We quickly realized the problem was a result
+of the ray-casting related code that was present in that class' methods. This
+also meant that the _Room_ class was in violation of the **Single Responsability
+principle**.
+
+Too solve these problems, we created a
+[_RayCast_ class](/src/main/java/org/g73/skanedweller/model/RayCast.java) in
+which the _Room_ class started to depend.
+
+### Color configuration
+
+Many classes in the **View** package/component of the project need colors to
+draw characters on screen.  
+Previously, we had the colors 'hard-coded' inside each one of these classes.
+This was not optimal, because it led to a lot of code duplication (e.g.: background
+color has to be the same in every game Element), which in turn led to troubles
+in code maintenance.  
+With that, we created a **Data class**, [_Colors_](/src/main/java/org/g73/skanedweller/view/Colors.java)
+with no methods and only public static data members. This worked nicely for a
+while, but it was an obvious code smell and violated the object-orientation
+principles.
+
+In the end, we solved these problems in a way that we're satisfied with. We
+refactored the [_Colors_ class](/src/main/java/org/g73/skanedweller/view/Colors.java)
+and improved the expandability of the game. To achieve this, we added a color
+definition resource file that associates colors names with an **RBG** value
+and implemented methods in the _Colors_ class to import, parse and handle the
+information in this file.  
+This information is kept in a map inside the _Color_ class. Colors are requested
+from _Colors_ class instances by name (a 'fallback' color is returned if the
+requested color doesn't exist).  
+All **View** package classes that need color information, now receive an instance
+of the _Colors_ class in their constructors so they can know the colors of the
+characters they should draw.
+
 ## Known Code Smells and Refactoring Suggestions
 
 ### Bloaters
@@ -708,14 +755,14 @@ We could fix this problem by “getting rid of” the
 The [_GameController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/249faea0773fa318eef898f626e0db6a7b70906b/src/main/java/org/g73/skanedweller/controller/GameController.java#L86-L91)
 and
 [_SkaneController_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/249faea0773fa318eef898f626e0db6a7b70906b/src/main/java/org/g73/skanedweller/controller/SkaneController.java#L70-L104)
-classes both have a switch case statement used to handle a given event. This is an
-Object-Orientation abuser, and as such we tried to come up with a few solutions.
-The best idea that we had was to refactor the input events into a command pattern.
-However, this approach had some drawbacks. On the one hand, it added controller
-logic into the view, violating the MVC. On the other hand, in order to implement
-the pattern we had to modify other parts of the code that were pretty robust and
-smell-free.
-Due to these reasons we decided it would be better if we kept switch statement.
+classes both have a switch statement used to handle a given event. This is an
+**Object-Orientation abuser**, and as such we tried to come up with a few solutions.
+
+The best idea that we had was to implement the **Command pattern**. However,
+this approach had some drawbacks. On one hand, it added controller logic into
+the view, violating the MVC. On the other hand, in order to implement the pattern,
+we had to modify other parts of the code that were pretty robust and _smell-free_.
+Due to these reasons, we decided it would be better to keep the switch statements.
 
 ## Testing
 
@@ -724,6 +771,9 @@ The picture below is a _screenshot_ of our project's test coverage report.
 
 The mutation test results can be found in [this directory](/docs/pitest/index.html)
 of the repository, and also hosted [here](https://feup-lpoo.github.io/lpoo-2020-g73-pitest/).
+
+We implemented **property based testing** using **jqwik** for some of the
+[_RayCast_ class](/src/main/java/org/g73/skanedweller/model/RayCast.java) tests.
 
 ## Self-Evaluation
 
