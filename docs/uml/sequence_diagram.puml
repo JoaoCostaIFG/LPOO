@@ -1,0 +1,64 @@
+@startuml
+
+participant GameController
+participant Gui
+participant InputHandler
+participant KeyHandler
+participant PlayerController
+participant RoomDrawer
+participant Screen
+participant Controllers
+participant Spawners
+actor user
+
+'run'
+GameController -> Gui : startInputHandler()
+activate GameController #FFBBBB
+activate Gui
+Gui -> InputHandler ** : create
+Gui -> InputHandler : setDaemon(true)
+Gui -> InputHandler : start()
+deactivate Gui
+
+  activate GameController #DarkSalmon
+    loop state == GAMEST.RUNNING
+      user -> InputHandler : keyStroke
+      note right: InputHandler is a thread,\n so the keyStroke\nis handled asynchronously
+
+      GameController -> Gui : draw()
+      activate Gui
+      Gui -> Screen : clear()
+      Gui -> RoomDrawer : draw(room)
+      Gui -> Screen : refresh()
+      deactivate Gui
+
+      'Update'
+      GameController -> Gui : getEvent()
+      activate Gui
+      Gui -> InputHandler : getLastKey()
+      InputHandler -> Gui : lastKey
+      Gui -> KeyHandler : processKey(lastKey)
+      KeyHandler -> Gui : event
+      Gui -> GameController : event
+      deactivate Gui
+
+      Gui -> GameController : event
+      GameController -> GameController : handleEvent(event)
+      GameController -> PlayerController : [event is not handled by GameController] setEvent(event)
+
+      GameController -> PlayerController : update(room)
+      activate PlayerController
+      PlayerController -> PlayerController : inhale()
+      PlayerController -> PlayerController : handleEvent(currEvent, room)
+      deactivate PlayerController
+      GameController -> Controllers : update(room)
+      GameController -> Spawners : update(room)
+
+      GameController -> Gui : releaseKeys()
+    end
+  deactivate GameController
+
+GameController -> Gui : close()
+deactivate GameController
+
+@enduml

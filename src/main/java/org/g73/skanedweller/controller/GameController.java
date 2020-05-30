@@ -95,8 +95,7 @@ public class GameController implements Controller {
         handleEvent(gui.getEvent());
         gui.releaseKeys();
 
-        // TODO
-        if (!room.getSkane().isAlive())
+        if (!playerController.isAlive())
             this.state = GAMEST.RESTART;
 
         for (Controller c : this.controllers)

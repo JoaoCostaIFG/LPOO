@@ -80,6 +80,12 @@ failure.
 
 [Here](src/main/resources/firstmap) is an example of a (very simple) map file.
 
+### UML sequence diagram
+
+Bellow is a simplified UML sequence diagram of our project's main loop.
+
+![UML Sequence diagram](/docs/uml/sequence_diagram.png)
+
 ## Design
 
 ### Structuring the project
@@ -95,11 +101,11 @@ on each other.
 
 At this time, [the _Skane class_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/16340561419573bc865d04db468446f9d8738aa9/src/main/java/Skane.java#L9-L19)
 depended intimately on **lanterna** and the way the objects are draw on screen.
-This meant that the _Skane class_ needed to be changed when the Skane changed
-and when the way the Skane/game is drawn changes, which violates the
-Single-responsibility and the Dependency inversion principles. It also meant
-we needed to change all the game elements if we changed the way the game
-is drawn.
+This meant that the _Skane class_ needed to be changed both when the Skane
+changed and when the way the Skane/game is drawn changed. This violated the
+**Single-responsibility** and the **Dependency inversion** principles. It also
+meant that we needed to make changes to all game elements if we changed the
+way the game is drawn.
 
 #### The pattern
 
@@ -572,13 +578,15 @@ of aggression).
 
 #### Problem in context
 
-After creating the skane and enemy classes we quickly came to the conclusion
+After creating the **Skane** and enemy classes we quickly came to the conclusion
 that instantiating them in the _GameController_ class was not feasible. Our solution
-to this was to create a new [_RoomCreator_](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/53e35524552c49cda900a2a2a4927716ec0c29b1/src/main/java/creator/RoomCreator.java#L17-L115)
-class, where all game elements were instantiated. Despite this, as new elements
-were added to the game, the _RoomCreator_ class became resposible for the creation
-of numerous classes, violating the SRP. As the number of game elements increased,
-this class became a _bloater_ and was hard to maintain.
+to this was to create a new
+[_RoomCreator_ class](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/53e35524552c49cda900a2a2a4927716ec0c29b1/src/main/java/creator/RoomCreator.java#L17-L115),
+where all game elements were instantiated. Despite this, as new elements
+were added to the game, the _RoomCreator_ class became responsible for the creation
+of numerous classes, violating the **Single Responsibility** principle. As the
+number of game elements increased, this class became a **Bloater** (code smell)
+and was hard to maintain.
 
 #### The pattern
 
@@ -592,8 +600,8 @@ in the _RoomCreator_ class that instantiated new game objects into new
 [classes](/src/main/java/org/g73/skanedweller/controller/creator) that implemented
 the recently created interface. Lastly, we 'refactored' the _RoomCreator_
 class, by making use of the new _Creator_ classes.  
-Later into development, when we implemented the _Spawner_ class, which also has
-creators for it.
+Later into development, we implemented the _Spawner_ classes, which also have
+creators.
 
 ![Factory pattern UML class diagram](/docs/uml/creator.png)
 
@@ -614,7 +622,8 @@ level. This could prove useful in more advanced stages of development.
 
 When we thought of adding _Spawners_ to the game, one of the main features that
 we had in mind was limiting the maximum number of entities, of each kind,
-inside a _Room_. However, in our [initial implementation](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/62b365ea1f1faf58f1bf4184c44a5ad4597c63c0/src/main/java/org/g73/skanedweller/controller/Spawner.java#L24-L37),
+inside a _Room_. However, in our
+[initial implementation](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/62b365ea1f1faf58f1bf4184c44a5ad4597c63c0/src/main/java/org/g73/skanedweller/controller/Spawner.java#L24-L37),
 each spawner could only create a maximum number of elements, which wasn't
 the intended functionality.
 

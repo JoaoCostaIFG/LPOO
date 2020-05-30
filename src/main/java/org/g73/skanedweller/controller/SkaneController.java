@@ -63,6 +63,11 @@ public class SkaneController extends MovableController<Skane> implements PlayerC
     }
 
     @Override
+    public boolean isAlive() {
+        return ska.isAlive();
+    }
+
+    @Override
     public void setEvent(EVENT event) {
         currEvent = event;
     }
