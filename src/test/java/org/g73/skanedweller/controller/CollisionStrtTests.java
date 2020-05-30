@@ -12,8 +12,6 @@ import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
 
 public class CollisionStrtTests {
     @Test
@@ -38,16 +36,23 @@ public class CollisionStrtTests {
     public void testSkaneCollision() {
         SkaneAttackCollision col = new SkaneAttackCollision();
         Skane s = Mockito.mock(Skane.class);
-        Mockito.when(s.getAtk()).thenReturn(5);
+        Mockito.when(s.getAtk())
+                .thenReturn(5);
         Element e = Mockito.mock(Element.class);
-        Mockito.when(e.isAlive()).thenReturn(true);
+        Mockito.when(e.isAlive())
+                .thenReturn(true);
         
         assertFalse(col.handle(s, e));
-        Mockito.verify(e).takeDamage(eq(5));
+        Mockito.verify(e).takeDamage(5);
 
-        Mockito.when(e.isAlive()).thenReturn(false);
+        Mockito.reset(e);
+        Mockito.when(e.isAlive())
+                .thenReturn(false);
+        Mockito.when(s.getHp())
+                .thenReturn(1);
         assertTrue(col.handle(s, e));
-        Mockito.verify(e, times(2)).takeDamage(eq(5));
+        Mockito.verify(e).takeDamage(5);
         Mockito.verify(s).grow();
+        Mockito.verify(s).setHp(2);
     }
 }
