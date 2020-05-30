@@ -338,7 +338,8 @@ The following classes were adapted/developed/used to implement this pattern:
 
 - _TerminalResizeListener_ - An interface from **lanterna** for terminal resize
   event observers.
-- _TerminalResizeHandler_ - Our implementation of the previous interface.
+- [_TerminalResizeHandler_](/src/main/java/org/g73/skanedweller/view/TerminalResizeHandler.java)
+  - Our implementation of the previous interface.
 - _Terminal_ - **Lanterna's** class. It takes the role of the observable and
   notifies all subscribed _TerminalResizeListener_ each time it resizes.
 - _Gui_ - Instantiates both _Terminal_ and _TerminalResizeHandler_. It also
