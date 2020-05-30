@@ -61,7 +61,7 @@ public class RayCastTests {
         // Unobstructed view
         List<Element> elemList = rc.elemRay(room, p1, p2);
         if (p1.equals(p2)) {
-            assertEquals(elemList.size(), 0);
+            assertTrue(elemList.isEmpty());
         } else {
             assertEquals(elemList.size(), 2);
             for (Element e : elemList)
@@ -70,7 +70,7 @@ public class RayCastTests {
         // reverse
         List<Element> elemListRev = rc.elemRay(room, p2, p1);
         if (p1.equals(p2)) {
-            assertEquals(elemList.size(), 0);
+            assertTrue(elemList.isEmpty());
         } else {
             assertEquals(elemListRev.size(), 1);
             for (Element e : elemListRev)
@@ -106,7 +106,7 @@ public class RayCastTests {
         // Unobstructed view
         elemList = rc.elemRay(room, p1, p2);
         if (p1.equals(p2)) {
-            assertEquals(elemList.size(), 0);
+            assertTrue(elemList.isEmpty());
         } else {
             assertEquals(elemList.size(), 1);
 
@@ -118,7 +118,7 @@ public class RayCastTests {
         // reverse
         elemList = rc.elemRay(room, p2, p1);
         if (p1.equals(p2)) {
-            assertEquals(elemList.size(), 0);
+            assertTrue(elemList.isEmpty());
             assertNull(hitMiddlePos);
         } else {
             assertEquals(elemList.size(), 1);
@@ -179,7 +179,7 @@ public class RayCastTests {
         // no elements until end of map
         List<Element> elemList = rc.elemRay(room, p1, p2);
         assertEquals(elemList, new ArrayList<>());
-        assertEquals(elemList.size(), 0);
+        assertTrue(elemList.isEmpty());
     }
 
     @Test
@@ -190,6 +190,6 @@ public class RayCastTests {
         // nothing until end of run
         List<Element> elemList = rc.elemRay(room, p1, p2);
         assertEquals(elemList, new ArrayList<>());
-        assertEquals(elemList.size(), 0);
+        assertTrue(elemList.isEmpty());
     }
 }

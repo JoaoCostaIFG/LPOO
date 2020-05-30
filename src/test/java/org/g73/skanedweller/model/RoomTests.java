@@ -47,7 +47,7 @@ public class RoomTests {
 
     @Test
     public void testAddElement() {
-        Observer obs = Mockito.mock(Observer.class);
+        Observer<Room> obs = Mockito.mock(Observer.class);
         int num_obs = 0;
         room.addObserver(obs);
 
@@ -56,14 +56,14 @@ public class RoomTests {
         assertEquals(room.getSkane(), ska);
         Mockito.verify(obs, times(++num_obs)).changed(room);
 
-        assertEquals(room.getWalls().size(), 0);
+        assertTrue(room.getWalls().isEmpty());
         Wall wall = Mockito.mock(Wall.class);
         room.addElement(wall);
         assertEquals(room.getWalls().size(), 1);
         assertEquals(room.getWalls().get(0), wall);
         Mockito.verify(obs, times(++num_obs)).changed(room);
 
-        assertEquals(room.getEnemies().size(), 0);
+        assertTrue(room.getEnemies().isEmpty());
         Civilian civie = Mockito.mock(Civilian.class);
         room.addElement(civie);
         assertEquals(room.getEnemies().size(), 1);
@@ -124,7 +124,7 @@ public class RoomTests {
 
     @Test
     public void testRoomRemoveDead() {
-        Observer obs = Mockito.mock(Observer.class);
+        Observer<Room> obs = Mockito.mock(Observer.class);
         int num_notifications = 0;
         room.addObserver(obs);
 
@@ -155,7 +155,7 @@ public class RoomTests {
 
     @Test
     public void testRoomObsRm() {
-        Observer obs = Mockito.mock(Observer.class);
+        Observer<Room> obs = Mockito.mock(Observer.class);
         room.addObserver(obs);
         Mockito.verify(obs, never()).changed(room);
 
@@ -278,12 +278,12 @@ public class RoomTests {
         Mockito.when(c2.getPos())
                 .thenReturn(p2);
 
-        assertEquals(room.getSamePos(p1).size(), 0);
-        assertEquals(room.getSamePos(p2).size(), 0);
+        assertTrue(room.getSamePos(p1).isEmpty());
+        assertTrue(room.getSamePos(p2).isEmpty());
 
         room.addElement(c1);
         assertEquals(room.getSamePos(p1), new ArrayList<Element>(Collections.singletonList(c1)));
-        assertEquals(room.getSamePos(p2).size(), 0);
+        assertTrue(room.getSamePos(p2).isEmpty());
 
         room.addElement(c1);
         room.addElement(c2);

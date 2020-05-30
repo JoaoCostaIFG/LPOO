@@ -125,7 +125,7 @@ public class SkaneTests {
     public void testMoveWithoutBody() {
         ska.shrink();
         ska.shrink();
-        assertEquals(ska.getBody().size(), 0);
+        assertTrue(ska.getBody().isEmpty());
 
         ska.setPos(ska.moveRight());
         assertEquals(ska.getPos(), new Position(initx + 1, inity));
@@ -152,30 +152,30 @@ public class SkaneTests {
 
         ska.takeDamage(3);
         assertEquals(ska.getHp(), initHp - 4);
-        assertEquals(ska.getBody().size(), 0);
+        assertTrue(ska.getBody().isEmpty());
 
         ska.takeDamage(initHp);
         assertEquals(ska.getHp(), 0);
-        assertEquals(ska.getBody().size(), 0);
+        assertTrue(ska.getBody().isEmpty());
     }
 
     /* SKANE BODY TESTS */
     @Test
     public void testSkaneBodyTakeDmg() {
         List<SkaneBody> bodies = ska.getBody();
-        assertNotEquals(bodies.size(), 0);
+        assertFalse(bodies.isEmpty());
 
         assertEquals(ska.getHp(), initHp);
         bodies.get(0).takeDamage(initHp);
 
         assertEquals(ska.getHp(), 0);
-        assertEquals(ska.getBody().size(), 0);
+        assertTrue(ska.getBody().isEmpty());
     }
 
     /* SCENT TESTS */
     @Test
     public void testScentTrail() {
-        assertEquals(ska.getScentTrail().size(), 0);
+        assertTrue(ska.getScentTrail().isEmpty());
 
         ska.setPos(ska.moveRight());
         ska.setPos(ska.moveRight());
@@ -191,7 +191,7 @@ public class SkaneTests {
             assertEquals(ska.getScentTrail().size(), 1);
             ska.tickScentTrail();
         }
-        assertEquals(ska.getScentTrail().size(), 0);
+        assertTrue(ska.getScentTrail().isEmpty());
         ska.shrink();
         ska.shrink();
         assertEquals(ska.getSize(), 0);

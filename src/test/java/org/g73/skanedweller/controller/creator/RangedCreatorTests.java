@@ -26,7 +26,7 @@ public class RangedCreatorTests {
         assertEquals(1, ranged.getAtk());
         assertEquals(1, ranged.getX());
         assertEquals(1, ranged.getY());
-        
+
         assertTrue(ranged.getMoveStrat() instanceof RangedMoveStrat);
         assertTrue(ranged.getAtkStrat() instanceof RangedGuyAtkStrat);
         assertEquals(60, ranged.getAtkCounter());

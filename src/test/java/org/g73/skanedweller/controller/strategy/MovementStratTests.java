@@ -20,6 +20,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
@@ -132,7 +133,7 @@ public class MovementStratTests {
 
         ScaredMoveStrat strat = new ScaredMoveStrat(moveTicks);
         List<Position> posList = strat.genMoves(room, e);
-        assertEquals(posList.size(), 0);
+        assertTrue(posList.isEmpty());
 
         Mockito.verify(room, never())
                 .elemRay(any(), any());
@@ -188,7 +189,7 @@ public class MovementStratTests {
 
         ScaredMoveStrat strat = new ScaredMoveStrat(moveTicks);
         List<Position> posList = strat.genMoves(room, e);
-        assertEquals(posList.size(), 0);
+        assertTrue(posList.isEmpty());
 
         Mockito.verify(room).elemRay(any(), any());
         Mockito.verify(room).getSkanePos();
@@ -201,7 +202,7 @@ public class MovementStratTests {
 
         MeleeMoveStrat strat = new MeleeMoveStrat(moveTicks);
         List<Position> posList = strat.genMoves(room, e);
-        assertEquals(posList.size(), 0);
+        assertTrue(posList.isEmpty());
 
         Mockito.verify(room, never()).elemRay(any(), any());
     }
@@ -282,7 +283,7 @@ public class MovementStratTests {
 
         RangedMoveStrat strat = new RangedMoveStrat(moveTicks);
         List<Position> posList = strat.genMoves(room, e);
-        assertEquals(posList.size(), 0);
+        assertTrue(posList.isEmpty());
 
         Mockito.verify(room, never()).elemRay(any(), any());
     }
@@ -313,7 +314,7 @@ public class MovementStratTests {
 
         RangedMoveStrat strat = new RangedMoveStrat(moveTicks);
         List<Position> posList = strat.genMoves(room, e);
-        assertEquals(posList.size(), 0); // can see 2 skane parts
+        assertTrue(posList.isEmpty()); // can see 2 skane parts => no move needed
 
         Mockito.verify(room).elemRay(ePos, skaPos);
         Mockito.verify(room, never()).elemRay(ePos, skaBodyPos);
@@ -339,7 +340,7 @@ public class MovementStratTests {
 
         RangedMoveStrat strat = new RangedMoveStrat(moveTicks);
         List<Position> posList = strat.genMoves(room, e);
-        assertEquals(posList.size(), 0); // can see 2 skane parts
+        assertTrue(posList.isEmpty()); // can see 2 skane parts => no movement needed
 
         Mockito.verify(room).elemRay(skaBodyPos, skaPos);
         Mockito.verify(room).elemRay(skaBodyPos, skaBodyPos);
@@ -365,7 +366,7 @@ public class MovementStratTests {
 
         RangedMoveStrat strat = new RangedMoveStrat(moveTicks);
         List<Position> posList = strat.genMoves(room, e);
-        assertEquals(posList.size(), 0); // can see 2 skane parts
+        assertTrue(posList.isEmpty());// can see 2 skane parts => no movement needed
 
         Mockito.verify(room).elemRay(skaBodyPos, skaPos);
         Mockito.verify(room).elemRay(skaBodyPos, skaBodyPos);

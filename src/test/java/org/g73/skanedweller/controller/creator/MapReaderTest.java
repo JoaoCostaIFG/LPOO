@@ -56,6 +56,7 @@ public class MapReaderTest {
                 "-------\n";
         BufferedReader reader = new BufferedReader(new StringReader(imp));
         mr = new MapReader(reader);
+
         assertEquals(0, mr.getWalls().size());
         assertEquals(0, mr.getRanSpawners().size());
         assertEquals(0, mr.getMelSpawners().size());
@@ -87,6 +88,7 @@ public class MapReaderTest {
                 "------W\n";
         BufferedReader reader = new BufferedReader(new StringReader(imp));
         mr = new MapReader(reader);
+
         assertEquals(3, mr.getWalls().size());
         assertEquals(1, mr.getRanSpawners().size());
         assertEquals(1, mr.getMelSpawners().size());
