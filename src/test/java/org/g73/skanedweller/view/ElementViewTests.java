@@ -31,7 +31,7 @@ public class ElementViewTests {
     public void setUp() {
         this.gra = Mockito.mock(TextGraphics.class);
         this.civieChar = new TextCharacter('C', colors.getColor("blue"), colors.getColor("bg"));
-        this.laserChar = new TextCharacter('#', colors.getColor("brightRed"), colors.getColor("bg"));
+        this.laserChar = new TextCharacter('#', colors.getColor("ruby"), colors.getColor("bg"));
         this.meleeChar = new TextCharacter('M', colors.getColor("red"), colors.getColor("bg"));
         this.rangedChar = new TextCharacter('R', colors.getColor("yellow"), colors.getColor("bg"));
         this.wallChar = new TextCharacter('#', colors.getColor("purple"), colors.getColor("bg"));

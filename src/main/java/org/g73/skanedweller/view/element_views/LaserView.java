@@ -9,7 +9,7 @@ public class LaserView implements ElementDrawer<Laser> {
     private TextCharacter laserChar;
 
     public LaserView(Colors colors) {
-        this.laserChar = new TextCharacter('#', colors.getColor("brightRed"), colors.getColor("bg"));
+        this.laserChar = new TextCharacter('#', colors.getColor("ruby"), colors.getColor("bg"));
     }
 
     public void draw(TextGraphics gra, Laser laser) {

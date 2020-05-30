@@ -15,12 +15,18 @@ public class Spawner implements Observer<Room> {
     private Position spawningPosition;
 
     public Spawner(Integer maxCount, Integer delay, ElementCreator creator, Position pos) {
+        this(0, maxCount, delay, creator, pos);
+    }
+
+    public Spawner(Integer currCount, Integer maxCount, Integer delay,
+                   ElementCreator creator, Position pos) {
+        this.currCount = currCount;
         this.maxCount = maxCount;
         this.delay = delay;
         this.creator = creator;
         this.spawningPosition = pos;
+
         this.currTick = 0;
-        this.currCount = 0;
     }
 
     public void update(Room room) {

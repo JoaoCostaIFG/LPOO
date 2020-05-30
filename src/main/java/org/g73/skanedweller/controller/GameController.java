@@ -18,6 +18,7 @@ import java.util.List;
 public class GameController implements Controller {
     private static final String map_name = "fort_invasion_map";
     private static final int DELAY = 30; // time between frames (in ms)
+
     private Room room;
     private Gui gui;
     private GAMEST state;
@@ -27,18 +28,17 @@ public class GameController implements Controller {
     private MapReader mapReader;
 
     public GameController(Room room, Gui gui, MapReader mr, SkaneController skaCtr) {
+        this.mapReader = mr;
         this.room = room;
         this.gui = gui;
         this.state = GAMEST.RUNNING;
+
         this.controllers = new ArrayList<>();
         controllers.add(new EnemyController());
         controllers.add(skaCtr);
         this.playerController = skaCtr;
-        this.mapReader = mr;
 
         this.spawners = createSpawners();
-        for (Spawner s : spawners)
-            room.addObserver(s);
     }
 
     public GameController(Room room, MapReader mr) throws IOException {
@@ -71,6 +71,10 @@ public class GameController implements Controller {
         SpawnerCreator rangedSpCreator = new RangedSpawnerCreator();
         for (Position p : this.mapReader.getRanSpawners())
             spawners.add(rangedSpCreator.create(p));
+
+        // assign spawners to room
+        for (Spawner s : spawners)
+            room.addObserver(s);
 
         return spawners;
     }
@@ -144,9 +148,12 @@ public class GameController implements Controller {
 
         this.gui.stopInputHandler();
         this.gui.setRoom(this.room);
-        controllers.remove(playerController);
+
+        controllers.clear();
         this.playerController = new SkaneController(room.getSkane(), 200);
         controllers.add(playerController);
+        controllers.add(new EnemyController());
+
         spawners = createSpawners();
     }
 
