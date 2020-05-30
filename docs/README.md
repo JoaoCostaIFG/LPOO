@@ -78,7 +78,7 @@ An invalid file format will throw an _InputMismatchException_ object. For exampl
 two **Skanes** in the same map or lines with different length will lead to a
 failure.
 
-[Here](src/main/resources/firstmap) is an example of a (very simple) map file.
+[Here](/src/main/resources/firstmap) is an example of a (very simple) map file.
 
 ## Design
 
