@@ -4,7 +4,7 @@ import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.Room;
 import org.g73.skanedweller.model.element.Element;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ImovableBehaviour implements Movable {
@@ -32,6 +32,6 @@ public class ImovableBehaviour implements Movable {
 
     @Override
     public List<Position> genMoves(Room r, Element e) {
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 }

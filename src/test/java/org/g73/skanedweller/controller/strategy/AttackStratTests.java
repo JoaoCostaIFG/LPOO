@@ -1,4 +1,4 @@
-package org.g73.skanedweller.controller.creator;
+package org.g73.skanedweller.controller.strategy;
 
 import org.g73.skanedweller.controller.attack_strategy.LaserAtkStrat;
 import org.g73.skanedweller.controller.attack_strategy.MeleeAtkStrat;

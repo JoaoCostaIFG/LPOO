@@ -1,8 +1,8 @@
 package org.g73.skanedweller.model.behaviours;
 
 import org.g73.skanedweller.model.element.element_behaviours.MortalBehaviour;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

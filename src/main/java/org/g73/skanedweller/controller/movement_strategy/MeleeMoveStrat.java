@@ -7,6 +7,7 @@ import org.g73.skanedweller.model.element.skane.Skane;
 import org.g73.skanedweller.model.element.skane.SkaneBody;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MeleeMoveStrat extends ChaseStrat {
@@ -24,7 +25,7 @@ public class MeleeMoveStrat extends ChaseStrat {
     public List<Position> genMoves(Room r, Element e) {
         e.setMovCounter(ticksBetweenMoves);
         if (r.isSkaneBury())
-            return new ArrayList<>();
+            return Collections.emptyList();
 
         Position ePos = e.getPos();
         Skane ska = r.getSkane();

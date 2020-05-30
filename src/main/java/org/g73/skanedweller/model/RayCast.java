@@ -3,6 +3,7 @@ package org.g73.skanedweller.model;
 import org.g73.skanedweller.model.element.Element;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RayCast implements RayCasting {
@@ -95,7 +96,7 @@ public class RayCast implements RayCasting {
     public List<Element> elemRay(Room room, Position s, Position t) {
         List<Position> lp = posRay(room, s, t);
         if (lp.size() == 0)
-            return new ArrayList<>();
+            return Collections.emptyList();
 
         return room.getSamePos(lp.get(lp.size() - 1));
     }

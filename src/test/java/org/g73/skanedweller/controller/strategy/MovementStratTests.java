@@ -1,4 +1,4 @@
-package org.g73.skanedweller.controller;
+package org.g73.skanedweller.controller.strategy;
 
 import org.g73.skanedweller.controller.movement_strategy.MeleeMoveStrat;
 import org.g73.skanedweller.controller.movement_strategy.RangedMoveStrat;

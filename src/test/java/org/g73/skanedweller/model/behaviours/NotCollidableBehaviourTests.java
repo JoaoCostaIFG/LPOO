@@ -3,8 +3,8 @@ package org.g73.skanedweller.model.behaviours;
 import org.g73.skanedweller.model.Position;
 import org.g73.skanedweller.model.element.element_behaviours.Collidable;
 import org.g73.skanedweller.model.element.element_behaviours.NotCollidableBehaviour;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -1,4 +1,4 @@
-package org.g73.skanedweller.controller;
+package org.g73.skanedweller.controller.strategy;
 
 import org.g73.skanedweller.controller.collision_strategy.BlockCollision;
 import org.g73.skanedweller.controller.collision_strategy.NullCollision;
