@@ -63,8 +63,7 @@ We developed a dynamic map reader. During the initialization of the game, the
 room design is read from a file.  
 These map files are located within the **resources/** directory of the project.
 In these files we can specify the walls, enemies, spawners and the **Skane's**
-initial position with the following characters (all other characters are
-considered empty space):
+initial position with the following characters (all other characters are ignored):
 
 - c - Civilian
 - C - Civilian spawner
@@ -242,7 +241,7 @@ The game elements can be found in the following files:
 
 With this reorganization of the code and the use of the **Null object** pattern,
 we managed to streamline the creation/implementation of new game objects with
-different abilities/combination of abilities. I also provided us with the ability
+different abilities/combination of abilities. It also provided us with the ability
 to stop worrying about the specific abilities of each object when working with
 the game objects in bulk.
 
@@ -360,8 +359,8 @@ Be careful if we want to resize the screen/update the model's info.
 #### Problem in context
 
 The first implementation of movement checking in the game was
-[very simple and unexpadable](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L268-L281).
-It queried all the game elements positions before moving and blocked the move
+[very simple and non expandable](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/0254be3d927a112238efa112398d0486134ab531/src/main/java/Arena.java#L268-L281).
+It queried all the game's elements' positions before moving and blocked the move
 if there was an object with the same target position _in-game_. When this
 move was blocked, there could be some collision handling invoked.
 
@@ -375,7 +374,7 @@ a different move method for each _MovableElement_.
 Each method would manage their respective collisions and handle them accordingly.
 This caused two issues:
 
-- there was repeated code between each definition of the move method, which is
+- There was repeated code between each definition of the move method, which is
   a code smell;
 - If one were to add a new _MovableElement_ to the game, the creation of a move
   method and adding new collision handlers to the existing move methods would
@@ -446,7 +445,7 @@ to work with.
 #### The pattern
 
 To fix this issue the group decided to create a new _Collider_ class and aggregate
-it into the _Elemets_ that implemented the _CollidableElement_ interface. For more
+it into the _Elements_ that implemented the _CollidableElement_ interface. For more
 overall flexibility, the
 [**composite pattern**](https://refactoring.guru/design-patterns/composite) was
 used to allow for more complex _colliders_.
@@ -469,7 +468,7 @@ The classes in the UML class diagram above can be found in following files:
 
 The composite principle helps us solve the problem of having complex **colliders**
 in an object in a robust and elegant way. When compared to its alternative,
-it's much simpler and leads to many less code smells.
+it's much simpler and leads to much fewer code smells.
 
 ### Collisions (Observer pattern part)
 
