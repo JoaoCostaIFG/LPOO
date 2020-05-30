@@ -78,7 +78,7 @@ An invalid file format will throw an _InputMismatchException_ object. For exampl
 two **Skanes** in the same map or lines with different length will lead to a
 failure.
 
-[Here](src/main/resources/firstmap) is an example of a (very simple) map file.
+[Here](/src/main/resources/firstmap) is an example of a (very simple) map file.
 
 ### UML sequence diagram
 
@@ -344,11 +344,12 @@ The following classes were adapted/developed/used to implement this pattern:
 
 - _TerminalResizeListener_ - An interface from **lanterna** for terminal resize
   event observers.
-- [_TerminalResizeHandler_](/src/main/java/org/g73/skanedweller/view/TerminalResizeHandler.java)
-  - Our implementation of the previous interface.
+- [_TerminalResizeHandler_](/src/main/java/org/g73/skanedweller/view/TerminalResizeHandler.java) -
+Our implementation of the previous interface.
 - _Terminal_ - **Lanterna's** class. It takes the role of the observable and
   notifies all subscribed _TerminalResizeListener_ each time it resizes.
-- _Gui_ - Instantiates both _Terminal_ and _TerminalResizeHandler_. It also
+- [_Gui_](/src/main/java/org/g73/skanedweller/view/Gui.java) - 
+  Instantiates both _Terminal_ and _TerminalResizeHandler_. It also
   subscribes a _TerminalResizeHandler_, as a resize listener, to its _Terminal_
   instance. Uses the _TerminalResizeHandler_ to update the screen after each
   resize.
@@ -504,6 +505,16 @@ The following changes were made to make use of the pattern:
 
 ![The observer pattern in Element and Collider](/docs/uml/collider_observe.png)
 
+The classes in the UML class diagram above can be found in following files:
+
+- [Collider](/src/main/java/org/g73/skanedweller/model/colliders/Collider.java)
+- [CompositeCollider](/src/main/java/org/g73/skanedweller/model/colliders/CompositeCollider.java)
+- [RectangleCollider](/src/main/java/org/g73/skanedweller/model/colliders/RectangleCollider.java)
+- [Observer](/src/main/java/org/g73/skanedweller/observe/Observer.java)
+- [Observable](/src/main/java/org/g73/skanedweller/observe/Observable.java)
+- [Element](/src/main/java/org/g73/skanedweller/model/element/Element.java)
+- [Collidable](/src/main/java/org/g73/skanedweller/model/element/element_behaviours/Collidable.java)
+
 #### Consequences
 
 This approach works well for all the possible changes/additions to the game's
@@ -605,6 +616,19 @@ creators.
 
 ![Factory pattern UML class diagram](/docs/uml/creator.png)
 
+The classes in the UML class diagram above can be found in following files:
+
+- [Creator](/src/main/java/org/g73/skanedweller/controller/creator/Creator.java)
+- [SpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/SpawnerCreator.java)
+- [RangedSpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/RangedSpawnerCreator.java)
+- [MeleeSpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/MeleeSpawnerCreator.java)
+- [CivSpawnerCreator](/src/main/java/org/g73/skanedweller/controller/creator/spawners_creator/CivSpawnerCreator.java)
+- [ElementCreator](/src/main/java/org/g73/skanedweller/controller/creator/elements_creator/ElementCreator.java)
+- [SkaneCreator](/src/main/java/org/g73/skanedweller/controller/creator/elements_creator/SkaneCreator.java)
+- [RangedCreator](/src/main/java/org/g73/skanedweller/controller/creator/elements_creator/RangedCreator.java)
+- [MeleeCreator](/src/main/java/org/g73/skanedweller/controller/creator/elements_creator/MeleeCreator.java)
+- [CivieCreator](/src/main/java/org/g73/skanedweller/controller/creator/elements_creator/CivieCreator.java)
+
 #### Consequences
 
 This approach allows the _RoomCreator_ to act indifferently of how much hp, range,
@@ -646,6 +670,15 @@ The following changes were made to make use of the pattern:
   When an object is added or removed to a room, it notifies its observers.
 
 ![Spawners observer pattern UML class diagram](/docs/uml/spawner_observer.png)
+
+The classes in the UML class diagram above can be found in following files:
+
+
+- [Observer](/src/main/java/org/g73/skanedweller/observe/Observer.java)
+- [Observable](/src/main/java/org/g73/skanedweller/observe/Observable.java)
+- [Room](/src/main/java/org/g73/skanedweller/model/Room.java)
+- [Spawner](/src/main/java/org/g73/skanedweller/controller/Spawner.java)
+- [GameController](/src/main/java/org/g73/skanedweller/controller/GameController.java)
 
 #### Consequences
 
