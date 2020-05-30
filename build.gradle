@@ -24,7 +24,7 @@ test {
 
 dependencies {
     implementation "com.googlecode.lanterna:lanterna:3.0.2"
-    implementation 'org.pitest:pitest-junit5-plugin:0.11'
+    implementation 'org.pitest:pitest-junit5-plugin:0.10'
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.6.2"
     testImplementation "net.jqwik:jqwik:1.3.0"
@@ -36,6 +36,6 @@ application {
 }
 
 pitest {
-    junit5PluginVersion = "0.11"
+    junit5PluginVersion = "0.10"
     targetClasses = ['org.g73.skanedweller.*']
 }
