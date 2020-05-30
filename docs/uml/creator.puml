@@ -33,13 +33,13 @@ package "SpawnerCreators" #DDDDEE {
     class RangedSpawnerCreator {}
 }
 
-ElementCreator "Spawner"-up-^ Creator
+ElementCreator "Element" -up-^ Creator
 CivieCreator -up-^ ElementCreator
 RangedCreator -up-^ ElementCreator
 MeleeCreator -up-^ ElementCreator
 SkaneCreator -up-^ ElementCreator
 
-SpawnerCreator "Element"-up-^ Creator
+SpawnerCreator "Spawner" -up-^ Creator
 CivSpawnerCreator -up-^ SpawnerCreator
 MeleeSpawnerCreator -up-^ SpawnerCreator
 RangedSpawnerCreator -up-^ SpawnerCreator
