@@ -80,6 +80,8 @@ public class GameControllerTests {
 
     @Test
     public void testPlayerInputs() throws IOException {
+        Mockito.when(ska_ctr.isAlive())
+                .thenReturn(true);
         Mockito.when(gui.getEvent())
                 .thenReturn(EVENT.NullEvent)
                 .thenReturn(EVENT.NullEvent)
