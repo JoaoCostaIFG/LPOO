@@ -1,7 +1,6 @@
 package org.g73.skanedweller.model;
 
 import net.jqwik.api.*;
-import net.jqwik.api.constraints.Size;
 import net.jqwik.api.lifecycle.BeforeTry;
 import org.g73.skanedweller.model.element.Element;
 import org.junit.jupiter.api.BeforeEach;
