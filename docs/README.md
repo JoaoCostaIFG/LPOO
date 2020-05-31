@@ -815,6 +815,7 @@ of the repository, and also hosted [here](https://feup-lpoo.github.io/lpoo-2020-
 
 We implemented **property based testing** using **jqwik** for some of the
 [_RayCast_ class](/src/main/java/org/g73/skanedweller/model/RayCast.java) tests.
+The tests can be found in [this snippet](https://github.com/FEUP-LPOO/lpoo-2020-g73/blob/019703876480cf1855f2ab60ce19bbf7dc528f64/src/test/java/org/g73/skanedweller/model/RayCastTests.java#L53-L132).
 
 ## Self-Evaluation
 
