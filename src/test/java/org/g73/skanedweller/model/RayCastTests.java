@@ -1,6 +1,7 @@
 package org.g73.skanedweller.model;
 
 import net.jqwik.api.*;
+import net.jqwik.api.constraints.Size;
 import net.jqwik.api.lifecycle.BeforeTry;
 import org.g73.skanedweller.model.element.Element;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +50,7 @@ public class RayCastTests {
         return Combinators.combine(x, y).as(Position::new);
     }
 
-    @Property
+    @Property(tries = 400)
     public void testRayCastUnobstructed(@ForAll("insideRoom") Position p1,
                                         @ForAll("insideRoom") Position p2) {
         Element e1 = setUpPos(p1);
@@ -79,7 +80,7 @@ public class RayCastTests {
     }
 
 
-    @Property
+    @Property(tries = 400)
     public void testRayCastObstructed(@ForAll("insideRoom") Position p1,
                                       @ForAll("insideRoom") Position p2) {
         Element e1 = setUpPos(p1);
