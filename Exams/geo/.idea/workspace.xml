@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0fbf8881-cd34-45db-ad98-e8d1e015d33f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1dObbqapCKK8NHRdXbg53vAb9IW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.TestGeometria">
+    <configuration name="TestGeometria" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;TestGeometria&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":cleanTest" />
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGeometria.testOrdenacaoPontos" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;TestGeometria.testOrdenacaoPontos&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":cleanTest" />
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.TestGeometria" />
+        <item itemvalue="Gradle.TestGeometria.testOrdenacaoPontos" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0fbf8881-cd34-45db-ad98-e8d1e015d33f" name="Default Changelist" comment="" />
+      <created>1592299160911</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592299160911</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="773" y="275" key="#com.intellij.ide.util.MemberChooser" timestamp="1592299830775">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="773" y="275" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299830775" />
+    <state x="758" y="426" width="404" height="252" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1592299608470">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="758" y="426" width="404" height="252" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299608470" />
+    <state width="1878" height="362" key="GridCell.Tab.0.bottom" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+    <state width="1878" height="362" key="GridCell.Tab.0.center" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+    <state width="1878" height="362" key="GridCell.Tab.0.left" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+    <state width="1878" height="362" key="GridCell.Tab.0.right" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+    <state width="1878" height="362" key="GridCell.Tab.1.bottom" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+    <state width="1878" height="362" key="GridCell.Tab.1.center" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+    <state width="1878" height="362" key="GridCell.Tab.1.left" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+    <state width="1878" height="362" key="GridCell.Tab.1.right" timestamp="1592299975922">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="362" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1920.1080@0.0.1920.1080" timestamp="1592299975922" />
+  </component>
+</project>

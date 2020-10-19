@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7421df28-9285-43dd-919a-1c65c46ca353" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1YvysQksAVZyE9nmJI0LkkhbahJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="All in quiz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="quiz" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in quiz" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7421df28-9285-43dd-919a-1c65c46ca353" name="Default Changelist" comment="" />
+      <created>1583837568177</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1583837568177</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="688" y="28" width="669" height="731" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1583847796652">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="688" y="28" width="669" height="731" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1366.768@0.0.1366.768" timestamp="1583847796652" />
+    <state x="496" y="123" key="#com.intellij.ide.util.MemberChooser" timestamp="1583837762715">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="496" y="123" key="#com.intellij.ide.util.MemberChooser/0.0.1366.768@0.0.1366.768" timestamp="1583837762715" />
+    <state width="1324" height="188" key="GridCell.Tab.0.bottom" timestamp="1583848202518">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="188" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1583848202518" />
+    <state width="1324" height="188" key="GridCell.Tab.0.center" timestamp="1583848202518">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="188" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1583848202518" />
+    <state width="1324" height="188" key="GridCell.Tab.0.left" timestamp="1583848202517">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="188" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1583848202517" />
+    <state width="1324" height="188" key="GridCell.Tab.0.right" timestamp="1583848202518">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1324" height="188" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1583848202518" />
+    <state x="688" y="28" width="669" height="731" key="dock-window-1" timestamp="1583837745053">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="688" y="28" width="669" height="731" key="dock-window-1/0.0.1366.768@0.0.1366.768" timestamp="1583837745053" />
+  </component>
+</project>
