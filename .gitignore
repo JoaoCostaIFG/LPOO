@@ -1,8 +1,8 @@
-.idea/
-.gradle/
-out/
-build/
-*.iml
-.jqwik-database
-docs/pitest/.git
-docs/pitest/.nojekyll
+*/.idea/
+*/.gradle/
+*/out/
+*/build/
+*/*.iml
+*/.jqwik-database
+*/docs/pitest/.git
+*/docs/pitest/.nojekyll
